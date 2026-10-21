@@ -37,13 +37,14 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Durum: PR açıldı, Kemal deneyecek (21 Ekim 2026). Kemal oynayıp onaylayınca bitti olur.
 - Deneme değerleri (karar değil): 4 sütun, aynı anda 3 müşteri, bölümde 8 müşteri, 4 çeşit (A–D), bir müşteri 2–4 adet ister, bantta 12 yer, bant bir turu 12 saniyede döner, sütuna dokununca gider. Hepsi `src/ayarlar.ts` dosyasında.
 - Ekran: tek ekran, dik.
-- Oynanış: dönen bant ve sütunlar (Seçenek A). Altta sütunlar, ortada dönen bant, üstte müşteriler ve her birinin istediği. Sütuna dokunup tutunca en üstteki aynı çeşitler banda gider; istediği çeşit önünden geçen müşteri onu alır.
+- Oynanış: dönen bant ve sütunlar (Seçenek A). Altta sütunlar, ortada dönen bant, üstte müşteriler ve her birinin istediği. Sütuna dokununca en üstteki tek top banda gider (21 Ekim'den beri; önceden en üstteki aynı çeşitlerin hepsi gidiyordu); istediği çeşit önünden geçen müşteri onu alır.
 - Bölüm: tek bölüm. Bütün müşteriler karşılanınca "kazandın", bant dolarsa "baştan".
 - Sütun ve müşteri sayısı: tasarım belgesi 7.1'deki önerilen aralıktan seçilir; karar değil, denerken değişir.
 - Görsel: çizim yok; düz renkli kutular ve harfler. Renkler mor-sarı.
 - Yok: erime, yıldız, harita, ses, kayıt.
 - Nasıl denenir: Kemal telefonda bir bağlantıdan açar, birkaç kez oynar, "doğru his mi?" der.
 - Kimde: Oyun Geliştiricisi; deneme Oyun Kontrolörü.
+- 21 Ekim: Kemal'in denemesinden sonra tek tek gönderme. Her dokunuşta (ya da basılı tutuşta) sütunun en üstündeki yalnız bir top banda gider; toplu gitmez. Bölüm kurulurken kazanılabilirlik bu kurala göre denenir. Ayar `src/ayarlar.ts` içinde "tek seferde kaç top gider: 1" (deneme değeri). Öbür ayarlar değişmedi.
 
 ### 2. Erime kuralı
 
