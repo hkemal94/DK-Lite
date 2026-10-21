@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). Kod yok.
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1. paket (çizimsiz deneme oyunu) yazıldı.
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -326,7 +326,7 @@ elle denenip değişir.
 
 ## 8. Yapım durumu
 
-Uygulamada **olan**: depo ve bu iki belge. Kod yok.
+Uygulamada **olan**: depo, bu iki belge ve 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`).
 
 Uygulamada **olmayan**: bu belgedeki her şey. Sıra yol haritasında; ilk
 paket başlayabilir.

@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: Tasarım kararları verildi (Kemal, 21 Ekim 2026). Kod yok.
+- Aşama: 1. paket (çizimsiz öneri oyunu) hazır; PR açıldı, Kemal deneyecek.
 - Son biten: tasarım belgesi ve yol haritası Kemal'in cevaplarıyla son hâlini aldı.
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: 1. paket (öneri oyunu) başlayabilir.
+- Sıradaki: Kemal 1. paketi telefonda oynar, "doğru his mi?" der; sonra 2. paket (erime kuralı).
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -34,6 +34,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 1. Öneri oyunu (oynanabilir en küçük deneme)
 
+- Durum: PR açıldı, Kemal deneyecek (21 Ekim 2026). Kemal oynayıp onaylayınca bitti olur.
+- Deneme değerleri (karar değil): 4 sütun, aynı anda 3 müşteri, bölümde 8 müşteri, 4 çeşit (A–D), bir müşteri 2–4 adet ister, bantta 12 yer, bant bir turu 12 saniyede döner, sütuna dokununca gider. Hepsi `src/ayarlar.ts` dosyasında.
 - Ekran: tek ekran, dik.
 - Oynanış: dönen bant ve sütunlar (Seçenek A). Altta sütunlar, ortada dönen bant, üstte müşteriler ve her birinin istediği. Sütuna dokunup tutunca en üstteki aynı çeşitler banda gider; istediği çeşit önünden geçen müşteri onu alır.
 - Bölüm: tek bölüm. Bütün müşteriler karşılanınca "kazandın", bant dolarsa "baştan".
