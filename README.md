@@ -1,7 +1,7 @@
 # DK Lite
 
 Dondurmacı Kızlar'ın küçük, sade bulmaca sürümü (Kems Company).
-Aşama: tasarım belgesi taslağı; kod yok.
+Aşama: tasarım kararları verildi (21 Ekim 2026); kod yok.
 
 - Tasarım belgesi: `docs/tasarim-belgesi.md`
 - Yol haritası: `docs/yol-haritasi.md`
