@@ -43,6 +43,12 @@ export const BANT_TUR_SANIYE = 12;
 export const GONDERME_BICIMI: 'dokun' | 'tut' = 'dokun';
 export const TUTMA_MS = 300;
 
+// Bir gönderişte (dokunuş ya da basılı tutuş) sütunun üstünden banda kaç top gider.
+// 1: her seferinde yalnız en üstteki top gider (Kemal, 21 Ekim: "tek tek gitsin, toplu değil").
+// Üstteki aynı çeşitler bu sayıdan fazlaysa kalanlar sütunda bekler.
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const TEK_SEFERDE_TOP = 1;
+
 // Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı; tonlar taslak).
 // Harfler yalnız ayırt etmek için; çeşit adları [Kemal].
 export const CESITLER = [

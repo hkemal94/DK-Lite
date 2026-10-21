@@ -11,6 +11,7 @@ import {
   ISTEK_EN_COK,
   OBEK_EN_COK,
   SUTUN_SAYISI,
+  TEK_SEFERDE_TOP,
   TOPLAM_MUSTERI,
 } from './ayarlar';
 
@@ -80,6 +81,12 @@ export function ustObekBoyu(sutun: number[]): number {
   return n;
 }
 
+// Bir gönderişte bu sütundan banda gidecek top sayısı (bantta yer varsa).
+// En üstteki aynı çeşitlerden en çok TEK_SEFERDE_TOP kadarı gider.
+export function gidecekTopSayisi(sutun: number[]): number {
+  return Math.min(ustObekBoyu(sutun), Math.max(1, TEK_SEFERDE_TOP));
+}
+
 // Basit çözücü: bant bir torba gibi düşünülür; bantta istenen çeşit varsa
 // görünen müşteri hemen alır. Oyuncunun her hamlesi denenir.
 export function kazanilabilirMi(bolum: Bolum): boolean {
@@ -128,7 +135,7 @@ export function kazanilabilirMi(bolum: Bolum): boolean {
     for (let s = 0; s < sutunBoylari.length; s++) {
       if (sutunBoylari[s] === 0) continue;
       const sutun = bolum.sutunlar[s].slice(0, sutunBoylari[s]);
-      const giden = Math.min(ustObekBoyu(sutun), bos);
+      const giden = Math.min(gidecekTopSayisi(sutun), bos);
       const yeniBoylar = sutunBoylari.slice();
       yeniBoylar[s] -= giden;
       const yeniBant = bant.slice();

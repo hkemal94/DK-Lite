@@ -9,7 +9,7 @@ import {
   GONDERME_BICIMI,
   TUTMA_MS,
 } from './ayarlar';
-import { bolumKur, ustObekBoyu, type Bolum } from './bolum';
+import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
 
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
@@ -358,7 +358,7 @@ export class Oyun {
       el.style.width = `${y.sutunGenislik - 8}px`;
       el.style.height = `${y.sutunlarAlt - y.sutunlarUst}px`;
       el.innerHTML = '';
-      const ustBoy = ustObekBoyu(sutun);
+      const ustBoy = gidecekTopSayisi(sutun); // yalnız gidecek top öne çıkar
       sutun.forEach((cesit, sira) => {
         const t = this.topElKur(cesit, y.sutunTopBoyu - 4);
         const p = this.sutunTopNoktasi(i, sira);
@@ -375,7 +375,7 @@ export class Oyun {
   private gonder(sutunNo: number) {
     if (this.bitti) return;
     const sutun = this.sutunlar[sutunNo];
-    const obek = ustObekBoyu(sutun);
+    const obek = gidecekTopSayisi(sutun);
     if (obek === 0) return;
     const bosYuvalar: number[] = [];
     this.yuvalar.forEach((t, i) => {
