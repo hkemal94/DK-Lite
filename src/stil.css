@@ -5,6 +5,7 @@
   --mor-acik: #E3D6F0;
   --sari: #F2C94C;
   --bant: #6E5596;
+  --soluk: 0.55; /* sütunda sırası gelmemiş topların solukluğu */
 }
 
 * { box-sizing: border-box; }
@@ -93,10 +94,11 @@ html, body {
 .istek {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   background: #fff;
   border-radius: 14px;
-  padding: 6px 10px;
+  padding: 6px 8px;
+  max-width: 100%;
   box-shadow: 0 1px 0 rgba(75, 46, 122, 0.15);
 }
 
@@ -122,7 +124,7 @@ html, body {
   touch-action: none;
 }
 
-.sutun .top { opacity: 0.55; }
+.sutun .top { opacity: var(--soluk); }
 .sutun .top.ustte { opacity: 1; }
 .sutun.basili { background: rgba(242, 201, 76, 0.35); }
 

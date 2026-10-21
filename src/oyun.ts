@@ -7,6 +7,7 @@ import {
   BANT_YERI,
   CESITLER,
   GONDERME_BICIMI,
+  SUTUNDA_GORUNEN_TOP,
   TUTMA_MS,
 } from './ayarlar';
 import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
@@ -14,6 +15,7 @@ import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
 const GIDIS_MS = 600; // işi biten müşterinin yerine yenisinin gelmesi
+const KAYMA_MS = 200; // top gidince sütundakilerin yukarı kayması
 
 interface Nokta {
   x: number;
@@ -195,11 +197,12 @@ export class Oyun {
     const duz = bantG - bantY2;
     const cevre = 2 * duz + 2 * Math.PI * r;
 
-    // Müşteriler bandın üstünde, eşit aralıkla.
+    // Müşteriler bandın üstünde, ekran genişliğince eşit aralıkla
+    // (dört kart dar ekranda da birbirine binmesin diye bandın değil ekranın eni).
     const musteriNoktalari: Nokta[] = [];
     const musteriYolu: number[] = [];
     for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) {
-      const x = bantX + (bantG * (i + 0.5)) / AYNI_ANDA_MUSTERI;
+      const x = 12 + ((g - 24) * (i + 0.5)) / AYNI_ANDA_MUSTERI;
       musteriNoktalari.push({ x, y: h * 0.12 });
       musteriYolu.push(this.enYakinYol({ x, y: bantY - 40 }, bantX, bantY, bantG, bantY2));
     }
@@ -207,11 +210,11 @@ export class Oyun {
     const sutunlarUst = bantY + bantY2 + kalinlik / 2 + 24;
     const sutunlarAlt = h - 16;
     const sutunGenislik = (g - 24) / this.sutunlar.length;
-    const enUzun = Math.max(1, ...this.bolum.sutunlar.map((s) => s.length));
+    // Top boyu sütunun boyuna değil, sütunda görünen top sayısına göre.
     const sutunTopBoyu = Math.min(
       sutunGenislik * 0.7,
       54,
-      (sutunlarAlt - sutunlarUst - 12) / enUzun,
+      (sutunlarAlt - sutunlarUst - 12) / Math.max(1, SUTUNDA_GORUNEN_TOP),
     );
 
     this.y = {
@@ -271,11 +274,13 @@ export class Oyun {
     return enIyi;
   }
 
-  private sutunTopNoktasi(sutun: number, sira: number): Nokta {
-    const { sutunGenislik, sutunlarAlt, sutunTopBoyu } = this.y;
+  // Sütunda görünen k'ıncı topun yeri; k=0 gidecek top, sütunun banda yakın üst ucunda.
+  // Öbürleri onun altına sıralanır.
+  private sutunTopNoktasi(sutun: number, k: number): Nokta {
+    const { sutunGenislik, sutunlarUst, sutunTopBoyu } = this.y;
     return {
       x: 12 + sutunGenislik * (sutun + 0.5),
-      y: sutunlarAlt - 8 - sutunTopBoyu * (sira + 0.5),
+      y: sutunlarUst + 8 + sutunTopBoyu * (k + 0.5),
     };
   }
 
@@ -317,7 +322,9 @@ export class Oyun {
 
   private musterileriCiz() {
     const y = this.y;
-    const kartG = Math.min(110, (y.genislik - 24) / AYNI_ANDA_MUSTERI - 10);
+    const kartG = Math.min(110, (y.genislik - 24) / AYNI_ANDA_MUSTERI - 8);
+    // İstek balonundaki top, dar kartta küçülür ki "×4" yazısı taşmasın.
+    const istekBoy = Math.max(20, Math.min(34, Math.floor(kartG - 46)));
     this.musteriYerleri.forEach((m, i) => {
       const el = this.musteriEller[i];
       const p = y.musteriNoktalari[i];
@@ -336,7 +343,7 @@ export class Oyun {
       el.dataset.kalan = String(m.kalan);
       const istek = document.createElement('div');
       istek.className = 'istek';
-      istek.appendChild(this.topElKur(m.cesit, 34));
+      istek.appendChild(this.topElKur(m.cesit, istekBoy));
       const adet = document.createElement('span');
       adet.className = 'adet';
       adet.textContent = m.durum === 'bitti' ? '✓' : `×${m.kalan}`;
@@ -349,25 +356,56 @@ export class Oyun {
     this.siraEl.textContent = sirada > 0 ? `Sırada ${sirada}` : '';
   }
 
-  private sutunlariCiz() {
+  // Her sütunda yalnız üstten SUTUNDA_GORUNEN_TOP kadar top çizilir; kalanı gizli.
+  // kayanSutun: o sütundan az önce `giden` kadar top gitti; kalanlar yukarı kayar,
+  // gizliden görünür olan alttan belirerek gelir.
+  private sutunlariCiz(kayanSutun = -1, giden = 0, oncekiUst = 0) {
     const y = this.y;
+    const boy = y.sutunTopBoyu - 4;
     this.sutunlar.forEach((sutun, i) => {
+      if (kayanSutun >= 0 && i !== kayanSutun) return; // gönderişte yalnız o sütun yenilenir
       const el = this.sutunEller[i];
-      el.style.left = `${12 + y.sutunGenislik * i + 4}px`;
+      const solX = 12 + y.sutunGenislik * i + 4;
+      el.style.left = `${solX}px`;
       el.style.top = `${y.sutunlarUst}px`;
       el.style.width = `${y.sutunGenislik - 8}px`;
       el.style.height = `${y.sutunlarAlt - y.sutunlarUst}px`;
       el.innerHTML = '';
       const ustBoy = gidecekTopSayisi(sutun); // yalnız gidecek top öne çıkar
-      sutun.forEach((cesit, sira) => {
-        const t = this.topElKur(cesit, y.sutunTopBoyu - 4);
-        const p = this.sutunTopNoktasi(i, sira);
-        t.style.left = `${p.x - (12 + y.sutunGenislik * i + 4) - (y.sutunTopBoyu - 4) / 2}px`;
-        t.style.top = `${p.y - y.sutunlarUst - (y.sutunTopBoyu - 4) / 2}px`;
-        if (sira >= sutun.length - ustBoy) t.classList.add('ustte');
+      const gorunen = Math.min(sutun.length, SUTUNDA_GORUNEN_TOP);
+      for (let k = 0; k < gorunen; k++) {
+        const t = this.topElKur(sutun[sutun.length - 1 - k], boy);
+        const p = this.sutunTopNoktasi(i, k);
+        t.style.left = `${p.x - solX - boy / 2}px`;
+        t.style.top = `${p.y - y.sutunlarUst - boy / 2}px`;
+        if (k < ustBoy) t.classList.add('ustte');
         el.appendChild(t);
-      });
+        if (i === kayanSutun && giden > 0) this.kaydir(t, k, giden, oncekiUst);
+      }
     });
+  }
+
+  // Top gidince kalanların bir önceki yerlerinden yukarı kayması (kısa, sakin).
+  // oncekiUst: gönderişten önce sütunda öne çıkan (soluk olmayan) top sayısı.
+  private kaydir(t: HTMLDivElement, k: number, giden: number, oncekiUst: number) {
+    if (typeof t.animate !== 'function') return;
+    // Konumla kaydırılır (transform değil): telefonda top katmanlara ayrılıp
+    // komşu sütunlarda köşeli gölge bırakmasın diye.
+    const yer = parseFloat(t.style.top);
+    const asagi = `${yer + this.y.sutunTopBoyu * giden}px`;
+    const hedef = getComputedStyle(t).opacity;
+    // Önceden gizli olan (alttan gelen) belirerek gelir; öbürleri önceki solukluğuyla kayar.
+    const once = k + giden; // bu topun gönderişten önceki yeri
+    const baslangic = once >= SUTUNDA_GORUNEN_TOP ? '0'
+      : once < oncekiUst ? '1'
+      : getComputedStyle(document.documentElement).getPropertyValue('--soluk').trim() || hedef;
+    t.animate(
+      [
+        { top: asagi, opacity: baslangic },
+        { top: `${yer}px`, opacity: hedef },
+      ],
+      { duration: KAYMA_MS, easing: 'ease-out' },
+    );
   }
 
   // ---------- oynanış ----------
@@ -403,9 +441,8 @@ export class Oyun {
 
     const an = performance.now();
     for (let k = 0; k < giden; k++) {
-      const sira = sutun.length - 1;
       const cesit = sutun.pop()!;
-      const nereden = this.sutunTopNoktasi(sutunNo, sira); // sütundaki yerinden kalkar
+      const nereden = this.sutunTopNoktasi(sutunNo, k); // sütundaki yerinden kalkar
       const el = this.topElKur(cesit, this.y.topBoyu);
       el.classList.add('bantta');
       this.sahne.appendChild(el);
@@ -421,7 +458,7 @@ export class Oyun {
       this.yuvalar[top.yuva] = top;
       this.toplar.push(top);
     }
-    this.sutunlariCiz();
+    this.sutunlariCiz(sutunNo, giden, obek);
   }
 
   private kare(an: number) {
