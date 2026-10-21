@@ -1,0 +1,172 @@
+/* Çizimsiz deneme: düz renkler, mor-sarı ağırlıklı, sakin. Tonlar taslak. */
+:root {
+  --zemin: #F4EEF8;
+  --mor: #4B2E7A;
+  --mor-acik: #E3D6F0;
+  --sari: #F2C94C;
+  --bant: #6E5596;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--zemin);
+  color: var(--mor);
+  font-family: Poppins, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#kok {
+  position: relative;
+  height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.sahne {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sira {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.bant {
+  position: absolute;
+  border-style: solid;
+  border-color: var(--bant);
+  background: var(--mor-acik);
+}
+
+.yuva {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.top {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+.top.bantta {
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.musteri {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.4s;
+}
+
+.musteri.bos { opacity: 0; }
+.musteri.bitti { opacity: 0.45; }
+
+.istek {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 6px 10px;
+  box-shadow: 0 1px 0 rgba(75, 46, 122, 0.15);
+}
+
+.istek .top { position: static; }
+
+.adet {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.kisi {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px 14px 6px 6px;
+  background: var(--mor);
+}
+
+.sutun {
+  position: absolute;
+  border-radius: 14px;
+  background: rgba(110, 85, 150, 0.12);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.sutun .top { opacity: 0.55; }
+.sutun .top.ustte { opacity: 1; }
+.sutun.basili { background: rgba(242, 201, 76, 0.35); }
+
+.sutun.sars { animation: sars 0.3s; }
+@keyframes sars {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.son {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(75, 46, 122, 0.55);
+  z-index: 10;
+}
+
+.son.gizli { display: none; }
+
+.son-kutu {
+  background: var(--zemin);
+  border-radius: 20px;
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.son-baslik {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.dugme {
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--mor);
+  background: var(--sari);
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 32px;
+  cursor: pointer;
+}
