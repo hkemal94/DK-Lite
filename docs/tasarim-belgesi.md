@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1., 2. ve 3. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu) bitti; ortak saklı yer düzeltmesi öneri olarak geldi (22 Ekim 2026).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1., 2. ve 3. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu) ve ortak saklı yer düzeltmesi bitti; 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim 2026).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -29,6 +29,21 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 ## 0. Kararlar
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.9 Ortak sıra tek tek, numaralı bölümler (Kemal, 22 Ekim 2026; panodaki cevaplar)
+
+Kemal'in cevapları, olduğu gibi:
+- Ortak sıra: "Toplar tek tek karıştırılsın; art arda aynı çeşit daha az gelsin"
+- Sıradaki: "4. paket: numaralı bölümler (her biri biraz daha zor; kaldığın bölüm ve yıldızlar telefonda saklanır)"
+
+Önceki açık karar sürüyor: ilk sürümde kaç bölüm olacağı Kemal'in ("Deneme oyununu oynadıktan sonra karar vereyim"). Yıldız ölçüsü şimdiki gibi kalıyor (0.8).
+
+Öneri oyununda böyle denendi (4. paket; sayılar deneme değeri):
+- Ortak saklı sıra öbek olmadan, top top karıştırılır; aynı çeşit art arda en çok 2 kez gelir (deneme değeri). Bölüm başında sütunlara dizilen toplar da aynı sıranın başıdır; öbek kuralı kalktı.
+- Numaralı bölümler: deneme olarak 10 bölüm (sayı Kemal'in kararı). Her bölüm kendi numarasından çıkan sabit bir dizilimle kurulur; aynı bölüm her açılışta aynı başlar. Kazanılabilirlik denetiminden geçmeyen dizilimin yerine yine her açılışta aynı olan bir sonraki dizilim gelir.
+- Zorluk bölümden bölüme yavaşça artar (çeşit, müşteri, istek adedi artar; bant yeri azalır). Bölüm 1 3. paketteki oyundan biraz kolay, son bölüm biraz zor. Fazla top oranı (0,5; Kemal'in kararı) her bölümde aynı.
+- Kayıt: kaldığı bölüm ve her bölümün en iyi yıldızı telefonda saklanır. Bir bölüm kazanılınca sonraki açılır. Saklama çalışmazsa oyun yine açılır, Bölüm 1'den.
+- Ekranlar: harita 5. pakette; şimdilik sade bir "Bölümler" listesi. Üst şeritte "Bölüm 3" gibi yalnız numara (ad yok).
 
 ### 0.8 Ortak saklı yer, yarım puan, yıldız (Kemal, 22 Ekim 2026; panodaki cevaplar)
 
@@ -300,10 +315,10 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 
 İlk sürümde yalnız bölümler, yıldız ve harita var (Kemal, 21 Ekim).
 
-- **Bölümler:** numaralı; her bölüm biraz daha zor. İlk sürümde kaç bölüm olacağı [Kemal] (bkz. Kemal'e sorular, 2).
+- **Bölümler:** numaralı; her bölüm biraz daha zor. İlk sürümde kaç bölüm olacağı [Kemal] (bkz. Kemal'e sorular, 2). Öneri oyununda deneme olarak 10 bölüm (0.9).
 - **Yıldız:** sayısı ve neye göre verildiği [Kemal] (bkz. Kemal'e sorular, 3). Öneri: kalan hamle ya da hiç erimeden bitirme gibi bir ölçü. Öneri oyununda deneme olarak üç yıldız, puana göre (0.7).
 - **Harita:** bölüm geçildikçe yol üstünde bir sonraki bölüm açılır.
-- **Kayıt:** oyuncunun kaldığı bölüm ve yıldızları telefonda saklanır.
+- **Kayıt:** oyuncunun kaldığı bölüm ve yıldızları telefonda saklanır (4. pakette denendi, 0.9).
 
 ### 4.1 Sonra (ilk sürümde yok; sırası Kemal'le)
 
@@ -384,7 +399,7 @@ elle denenip değişir.
 
 ## 8. Yapım durumu
 
-Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`), 2. paket (erime, fazla top, en çok 5 müşteri) ve 3. paket (sayaçlar, puan, bölüm sonu ve yıldız). Ortak saklı yer ve "yarım puan yalnız erime açıkken" (0.8) öneri olarak geldi.
+Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`), 2. paket (erime, fazla top, en çok 5 müşteri), 3. paket (sayaçlar, puan, bölüm sonu ve yıldız) ve ortak saklı yer ile "yarım puan yalnız erime açıkken" (0.8). 4. paket (numaralı bölümler, kayıt, Bölümler listesi; 0.9) öneri olarak geldi.
 
 Uygulamada **olmayan**: bu belgedeki her şey. Sıra yol haritasında; ilk
 paket başlayabilir.

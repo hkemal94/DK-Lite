@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: 3. paket bitti (sayaçlar ve bölüm sonu; 22 Ekim). Üstüne Kemal'in kararıyla bir düzeltme öneri olarak geldi (22 Ekim): saklı toplar artık ortak bir yerde duruyor; bir sütun azaldıkça alttan ona geliyor. Yarım puan yalnız erime açıkken.
-- Son biten: 3. paket (sayaçlar, puan, bölüm sonu; 22 Ekim).
+- Aşama: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Son biten: 3. paket ve üstüne ortak saklı yer düzeltmesi (saklı toplar ortak bir yerde; yarım puan yalnız erime açıkken; 22 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: 4. paket (numaralı bölümler). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
+- Sıradaki: 5. paket (bölüm haritası, çizimsiz). Bölüm sayısı Kemal'in kararı; deneme oyununu oynadıktan sonra. Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -82,7 +82,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
   - Bölüm sonu: kazanınca "Bölüm tamamlandı", üç yıldızdan kazanılanlar dolu çizilir, puan yazar; "Tekrar oyna" (aynı dizilim baştan) ve "Devam et" (yeni bölüm; numaralı bölümler 4. pakette, şimdilik yeni rastgele bir bölüm). Kaybedince ("Bant doldu" ya da "Top kalmadı") yıldız ve puan yok, yalnız "Tekrar oyna". "Tekrar oyna"da sütunlar ve müşterilerin sırası aynıdır; müşterilerin hangi yere ve kaç saniye arayla geldiği yine rastgeledir.
   - Yıldız (deneme ölçüsü, Kemal karar verecek): bölümün en yüksek olası puanına (her top tam puanla alınırsa) oranla. Kazanınca en az 1 yıldız; %70 ve üstü 2; %90 ve üstü 3.
   - Yeni deneme değerleri (karar değil): bir top 10 puan, yıldız eşikleri 0 / 0,7 / 0,9, yarım puanlı topun solukluğu 0,6. Kemal'in kararı olan (deneme değil): yarım puan oranı 0,5, yarım puanın başladığı yer 1. tur sonu, başlangıç erime biçimi "2 tur sonra". Hepsi `src/ayarlar.ts` dosyasında.
-- 22 Ekim: Kemal'in kararından sonra ortak saklı yer (tasarım belgesi 0.8). Kemal: "Saklı toplar ortak bir yerde dursun; bir sütun azaldıkça alttan ona gelsin. Böylece sütunların içi baştan belli olmaz." Ne değişti:
+- 22 Ekim: Kemal'in kararından sonra ortak saklı yer (tasarım belgesi 0.8). Bitti; birleşti (22 Ekim 2026). Kemal: "Saklı toplar ortak bir yerde dursun; bir sütun azaldıkça alttan ona gelsin. Böylece sütunların içi baştan belli olmaz." Ne değişti:
   - Bölüm başında her sütunda yalnız görünen kadar top durur (4 sütunda 4'er top). Geri kalan bütün toplar (fazla toplar dahil) tek bir ortak sırada saklıdır; sayısı yazmaz.
   - Bir sütundan top gidince kalanlar yukarı kayar; ortak sıradaki sıradaki top o sütunun en altına belirerek gelir. Hangi sütundan gönderirsen gönder, gelen top ortak sıranın sıradakidir.
   - Ortak sıra bölüm kurulurken karıştırılır ve sabittir: "Tekrar oyna" aynı başlangıcı ve aynı gelişleri getirir.
@@ -93,9 +93,20 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 4. Numaralı bölümler
 
-- İçerik: elle hazırlanmış bölümler, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanır. Bölüm sayısı Kemal'in kararı (açık soru).
+- Durum: öneri olarak geldi (22 Ekim 2026). Kemal: "4. paket: numaralı bölümler (her biri biraz daha zor; kaldığın bölüm ve yıldızlar telefonda saklanır)".
+- İçerik: elle hazırlanmış bölümler, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanır. Bölüm sayısı Kemal'in kararı (açık soru; Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
 - Nasıl denenir: Kemal baştan sona oynar, zorluk artışını söyler.
 - Kimde: Oyun Geliştiricisi; bölüm denemesi Oyun Kontrolörü.
+- 22 Ekim: ne geldi (tasarım belgesi 0.9):
+  - Ortak saklı sıra top top karıştırılır, öbek yok (Kemal: "Toplar tek tek karıştırılsın; art arda aynı çeşit daha az gelsin"). Aynı çeşit art arda en çok 2 kez gelir. Bölüm başında sütunlara dizilen toplar da aynı sıranın başı; eskiden toplar öbek öbek (3'e kadar aynı çeşit bir arada) diziliyordu, artık aynı çeşit en çok 2 kez art arda. Gerekçe: tek kural, tek sıra; sütunlar da "daha az aynı çeşit" kuralına uyar.
+  - Numaralı bölümler: her bölüm kendi numarasından çıkan sabit bir dizilimle kurulur; aynı bölüm her açılışta (ve her telefonda) aynı başlar, "elle hazırlanmış" gibi. Kazanılabilirlik denetimi aynen sürer; geçmeyen dizilimin yerine yine her açılışta aynı olan bir sonraki dizilim gelir. Müşterilerin hangi yere ve kaç saniye arayla geldiği eskisi gibi rastgele.
+  - Zorluk: bölümden bölüme yavaşça artar. Bölüm 1 3. paketteki oyundan biraz kolay (3 çeşit, 8 müşteri); Bölüm 4 3. paketteki oyunun aynısı; son bölüm biraz zor (5 sütun, 5 çeşit, 16 müşteri, istek 3–4, bant 9 yer). Fazla top oranı 0,5 her bölümde aynı (Kemal'in kararı).
+  - Kayıt: kaldığı bölüm ve her bölümün en iyi yıldızı telefonda saklanır. Bir bölüm kazanılınca sonraki açılır. Saklama çalışmazsa oyun yine açılır, Bölüm 1'den (kayıt o açılış boyunca durur).
+  - Açılış: oyun açılınca kaldığı bölüm (açılan en ileri bölüm) doğrudan başlar. Bütün bölümler bittiyse "Bölümler" listesi açılır.
+  - Üst şerit: solda "Bölüm 3" gibi bölüm numarası (ad yok) ve erime düğmesi; sağda sayaçlar. "Bölüm 3" yazısına dokununca "Bölümler" listesi açılır.
+  - Bölümler listesi (harita 5. pakette): numaralı kutular, her birinde kazanılan yıldızlar; kilitli olanlar soluk ve dokununca başlamaz; açık olana dokununca o bölüm başlar.
+  - Bölüm sonu: "Tekrar oyna" (aynı bölüm baştan), "Devam et" (sonraki bölüm; son bölümdeyse "Bölümler" listesi) ve altta küçük "Bölümler" yolu. Kaybedince "Tekrar oyna" ve "Bölümler". Son bölüm de kazanılınca "Bütün bölümler bitti" yazar (listede de).
+  - Yeni deneme değerleri (karar değil): bölüm sayısı 10; art arda aynı çeşit en çok 2; zorluk tablosu (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 10 / 2–3 / 12; 3: 4 / 4 / 10 / 2–4 / 12; 4: 4 / 4 / 12 / 2–4 / 12; 5: 4 / 4 / 13 / 2–4 / 11; 6: 4 / 4 / 14 / 2–4 / 11; 7: 4 / 4 / 14 / 3–4 / 10; 8: 5 / 5 / 14 / 2–4 / 10; 9: 5 / 5 / 15 / 3–4 / 10; 10: 5 / 5 / 16 / 3–4 / 9. Bant hızı, sütunda görünen top (4), aynı anda en çok 5 müşteri, erime ve puan kuralları her bölümde aynı. Hepsi `src/ayarlar.ts` dosyasında.
 
 ### 5. Bölüm haritası (çizimsiz)
 
@@ -145,6 +156,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - 1. paket: çizimsiz öneri oyunu; tek tek gönderme ve sınırlı görünüm dahil (21 Ekim 2026).
 - 2. paket: erime kuralı, fazla top, en çok 5 müşteri (22 Ekim 2026). Kemal'in seçimi: "2 tur sonra", 1. tur sonunda puan yarıya.
 - 3. paket: sayaçlar, puan, bölüm sonu (yıldız, Tekrar oyna, Devam et) (22 Ekim 2026).
+- Ortak saklı yer düzeltmesi: saklı toplar ortak bir yerde, bir sütun azaldıkça alttan ona gelir; yarım puan yalnız erime açıkken (22 Ekim 2026).
 
 ## Bilinen eksikler
 
@@ -162,7 +174,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 ## Kemal'in kararını bekleyenler
 
 - Bölüm yolunun haritada geçtiği mahalleler.
-- İlk sürümdeki bölüm sayısı.
+- İlk sürümdeki bölüm sayısı (öneri oyununda deneme olarak 10; Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
+- Bölümlerin zorluk artışı (deneme tablosu `src/ayarlar.ts`'te; Kemal oynayıp söyler).
 - Yıldız ölçüsü. Şimdilik deneme: puana göre (en yüksek olası puanın %70'i 2 yıldız, %90'ı 3 yıldız; kazanınca en az 1). Kemal (22 Ekim): "Sonra bakariz simdiki kalsin".
 - Bir topun puanı (şimdilik deneme değeri 10; yalnız oranlar önemli olduğu için yıldızı etkilemez).
 - Hangi sezon.
