@@ -24,9 +24,14 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
   kazandığın en iyi yıldız telefonda saklanır; sayfayı kapatıp açınca
   kaldığın yerden sürer. Telefon saklamaya izin vermezse oyun yine açılır,
   Bölüm 1'den.
-- "Bölüm 3" yazısına dokununca "Bölümler" listesi açılır: numaralar ve
-  kazanılan yıldızlar. Kilitli bölümler soluk durur, dokununca başlamaz;
-  açık olana dokununca o bölüm başlar.
+- "Bölümler" bölüm haritasını açar (giriş ekranında, duraklatmada, bölüm
+  sonunda; oyun sırasında "Bölüm 3" yazısına dokununca da). Haritada
+  Düzada'nın kaba biçimi, Sahil Yolu ve 10 bölüm noktası var: 1. bölüm
+  Liman'da Dondurmacı Kızlar'ın önünde, yol Stadyum ve Çiftlik'ten geçip
+  İskele'de biter. Geçilen bölüm koyu mor ve altında yıldızları, sıradaki
+  sarı, kilitli olanlar soluk (dokununca başlamaz). Açık bir bölüme
+  dokununca o bölüm başlar. Sol üstteki "Geri" haritanın açıldığı yere
+  döner.
 - Üstte müşteriler (aynı anda en çok 5) ve her birinin istediği çeşit (harf) ve adet.
   Bölüm birkaç müşteriyle başlar, ötekiler arayla gelir; giden müşterinin
   yerine yenisi birkaç saniye sonra gelir.
@@ -55,14 +60,13 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
 - Bütün müşteriler karşılanınca "Bölüm tamamlandı": yıldızlar (en çok 3),
   puan, "Tekrar oyna" (aynı bölüm baştan; sütunlar ve saklı yerden gelen
   topların sırası aynı), "Devam et" (sonraki bölüm) ve altta küçük
-  "Bölümler" (listeye dönüş). Son bölümde "Devam et" listeye döner; son
+  "Bölümler" (haritaya dönüş). Son bölümde "Devam et" haritayı açar; son
   bölüm de bitince "Bütün bölümler bitti" yazar.
   Yıldız şimdilik puana göre bir denemedir; Kemal "şimdiki kalsın" dedi.
 - Toplar eriyip kalanlar istekleri karşılayamazsa "Top kalmadı". "Erime
   yok" seçiliyken bant dolar ve bantta kimsenin istemediği toplar kalırsa
   "Bant doldu". Bu ikisinde yıldız yok; "Tekrar oyna" ve "Bölümler" var.
-- Her bölüm kazanılabilir (bölüm kurulurken denenir). Bölüm haritası
-  sonraki pakette.
+- Her bölüm kazanılabilir (bölüm kurulurken denenir).
 - Kaydı silip baştan denemek için: tarayıcının bu siteye ait verilerini
   temizle (ya da gizli sekmede aç).
 
