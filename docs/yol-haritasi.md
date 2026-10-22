@@ -112,6 +112,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 - Durum: öneri olarak geldi (22 Ekim 2026 gecesi). Kemal panoda istedi; ayrıntı tasarım belgesi 0.10.
 - Renk: mor-sarı tonlar Dondurmacı Kızlar'ınkiyle aynı oldu: koyu mor `#4e2470`, mor `#7a3fa8` (bant), sarı `#ffc928` (düğmeler, A çeşidi). Ekranın düzeni değişmedi.
+- Giriş ekranı: oyun açılınca önce giriş ekranı gelir. Oyunun adının yerinde `[Kemal]` yer tutucusu, altında "Başla" (kaldığın bölüm başlar; hepsi bittiyse Bölümler listesi) ve "Bölümler". Eskiden kaldığı bölüm doğrudan başlıyordu.
 
 ### 5. Bölüm haritası (çizimsiz)
 

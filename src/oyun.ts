@@ -75,6 +75,9 @@ interface Yerlesim {
 
 type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
 
+// Giriş ekranında oyunun adı yerine duran yer tutucu. Ad Kemal'in.
+const OYUN_ADI_YER_TUTUCU = '[Kemal]';
+
 // Son bölüm de kazanılınca görünen basit durum yazısı (kurgu metni değil).
 const HEPSI_BITTI_YAZISI = 'Bütün bölümler bitti';
 
@@ -110,10 +113,12 @@ export class Oyun {
   private erimeEl!: HTMLButtonElement;
   private bolumNoEl!: HTMLButtonElement; // üst şeritte "Bölüm 3"; dokununca Bölümler listesi
   private listeEl!: HTMLDivElement; // Bölümler listesi (harita 5. pakette)
+  private girisEl!: HTMLDivElement; // giriş ekranı (oyun açılınca ilk o gelir)
 
   // Telefonda saklanan kayıt: kaldığı bölüm ve yıldızlar.
   private kayit: Kayit = kayitOku();
   private listeAcik = false;
+  private girisAcik = false;
 
   private bolum!: Bolum;
   private sutunlar: number[][] = [];
@@ -138,10 +143,10 @@ export class Oyun {
   constructor(kok: HTMLElement) {
     this.kok = kok;
     this.iskeletKur();
-    // Oyun açılınca kaldığı bölüm (açılan en ileri bölüm) doğrudan başlar.
-    // Bütün bölümler bittiyse Bölümler listesi açılır.
+    // Oyun açılınca önce giriş ekranı gelir (Kemal, 22 Ekim). Arkada kaldığı
+    // bölüm hazır durur ama başlamaz; "Başla" ile başlar.
     this.yenidenBasla(this.kayit.acik);
-    if (hepsiBitti(this.kayit)) this.listeAc();
+    this.girisAc();
     window.addEventListener('resize', () => {
       this.yerlesimHesapla();
       this.sabitleriCiz();
@@ -226,6 +231,44 @@ export class Oyun {
     this.listeEl.className = 'liste gizli';
     this.listeEl.id = 'liste';
     this.kok.appendChild(this.listeEl);
+
+    // Giriş ekranı: oyunun adı yerine yer tutucu (ad Kemal'in), "Başla" ve "Bölümler".
+    this.girisEl = document.createElement('div');
+    this.girisEl.className = 'giris gizli';
+    this.girisEl.id = 'giris';
+    const girisKutu = document.createElement('div');
+    girisKutu.className = 'giris-kutu';
+    const ad = document.createElement('div');
+    ad.className = 'giris-ad';
+    ad.textContent = OYUN_ADI_YER_TUTUCU;
+    const basla = document.createElement('button');
+    basla.className = 'dugme';
+    basla.id = 'giris-basla';
+    basla.textContent = 'Başla';
+    // Kaldığı bölüm (açılan en ileri bölüm) baştan başlar; bütün bölümler
+    // bittiyse Bölümler listesi açılır.
+    basla.addEventListener('click', () => {
+      if (hepsiBitti(this.kayit)) this.listeAc();
+      else this.yenidenBasla(this.kayit.acik);
+    });
+    const bolumler = document.createElement('button');
+    bolumler.className = 'dugme tekrar';
+    bolumler.id = 'giris-bolumler';
+    bolumler.textContent = 'Bölümler';
+    bolumler.addEventListener('click', () => this.listeAc());
+    girisKutu.append(ad, basla, bolumler);
+    this.girisEl.appendChild(girisKutu);
+    this.kok.appendChild(this.girisEl);
+  }
+
+  private girisAc() {
+    this.girisAcik = true;
+    this.girisEl.className = 'giris';
+  }
+
+  private girisKapat() {
+    this.girisAcik = false;
+    this.girisEl.className = 'giris gizli';
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
@@ -233,6 +276,7 @@ export class Oyun {
   yenidenBasla(no: number) {
     if (no < 1 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
     this.listeKapat();
+    this.girisKapat();
     this.bolum = bolumKur(no);
     this.bolumNoEl.textContent = `Bölüm ${no}`;
     this.bolumNoEl.dataset.no = String(no);
@@ -609,7 +653,7 @@ export class Oyun {
   // ---------- oynanış ----------
 
   private gonder(sutunNo: number) {
-    if (this.bitti || this.listeAcik) return;
+    if (!this.oynuyor()) return;
     const sutun = this.sutunlar[sutunNo];
     const obek = gidecekTopSayisi(sutun);
     if (obek === 0) return;
@@ -667,6 +711,11 @@ export class Oyun {
     this.sayaclariCiz();
   }
 
+  // Oyun şu an akıyor mu (bölüm bitmedi, üstünde liste ya da giriş ekranı yok).
+  private oynuyor(): boolean {
+    return !this.bitti && !this.listeAcik && !this.girisAcik;
+  }
+
   private kare(an: number) {
     const dt = this.sonAn ? Math.min(0.05, (an - this.sonAn) / 1000) : 0;
     this.sonAn = an;
@@ -676,7 +725,7 @@ export class Oyun {
   }
 
   private ilerlet(dt: number, an: number) {
-    if (this.bitti || this.listeAcik) return;
+    if (!this.oynuyor()) return;
     const y = this.y;
     const aralik = y.cevre / this.bolum.bantYeri;
     const once = this.kayma;
