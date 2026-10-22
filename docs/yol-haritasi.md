@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Aşama: 5. paket (çizimsiz bölüm haritası) öneri olarak geldi (22 Ekim gecesi; gece işlerinin üstüne kurulu, önce o birleşmeli). Önceki: gece işleri öneri olarak geldi (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma (öneri), ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
 - Son biten: 3. paket ve üstüne ortak saklı yer düzeltmesi (saklı toplar ortak bir yerde; yarım puan yalnız erime açıkken; 22 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: 5. paket (bölüm haritası, çizimsiz). Bölüm sayısı Kemal'in kararı; deneme oyununu oynadıktan sonra. Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
+- Sıradaki: 6. paket (görsel dil denemesi). İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -94,7 +94,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 ### 4. Numaralı bölümler
 
 - Durum: öneri olarak geldi (22 Ekim 2026). Kemal: "4. paket: numaralı bölümler (her biri biraz daha zor; kaldığın bölüm ve yıldızlar telefonda saklanır)".
-- İçerik: elle hazırlanmış bölümler, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanır. Bölüm sayısı Kemal'in kararı (açık soru; Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
+- İçerik: elle hazırlanmış bölümler, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanır. Bölüm sayısı: ilk sürüm 10 (Kemal, 22 Ekim).
 - Nasıl denenir: Kemal baştan sona oynar, zorluk artışını söyler.
 - Kimde: Oyun Geliştiricisi; bölüm denemesi Oyun Kontrolörü.
 - 22 Ekim: ne geldi (tasarım belgesi 0.9):
@@ -106,14 +106,37 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
   - Üst şerit: solda "Bölüm 3" gibi bölüm numarası (ad yok) ve erime düğmesi; sağda sayaçlar. "Bölüm 3" yazısına dokununca "Bölümler" listesi açılır.
   - Bölümler listesi (harita 5. pakette): numaralı kutular, her birinde kazanılan yıldızlar; kilitli olanlar soluk ve dokununca başlamaz; açık olana dokununca o bölüm başlar.
   - Bölüm sonu: "Tekrar oyna" (aynı bölüm baştan), "Devam et" (sonraki bölüm; son bölümdeyse "Bölümler" listesi) ve altta küçük "Bölümler" yolu. Kaybedince "Tekrar oyna" ve "Bölümler". Son bölüm de kazanılınca "Bütün bölümler bitti" yazar (listede de).
-  - Yeni deneme değerleri (karar değil): bölüm sayısı 10; art arda aynı çeşit en çok 2; zorluk tablosu (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 10 / 2–3 / 12; 3: 4 / 4 / 10 / 2–4 / 12; 4: 4 / 4 / 12 / 2–4 / 12; 5: 4 / 4 / 13 / 2–4 / 11; 6: 4 / 4 / 14 / 2–4 / 11; 7: 4 / 4 / 14 / 3–4 / 10; 8: 5 / 5 / 14 / 2–4 / 10; 9: 5 / 5 / 15 / 3–4 / 10; 10: 5 / 5 / 16 / 3–4 / 9. Bant hızı, sütunda görünen top (4), aynı anda en çok 5 müşteri, erime ve puan kuralları her bölümde aynı. Hepsi `src/ayarlar.ts` dosyasında.
+  - Yeni deneme değerleri (karar değil; bölüm sayısı ve zorluk tablosu 22 Ekim gece işlerinde değişti, aşağıda): bölüm sayısı 10; art arda aynı çeşit en çok 2; zorluk tablosu (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 10 / 2–3 / 12; 3: 4 / 4 / 10 / 2–4 / 12; 4: 4 / 4 / 12 / 2–4 / 12; 5: 4 / 4 / 13 / 2–4 / 11; 6: 4 / 4 / 14 / 2–4 / 11; 7: 4 / 4 / 14 / 3–4 / 10; 8: 5 / 5 / 14 / 2–4 / 10; 9: 5 / 5 / 15 / 3–4 / 10; 10: 5 / 5 / 16 / 3–4 / 9. Bant hızı, sütunda görünen top (4), aynı anda en çok 5 müşteri, erime ve puan kuralları her bölümde aynı. Hepsi `src/ayarlar.ts` dosyasında.
+
+### Gece işleri (22 Ekim 2026)
+
+- Durum: öneri olarak geldi (22 Ekim 2026 gecesi). Kemal panoda istedi; ayrıntı tasarım belgesi 0.10.
+- Ekran görüntüleri (telefon boyutu, 390x844): `docs/ekran/gece-22-10/1-giris.png`, `2-oyun.png`, `3-duraklatma.png`.
+- Kimde: Oyun Geliştiricisi.
+- Renk: mor-sarı tonlar Dondurmacı Kızlar'ınkiyle aynı oldu: koyu mor `#4e2470`, mor `#7a3fa8` (bant), sarı `#ffc928` (düğmeler, A çeşidi). Ekranın düzeni değişmedi.
+- Giriş ekranı: oyun açılınca önce giriş ekranı gelir. Oyunun adının yerinde `[Kemal]` yer tutucusu, altında "Başla" (kaldığın bölüm başlar; hepsi bittiyse Bölümler listesi) ve "Bölümler". Eskiden kaldığı bölüm doğrudan başlıyordu.
+- Duraklatma: oyun sırasında sağ üst köşede duraklatma düğmesi. Basınca oyun tamamen durur; "Devam et", "Baştan başla", "Bölümler" çıkar. Devam edince erime, müşteri gelişi ve bant kaldığı yerden sürer.
+- Hızlandırma: duraklatma düğmesinin yanında "2×" düğmesi. Basınca oyun 2 kat hızlanır (düğme sarı dolar), tekrar basınca normale döner. 2 kat öneri; Kemal onaylayınca kesinleşir. Erime düğmesi sağa yer kalsın diye "Bölüm 3" yazısının altına indi.
+- Bölüm sayısı: ilk sürüm 10 bölüm (Kemal'in kararı). Oyunda zaten 10 vardı; değişmedi.
+- Zorluk daha yavaş artıyor (Kemal'in kararı): artış adımı eskisinin yaklaşık yarısı, her bölümde yalnız bir şey biraz zorlaşır. Bölüm 10'da müşteri 12 (eskiden 16), çeşit 4 (eskiden 5), sütun 4 (eskiden 5), istek 3–4, bant yeri 10 (eskiden 9). Bölüm 1 aynı kaldı. Yeni tablo (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 9 / 2–3 / 12; 3: 4 / 3 / 9 / 2–4 / 12; 4: 4 / 3 / 10 / 2–4 / 12; 5: 4 / 3 / 11 / 2–4 / 12; 6: 4 / 4 / 11 / 2–4 / 12; 7: 4 / 4 / 11 / 2–4 / 11; 8: 4 / 4 / 12 / 2–4 / 11; 9: 4 / 4 / 12 / 2–4 / 10; 10: 4 / 4 / 12 / 3–4 / 10. Sayılar deneme değeri.
 
 ### 5. Bölüm haritası (çizimsiz)
 
-- İçerik: Düzada'nın kaba biçimi üstünde kıvrılan yol, numaralı bölüm noktaları, kilitli olanlar, kazanılan yıldızlar, Git / Oyna.
-- Yolun geçtiği mahalleler Kemal'in kararına göre (açık soru). Yalnız künyedeki yerler; künyede olmayan yer adı yazılmaz.
+- Durum: öneri olarak geldi (22 Ekim 2026 gecesi). Kemal: "bu gece başlasın". Ayrıntı tasarım belgesi 0.11.
+- İçerik: Düzada'nın kaba biçimi üstünde kıvrılan yol, numaralı bölüm noktaları, kilitli olanlar, kazanılan yıldızlar; bölüme dokununca başlar.
+- Yolun geçtiği mahalleler (Kemal, 22 Ekim): Liman'dan başlar, Sahil Yolu boyunca öbür mahallelere gider. Yalnız künyedeki yerler; künyede olmayan yer adı yazılmaz.
 - Yok: can, altın, seviye, sandık, lig, festival, hediyeler.
 - Kimde: Oyun Geliştiricisi.
+- Ekran görüntüleri (telefon boyutu): `docs/ekran/paket-5/1-harita.png` (390x844, 4 bölüm açık), `2-harita-hepsi-bitti.png` (390x844), `3-harita-360x640.png` (kısa ekran).
+- 22 Ekim gecesi: ne geldi:
+  - Eski "Bölümler" listesinin yerine harita. Giriş ekranındaki, duraklatmadaki, bölüm sonundaki "Bölümler" ve üst şeritteki "Bölüm 3" yazısı haritayı açar.
+  - Bütün ekran deniz rengi; ortada Düzada'nın kaba biçimi (KKM'deki haritadan sadeleştirildi, kuzey yukarıda), mahalle sınırları kesik çizgi.
+  - Yazılar yalnız künyedeki adlar: Liman, Stadyum, Çiftlik, İskele / Kemsköy, Merkez, Ada Tepesi (küçük üçgen), Dondurmacı Kızlar. Bölüm noktalarında yalnız numara.
+  - Yol Sahil Yolu: 1. bölüm Dondurmacı Kızlar'ın önünde; saat yönünde Liman → Stadyum → Çiftlik → İskele; 10. bölüm İskele'de, otelin yakınında. Yön öneri (Kemal'e sorular).
+  - Geçilmiş bölüm koyu mor, altında kazanılan yıldızlar; sıradaki bölüm sarı; kilitli bölüm soluk, dokununca başlamaz. Yolun açılan bölüme kadarki kısmı sarı.
+  - Sol üstte "Geri": harita nereden açıldıysa oraya döner (giriş ekranı, duraklatma seçenekleri, oyun ya da bölüm sonu).
+  - Zeytinlik, kayalık, koylar ve çizim 7. pakette.
+  - Yeni sayı yok.
 
 ### 6. Görsel dil denemesi
 
@@ -157,6 +180,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - 2. paket: erime kuralı, fazla top, en çok 5 müşteri (22 Ekim 2026). Kemal'in seçimi: "2 tur sonra", 1. tur sonunda puan yarıya.
 - 3. paket: sayaçlar, puan, bölüm sonu (yıldız, Tekrar oyna, Devam et) (22 Ekim 2026).
 - Ortak saklı yer düzeltmesi: saklı toplar ortak bir yerde, bir sütun azaldıkça alttan ona gelir; yarım puan yalnız erime açıkken (22 Ekim 2026).
+- Gece işleri (öneri, Kemal birleştirince biter): renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm, daha yavaş zorluk (22 Ekim 2026 gecesi).
+- 5. paket (öneri, Kemal birleştirince biter): çizimsiz bölüm haritası, Geri düğmesi (22 Ekim 2026 gecesi).
 
 ## Bilinen eksikler
 
@@ -173,9 +198,10 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ## Kemal'in kararını bekleyenler
 
-- Bölüm yolunun haritada geçtiği mahalleler.
-- İlk sürümdeki bölüm sayısı (öneri oyununda deneme olarak 10; Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
-- Bölümlerin zorluk artışı (deneme tablosu `src/ayarlar.ts`'te; Kemal oynayıp söyler).
+- Bölüm yolunun yönü (öneri: saat yönü, İskele'de biter) ve Merkez'e bölüm konup konmayacağı. Yolun Liman'dan başlayıp Sahil Yolu boyunca gitmesi kararlaştı (22 Ekim).
+- Haritanın ekrandaki duruşu (öneri: kuzey yukarıda).
+- Bölümlerin zorluk artışı: 22 Ekim'de yavaşlatıldı (adım yaklaşık yarıya indi); yeni tablo yine deneme, Kemal oynayıp söyler.
+- Hızlandırma katı: öneri 2 kat; Kemal onaylayınca kesinleşir.
 - Yıldız ölçüsü. Şimdilik deneme: puana göre (en yüksek olası puanın %70'i 2 yıldız, %90'ı 3 yıldız; kazanınca en az 1). Kemal (22 Ekim): "Sonra bakariz simdiki kalsin".
 - Bir topun puanı (şimdilik deneme değeri 10; yalnız oranlar önemli olduğu için yıldızı etkilemez).
 - Hangi sezon.
@@ -184,4 +210,10 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ## Kemal'e sorular
 
-Soru yok. Yıldız sorusu ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin"); "Kemal'in kararını bekleyenler"de duruyor.
+DK Lite: Bölüm haritasında yol hangi yönde gitsin? Seçenekler: (a) saat yönünde: Liman → Stadyum → Çiftlik → İskele, son bölüm otelin yakınında (önerilen, şimdi oyunda böyle), (b) ters yönde: Liman → İskele → Çiftlik → Stadyum (feribotun İskele'den Liman'a taşınma bağını izler), (c) başka bir sıra.
+
+DK Lite: Sahil Yolu KKM haritasında Merkez'e girmiyor (künyede beş mahalleden geçer). Haritada Merkez ne olsun? Seçenekler: (a) ortada adıyla durur, bölüm noktası yok (önerilen, şimdi oyunda böyle), (b) son bölüm Merkez'e çıksın (iç yol adsız), (c) önce KKM haritasında Sahil Yolu Merkez'e değsin (KKM işi).
+
+DK Lite: Hızlandırma düğmesi kaç kat hızlandırsın? Seçenekler: (a) 2 kat (önerilen, şimdi oyunda böyle), (b) 1,5 kat, (c) 3 kat.
+
+Yıldız sorusu ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin"); "Kemal'in kararını bekleyenler"de duruyor.

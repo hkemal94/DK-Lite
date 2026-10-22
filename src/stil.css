@@ -1,10 +1,10 @@
 /* Çizimsiz deneme: düz renkler, mor-sarı ağırlıklı, sakin. Tonlar taslak. */
 :root {
   --zemin: #F4EEF8;
-  --mor: #4B2E7A;
+  --mor: #4e2470; /* koyu mor, Dondurmacı Kızlar ile aynı ton (Kemal, 22 Ekim) */
   --mor-acik: #E3D6F0;
-  --sari: #F2C94C;
-  --bant: #6E5596;
+  --sari: #ffc928; /* sarı, Dondurmacı Kızlar ile aynı ton */
+  --bant: #7a3fa8; /* mor, Dondurmacı Kızlar ile aynı ton */
   --soluk: 0.55; /* sütunda sırası gelmemiş topların solukluğu */
 }
 
@@ -48,14 +48,14 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 8px 12px 4px;
+  gap: 6px;
+  padding: 8px 10px 4px;
 }
 
 .sayaclar {
   display: flex;
   align-items: flex-end;
-  gap: 14px;
+  gap: 10px;
 }
 
 .sayac {
@@ -81,7 +81,7 @@ html, body {
   height: 6px;
   margin: 5px 0 4px;
   border-radius: 3px;
-  background: rgba(110, 85, 150, 0.18);
+  background: rgba(122, 63, 168, 0.18);
   overflow: hidden;
 }
 
@@ -154,7 +154,7 @@ html, body {
   border-radius: 14px;
   padding: 6px 8px;
   max-width: 100%;
-  box-shadow: 0 1px 0 rgba(75, 46, 122, 0.15);
+  box-shadow: 0 1px 0 rgba(78, 36, 112, 0.15);
 }
 
 .istek .top { position: static; }
@@ -174,14 +174,14 @@ html, body {
 .sutun {
   position: absolute;
   border-radius: 14px;
-  background: rgba(110, 85, 150, 0.12);
+  background: rgba(122, 63, 168, 0.12);
   cursor: pointer;
   touch-action: none;
 }
 
 .sutun .top { opacity: var(--soluk); }
 .sutun .top.ustte { opacity: 1; }
-.sutun.basili { background: rgba(242, 201, 76, 0.35); }
+.sutun.basili { background: rgba(255, 201, 40, 0.35); }
 
 .sutun.sars { animation: sars 0.3s; }
 @keyframes sars {
@@ -195,7 +195,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(75, 46, 122, 0.55);
+  background: rgba(78, 36, 112, 0.55);
   z-index: 10;
 }
 
@@ -283,18 +283,20 @@ html, body {
   font-size: 12px;
   color: var(--mor);
   background: transparent;
-  border: 1px solid rgba(75, 46, 122, 0.25);
+  border: 1px solid rgba(78, 36, 112, 0.25);
   border-radius: 10px;
   padding: 3px 8px;
   opacity: 0.7;
   cursor: pointer;
 }
 
-/* Üst şeridin sol yanı: bölüm numarası ve erime düğmesi. */
+/* Üst şeridin sol yanı: bölüm numarası, altında erime düğmesi
+   (sağda hız ve duraklatma düğmelerine yer kalsın diye alt alta). */
 .ust-sol {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
   min-width: 0;
 }
 
@@ -333,7 +335,8 @@ html, body {
   cursor: pointer;
 }
 
-/* Bölümler listesi: çok sade bir ızgara (harita 5. pakette). */
+/* Bölüm haritası ("Bölümler"; 5. paket, çizimsiz): Düzada'nın kaba biçimi,
+   Sahil Yolu ve numaralı bölüm noktaları. Renkler taslak. */
 .liste {
   position: absolute;
   inset: 0;
@@ -347,13 +350,24 @@ html, body {
 
 .liste.gizli { display: none; }
 
-.liste-kutu {
+.harita-kutu {
   width: 100%;
-  padding: 24px 16px;
+  max-width: 720px;
+  min-height: 100%;
+  padding: 16px 12px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+}
+
+.harita-ust {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
 }
 
 .liste-baslik {
@@ -361,36 +375,152 @@ html, body {
   font-weight: 600;
 }
 
-.izgara {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.bolum-dugme {
+/* Geri düğmesi: sol üstte, ok ve "Geri". */
+.harita-geri {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   font: inherit;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--mor);
   background: #fff;
-  border: 2px solid var(--sari);
-  border-radius: 14px;
-  padding: 10px 4px 8px;
+  border: 1px solid rgba(78, 36, 112, 0.25);
+  border-radius: 20px;
+  padding: 6px 14px 6px 8px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   cursor: pointer;
 }
 
-.bolum-dugme.kilitli {
-  opacity: 0.35;
-  border-color: rgba(75, 46, 122, 0.25);
+.geri-ok {
+  width: 18px;
+  height: 18px;
+}
+
+.geri-ok path {
+  fill: none;
+  stroke: var(--mor);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Haritanın alanı: ortada, ekranın genişliğine sığar. */
+.harita-alan {
+  position: relative;
+  width: 100%;
+  margin: auto 0;
+}
+
+.harita-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.harita-kucuk-ad.sola { text-anchor: start; }
+
+/* Haritada bütün ekran deniz rengi; ada ortada. */
+.liste.harita-ekran { background: #DCE7F0; }
+
+.harita-ada {
+  fill: #E4E7CF; /* zeytin yeşiline çalan açık toprak rengi */
+  stroke: #B9BF98;
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+}
+
+.harita-mahalle {
+  fill: transparent;
+  stroke: #fff;
+  stroke-width: 0.7;
+  stroke-dasharray: 2 1.6;
+  stroke-linejoin: round;
+}
+
+.harita-tepe { fill: #A7AE84; }
+
+.harita-ad {
+  font-family: inherit;
+  font-size: 6.4px;
+  font-weight: 600;
+  fill: var(--mor);
+  fill-opacity: 0.75;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.harita-kucuk-ad {
+  font-family: inherit;
+  font-size: 4.4px;
+  fill: var(--mor);
+  fill-opacity: 0.6;
+  text-anchor: middle;
+}
+
+/* Sahil Yolu: bütün yol açık, açılan bölüme kadarki kısmı sarı. */
+.harita-yol {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.harita-yol.gecilen { stroke: var(--sari); }
+
+/* Bölüm noktası: yuvarlak, içinde numara, altında kazanılan yıldızlar. */
+.harita-nokta {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  font: inherit;
+  color: #fff;
+  background: var(--mor);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(78, 36, 112, 0.35);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.harita-nokta.siradaki {
+  color: var(--mor);
+  background: var(--sari);
+  box-shadow: 0 0 0 4px rgba(255, 201, 40, 0.35);
+}
+
+.harita-nokta.kilitli {
+  color: rgba(78, 36, 112, 0.45);
+  background: #EEE8F3;
+  border-color: rgba(78, 36, 112, 0.2);
+  box-shadow: none;
   cursor: default;
 }
 
-.bolum-sayi {
-  font-size: 22px;
+.harita-sayi {
+  font-size: 16px;
   font-weight: 600;
+  line-height: 1;
+}
+
+.harita-yildizlar {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 1px);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 0 2px;
 }
 
 .kucuk-yildizlar {
@@ -399,6 +529,90 @@ html, body {
 }
 
 .kucuk-yildizlar .yildiz {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
+}
+
+/* Giriş ekranı: oyun açılınca ilk gelen sade ekran. Ad yerine yer tutucu. */
+.giris {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background: var(--zemin);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.giris.gizli { display: none; }
+
+.giris-kutu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: min(260px, calc(100% - 48px));
+}
+
+.giris-kutu .dugme { width: 100%; }
+
+/* Oyunun adı yerine yer tutucu; boş olduğu görünsün diye kesik çerçeveli. */
+.giris-ad {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--mor);
+  opacity: 0.6;
+  border: 2px dashed rgba(78, 36, 112, 0.3);
+  border-radius: 16px;
+  padding: 18px 28px;
+  margin-bottom: 28px;
+}
+
+/* Üst şeridin sağ yanı: sayaçlar ve köşe düğmeleri. */
+.ust-sag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Köşedeki küçük yuvarlak düğmeler (duraklatma, hız). */
+.kose-dugme {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(78, 36, 112, 0.25);
+  background: #fff;
+  color: var(--mor);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Duraklatma işareti: iki dik çizgi. */
+.duraklat-dugme span {
+  width: 4px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--mor);
+}
+
+/* Duraklatma seçenekleri alt alta, eşit genişlikte. */
+.duraklat-kutu {
+  width: min(260px, calc(100% - 48px));
+  gap: 12px;
+}
+
+.duraklat-kutu .dugme { width: 100%; }
+
+/* Hızlandırma açıkken düğme sarı dolu. */
+.hiz-dugme.acik {
+  background: var(--sari);
+  border-color: var(--sari);
 }

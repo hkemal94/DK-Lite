@@ -4,8 +4,7 @@
 
 // ---------- Numaralı bölümler ----------
 
-// Kaç bölüm var. DENEME; sayı Kemal'in kararı
-// (Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
+// Kaç bölüm var. Kemal'in kararı (22 Ekim): ilk sürüm 10 bölüm.
 export const BOLUM_SAYISI = 10;
 
 // Bir bölümün zorluk ayarları.
@@ -19,22 +18,24 @@ export interface BolumZorlugu {
 }
 
 // Zorluk tablosu: sıra bölüm numarasıdır (ilk satır Bölüm 1).
-// Zorluk yavaşça artar: çeşit ve müşteri çoğalır, istek büyür, bant yeri azalır.
-// Bölüm 1 3. paketteki oyundan biraz kolay (o oyun: 4 sütun, 4 çeşit,
-// 12 müşteri, istek 2–4, bant 12; aşağıda Bölüm 4'e denk). Son bölüm biraz zor.
-// Bütün sayılar DENEME DEĞERİDİR; Kemal oynayıp karar verecek.
+// Kemal, 22 Ekim: "bölümlerde zorluk daha yavaş artsın". Artış adımı eskisinin
+// yaklaşık yarısı: her bölümde yalnız bir şey biraz zorlaşır. Bölüm 1 aynı kaldı.
+// Bölüm 1'den 10'a toplam artış: müşteri 8 → 12 (eskiden 16), çeşit 3 → 4 (eskiden 5),
+// sütun 4'te kalır (eskiden 5'e çıkıyordu), istek 2–3 → 3–4, bant yeri 12 → 10 (eskiden 9).
+// Son bölüm eski tablonun 4.–5. bölümü kadar zor.
+// Sayılar DENEME DEĞERİDİR; Kemal oynayıp karar verecek.
 // Satır sayısı BOLUM_SAYISI'ndan azsa son satır sonraki bölümlerde de kullanılır.
 export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
   { sutun: 4, cesit: 3, musteri: 8, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 1
-  { sutun: 4, cesit: 3, musteri: 10, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 2
-  { sutun: 4, cesit: 4, musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 3
-  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 4
-  { sutun: 4, cesit: 4, musteri: 13, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 5
-  { sutun: 4, cesit: 4, musteri: 14, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 6
-  { sutun: 4, cesit: 4, musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 10 }, // 7
-  { sutun: 5, cesit: 5, musteri: 14, istekEnAz: 2, istekEnCok: 4, bantYeri: 10 }, // 8
-  { sutun: 5, cesit: 5, musteri: 15, istekEnAz: 3, istekEnCok: 4, bantYeri: 10 }, // 9
-  { sutun: 5, cesit: 5, musteri: 16, istekEnAz: 3, istekEnCok: 4, bantYeri: 9 }, // 10
+  { sutun: 4, cesit: 3, musteri: 9, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 2: müşteri +1
+  { sutun: 4, cesit: 3, musteri: 9, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 3: istek en çok 4
+  { sutun: 4, cesit: 3, musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 4: müşteri +1
+  { sutun: 4, cesit: 3, musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 5: müşteri +1
+  { sutun: 4, cesit: 4, musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 6: 4. çeşit
+  { sutun: 4, cesit: 4, musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 7: bant yeri −1
+  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 8: müşteri +1
+  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 10 }, // 9: bant yeri −1
+  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 3, istekEnCok: 4, bantYeri: 10 }, // 10: istek en az 3
 ];
 
 // Bölüm numarasına (1'den) göre zorluk.
@@ -75,6 +76,11 @@ export const ORTAK_SIRA_ART_ARDA_EN_COK = 2;
 // Bant bir turu kaç saniyede döner (büyüdükçe yavaşlar; sakin oyuncu için yavaş).
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const BANT_TUR_SANIYE = 12;
+
+// Hızlandırma düğmesine basınca oyun bu kadar kat hızlı akar (bant, erime,
+// müşteri gelişi, uçuşlar). Tekrar basınca normale döner.
+// ÖNERİ (Kemal, 22 Ekim: hızlandırma düğmesi istedi); 2 kat Kemal onaylayınca kesinleşir.
+export const HIZ_KATI = 2;
 
 // Sütundan gönderme biçimi:
 //  'dokun' : sütuna dokununca hemen gider.
@@ -141,12 +147,13 @@ export const GEC_TOP_SOLUKLUK = 0.6;
 // DENEME; Kemal karar verecek (yıldız ölçüsü açık soru).
 export const YILDIZ_ESIKLERI = [0, 0.7, 0.9];
 
-// Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı; tonlar taslak).
+// Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı). Sarı #ffc928, mor #7a3fa8 ve
+// yazıdaki koyu mor #4e2470 Dondurmacı Kızlar ile aynı ton (Kemal, 22 Ekim); öbürleri taslak.
 // Harfler yalnız ayırt etmek için; çeşit adları [Kemal].
 export const CESITLER = [
-  { harf: 'A', renk: '#F2C94C', yazi: '#3B2560' }, // sarı
-  { harf: 'B', renk: '#6E46A8', yazi: '#FFF6DC' }, // mor
-  { harf: 'C', renk: '#C9B2E6', yazi: '#3B2560' }, // lila
-  { harf: 'D', renk: '#FFF3D1', yazi: '#3B2560' }, // açık sarı
+  { harf: 'A', renk: '#ffc928', yazi: '#4e2470' }, // sarı
+  { harf: 'B', renk: '#7a3fa8', yazi: '#FFF6DC' }, // mor
+  { harf: 'C', renk: '#C9B2E6', yazi: '#4e2470' }, // lila
+  { harf: 'D', renk: '#FFF3D1', yazi: '#4e2470' }, // açık sarı
   { harf: 'E', renk: '#B88A1E', yazi: '#FFF6DC' }, // koyu sarı (5. çeşit gerekirse)
 ];
