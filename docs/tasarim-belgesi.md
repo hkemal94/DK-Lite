@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1. paket (çizimsiz deneme oyunu) bitti; 2. paket (erime kuralı) öneri olarak geldi (22 Ekim 2026).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1. ve 2. paket (çizimsiz deneme oyunu, erime kuralı) bitti; 3. paket (sayaçlar ve bölüm sonu) öneri olarak geldi (22 Ekim 2026).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -30,6 +30,22 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.7 Erime biçimi, puan ve 3. paket (Kemal, 22 Ekim 2026; panodaki cevaplar)
+
+Kemal'in cevapları, olduğu gibi:
+- Erime biçimi: "2 tur olsun ama 1. turun sonunda kazanacağın puan %50'ye düşsün"
+- Fazla top: "Şimdiki gibi, istenenin yarısı kadar fazla"
+- Müşteri arası: "1–5 saniye (şu anki)"
+- Sıradaki: "3. paket (sayaçlar ve bölüm sonu: yıldız ekranı, Tekrar oyna, Devam et) şimdi başlasın"
+
+Öneri oyununda böyle denendi (3. paket):
+- Bantta alınmayan top 2. turun sonunda erir; erime düğmesi denemede kalır, başlangıçta "2 tur sonra".
+- Banttan müşteriye giden her top puan getirir (bir topun puanı deneme değeri). 1. turun sonunu geçmiş top alınırsa puanın %50'si. Böyle bir top bantta hafif soluk, alttan biraz erimiş görünür.
+- Puan kuralı her erime biçiminde aynıdır (şefin yorumu; "Erime yok"ta da 1 turu geçen top yarım puan getirir, yalnız erimez).
+- Fazla top oranı 0,5 ve müşteri arası 1–5 saniye artık Kemal'in onayladığı değerlerdir.
+- Üstte sayaçlar (karşılanan / toplam müşteri, puan, bant doluluğu); bölüm sonunda yıldız, puan, Tekrar oyna ve Devam et (kaybedince yalnız Tekrar oyna).
+- Yıldız ölçüsü hâlâ Kemal'in kararı (bölüm 7). Denemede puana göre: en yüksek olası puanın %70'i 2, %90'ı 3 yıldız; kazanınca en az 1. Deneme değeri.
+
 ### 0.6 Müşteri sayısı, sütunda görünen top, fazla top (Kemal, 22 Ekim 2026; panodaki cevaplar)
 
 Kemal'in cevapları, olduğu gibi:
@@ -41,7 +57,7 @@ Kemal'in cevapları, olduğu gibi:
 - Ekranda en çok 5 müşteri yeri. Yerler her an dolu değil: bölüm birkaç müşteriyle (2–3) başlar, ötekiler arayla gelir; giden müşterinin yerine yenisi rastgele birkaç saniye (1–5) sonra gelir.
 - Sütunda görünen top 4; gizli top sayısı yazmaz (0.5 sürüyor).
 - Sütunlarda müşterilerin istediğinden fazla top var (istenenin yarısı kadar fazla); fazlalar çeşitlere eşit dağılır. Bütün müşteriler karşılanınca kazanılır; top artması sorun değil.
-- Erime: bantta alınmayan top seçilen tur sayısından sonra solup kaybolur. Biçim oyun içindeki küçük düğmeyle seçilir ("Erime yok", "1 tur sonra", "2 tur sonra"); hangisinin kalacağı Kemal'in kararı (bölüm 7).
+- Erime: bantta alınmayan top seçilen tur sayısından sonra solup kaybolur. Biçim oyun içindeki küçük düğmeyle seçilir ("Erime yok", "1 tur sonra", "2 tur sonra"); Kemal 0.7'de "2 tur" seçti.
 - Toplar eriyip kalanlar kalan istekleri karşılayamazsa bölüm biter ("Top kalmadı"; basit durum yazısı).
 
 ### 0.5 Sınırlı görünüm (Kemal, 21 Ekim 2026; öneri oyununun ikinci denemesi)
@@ -259,9 +275,10 @@ bölüm türü olarak not edildi (bölüm 4.1).
 
 ### 3.1 Sayaçlar (öneri)
 
-Oyuncu bölümün nerede olduğunu iki sayıdan görür:
+Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 - Karşılanan müşteri / bölümdeki toplam müşteri
-- Bant doluluğu
+- Bant doluluğu (ince çubuk)
+- Puan (0.7)
 
 ---
 
@@ -270,7 +287,7 @@ Oyuncu bölümün nerede olduğunu iki sayıdan görür:
 İlk sürümde yalnız bölümler, yıldız ve harita var (Kemal, 21 Ekim).
 
 - **Bölümler:** numaralı; her bölüm biraz daha zor. İlk sürümde kaç bölüm olacağı [Kemal] (bkz. Kemal'e sorular, 2).
-- **Yıldız:** sayısı ve neye göre verildiği [Kemal] (bkz. Kemal'e sorular, 3). Öneri: kalan hamle ya da hiç erimeden bitirme gibi bir ölçü.
+- **Yıldız:** sayısı ve neye göre verildiği [Kemal] (bkz. Kemal'e sorular, 3). Öneri: kalan hamle ya da hiç erimeden bitirme gibi bir ölçü. Öneri oyununda deneme olarak üç yıldız, puana göre (0.7).
 - **Harita:** bölüm geçildikçe yol üstünde bir sonraki bölüm açılır.
 - **Kayıt:** oyuncunun kaldığı bölüm ve yıldızları telefonda saklanır.
 
@@ -328,8 +345,7 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 İlk sürüm için:
 - Bölüm yolu haritada hangi mahallelerden geçer; nereden başlar, nerede biter? (Kemal'e sorular, 1)
 - İlk sürümde kaç bölüm olacak? (Kemal'e sorular, 2)
-- Yıldız neye göre verilir? (Kemal'e sorular, 3)
-- Erime kuralı: "Erime yok", "1 tur sonra" ya da "2 tur sonra"? Üçü de öneri oyununda düğmeyle denenebilir (0.6); Kemal oynayıp seçer.
+- Yıldız neye göre verilir? (Kemal'e sorular, 3) Öneri oyununda şimdilik puana göre deneme ölçüsü var (0.7).
 - Hangi sezon.
 
 Sonrası için:
@@ -354,7 +370,7 @@ elle denenip değişir.
 
 ## 8. Yapım durumu
 
-Uygulamada **olan**: depo, bu iki belge ve 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`). 2. paket (erime, fazla top, en çok 5 müşteri) öneri PR'ı olarak geldi.
+Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`) ve 2. paket (erime, fazla top, en çok 5 müşteri). 3. paket (sayaçlar, puan, bölüm sonu ve yıldız) öneri PR'ı olarak geldi.
 
 Uygulamada **olmayan**: bu belgedeki her şey. Sıra yol haritasında; ilk
 paket başlayabilir.
@@ -367,4 +383,4 @@ Yapım aşaması ve işler: [Kemal] (KKM'de boş; yol haritası onaylandıkça d
 
 1. DK Lite: Bölüm haritasında yol hangi mahallelerden geçsin? Seçenekler: (a) dükkânın olduğu Liman'dan başlayıp Sahil Yolu boyunca öbür mahallelere, (b) Liman'dan başlayıp Ada Tepesi'ne çıkan, (c) başka bir sıra (sen söyle).
 2. DK Lite: İlk sürümde kaç bölüm olsun? Seçenekler: (a) sayıyı sen ver, (b) öneri oyununu oynadıktan sonra karar ver.
-3. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) öneri oyununu oynadıktan sonra karar ver, (b) hiç erimeden bitirme, (c) kalan bant yeri.
+3. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) şimdiki deneme gibi puana göre, oynayıp eşikleri söylerim, (b) hiç top eritmeden bitirme, (c) kalan bant yeri.

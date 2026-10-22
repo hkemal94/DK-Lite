@@ -84,12 +84,38 @@ export const ERIME_BICIMLERI = [
   { tur: 1, yazi: '1 tur sonra' },
   { tur: 2, yazi: '2 tur sonra' },
 ];
-// Varsayılan biçimin sırası (1: "1 tur sonra").
-export const ERIME_VARSAYILAN = 1;
+// Varsayılan biçimin sırası (2: "2 tur sonra").
+// Kemal, 22 Ekim: "2 tur olsun ama 1. turun sonunda kazanacağın puan %50'ye düşsün".
+export const ERIME_VARSAYILAN = 2;
 
 // Eriyen topun yavaşça solup küçülerek kaybolma süresi (milisaniye).
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const ERIME_MS = 1500;
+
+// ---------- Puan ve yıldız ----------
+
+// Banttan müşteriye giden her top bu kadar puan kazandırır.
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const TOP_PUANI = 10;
+
+// Bantta bu kadar turdan uzun kalmış top alınırsa puanı düşer.
+// Kemal, 22 Ekim: "1. turun sonunda kazanacağın puan %50'ye düşsün".
+export const GEC_TOP_TURU = 1;
+
+// Geç alınan topun puanı tam puanın bu oranıdır.
+// Kemal'in kararı (22 Ekim, "%50"); deneme değeri değil.
+// Kural her erime biçiminde aynıdır ("Erime yok"ta da); yalnız erime değişir.
+export const GEC_TOP_PUAN_ORANI = 0.5;
+
+// Geç kalmış (yarım puanlı) topun bantta solukluğu (1: hiç soluk değil).
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const GEC_TOP_SOLUKLUK = 0.6;
+
+// Yıldız eşikleri: bölümün en yüksek olası puanına (her top tam puanla alınırsa)
+// oranla. Kazanınca en az 1 yıldız; oran 0.7 ve üstüyse 2, 0.9 ve üstüyse 3.
+// Kaybedince yıldız yok.
+// DENEME; Kemal karar verecek (yıldız ölçüsü açık soru).
+export const YILDIZ_ESIKLERI = [0, 0.7, 0.9];
 
 // Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı; tonlar taslak).
 // Harfler yalnız ayırt etmek için; çeşit adları [Kemal].
