@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1. paket (çizimsiz deneme oyunu) yazıldı.
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1. paket (çizimsiz deneme oyunu) bitti; 2. paket (erime kuralı) öneri olarak geldi (22 Ekim 2026).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -29,6 +29,20 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 ## 0. Kararlar
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.6 Müşteri sayısı, sütunda görünen top, fazla top (Kemal, 22 Ekim 2026; panodaki cevaplar)
+
+Kemal'in cevapları, olduğu gibi:
+- Müşteri sayısı: "Maksimum 5 ama her saniye maksimum musteri olmak zorunda degil"
+- Sütunda görünen top: 4 kalsın. Saklı top sayısı: gösterilmesin.
+- Sıradaki iş: "Erime kurali gelirse cok daha fazla top koyulmali ki insanlarin hata yapma luksu olsun"
+
+Öneri oyununda böyle denendi (2. paket; sayılar deneme değeri):
+- Ekranda en çok 5 müşteri yeri. Yerler her an dolu değil: bölüm birkaç müşteriyle (2–3) başlar, ötekiler arayla gelir; giden müşterinin yerine yenisi rastgele birkaç saniye (1–5) sonra gelir.
+- Sütunda görünen top 4; gizli top sayısı yazmaz (0.5 sürüyor).
+- Sütunlarda müşterilerin istediğinden fazla top var (istenenin yarısı kadar fazla); fazlalar çeşitlere eşit dağılır. Bütün müşteriler karşılanınca kazanılır; top artması sorun değil.
+- Erime: bantta alınmayan top seçilen tur sayısından sonra solup kaybolur. Biçim oyun içindeki küçük düğmeyle seçilir ("Erime yok", "1 tur sonra", "2 tur sonra"); hangisinin kalacağı Kemal'in kararı (bölüm 7).
+- Toplar eriyip kalanlar kalan istekleri karşılayamazsa bölüm biter ("Top kalmadı"; basit durum yazısı).
 
 ### 0.5 Sınırlı görünüm (Kemal, 21 Ekim 2026; öneri oyununun ikinci denemesi)
 
@@ -315,7 +329,7 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 - Bölüm yolu haritada hangi mahallelerden geçer; nereden başlar, nerede biter? (Kemal'e sorular, 1)
 - İlk sürümde kaç bölüm olacak? (Kemal'e sorular, 2)
 - Yıldız neye göre verilir? (Kemal'e sorular, 3)
-- Erime kuralı: bir bant turu sonra mı, başka bir ölçüyle mi? Öneri oyununda denenip seçilir.
+- Erime kuralı: "Erime yok", "1 tur sonra" ya da "2 tur sonra"? Üçü de öneri oyununda düğmeyle denenebilir (0.6); Kemal oynayıp seçer.
 - Hangi sezon.
 
 Sonrası için:
@@ -333,14 +347,14 @@ elle denenip değişir.
 
 - **Bir bölümün süresi:** önerilen 1–3 dakika. Gerekçe: Kemal'in oturumu 5–10 dakika; bir oturuma birkaç bölüm sığarsa oyuncu her oturumda ilerleme görür.
 - **Sütun sayısı:** önerilen 3–5 (ilk bölümlerde az, sonra artar). Gerekçe: dik telefon ekranında parmağın rahat dokunacağı genişlik.
-- **Aynı anda bekleyen müşteri:** önerilen 2–4. Gerekçe: sakin oyuncu için ilk bölümlerde az.
+- **Aynı anda bekleyen müşteri:** önerilen 2–4. Gerekçe: sakin oyuncu için ilk bölümlerde az. (0.6 ile en çok 5; yerler her an dolu değil.)
 - İlk sürümdeki bölüm sayısı, yıldız ölçüsü, can sayısı ve dolma süresi: Kemal'in kararı; bu belge sayı önermez.
 
 ---
 
 ## 8. Yapım durumu
 
-Uygulamada **olan**: depo, bu iki belge ve 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`).
+Uygulamada **olan**: depo, bu iki belge ve 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`). 2. paket (erime, fazla top, en çok 5 müşteri) öneri PR'ı olarak geldi.
 
 Uygulamada **olmayan**: bu belgedeki her şey. Sıra yol haritasında; ilk
 paket başlayabilir.

@@ -6,10 +6,20 @@
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const SUTUN_SAYISI = 4;
 
-// Aynı anda bekleyen (görünen) müşteri sayısı. Önerilen aralık 2–4.
-// Kemal, 21 Ekim: "müşteriler çoğalınca yani maksimumda 4-5 taneyi görmem lazım".
+// Ekrandaki müşteri yeri sayısı (aynı anda en çok bu kadar müşteri görünür).
+// Kemal, 22 Ekim: "Maksimum 5 ama her saniye maksimum musteri olmak zorunda degil".
+// Yerler her an dolu değildir: bkz. MUSTERI_GELIS_ARALIGI_SN ve BASTA_MUSTERI.
+export const AYNI_ANDA_MUSTERI = 5;
+
+// Bir müşteri gidince yerine yenisi hemen değil, bu aralıkta rastgele
+// bir bekleyişten sonra gelir (saniye): en az / en çok.
 // Deneme değeri, Kemal oynayıp karar verecek.
-export const AYNI_ANDA_MUSTERI = 4;
+export const MUSTERI_GELIS_ARALIGI_SN = { enAz: 1, enCok: 5 };
+
+// Bölüm başında kaç müşteriyle başlanır: en az / en çok.
+// Ötekiler yukarıdaki aralıkla teker teker gelir.
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const BASTA_MUSTERI = { enAz: 2, enCok: 3 };
 
 // Bölümdeki toplam müşteri sayısı (sırayla gelirler).
 // Bölüm süresi önerisi 1–3 dakika.
@@ -26,6 +36,13 @@ export const CESIT_SAYISI = 4;
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const ISTEK_EN_AZ = 2;
 export const ISTEK_EN_COK = 4;
+
+// Sütunlara müşterilerin istediğinden fazla top konur ki hata yapma payı olsun.
+// Kemal, 22 Ekim: "Erime kurali gelirse cok daha fazla top koyulmali ki
+// insanlarin hata yapma luksu olsun".
+// 0.5: istenen toplamın yarısı kadar fazla top. Fazlalar çeşitlere dengeli dağılır.
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const FAZLA_TOP_ORANI = 0.5;
 
 // Sütunlarda aynı çeşitten üst üste duran en uzun öbek.
 // Deneme değeri, Kemal oynayıp karar verecek.
@@ -57,6 +74,22 @@ export const TEK_SEFERDE_TOP = 1;
 // Kemal, 21 Ekim: "bütün gelecekleri görmemem lazım ... alttan gelmeye devam etmesi lazım".
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const SUTUNDA_GORUNEN_TOP = 4;
+
+// Erime: bantta alınmayan top bu kadar tur sonra erir ve kaybolur (yeri açılır).
+// Tur = bant bir kez döner (BANT_TUR_SANIYE). 0: erime yok.
+// Oyun içindeki küçük düğmeyle biçimler arasında geçilir; Kemal oynayıp seçer.
+// Seçilen biçim bölüm değişince de kalır; sayfa yenilenince varsayılana döner.
+export const ERIME_BICIMLERI = [
+  { tur: 0, yazi: 'Erime yok' },
+  { tur: 1, yazi: '1 tur sonra' },
+  { tur: 2, yazi: '2 tur sonra' },
+];
+// Varsayılan biçimin sırası (1: "1 tur sonra").
+export const ERIME_VARSAYILAN = 1;
+
+// Eriyen topun yavaşça solup küçülerek kaybolma süresi (milisaniye).
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const ERIME_MS = 1500;
 
 // Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı; tonlar taslak).
 // Harfler yalnız ayırt etmek için; çeşit adları [Kemal].

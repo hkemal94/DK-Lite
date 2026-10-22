@@ -5,8 +5,13 @@ import {
   AYNI_ANDA_MUSTERI,
   BANT_TUR_SANIYE,
   BANT_YERI,
+  BASTA_MUSTERI,
   CESITLER,
+  ERIME_BICIMLERI,
+  ERIME_MS,
+  ERIME_VARSAYILAN,
   GONDERME_BICIMI,
+  MUSTERI_GELIS_ARALIGI_SN,
   SUTUNDA_GORUNEN_TOP,
   TUTMA_MS,
 } from './ayarlar';
@@ -25,9 +30,10 @@ interface Nokta {
 interface Top {
   el: HTMLDivElement;
   cesit: number;
-  durum: 'ucuyor' | 'bantta' | 'aliniyor';
+  durum: 'ucuyor' | 'bantta' | 'aliniyor' | 'eriyor';
   yuva: number; // banttaki yeri
-  baslangic: number; // uçuşun başladığı an
+  baslangic: number; // uçuşun (ya da erimenin) başladığı an
+  tur: number; // bantta alınmadan geçirdiği tur (1 = bant bir kez döndü)
   nereden: Nokta;
   musteri: number; // alınıyorsa hangi müşteri yerine
 }
@@ -57,6 +63,24 @@ interface Yerlesim {
   sutunTopBoyu: number;
 }
 
+type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
+
+// Bölüm sonunda görünen basit durum yazısı (kurgu metni değil).
+const SONUC_YAZISI: Record<Sonuc, string> = {
+  kazandin: 'Kazandın',
+  doldu: 'Bant doldu',
+  kalmadi: 'Top kalmadı',
+};
+
+function rastgeleArasi(enAz: number, enCok: number): number {
+  return enAz + Math.random() * (enCok - enAz);
+}
+
+// Bir müşteri yeri boşalınca yenisinin gelmesine kadar geçen süre (ms).
+function gelisBeklemesi(): number {
+  return rastgeleArasi(MUSTERI_GELIS_ARALIGI_SN.enAz, MUSTERI_GELIS_ARALIGI_SN.enCok) * 1000;
+}
+
 export class Oyun {
   private kok: HTMLElement;
   private sahne!: HTMLDivElement;
@@ -66,16 +90,21 @@ export class Oyun {
   private sutunEller: HTMLDivElement[] = [];
   private siraEl!: HTMLDivElement;
   private sonEl!: HTMLDivElement;
+  private erimeEl!: HTMLButtonElement;
 
   private bolum!: Bolum;
   private sutunlar: number[][] = [];
   private musteriYerleri: (MusteriYeri | null)[] = [];
+  // Boş müşteri yerine yenisinin geleceği an (dolu yerde kullanılmaz).
+  private gelisAnlari: number[] = [];
+  // Seçili erime biçiminin sırası; bölüm değişince de kalır.
+  private erimeSirasi = ERIME_VARSAYILAN;
   private siradaki = 0;
   private yuvalar: (Top | null)[] = [];
   private toplar: Top[] = [];
   private kayma = 0; // bandın dönüşü (çevre boyunca)
   private sonAn = 0;
-  private bitti: 'kazandin' | 'doldu' | null = null;
+  private bitti: Sonuc | null = null;
   private y!: Yerlesim;
   private tutmaZamanlayici: number | null = null;
 
@@ -119,6 +148,17 @@ export class Oyun {
       this.musteriEller.push(m);
     }
 
+    // Erime biçimi düğmesi: küçük, köşede; dokundukça sıradaki biçime geçer.
+    this.erimeEl = document.createElement('button');
+    this.erimeEl.className = 'erime-dugme';
+    this.erimeEl.id = 'erime';
+    this.erimeEl.addEventListener('click', () => {
+      this.erimeSirasi = (this.erimeSirasi + 1) % ERIME_BICIMLERI.length;
+      this.erimeYazisi();
+    });
+    this.sahne.appendChild(this.erimeEl);
+    this.erimeYazisi();
+
     this.sonEl = document.createElement('div');
     this.sonEl.className = 'son gizli';
     this.sonEl.id = 'son';
@@ -129,8 +169,28 @@ export class Oyun {
     this.bolum = bolumKur();
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
     this.siradaki = 0;
-    this.musteriYerleri = [];
-    for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) this.musteriYerleri.push(this.siradakiMusteri());
+    // Bölüm birkaç müşteriyle başlar (rastgele yerlerde); ötekiler teker teker gelir.
+    const an = performance.now();
+    this.musteriYerleri = new Array(AYNI_ANDA_MUSTERI).fill(null);
+    this.gelisAnlari = new Array(AYNI_ANDA_MUSTERI).fill(Infinity);
+    const yerler = Array.from({ length: AYNI_ANDA_MUSTERI }, (_, i) => i);
+    for (let i = yerler.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [yerler[i], yerler[j]] = [yerler[j], yerler[i]];
+    }
+    const basta = Math.min(
+      AYNI_ANDA_MUSTERI,
+      BASTA_MUSTERI.enAz + Math.floor(Math.random() * (BASTA_MUSTERI.enCok - BASTA_MUSTERI.enAz + 1)),
+    );
+    let sonraki = an;
+    yerler.forEach((yer, k) => {
+      if (k < basta) {
+        this.musteriYerleri[yer] = this.siradakiMusteri();
+      } else {
+        sonraki += gelisBeklemesi();
+        this.gelisAnlari[yer] = sonraki;
+      }
+    });
     for (const t of this.toplar) t.el.remove();
     this.toplar = [];
     this.yuvalar = new Array(BANT_YERI).fill(null);
@@ -149,6 +209,15 @@ export class Oyun {
     if (this.siradaki >= this.bolum.musteriler.length) return null;
     const m = this.bolum.musteriler[this.siradaki++];
     return { cesit: m.cesit, kalan: m.adet, durum: 'bekliyor', bittigiAn: 0 };
+  }
+
+  private erimeTuru(): number {
+    return ERIME_BICIMLERI[this.erimeSirasi].tur;
+  }
+
+  private erimeYazisi() {
+    this.erimeEl.textContent = `Erime: ${ERIME_BICIMLERI[this.erimeSirasi].yazi}`;
+    this.erimeEl.dataset.tur = String(this.erimeTuru());
   }
 
   private sutunElKur(i: number): HTMLDivElement {
@@ -323,6 +392,8 @@ export class Oyun {
   private musterileriCiz() {
     const y = this.y;
     const kartG = Math.min(110, (y.genislik - 24) / AYNI_ANDA_MUSTERI - 8);
+    // Dar kartta (5 müşteri, 360 px) balonun iç boşluğu ve yazısı küçülür.
+    const dar = kartG < 72 ? ' dar' : '';
     // İstek balonundaki top, dar kartta küçülür ki "×4" yazısı taşmasın.
     const istekBoy = Math.max(20, Math.min(34, Math.floor(kartG - 46)));
     this.musteriYerleri.forEach((m, i) => {
@@ -333,12 +404,12 @@ export class Oyun {
       el.style.width = `${kartG}px`;
       el.innerHTML = '';
       if (!m) {
-        el.className = 'musteri bos';
+        el.className = 'musteri bos' + dar;
         delete el.dataset.cesit;
         delete el.dataset.kalan;
         return;
       }
-      el.className = 'musteri' + (m.durum === 'bitti' ? ' bitti' : '');
+      el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : '');
       el.dataset.cesit = String(m.cesit);
       el.dataset.kalan = String(m.kalan);
       const istek = document.createElement('div');
@@ -454,6 +525,7 @@ export class Oyun {
         baslangic: an,
         nereden,
         musteri: -1,
+        tur: 0,
       };
       this.yuvalar[top.yuva] = top;
       this.toplar.push(top);
@@ -484,6 +556,18 @@ export class Oyun {
       if (t.durum === 'ucuyor' && an - t.baslangic >= UCUS_MS) t.durum = 'bantta';
     }
 
+    // Erime: bantta alınmadan seçili tur sayısı kadar dönen top erimeye başlar.
+    const erimeTuru = this.erimeTuru();
+    for (const t of this.toplar) {
+      if (t.durum !== 'bantta') continue;
+      t.tur += adim / y.cevre;
+      if (erimeTuru > 0 && t.tur >= erimeTuru) {
+        t.durum = 'eriyor';
+        t.baslangic = an;
+        t.el.classList.add('eriyor');
+      }
+    }
+
     // İstediği çeşit önünden geçen müşteri onu alır.
     if (adim > 0) {
       for (let i = 0; i < BANT_YERI; i++) {
@@ -512,41 +596,79 @@ export class Oyun {
       }
     }
 
-    // Alınan toplar müşteriye varınca kaybolur.
+    // Alınan toplar müşteriye varınca, eriyenler solup bitince kaybolur.
+    let eridi = false;
     this.toplar = this.toplar.filter((t) => {
       if (t.durum === 'aliniyor' && an - t.baslangic >= ALIS_MS) {
         t.el.remove();
         return false;
       }
+      if (t.durum === 'eriyor' && an - t.baslangic >= ERIME_MS) {
+        if (this.yuvalar[t.yuva] === t) this.yuvalar[t.yuva] = null; // yeri açılır
+        t.el.remove();
+        eridi = true;
+        return false;
+      }
       return true;
     });
 
-    // İşi biten müşterinin yerine sıradaki gelir.
+    // İşi biten müşteri gider; yeri boş kalır, yenisi rastgele bir bekleyişten sonra gelir.
     for (let m = 0; m < this.musteriYerleri.length; m++) {
       const my = this.musteriYerleri[m];
       if (my && my.durum === 'bitti' && an - my.bittigiAn >= GIDIS_MS) {
-        this.musteriYerleri[m] = this.siradakiMusteri();
+        this.musteriYerleri[m] = null;
+        this.gelisAnlari[m] = an + gelisBeklemesi();
         musteriDegisti = true;
+      }
+      if (!this.musteriYerleri[m] && an >= this.gelisAnlari[m]) {
+        this.gelisAnlari[m] = Infinity;
+        this.musteriYerleri[m] = this.siradakiMusteri();
+        if (this.musteriYerleri[m]) musteriDegisti = true;
       }
     }
     if (musteriDegisti) this.musterileriCiz();
 
-    this.sonucBak();
+    this.sonucBak(eridi);
   }
 
-  private sonucBak() {
+  // Sütunda ve bantta kalan toplar kalan istekleri karşılayabiliyor mu?
+  private toplarYetiyorMu(): boolean {
+    const eldeki: number[] = new Array(CESITLER.length).fill(0);
+    for (const s of this.sutunlar) for (const c of s) eldeki[c]++;
+    for (const t of this.toplar) if (t.durum === 'ucuyor' || t.durum === 'bantta') eldeki[t.cesit]++;
+    const istek: number[] = new Array(CESITLER.length).fill(0);
+    for (const m of this.musteriYerleri) if (m && m.durum === 'bekliyor') istek[m.cesit] += m.kalan;
+    for (let i = this.siradaki; i < this.bolum.musteriler.length; i++) {
+      const m = this.bolum.musteriler[i];
+      istek[m.cesit] += m.adet;
+    }
+    return istek.every((n, c) => eldeki[c] >= n);
+  }
+
+  private sonucBak(eridi: boolean) {
+    // Kazanma: bütün müşteriler karşılandı; bantta ya da sütunda artan top kalabilir.
     const herkesGitti = this.musteriYerleri.every((m) => m === null) &&
       this.siradaki >= this.bolum.musteriler.length;
-    if (herkesGitti && this.toplar.length === 0) {
+    if (herkesGitti && !this.toplar.some((t) => t.durum === 'aliniyor')) {
       this.bitir('kazandin');
       return;
     }
 
+    // Top kalmadı: bir top eridi ve kalanlar (sütun + bant) kalan istekleri artık karşılayamıyor.
+    if (eridi && !this.toplarYetiyorMu()) {
+      this.bitir('kalmadi');
+      return;
+    }
+
     // Bant doldu: bütün yerler dolu, hareket yok ve bantta olanı kimse istemiyor.
+    // Erime açıkken bant kendiliğinden boşalır; o zaman bölüm bununla bitmez.
+    if (this.erimeTuru() > 0) return;
     const dolu = this.yuvalar.every((t) => t !== null);
     if (!dolu) return;
     if (this.toplar.some((t) => t.durum !== 'bantta')) return;
     if (this.musteriYerleri.some((m) => m && m.durum === 'bitti')) return;
+    // Boş bir müşteri yerine yenisi gelecekse beklenir (o, bantta olanı isteyebilir).
+    if (this.musteriYerleri.some((m) => !m) && this.siradaki < this.bolum.musteriler.length) return;
     const istenen = new Set(
       this.musteriYerleri.filter((m): m is MusteriYeri => !!m).map((m) => m.cesit),
     );
@@ -554,7 +676,7 @@ export class Oyun {
     this.bitir('doldu');
   }
 
-  private bitir(sonuc: 'kazandin' | 'doldu') {
+  private bitir(sonuc: Sonuc) {
     this.bitti = sonuc;
     this.sonEl.className = 'son';
     this.sonEl.dataset.sonuc = sonuc;
@@ -563,7 +685,7 @@ export class Oyun {
     kutu.className = 'son-kutu';
     const baslik = document.createElement('div');
     baslik.className = 'son-baslik';
-    baslik.textContent = sonuc === 'kazandin' ? 'Kazandın' : 'Bant doldu';
+    baslik.textContent = SONUC_YAZISI[sonuc];
     const dugme = document.createElement('button');
     dugme.className = 'dugme';
     dugme.textContent = 'Baştan';
@@ -584,6 +706,15 @@ export class Oyun {
       let p: Nokta;
       if (t.durum === 'bantta') {
         p = this.yoldakiNokta(this.kayma + t.yuva * aralik);
+      } else if (t.durum === 'eriyor') {
+        // Bantla dönmeye devam eder; yavaşça solup küçülür.
+        p = this.yoldakiNokta(this.kayma + t.yuva * aralik);
+        const k = Math.min(1, (an - t.baslangic) / ERIME_MS);
+        t.el.style.opacity = String(1 - k);
+        const olcek = 1 - 0.6 * k;
+        t.el.style.transform =
+          `translate(${p.x - y.topBoyu / 2}px, ${p.y - y.topBoyu / 2}px) scale(${olcek})`;
+        continue;
       } else if (t.durum === 'ucuyor') {
         const hedef = this.yoldakiNokta(this.kayma + t.yuva * aralik);
         const k = Math.min(1, (an - t.baslangic) / UCUS_MS);

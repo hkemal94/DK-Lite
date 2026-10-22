@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: 1. paket (çizimsiz öneri oyunu) Kemal'in ikinci denemesine göre düzeltiliyor: sütunlarda yalnız üstteki birkaç top görünür, alttan yenisi gelir; ekranda en çok 4 müşteri (öneri, Kemal birleştirince geçer).
-- Son biten: tek tek gönderme (her dokunuşta tek top).
+- Aşama: 2. paket (erime kuralı) öneri olarak geldi; Kemal birleştirince geçer. Bantta alınmayan top erir; erimenin biçimi oyundaki küçük düğmeyle seçilir. Sütunlarda fazla top var; ekranda en çok 5 müşteri, yerler her an dolu değil.
+- Son biten: 1. paket (çizimsiz öneri oyunu; sınırlı görünüm dahil, 21 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: Kemal yeni hâli telefonda oynar, "doğru his mi?" der; sonra 2. paket (erime kuralı).
+- Sıradaki: Kemal erime biçimlerini telefonda oynayıp birini seçer; sonra 3. paket (sayaçlar ve bölüm sonu).
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -34,7 +34,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 1. Öneri oyunu (oynanabilir en küçük deneme)
 
-- Durum: PR açıldı, Kemal deneyecek (21 Ekim 2026). Kemal oynayıp onaylayınca bitti olur.
+- Durum: bitti. Birleşti (21 Ekim 2026; son düzeltme sınırlı görünüm).
 - Deneme değerleri (karar değil): 4 sütun, sütunda görünen 4 top, aynı anda 4 müşteri, bölümde 12 müşteri (21 Ekim ikinci denemeden sonra; önce 3 ve 8), 4 çeşit (A–D), bir müşteri 2–4 adet ister, bantta 12 yer, bant bir turu 12 saniyede döner, sütuna dokununca gider. Hepsi `src/ayarlar.ts` dosyasında.
 - Ekran: tek ekran, dik.
 - Oynanış: dönen bant ve sütunlar (Seçenek A). Altta sütunlar, ortada dönen bant, üstte müşteriler ve her birinin istediği. Sütuna dokununca en üstteki tek top banda gider (21 Ekim'den beri; önceden en üstteki aynı çeşitlerin hepsi gidiyordu); istediği çeşit önünden geçen müşteri onu alır.
@@ -55,9 +55,18 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 2. Erime kuralı
 
+- Durum: öneri PR'ı geldi (22 Ekim 2026), Kemal deneyecek. Kemal oynayıp bir erime biçimi seçince bitti olur.
 - İçerik: banda giden dondurma alınmazsa erir. Erimenin birkaç biçimi seçilebilir olur (ör. bir bant turu sonra); Kemal oynayıp seçer (Dondurmacı Kızlar'daki "öneri oyunu üzerinden konuşalım" kararı).
 - Nasıl denenir: oyun içinde küçük bir düğmeyle biçimler arasında geçilir.
 - Kimde: Oyun Geliştiricisi.
+- 22 Ekim: Kemal'in panodaki üç cevabına göre (tasarım belgesi 0.6) ne geldi:
+  - Erime: bantta alınmayan top seçilen süre sonunda yavaşça solup küçülür ve kaybolur; yeri açılır. Sol üst köşedeki küçük düğmeye dokundukça biçim değişir: "Erime yok", "1 tur sonra", "2 tur sonra" (tur = bant bir kez döner). Başlangıçta "1 tur sonra". Seçilen biçim bölüm değişince de kalır; sayfa yenilenince başlangıca döner.
+  - Fazla top: sütunlarda müşterilerin istediğinden fazla top var (hata yapma payı); fazlalar çeşitlere eşit dağılır. Bütün müşteriler karşılanınca kazanılır; sütunda ya da bantta top artması sorun değil.
+  - Yeni bitiş: toplar eriyip kalanlar (sütun ve bant) kalan istekleri artık karşılayamazsa bölüm "Top kalmadı" ile biter. Erime açıkken bant kendiliğinden boşaldığı için "Bant doldu" yalnız "Erime yok"ta çıkar.
+  - Müşteriler: ekranda en çok 5 müşteri yeri. Bölüm 2 ya da 3 müşteriyle başlar, ötekiler arayla gelir; bir müşteri gidince yerine yenisi birkaç saniye sonra gelir, yani yerler her an dolu değil. Bölümdeki toplam müşteri 12'de kaldı.
+  - Sütunda görünen top 4'te kaldı; gizli top sayısı yazmaz.
+  - Bölüm kurulurken kazanılabilirlik denetimi fazla toplarla yapılır; denetim erimeyi hesaba katmaz (erime yokmuş gibi dener).
+  - Yeni deneme değerleri (karar değil): aynı anda en çok 5 müşteri, müşteri geliş arası 1–5 saniye, bölüm başında 2–3 müşteri, fazla top oranı 0.5 (istenenin yarısı kadar fazla), eriyen topun solma süresi 1,5 saniye, erime biçimleri 0 / 1 / 2 tur. Hepsi `src/ayarlar.ts` dosyasında.
 
 ### 3. Sayaçlar ve bölüm sonu
 
@@ -116,6 +125,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Kemal'in KKM oyun dosyası (21 Ekim 2026).
 - Depo açıldı; ilk belgeler girdi (21 Ekim 2026).
 - Tasarım kararları ve belgelerin son hâli (21 Ekim 2026). Kod yok.
+- 1. paket: çizimsiz öneri oyunu; tek tek gönderme ve sınırlı görünüm dahil (21 Ekim 2026).
 
 ## Bilinen eksikler
 
@@ -135,12 +145,11 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Bölüm yolunun haritada geçtiği mahalleler.
 - İlk sürümdeki bölüm sayısı.
 - Yıldız ölçüsü.
-- Erime biçimi (2. pakette oynayıp seçilir).
+- Erime biçimi: "Erime yok", "1 tur sonra" ya da "2 tur sonra" (2. paketteki düğmeyle oynayıp seçilir).
 - Hangi sezon.
 - Açıklama, fikir notları, karakter adları, ürün adları.
 - Müzik.
 
 ## Kemal'e sorular
 
-1. DK Lite: 1. paket (çizimsiz öneri oyunu) başlasın mı? Seçenekler: (a) evet, şimdi, (b) önce harita ve bölüm sorularını cevaplayayım.
-2. DK Lite: Paketlerin sırası uygun mu: önce çizimsiz oynanış ve harita (1–5), sonra görsel ve ses (6–8)? Seçenekler: (a) uygun, (b) harita daha önce gelsin, (c) başka bir sıra.
+1. DK Lite: Hangi erime biçimi kalsın? Seçenekler: (a) oynayıp sonra söylerim, (b) "1 tur sonra", (c) "2 tur sonra".
