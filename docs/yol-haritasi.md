@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: gece işleri öneri olarak geldi (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma (öneri), ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Aşama: 5. paket (çizimsiz bölüm haritası) öneri olarak geldi (22 Ekim gecesi; gece işlerinin üstüne kurulu, önce o birleşmeli). Önceki: gece işleri öneri olarak geldi (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma (öneri), ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
 - Son biten: 3. paket ve üstüne ortak saklı yer düzeltmesi (saklı toplar ortak bir yerde; yarım puan yalnız erime açıkken; 22 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: 5. paket (bölüm haritası, çizimsiz). İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
+- Sıradaki: 6. paket (görsel dil denemesi). İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -122,10 +122,21 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 5. Bölüm haritası (çizimsiz)
 
-- İçerik: Düzada'nın kaba biçimi üstünde kıvrılan yol, numaralı bölüm noktaları, kilitli olanlar, kazanılan yıldızlar, Git / Oyna.
-- Yolun geçtiği mahalleler Kemal'in kararına göre (açık soru). Yalnız künyedeki yerler; künyede olmayan yer adı yazılmaz.
+- Durum: öneri olarak geldi (22 Ekim 2026 gecesi). Kemal: "bu gece başlasın". Ayrıntı tasarım belgesi 0.11.
+- İçerik: Düzada'nın kaba biçimi üstünde kıvrılan yol, numaralı bölüm noktaları, kilitli olanlar, kazanılan yıldızlar; bölüme dokununca başlar.
+- Yolun geçtiği mahalleler (Kemal, 22 Ekim): Liman'dan başlar, Sahil Yolu boyunca öbür mahallelere gider. Yalnız künyedeki yerler; künyede olmayan yer adı yazılmaz.
 - Yok: can, altın, seviye, sandık, lig, festival, hediyeler.
 - Kimde: Oyun Geliştiricisi.
+- Ekran görüntüleri (telefon boyutu): `docs/ekran/paket-5/1-harita.png` (390x844, 4 bölüm açık), `2-harita-hepsi-bitti.png` (390x844), `3-harita-360x640.png` (kısa ekran).
+- 22 Ekim gecesi: ne geldi:
+  - Eski "Bölümler" listesinin yerine harita. Giriş ekranındaki, duraklatmadaki, bölüm sonundaki "Bölümler" ve üst şeritteki "Bölüm 3" yazısı haritayı açar.
+  - Bütün ekran deniz rengi; ortada Düzada'nın kaba biçimi (KKM'deki haritadan sadeleştirildi, kuzey yukarıda), mahalle sınırları kesik çizgi.
+  - Yazılar yalnız künyedeki adlar: Liman, Stadyum, Çiftlik, İskele / Kemsköy, Merkez, Ada Tepesi (küçük üçgen), Dondurmacı Kızlar. Bölüm noktalarında yalnız numara.
+  - Yol Sahil Yolu: 1. bölüm Dondurmacı Kızlar'ın önünde; saat yönünde Liman → Stadyum → Çiftlik → İskele; 10. bölüm İskele'de, otelin yakınında. Yön öneri (Kemal'e sorular).
+  - Geçilmiş bölüm koyu mor, altında kazanılan yıldızlar; sıradaki bölüm sarı; kilitli bölüm soluk, dokununca başlamaz. Yolun açılan bölüme kadarki kısmı sarı.
+  - Sol üstte "Geri": harita nereden açıldıysa oraya döner (giriş ekranı, duraklatma seçenekleri, oyun ya da bölüm sonu).
+  - Zeytinlik, kayalık, koylar ve çizim 7. pakette.
+  - Yeni sayı yok.
 
 ### 6. Görsel dil denemesi
 
@@ -170,6 +181,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - 3. paket: sayaçlar, puan, bölüm sonu (yıldız, Tekrar oyna, Devam et) (22 Ekim 2026).
 - Ortak saklı yer düzeltmesi: saklı toplar ortak bir yerde, bir sütun azaldıkça alttan ona gelir; yarım puan yalnız erime açıkken (22 Ekim 2026).
 - Gece işleri (öneri, Kemal birleştirince biter): renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm, daha yavaş zorluk (22 Ekim 2026 gecesi).
+- 5. paket (öneri, Kemal birleştirince biter): çizimsiz bölüm haritası, Geri düğmesi (22 Ekim 2026 gecesi).
 
 ## Bilinen eksikler
 
@@ -186,7 +198,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ## Kemal'in kararını bekleyenler
 
-- Bölüm yolunun haritada geçtiği mahalleler.
+- Bölüm yolunun yönü (öneri: saat yönü, İskele'de biter) ve Merkez'e bölüm konup konmayacağı. Yolun Liman'dan başlayıp Sahil Yolu boyunca gitmesi kararlaştı (22 Ekim).
+- Haritanın ekrandaki duruşu (öneri: kuzey yukarıda).
 - Bölümlerin zorluk artışı: 22 Ekim'de yavaşlatıldı (adım yaklaşık yarıya indi); yeni tablo yine deneme, Kemal oynayıp söyler.
 - Hızlandırma katı: öneri 2 kat; Kemal onaylayınca kesinleşir.
 - Yıldız ölçüsü. Şimdilik deneme: puana göre (en yüksek olası puanın %70'i 2 yıldız, %90'ı 3 yıldız; kazanınca en az 1). Kemal (22 Ekim): "Sonra bakariz simdiki kalsin".
@@ -196,6 +209,10 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Müzik.
 
 ## Kemal'e sorular
+
+DK Lite: Bölüm haritasında yol hangi yönde gitsin? Seçenekler: (a) saat yönünde: Liman → Stadyum → Çiftlik → İskele, son bölüm otelin yakınında (önerilen, şimdi oyunda böyle), (b) ters yönde: Liman → İskele → Çiftlik → Stadyum (feribotun İskele'den Liman'a taşınma bağını izler), (c) başka bir sıra.
+
+DK Lite: Sahil Yolu KKM haritasında Merkez'e girmiyor (künyede beş mahalleden geçer). Haritada Merkez ne olsun? Seçenekler: (a) ortada adıyla durur, bölüm noktası yok (önerilen, şimdi oyunda böyle), (b) son bölüm Merkez'e çıksın (iç yol adsız), (c) önce KKM haritasında Sahil Yolu Merkez'e değsin (KKM işi).
 
 DK Lite: Hızlandırma düğmesi kaç kat hızlandırsın? Seçenekler: (a) 2 kat (önerilen, şimdi oyunda böyle), (b) 1,5 kat, (c) 3 kat.
 

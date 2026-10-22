@@ -23,6 +23,7 @@ import {
 } from './ayarlar';
 import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
 import { bolumKazanildi, hepsiBitti, kayitOku, type Kayit } from './kayit';
+import { haritaCiz } from './harita';
 
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
@@ -75,6 +76,8 @@ interface Yerlesim {
 }
 
 type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
+// Haritada "Geri" nereye döner.
+type HaritaDonus = 'giris' | 'duraklat' | 'yerinde';
 
 // Giriş ekranında oyunun adı yerine duran yer tutucu. Ad Kemal'in.
 const OYUN_ADI_YER_TUTUCU = '[Kemal]';
@@ -112,8 +115,8 @@ export class Oyun {
   private doluKutuEl!: HTMLDivElement;
   private sonEl!: HTMLDivElement;
   private erimeEl!: HTMLButtonElement;
-  private bolumNoEl!: HTMLButtonElement; // üst şeritte "Bölüm 3"; dokununca Bölümler listesi
-  private listeEl!: HTMLDivElement; // Bölümler listesi (harita 5. pakette)
+  private bolumNoEl!: HTMLButtonElement; // üst şeritte "Bölüm 3"; dokununca bölüm haritası
+  private listeEl!: HTMLDivElement; // bölüm haritası ("Bölümler"; 5. paket)
   private girisEl!: HTMLDivElement; // giriş ekranı (oyun açılınca ilk o gelir)
   private duraklatEl!: HTMLButtonElement; // köşedeki duraklatma düğmesi
   private hizEl!: HTMLButtonElement; // hızlandırma düğmesi (basınca HIZ_KATI kat, tekrar basınca normal)
@@ -122,12 +125,15 @@ export class Oyun {
   // Telefonda saklanan kayıt: kaldığı bölüm ve yıldızlar.
   private kayit: Kayit = kayitOku();
   private listeAcik = false;
+  // Haritada "Geri"ye basınca nereye dönülür: giriş ekranı, duraklatma
+  // seçenekleri ya da haritanın açıldığı yer (oyun ya da bölüm sonu).
+  private haritaDonus: HaritaDonus = 'yerinde';
   private girisAcik = false;
   private duraklatildi = false;
   // Hızlandırma açık mı. Bölüm değişince de kalır; sayfa yenilenince normale döner.
   private hizli = false;
   // Oyunun kendi saati (milisaniye). Yalnız oyun akarken ilerler; duraklatınca,
-  // giriş ekranında ve Bölümler listesinde durur. Uçuşlar, erime, müşteri
+  // giriş ekranında ve bölüm haritasında durur. Uçuşlar, erime, müşteri
   // gelişleri hep bu saate göre; böylece duraklatınca hiçbir şey kaçmaz.
   private oyunAn = 0;
 
@@ -222,11 +228,11 @@ export class Oyun {
       this.erimeSirasi = (this.erimeSirasi + 1) % ERIME_BICIMLERI.length;
       this.erimeYazisi();
     });
-    // Bölüm numarası (ad yok). Dokununca Bölümler listesi açılır.
+    // Bölüm numarası (ad yok). Dokununca bölüm haritası açılır.
     this.bolumNoEl = document.createElement('button');
     this.bolumNoEl.className = 'bolum-no';
     this.bolumNoEl.id = 'bolum-no';
-    this.bolumNoEl.addEventListener('click', () => this.listeAc());
+    this.bolumNoEl.addEventListener('click', () => this.listeAc('yerinde'));
     const sol = document.createElement('div');
     sol.className = 'ust-sol';
     sol.append(this.bolumNoEl, this.erimeEl);
@@ -260,7 +266,7 @@ export class Oyun {
     this.kok.appendChild(this.sonEl);
 
     this.listeEl = document.createElement('div');
-    this.listeEl.className = 'liste gizli';
+    this.listeEl.className = 'liste harita-ekran gizli';
     this.listeEl.id = 'liste';
     this.kok.appendChild(this.listeEl);
 
@@ -283,7 +289,7 @@ export class Oyun {
       menuDugme('Baştan başla', 'tekrar', 'menu-bastan', () => this.yenidenBasla(this.bolum.no)),
       menuDugme('Bölümler', 'tekrar', 'menu-bolumler', () => {
         this.duraklatMenuKapat();
-        this.listeAc();
+        this.listeAc('duraklat');
       }),
     );
     this.duraklatMenuEl.appendChild(menuKutu);
@@ -303,16 +309,16 @@ export class Oyun {
     basla.id = 'giris-basla';
     basla.textContent = 'Başla';
     // Kaldığı bölüm (açılan en ileri bölüm) baştan başlar; bütün bölümler
-    // bittiyse Bölümler listesi açılır.
+    // bittiyse bölüm haritası açılır.
     basla.addEventListener('click', () => {
-      if (hepsiBitti(this.kayit)) this.listeAc();
+      if (hepsiBitti(this.kayit)) this.listeAc('giris');
       else this.yenidenBasla(this.kayit.acik);
     });
     const bolumler = document.createElement('button');
     bolumler.className = 'dugme tekrar';
     bolumler.id = 'giris-bolumler';
     bolumler.textContent = 'Bölümler';
-    bolumler.addEventListener('click', () => this.listeAc());
+    bolumler.addEventListener('click', () => this.listeAc('giris'));
     girisKutu.append(ad, basla, bolumler);
     this.girisEl.appendChild(girisKutu);
     this.kok.appendChild(this.girisEl);
@@ -799,7 +805,7 @@ export class Oyun {
   }
 
   // Her karede oyunun saati, geçen gerçek süre kadar (hızlıyken HIZ_KATI katı) ilerler (duraklatınca,
-  // giriş ekranında ve Bölümler listesinde durur). Bölüm bitince de saat akar
+  // giriş ekranında ve bölüm haritasında durur). Bölüm bitince de saat akar
   // ki havadaki toplar yerine varsın; oynanış (ilerlet) o zaman zaten durur.
   private kare(an: number) {
     const gercekDt = this.sonAn ? Math.min(0.05, (an - this.sonAn) / 1000) : 0;
@@ -1013,73 +1019,52 @@ export class Oyun {
       }
       dugmeler.append(
         dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)),
-        // Sonraki bölüm; son bölümdeyse Bölümler listesi.
-        dugme('Devam et', 'devam', () => (sonBolum ? this.listeAc() : this.yenidenBasla(no + 1))),
+        // Sonraki bölüm; son bölümdeyse bölüm haritası.
+        dugme('Devam et', 'devam', () => (sonBolum ? this.listeAc('yerinde') : this.yenidenBasla(no + 1))),
       );
     } else {
       dugmeler.append(dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)));
     }
     kutu.appendChild(dugmeler);
-    // Listeye dönüş için küçük bir yol.
+    // Bölüm haritasına dönüş için küçük bir yol.
     const listeYolu = document.createElement('button');
     listeYolu.className = 'liste-yolu';
     listeYolu.textContent = 'Bölümler';
-    listeYolu.addEventListener('click', () => this.listeAc());
+    listeYolu.addEventListener('click', () => this.listeAc('yerinde'));
     kutu.appendChild(listeYolu);
     this.sonEl.appendChild(kutu);
   }
 
-  // ---------- Bölümler listesi ----------
-  // Çok sade bir ızgara (harita 5. pakette): numara ve kazanılan yıldızlar;
+  // ---------- Bölüm haritası ("Bölümler"; 5. paket) ----------
+  // Düzada'nın kaba biçimi üstünde Sahil Yolu ve numaralı bölüm noktaları;
   // kilitli olanlar soluk ve dokununca başlamaz; açık olana dokununca başlar.
+  // "Geri" haritanın açıldığı yere döner.
 
-  listeAc() {
+  listeAc(donus: HaritaDonus) {
+    this.haritaDonus = donus;
     this.listeAcik = true;
-    this.listeEl.className = 'liste';
+    this.listeEl.className = 'liste harita-ekran';
     this.listeEl.innerHTML = '';
-    const kutu = document.createElement('div');
-    kutu.className = 'liste-kutu';
-    const baslik = document.createElement('div');
-    baslik.className = 'liste-baslik';
-    baslik.textContent = 'Bölümler';
-    kutu.appendChild(baslik);
-    if (hepsiBitti(this.kayit)) {
-      const durum = document.createElement('div');
-      durum.className = 'liste-durum';
-      durum.id = 'hepsi-bitti';
-      durum.textContent = HEPSI_BITTI_YAZISI;
-      kutu.appendChild(durum);
-    }
-    const izgara = document.createElement('div');
-    izgara.className = 'izgara';
-    for (let no = 1; no <= BOLUM_SAYISI; no++) {
-      const d = document.createElement('button');
-      const kilitli = no > this.kayit.acik;
-      const yildiz = this.kayit.yildizlar[no - 1] ?? 0;
-      d.className = 'bolum-dugme' + (kilitli ? ' kilitli' : '');
-      d.dataset.no = String(no);
-      d.dataset.yildiz = String(yildiz);
-      if (kilitli) d.setAttribute('aria-disabled', 'true');
-      const sayi = document.createElement('span');
-      sayi.className = 'bolum-sayi';
-      sayi.textContent = String(no);
-      const yildizlar = document.createElement('span');
-      yildizlar.className = 'kucuk-yildizlar';
-      for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) yildizlar.appendChild(yildizCiz(k < yildiz));
-      d.append(sayi, yildizlar);
-      d.addEventListener('click', () => {
-        if (no > this.kayit.acik) return; // kilitli: başlamaz
-        this.yenidenBasla(no);
-      });
-      izgara.appendChild(d);
-    }
-    kutu.appendChild(izgara);
-    this.listeEl.appendChild(kutu);
+    this.listeEl.appendChild(
+      haritaCiz(this.kayit, yildizCiz, {
+        bolumSec: (no) => this.yenidenBasla(no),
+        geri: () => this.haritaGeri(),
+        bittiYazisi: hepsiBitti(this.kayit) ? HEPSI_BITTI_YAZISI : null,
+      }),
+    );
+  }
+
+  // Haritadan geri: giriş ekranı ve bölüm sonu haritanın altında açık durur;
+  // duraklatmadan gelindiyse seçenekler yeniden çıkar (oyun duraklı kalır);
+  // oyun sırasında açıldıysa oyun kaldığı yerden sürer.
+  private haritaGeri() {
+    this.listeKapat();
+    if (this.haritaDonus === 'duraklat' && this.duraklatildi) this.duraklatMenuEl.className = 'son';
   }
 
   private listeKapat() {
     this.listeAcik = false;
-    this.listeEl.className = 'liste gizli';
+    this.listeEl.className = 'liste harita-ekran gizli';
     this.listeEl.innerHTML = '';
   }
 

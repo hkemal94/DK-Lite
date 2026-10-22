@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1., 2. ve 3. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu) ve ortak saklı yer düzeltmesi bitti; 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim 2026). Gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) öneri olarak geldi (22 Ekim 2026 gecesi).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1., 2. ve 3. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu) ve ortak saklı yer düzeltmesi bitti; 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim 2026). Gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) öneri olarak geldi (22 Ekim 2026 gecesi). 5. paket (çizimsiz bölüm haritası; 0.11) öneri olarak geldi (22 Ekim 2026 gecesi).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -29,6 +29,28 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 ## 0. Kararlar
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.11 Bölüm haritası, çizimsiz (Kemal, 22 Ekim 2026; panodaki soru turu)
+
+Kemal'in kararları (CEO iletti):
+- Harita Düzada'ya uyarlanır: Ege; zeytin, kayalık, koylar; yanardağ ve palmiye yok.
+- Yol dükkânın olduğu Liman'dan başlar, Sahil Yolu boyunca öbür mahallelere gider (Kemal'e sorular 1'in (a) seçeneği; soru kapandı).
+- 5. paket çizimsiz: basit şekiller ve renklerle bölüm haritası. Bölüm noktaları, yol, mahalle adları künyedeki gibi. Yeni yer adı yazılmaz; adı olmayan yer adsız kalır.
+- Kilitli ve açık bölümler, kazanılan yıldızlar görünür; bir bölüme dokununca o bölüm başlar.
+- Giriş ekranındaki "Bölümler" ve duraklatmadaki "Bölümler" bu haritayı açar; haritada geri dönüş düğmesi olur.
+
+Öneri oyununda böyle yapıldı:
+- Eski "Bölümler" listesinin (numaralı kutular) yerine harita geldi. Her yerdeki "Bölümler" (giriş ekranı, duraklatma, üst şeritteki "Bölüm 3" yazısı, bölüm sonu) haritayı açar.
+- Ekran: bütün zemin deniz rengi (açık mavi). Ortada Düzada'nın kaba biçimi, açık zeytin yeşiline çalan toprak rengi; mahalle sınırları beyaz kesik çizgi. Adanın biçimi, mahalle sınırları, Sahil Yolu, Ada Tepesi ve Dondurmacı Kızlar'ın yeri KKM'deki Düzada haritasından bir kez alınıp sadeleştirildi (`src/haritaVerisi.ts`, üreten `araclar/haritaUret.mjs`). Kuzey yukarıda.
+- Yazılar yalnız künyedeki adlar: mahalleler "Liman", "Stadyum", "Çiftlik", "İskele / Kemsköy", "Merkez"; zirve "Ada Tepesi" (küçük üçgen); dükkân "Dondurmacı Kızlar". Başka yer adı yok; bölüm noktalarında yalnız numara.
+- Yol: Sahil Yolu, 1. bölüm Dondurmacı Kızlar'ın önünde (Liman). Yol saat yönünde gider: Liman → Stadyum → Çiftlik → İskele; 10. bölüm İskele'de, The Imperial Kemsköy'ün yakınında biter (otelin adı haritada yazmaz). 10 nokta yol boyunca eşit aralıklı: 1–3 Liman, 4–5 Stadyum, 6–7 Çiftlik, 8–10 İskele tarafında. Yön öneridir (Kemal'e sorular 1).
+- Yolun açılan en ileri bölüme kadarki kısmı sarı, kalanı beyaz.
+- Bölüm noktaları: yuvarlak, içinde numara. Geçilmiş bölüm koyu mor, altında kazanılan yıldızlar (3 küçük yıldız, kazanılanlar sarı). Sıradaki (açık ama henüz kazanılmamış) bölüm sarı, çevresinde hafif sarı hale. Kilitli bölüm soluk; yıldızı görünmez, dokununca başlamaz.
+- Bir bölüme dokununca o bölüm baştan başlar, harita kapanır.
+- Sol üstte "Geri" düğmesi (ok ve yazı). Harita nereden açıldıysa oraya döner: giriş ekranından açıldıysa giriş ekranına; duraklatmadan açıldıysa duraklatma seçeneklerine (oyun duraklı kalır); oyun sırasında üst şeritteki "Bölüm 3"ten açıldıysa oyun kaldığı yerden sürer (harita açıkken oyunun saati durur); bölüm sonundan açıldıysa bölüm sonu ekranına.
+- Bütün bölümler bittiyse başlığın altında "Bütün bölümler bitti" yazar (eskisi gibi).
+- Zeytinlik, kayalık, koylar ve çizim 7. pakette (görsellerin oyuna girmesi); bu pakette yalnız renk ve şekil.
+- Ekran görüntüleri: `docs/ekran/paket-5/` (390x844: 4 bölüm açık; bütün bölümler bitmiş; 360x640 kısa ekran).
 
 ### 0.10 Gece işleri: renk, giriş, duraklatma, hız, bölüm sayısı ve zorluk (Kemal, 22 Ekim 2026; panodaki istekler)
 
@@ -297,7 +319,8 @@ künyede yazanlardır (KKM `docs/03-duzada-kunyesi.md`), yazdığı kadarıyla:
 Kurallar:
 - Taslaktaki yanardağ, palmiye, tropik bitki, şelale ve saz damlı kulübe çizilmez.
 - Künyede olmayan bir yer adı haritaya yazılmaz; gerekirse yer [Kemal] diye boş kalır.
-- Bölüm yolunun hangi mahallelerden geçeceği, nereden başlayıp nerede biteceği: [Kemal] (bkz. Kemal'e sorular, 1).
+- Bölüm yolu (Kemal, 22 Ekim; 0.11): dükkânın olduğu Liman'dan başlar, Sahil Yolu boyunca öbür mahallelere gider. Yönü öneri: saat yönünde, İskele'de biter (Kemal'e sorular 1).
+- Sahil Yolu künyede beş mahalleden geçer; KKM haritasında halka Liman, Stadyum, Çiftlik ve İskele'den geçiyor, Merkez'in sınırına girmiyor. Haritada Merkez adıyla ortada durur, bölüm noktası yok (Kemal'e sorular 2).
 - Bölüm noktalarına yer adı yazılır mı, yalnız numara mı: [Kemal]; ilk sürümde yalnız numara.
 
 ---
@@ -392,7 +415,7 @@ kapananlar (DK'nın ne olduğu, görsel stil, palet, oynanış seçeneği,
 haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı.
 
 İlk sürüm için:
-- Bölüm yolu haritada hangi mahallelerden geçer; nereden başlar, nerede biter? (Kemal'e sorular, 1)
+- Bölüm yolunun yönü (saat yönü mü, ters mi) ve Merkez'e bölüm konup konmayacağı (Kemal'e sorular, 1 ve 2). Yolun Liman'dan başlayıp Sahil Yolu boyunca gitmesi kararlaştı (0.11).
 - İlk sürümde kaç bölüm olacak? (Kemal'e sorular, 2)
 - Yıldız neye göre verilir? (Kemal'e sorular, 3) Öneri oyununda şimdilik puana göre deneme ölçüsü var (0.7). Kemal (0.8): "Sonra bakariz simdiki kalsin"; soru ertelendi.
 - Hangi sezon.
@@ -419,7 +442,7 @@ elle denenip değişir.
 
 ## 8. Yapım durumu
 
-Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`), 2. paket (erime, fazla top, en çok 5 müşteri), 3. paket (sayaçlar, puan, bölüm sonu ve yıldız) ve ortak saklı yer ile "yarım puan yalnız erime açıkken" (0.8). 4. paket (numaralı bölümler, kayıt, Bölümler listesi; 0.9) öneri olarak geldi. Gece işleri (Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, 10 bölüm ve daha yavaş artan zorluk; 0.10) öneri olarak geldi.
+Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`), 2. paket (erime, fazla top, en çok 5 müşteri), 3. paket (sayaçlar, puan, bölüm sonu ve yıldız) ve ortak saklı yer ile "yarım puan yalnız erime açıkken" (0.8). 4. paket (numaralı bölümler, kayıt, Bölümler listesi; 0.9) öneri olarak geldi. Gece işleri (Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, 10 bölüm ve daha yavaş artan zorluk; 0.10) öneri olarak geldi. 5. paket (çizimsiz bölüm haritası; 0.11) öneri olarak geldi.
 
 Uygulamada **olmayan**: bu belgedeki her şey. Sıra yol haritasında; ilk
 paket başlayabilir.
@@ -430,7 +453,9 @@ Yapım aşaması ve işler: [Kemal] (KKM'de boş; yol haritası onaylandıkça d
 
 ## Kemal'e sorular
 
-1. DK Lite: Bölüm haritasında yol hangi mahallelerden geçsin? Seçenekler: (a) dükkânın olduğu Liman'dan başlayıp Sahil Yolu boyunca öbür mahallelere, (b) Liman'dan başlayıp Ada Tepesi'ne çıkan, (c) başka bir sıra (sen söyle).
-2. DK Lite: İlk sürümde kaç bölüm olsun? Kapandı (Kemal, 22 Ekim: 10 bölüm).
+1. DK Lite: Bölüm haritasında yol hangi yönde gitsin? Seçenekler: (a) saat yönünde: Liman → Stadyum → Çiftlik → İskele; son bölüm İskele'de, The Imperial Kemsköy'ün yakınında (önerilen, şimdi oyunda böyle; projenin başlangıç noktası olan otelde bitmesi için), (b) ters yönde: Liman → İskele → Çiftlik → Stadyum (künyede feribot İskele'den Liman'a taşındı; yol o eski bağı izler), (c) başka bir sıra (sen söyle). Kapanan eski soru: yol Liman'dan başlayıp Sahil Yolu boyunca gider (Kemal, 22 Ekim).
+2. DK Lite: Künyede Sahil Yolu beş mahalleden geçer, ama KKM haritasında halka Merkez'e girmiyor. Haritada Merkez ne olsun? Seçenekler: (a) şimdiki gibi: Merkez ortada adıyla durur, bölüm noktası yok (önerilen; haritada olmayan bir yol çizilmez), (b) son bölüm Merkez'e çıksın (iç yol haritada adsız kalır), (c) önce KKM haritasında Sahil Yolu Merkez'e de değsin (KKM işi, Teknik).
+3. DK Lite: Harita ekranda nasıl dursun? Seçenekler: (a) kuzey yukarıda, ada ekran genişliğinde (önerilen, şimdi oyunda böyle; KKM'deki haritayla aynı yön), (b) ada dik çevrilsin, ekranı daha çok doldursun (kuzey sağda kalır).
 4. DK Lite: Hızlandırma düğmesi kaç kat hızlandırsın? Seçenekler: (a) 2 kat (önerilen, şimdi oyunda böyle), (b) 1,5 kat, (c) 3 kat.
-3. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) şimdiki deneme gibi puana göre, oynayıp eşikleri söylerim, (b) hiç top eritmeden bitirme, (c) kalan bant yeri. Ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin").
+5. DK Lite: İlk sürümde kaç bölüm olsun? Kapandı (Kemal, 22 Ekim: 10 bölüm).
+6. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) şimdiki deneme gibi puana göre, oynayıp eşikleri söylerim, (b) hiç top eritmeden bitirme, (c) kalan bant yeri. Ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin").
