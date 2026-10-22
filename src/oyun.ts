@@ -10,10 +10,15 @@ import {
   ERIME_BICIMLERI,
   ERIME_MS,
   ERIME_VARSAYILAN,
+  GEC_TOP_PUAN_ORANI,
+  GEC_TOP_SOLUKLUK,
+  GEC_TOP_TURU,
   GONDERME_BICIMI,
   MUSTERI_GELIS_ARALIGI_SN,
   SUTUNDA_GORUNEN_TOP,
+  TOP_PUANI,
   TUTMA_MS,
+  YILDIZ_ESIKLERI,
 } from './ayarlar';
 import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
 
@@ -34,6 +39,7 @@ interface Top {
   yuva: number; // banttaki yeri
   baslangic: number; // uçuşun (ya da erimenin) başladığı an
   tur: number; // bantta alınmadan geçirdiği tur (1 = bant bir kez döndü)
+  gec: boolean; // GEC_TOP_TURU'nu geçti: alınırsa puanı düşük
   nereden: Nokta;
   musteri: number; // alınıyorsa hangi müşteri yerine
 }
@@ -61,13 +67,16 @@ interface Yerlesim {
   sutunlarAlt: number;
   sutunGenislik: number;
   sutunTopBoyu: number;
+  kartG: number; // müşteri kartının eni
+  kartUst: number; // müşteri kartlarının üst kenarı
+  istekBoy: number; // istek balonundaki topun boyu
 }
 
 type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
 
 // Bölüm sonunda görünen basit durum yazısı (kurgu metni değil).
 const SONUC_YAZISI: Record<Sonuc, string> = {
-  kazandin: 'Kazandın',
+  kazandin: 'Bölüm tamamlandı',
   doldu: 'Bant doldu',
   kalmadi: 'Top kalmadı',
 };
@@ -88,7 +97,11 @@ export class Oyun {
   private yuvaEller: HTMLDivElement[] = [];
   private musteriEller: HTMLDivElement[] = [];
   private sutunEller: HTMLDivElement[] = [];
-  private siraEl!: HTMLDivElement;
+  private ustEl!: HTMLDivElement; // üst şerit: erime düğmesi ve sayaçlar
+  private karsilananEl!: HTMLSpanElement;
+  private puanEl!: HTMLSpanElement;
+  private doluEl!: HTMLDivElement; // bant doluluğu çubuğunun dolu kısmı
+  private doluKutuEl!: HTMLDivElement;
   private sonEl!: HTMLDivElement;
   private erimeEl!: HTMLButtonElement;
 
@@ -100,6 +113,8 @@ export class Oyun {
   // Seçili erime biçiminin sırası; bölüm değişince de kalır.
   private erimeSirasi = ERIME_VARSAYILAN;
   private siradaki = 0;
+  private karsilanan = 0; // işi biten müşteri sayısı
+  private puan = 0;
   private yuvalar: (Top | null)[] = [];
   private toplar: Top[] = [];
   private kayma = 0; // bandın dönüşü (çevre boyunca)
@@ -126,9 +141,36 @@ export class Oyun {
     this.sahne.className = 'sahne';
     this.kok.appendChild(this.sahne);
 
-    this.siraEl = document.createElement('div');
-    this.siraEl.className = 'sira';
-    this.sahne.appendChild(this.siraEl);
+    // Üst şerit: solda erime düğmesi, sağda sayaçlar (karşılanan müşteri, puan, bant).
+    this.ustEl = document.createElement('div');
+    this.ustEl.className = 'ust';
+    this.sahne.appendChild(this.ustEl);
+    const sayaclar = document.createElement('div');
+    sayaclar.className = 'sayaclar';
+    const sayac = (etiket: string, id: string) => {
+      const k = document.createElement('div');
+      k.className = 'sayac';
+      k.id = id;
+      const e = document.createElement('span');
+      e.className = 'sayac-etiket';
+      e.textContent = etiket;
+      k.appendChild(e);
+      sayaclar.appendChild(k);
+      return k;
+    };
+    this.karsilananEl = document.createElement('span');
+    this.karsilananEl.className = 'sayac-deger';
+    sayac('Müşteri', 'sayac-musteri').appendChild(this.karsilananEl);
+    this.puanEl = document.createElement('span');
+    this.puanEl.className = 'sayac-deger';
+    sayac('Puan', 'sayac-puan').appendChild(this.puanEl);
+    this.doluKutuEl = sayac('Bant', 'sayac-bant') as HTMLDivElement;
+    const cubuk = document.createElement('div');
+    cubuk.className = 'cubuk';
+    this.doluEl = document.createElement('div');
+    this.doluEl.className = 'cubuk-dolu';
+    cubuk.appendChild(this.doluEl);
+    this.doluKutuEl.appendChild(cubuk);
 
     this.bantEl = document.createElement('div');
     this.bantEl.className = 'bant';
@@ -156,7 +198,7 @@ export class Oyun {
       this.erimeSirasi = (this.erimeSirasi + 1) % ERIME_BICIMLERI.length;
       this.erimeYazisi();
     });
-    this.sahne.appendChild(this.erimeEl);
+    this.ustEl.append(this.erimeEl, sayaclar);
     this.erimeYazisi();
 
     this.sonEl = document.createElement('div');
@@ -165,10 +207,13 @@ export class Oyun {
     this.kok.appendChild(this.sonEl);
   }
 
-  yenidenBasla() {
-    this.bolum = bolumKur();
+  // Yeni bölüm kurar. `ayniBolum` verilirse aynı dizilim baştan oynanır (Tekrar oyna).
+  yenidenBasla(ayniBolum?: Bolum) {
+    this.bolum = ayniBolum ?? bolumKur();
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
     this.siradaki = 0;
+    this.karsilanan = 0;
+    this.puan = 0;
     // Bölüm birkaç müşteriyle başlar (rastgele yerlerde); ötekiler teker teker gelir.
     const an = performance.now();
     this.musteriYerleri = new Array(AYNI_ANDA_MUSTERI).fill(null);
@@ -203,6 +248,32 @@ export class Oyun {
 
     this.yerlesimHesapla();
     this.sabitleriCiz();
+    this.sayaclariCiz();
+  }
+
+  // Bölümün en yüksek olası puanı: her istenen top tam puanla alınırsa.
+  private enYuksekPuan(): number {
+    return this.bolum.musteriler.reduce((a, m) => a + m.adet, 0) * TOP_PUANI;
+  }
+
+  // Kazanınca yıldız sayısı (deneme ölçüsü; Kemal karar verecek).
+  private yildizSayisi(): number {
+    const oran = this.puan / Math.max(1, this.enYuksekPuan());
+    return YILDIZ_ESIKLERI.filter((e) => oran >= e - 1e-9).length;
+  }
+
+  private sayaclariCiz() {
+    const toplam = this.bolum.musteriler.length;
+    this.karsilananEl.textContent = `${this.karsilanan} / ${toplam}`;
+    this.karsilananEl.dataset.karsilanan = String(this.karsilanan);
+    this.karsilananEl.dataset.toplam = String(toplam);
+    this.puanEl.textContent = String(Math.round(this.puan * 10) / 10);
+    this.puanEl.dataset.puan = String(this.puan);
+    const dolu = this.yuvalar.filter((t) => t !== null).length;
+    this.doluEl.style.width = `${(100 * dolu) / BANT_YERI}%`;
+    this.doluKutuEl.dataset.dolu = String(dolu);
+    this.doluKutuEl.dataset.yer = String(BANT_YERI);
+    this.doluKutuEl.classList.toggle('dolu', dolu >= BANT_YERI);
   }
 
   private siradakiMusteri(): MusteriYeri | null {
@@ -254,14 +325,32 @@ export class Oyun {
 
   // ---------- yerleşim ----------
 
+  // Yukarıdan aşağı sırayla: üst şerit, müşteri kartları, bant, sütunlar.
+  // Her parça bir öncekinin altından başlar; kısa ekranda (ör. 360x640) bant
+  // basıklaşır ki sütunlara yer kalsın ve hiçbir şey birbirine binmesin.
   private yerlesimHesapla() {
     const g = this.sahne.clientWidth;
     const h = this.sahne.clientHeight;
     const kalinlik = Math.round(Math.min(48, g * 0.12));
     const bantX = 18 + kalinlik / 2;
     const bantG = g - 2 * bantX;
-    const bantY = h * 0.25;
-    const bantY2 = Math.min(h * 0.24, bantG * 0.62);
+
+    const ustAlt = this.ustEl.offsetHeight;
+    const kartG = Math.min(110, (g - 24) / AYNI_ANDA_MUSTERI - 8);
+    const dar = kartG < 72;
+    const istekBoy = Math.max(20, Math.min(34, Math.floor(kartG - 46)));
+    // Kart: istek balonu (top + iç boşluk) + aralık + kişi kutusu (44).
+    const kartYuk = istekBoy + (dar ? 8 : 12) + 6 + 44;
+    const kartUst = ustAlt + 6;
+    const kartAlt = kartUst + kartYuk;
+
+    const bantY = Math.max(h * 0.25, kartAlt + 12 + kalinlik / 2);
+    // Sütunlara en az bu kadar yer kalsın: görünen toplar için 36 px'lik yer.
+    const sutunEnAz = SUTUNDA_GORUNEN_TOP * 36 + 20;
+    const bantY2 = Math.max(
+      40,
+      Math.min(h * 0.24, bantG * 0.62, h - 16 - sutunEnAz - 24 - kalinlik / 2 - bantY),
+    );
     const r = bantY2 / 2;
     const duz = bantG - bantY2;
     const cevre = 2 * duz + 2 * Math.PI * r;
@@ -272,7 +361,7 @@ export class Oyun {
     const musteriYolu: number[] = [];
     for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) {
       const x = 12 + ((g - 24) * (i + 0.5)) / AYNI_ANDA_MUSTERI;
-      musteriNoktalari.push({ x, y: h * 0.12 });
+      musteriNoktalari.push({ x, y: kartUst + istekBoy / 2 + 4 });
       musteriYolu.push(this.enYakinYol({ x, y: bantY - 40 }, bantX, bantY, bantG, bantY2));
     }
 
@@ -302,6 +391,9 @@ export class Oyun {
       sutunlarAlt,
       sutunGenislik,
       sutunTopBoyu,
+      kartG,
+      kartUst,
+      istekBoy,
     };
   }
 
@@ -391,16 +483,15 @@ export class Oyun {
 
   private musterileriCiz() {
     const y = this.y;
-    const kartG = Math.min(110, (y.genislik - 24) / AYNI_ANDA_MUSTERI - 8);
-    // Dar kartta (5 müşteri, 360 px) balonun iç boşluğu ve yazısı küçülür.
+    const { kartG, istekBoy } = y;
+    // Dar kartta (5 müşteri, 360 px) balonun iç boşluğu ve yazısı küçülür;
+    // istek balonundaki top da küçülür ki "×4" yazısı taşmasın.
     const dar = kartG < 72 ? ' dar' : '';
-    // İstek balonundaki top, dar kartta küçülür ki "×4" yazısı taşmasın.
-    const istekBoy = Math.max(20, Math.min(34, Math.floor(kartG - 46)));
     this.musteriYerleri.forEach((m, i) => {
       const el = this.musteriEller[i];
       const p = y.musteriNoktalari[i];
       el.style.left = `${p.x - kartG / 2}px`;
-      el.style.top = `${p.y - 55}px`;
+      el.style.top = `${y.kartUst}px`;
       el.style.width = `${kartG}px`;
       el.innerHTML = '';
       if (!m) {
@@ -423,8 +514,6 @@ export class Oyun {
       kisi.className = 'kisi';
       el.append(istek, kisi);
     });
-    const sirada = this.bolum.musteriler.length - this.siradaki;
-    this.siraEl.textContent = sirada > 0 ? `Sırada ${sirada}` : '';
   }
 
   // Her sütunda yalnız üstten SUTUNDA_GORUNEN_TOP kadar top çizilir; kalanı gizli.
@@ -526,11 +615,13 @@ export class Oyun {
         nereden,
         musteri: -1,
         tur: 0,
+        gec: false,
       };
       this.yuvalar[top.yuva] = top;
       this.toplar.push(top);
     }
     this.sutunlariCiz(sutunNo, giden, obek);
+    this.sayaclariCiz();
   }
 
   private kare(an: number) {
@@ -565,6 +656,11 @@ export class Oyun {
         t.durum = 'eriyor';
         t.baslangic = an;
         t.el.classList.add('eriyor');
+      } else if (!t.gec && t.tur >= GEC_TOP_TURU) {
+        // 1 turu geçti: artık yarım puanlı; hafif solup biraz erimiş görünür.
+        t.gec = true;
+        t.el.classList.add('gec');
+        t.el.style.opacity = String(GEC_TOP_SOLUKLUK);
       }
     }
 
@@ -580,9 +676,12 @@ export class Oyun {
           const fark = (((y.musteriYolu[m] - sOnce) % y.cevre) + y.cevre) % y.cevre;
           if (fark < adim) {
             my.kalan--;
+            // Puan: tam puan; bantta 1 turdan uzun kaldıysa yarısı (Kemal, 22 Ekim).
+            this.puan += t.tur >= GEC_TOP_TURU ? TOP_PUANI * GEC_TOP_PUAN_ORANI : TOP_PUANI;
             if (my.kalan === 0) {
               my.durum = 'bitti';
               my.bittigiAn = an;
+              this.karsilanan++;
             }
             this.yuvalar[i] = null;
             t.durum = 'aliniyor';
@@ -627,6 +726,7 @@ export class Oyun {
       }
     }
     if (musteriDegisti) this.musterileriCiz();
+    if (musteriDegisti || eridi) this.sayaclariCiz();
 
     this.sonucBak(eridi);
   }
@@ -678,6 +778,7 @@ export class Oyun {
 
   private bitir(sonuc: Sonuc) {
     this.bitti = sonuc;
+    this.sayaclariCiz();
     this.sonEl.className = 'son';
     this.sonEl.dataset.sonuc = sonuc;
     this.sonEl.innerHTML = '';
@@ -686,11 +787,42 @@ export class Oyun {
     const baslik = document.createElement('div');
     baslik.className = 'son-baslik';
     baslik.textContent = SONUC_YAZISI[sonuc];
-    const dugme = document.createElement('button');
-    dugme.className = 'dugme';
-    dugme.textContent = 'Baştan';
-    dugme.addEventListener('click', () => this.yenidenBasla());
-    kutu.append(baslik, dugme);
+    kutu.appendChild(baslik);
+
+    const dugme = (yazi: string, sinif: string, is: () => void) => {
+      const d = document.createElement('button');
+      d.className = 'dugme ' + sinif;
+      d.textContent = yazi;
+      d.addEventListener('click', is);
+      return d;
+    };
+    const dugmeler = document.createElement('div');
+    dugmeler.className = 'son-dugmeler';
+    const ayni = this.bolum;
+    if (sonuc === 'kazandin') {
+      // Yıldızlar (0–3) ve puan. Kaybedince ikisi de yok.
+      const yildiz = this.yildizSayisi();
+      const yildizlar = document.createElement('div');
+      yildizlar.className = 'yildizlar';
+      yildizlar.dataset.yildiz = String(yildiz);
+      for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) {
+        yildizlar.appendChild(yildizCiz(k < yildiz));
+      }
+      const puan = document.createElement('div');
+      puan.className = 'son-puan';
+      puan.dataset.puan = String(this.puan);
+      puan.dataset.enYuksek = String(this.enYuksekPuan());
+      puan.textContent = `Puan ${Math.round(this.puan * 10) / 10}`;
+      kutu.append(yildizlar, puan);
+      dugmeler.append(
+        dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(ayni)),
+        // Numaralı bölümler 4. pakette; şimdilik yeni rastgele bir bölüm.
+        dugme('Devam et', 'devam', () => this.yenidenBasla()),
+      );
+    } else {
+      dugmeler.append(dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(ayni)));
+    }
+    kutu.appendChild(dugmeler);
     this.sonEl.appendChild(kutu);
   }
 
@@ -710,7 +842,7 @@ export class Oyun {
         // Bantla dönmeye devam eder; yavaşça solup küçülür.
         p = this.yoldakiNokta(this.kayma + t.yuva * aralik);
         const k = Math.min(1, (an - t.baslangic) / ERIME_MS);
-        t.el.style.opacity = String(1 - k);
+        t.el.style.opacity = String((t.gec ? GEC_TOP_SOLUKLUK : 1) * (1 - k));
         const olcek = 1 - 0.6 * k;
         t.el.style.transform =
           `translate(${p.x - y.topBoyu / 2}px, ${p.y - y.topBoyu / 2}px) scale(${olcek})`;
@@ -734,4 +866,22 @@ export class Oyun {
       t.el.style.transform = `translate(${p.x - y.topBoyu / 2}px, ${p.y - y.topBoyu / 2}px)`;
     }
   }
+}
+
+// Basit çizimli beş köşeli yıldız; kazanılmışsa dolu, değilse yalnız çizgi.
+function yildizCiz(dolu: boolean): SVGSVGElement {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('class', 'yildiz' + (dolu ? ' kazanildi' : ''));
+  const p = document.createElementNS(ns, 'polygon');
+  const noktalar: string[] = [];
+  for (let i = 0; i < 10; i++) {
+    const r = i % 2 === 0 ? 10.5 : 4.6;
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    noktalar.push(`${(12 + r * Math.cos(a)).toFixed(2)},${(12.6 + r * Math.sin(a)).toFixed(2)}`);
+  }
+  p.setAttribute('points', noktalar.join(' '));
+  svg.appendChild(p);
+  return svg;
 }

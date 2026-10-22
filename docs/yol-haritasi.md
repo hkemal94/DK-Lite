@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: 2. paket (erime kuralı) öneri olarak geldi; Kemal birleştirince geçer. Bantta alınmayan top erir; erimenin biçimi oyundaki küçük düğmeyle seçilir. Sütunlarda fazla top var; ekranda en çok 5 müşteri, yerler her an dolu değil.
-- Son biten: 1. paket (çizimsiz öneri oyunu; sınırlı görünüm dahil, 21 Ekim).
+- Aşama: 3. paket (sayaçlar ve bölüm sonu) öneri olarak geldi (22 Ekim); Kemal birleştirince geçer. Üstte üç sayaç (karşılanan müşteri, puan, bant doluluğu); bölüm sonunda yıldız ekranı, "Tekrar oyna" ve "Devam et". Erime artık başlangıçta "2 tur sonra"; 1 turu geçen top yarım puan getirir.
+- Son biten: 2. paket (erime kuralı, fazla top, en çok 5 müşteri; 22 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: Kemal erime biçimlerini telefonda oynayıp birini seçer; sonra 3. paket (sayaçlar ve bölüm sonu).
+- Sıradaki: Kemal 3. paketi telefonda oynar, yıldız ölçüsüne karar verir; sonra 4. paket (numaralı bölümler).
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -55,7 +55,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 2. Erime kuralı
 
-- Durum: öneri PR'ı geldi (22 Ekim 2026), Kemal deneyecek. Kemal oynayıp bir erime biçimi seçince bitti olur.
+- Durum: bitti. Birleşti (22 Ekim 2026). Kemal biçimi seçti: "2 tur olsun ama 1. turun sonunda kazanacağın puan %50'ye düşsün" (tasarım belgesi 0.7). Puan kısmı 3. pakette geldi.
 - İçerik: banda giden dondurma alınmazsa erir. Erimenin birkaç biçimi seçilebilir olur (ör. bir bant turu sonra); Kemal oynayıp seçer (Dondurmacı Kızlar'daki "öneri oyunu üzerinden konuşalım" kararı).
 - Nasıl denenir: oyun içinde küçük bir düğmeyle biçimler arasında geçilir.
 - Kimde: Oyun Geliştiricisi.
@@ -70,9 +70,18 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 3. Sayaçlar ve bölüm sonu
 
-- İçerik: üstte iki sayaç (karşılanan müşteri, bant doluluğu); bölüm sonunda yıldız ekranı, Tekrar oyna ve Devam et.
-- Yıldızın ölçüsü Kemal'in kararına göre (açık soru).
+- Durum: öneri PR'ı geldi (22 Ekim 2026), Kemal deneyecek. Kemal: "3. paket ... şimdi başlasın".
+- İçerik: üstte sayaçlar (karşılanan müşteri, bant doluluğu ve puan); bölüm sonunda yıldız ekranı, Tekrar oyna ve Devam et.
+- Yıldızın ölçüsü Kemal'in kararına göre (açık soru). Şimdilik puana göre deneme ölçüsü var.
 - Kimde: Oyun Geliştiricisi.
+- 22 Ekim: ne geldi:
+  - Erime: başlangıçta "2 tur sonra" (Kemal'in seçimi). Düğme kaldı: "Erime yok", "1 tur sonra", "2 tur sonra".
+  - Puan: banttan müşteriye giden her top puan getirir. Bantta 1 turdan uzun kalmış top alınırsa puanın yarısı (Kemal'in kararı, %50). 1 turu geçen top bantta hafif soluk ve alttan biraz erimiş görünür; oyuncu yarım puanlı olduğunu anlar. 2. turun sonunda eskisi gibi eriyip kaybolur. Puan kuralı her erime biçiminde aynıdır; "Erime yok"ta da 1 turu geçen top yarım puan getirir, yalnız erimez.
+  - Sayaçlar: üst şeritte, sade. Solda erime düğmesi; sağda "Müşteri" (karşılanan / toplam, ör. "3 / 12"), "Puan" ve "Bant" (ince doluluk çubuğu; bant tam dolunca çubuk kiremit rengine döner). Eski "Sırada N" yazısı kalktı; yerini "Müşteri" sayacı aldı.
+  - Yerleşim: üst şerit, müşteri kartları, bant ve sütunlar yukarıdan aşağı sırayla dizilir; kısa ekranda (ör. 360x640) bant biraz basıklaşır, hiçbir şey birbirine binmez (önceki pakette kısa ekranda kartlar erime düğmesine biniyordu).
+  - Bölüm sonu: kazanınca "Bölüm tamamlandı", üç yıldızdan kazanılanlar dolu çizilir, puan yazar; "Tekrar oyna" (aynı dizilim baştan) ve "Devam et" (yeni bölüm; numaralı bölümler 4. pakette, şimdilik yeni rastgele bir bölüm). Kaybedince ("Bant doldu" ya da "Top kalmadı") yıldız ve puan yok, yalnız "Tekrar oyna". "Tekrar oyna"da sütunlar ve müşterilerin sırası aynıdır; müşterilerin hangi yere ve kaç saniye arayla geldiği yine rastgeledir.
+  - Yıldız (deneme ölçüsü, Kemal karar verecek): bölümün en yüksek olası puanına (her top tam puanla alınırsa) oranla. Kazanınca en az 1 yıldız; %70 ve üstü 2; %90 ve üstü 3.
+  - Yeni deneme değerleri (karar değil): bir top 10 puan, yıldız eşikleri 0 / 0,7 / 0,9, yarım puanlı topun solukluğu 0,6. Kemal'in kararı olan (deneme değil): yarım puan oranı 0,5, yarım puanın başladığı yer 1. tur sonu, başlangıç erime biçimi "2 tur sonra". Hepsi `src/ayarlar.ts` dosyasında.
 
 ### 4. Numaralı bölümler
 
@@ -126,6 +135,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Depo açıldı; ilk belgeler girdi (21 Ekim 2026).
 - Tasarım kararları ve belgelerin son hâli (21 Ekim 2026). Kod yok.
 - 1. paket: çizimsiz öneri oyunu; tek tek gönderme ve sınırlı görünüm dahil (21 Ekim 2026).
+- 2. paket: erime kuralı, fazla top, en çok 5 müşteri (22 Ekim 2026). Kemal'in seçimi: "2 tur sonra", 1. tur sonunda puan yarıya.
 
 ## Bilinen eksikler
 
@@ -144,12 +154,12 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 - Bölüm yolunun haritada geçtiği mahalleler.
 - İlk sürümdeki bölüm sayısı.
-- Yıldız ölçüsü.
-- Erime biçimi: "Erime yok", "1 tur sonra" ya da "2 tur sonra" (2. paketteki düğmeyle oynayıp seçilir).
+- Yıldız ölçüsü. Şimdilik deneme: puana göre (en yüksek olası puanın %70'i 2 yıldız, %90'ı 3 yıldız; kazanınca en az 1). Kemal 3. paketi oynayıp karar verir.
+- Bir topun puanı (şimdilik deneme değeri 10; yalnız oranlar önemli olduğu için yıldızı etkilemez).
 - Hangi sezon.
 - Açıklama, fikir notları, karakter adları, ürün adları.
 - Müzik.
 
 ## Kemal'e sorular
 
-1. DK Lite: Hangi erime biçimi kalsın? Seçenekler: (a) oynayıp sonra söylerim, (b) "1 tur sonra", (c) "2 tur sonra".
+1. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) şimdiki deneme gibi puana göre (%70 2 yıldız, %90 3 yıldız), oynayıp eşikleri söylerim, (b) hiç top eritmeden bitirmeye göre, (c) başka bir ölçü (sen söyle).

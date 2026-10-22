@@ -1,7 +1,7 @@
 # DK Lite
 
 Dondurmacı Kızlar'ın küçük, sade bulmaca sürümü (Kems Company).
-Aşama: 2. paket, erime kuralı (22 Ekim 2026; çizimsiz öneri oyunu üstüne).
+Aşama: 3. paket, sayaçlar ve bölüm sonu (22 Ekim 2026; çizimsiz öneri oyunu üstüne).
 
 - Tasarım belgesi: `docs/tasarim-belgesi.md`
 - Yol haritası: `docs/yol-haritasi.md`
@@ -24,18 +24,27 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
   yukarı kayar, alttan gizli bir top gelir. İstediği harf önünden geçen
   müşteri onu alır.
 - Sütunlarda müşterilerin istediğinden fazla top var; hata yapma payı.
-- Sol üst köşedeki küçük düğme erimeyi seçer; her dokunuşta değişir:
-  "Erime yok", "1 tur sonra" (başlangıç), "2 tur sonra". Bantta kimsenin
-  almadığı top, bant o kadar tur dönünce yavaşça solup kaybolur ve yeri
-  açılır. Seçim bölüm değişince de kalır; sayfa yenilenince başlangıca döner.
-- Bütün müşteriler karşılanınca "Kazandın" (artan toplar sorun değil).
-  Toplar eriyip kalanlar istekleri karşılayamazsa "Top kalmadı". "Erime
+- En üstte sade bir şerit: solda erime düğmesi, sağda sayaçlar.
+  "Müşteri" karşılanan / toplam müşteriyi (ör. "3 / 12"), "Puan" toplanan
+  puanı, "Bant" ince çubukla bantın ne kadar dolu olduğunu gösterir.
+- Puan: müşterinin aldığı her top puan getirir. Bantta 1 turdan uzun kalan
+  top hafif soluklaşır ve alttan biraz erimiş görünür; o top alınırsa puanın
+  yarısını getirir.
+- Erime düğmesi her dokunuşta değişir: "Erime yok", "1 tur sonra",
+  "2 tur sonra" (başlangıç). Bantta kimsenin almadığı top, bant o kadar tur
+  dönünce yavaşça solup kaybolur ve yeri açılır. Puan kuralı her biçimde
+  aynıdır. Seçim bölüm değişince de kalır; sayfa yenilenince başlangıca döner.
+- Bütün müşteriler karşılanınca "Bölüm tamamlandı": yıldızlar (en çok 3),
+  puan, "Tekrar oyna" (aynı bölüm baştan) ve "Devam et" (yeni bir bölüm).
+  Yıldız şimdilik puana göre bir denemedir; ölçüsüne Kemal karar verecek.
+- Toplar eriyip kalanlar istekleri karşılayamazsa "Top kalmadı". "Erime
   yok" seçiliyken bant dolar ve bantta kimsenin istemediği toplar kalırsa
-  "Bant doldu". Hepsinde "Baştan" düğmesi var.
-- Her "Baştan"da yeni bir dizilim gelir; her dizilim kazanılabilir.
+  "Bant doldu". Bu ikisinde yıldız yok, yalnız "Tekrar oyna" var.
+- "Devam et"te yeni bir dizilim gelir; her dizilim kazanılabilir. Numaralı
+  bölümler sonraki pakette.
 
 Bağlantı, bu değişiklik ana dala birleştirildikten birkaç dakika sonra
-çalışır. Sayılar (sütun, müşteri, fazla top, erime, bant hızı…) deneme değeridir;
+çalışır. Sayılar (sütun, müşteri, bant hızı, puan, yıldız eşikleri…) deneme değeridir;
 `src/ayarlar.ts` dosyasında durur, Kemal oynadıktan sonra değişir.
 
 ### Kemal'in bir kez yapması gereken ayar
