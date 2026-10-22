@@ -13,7 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Aşama: gece işleri öneri olarak geldi (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma (öneri), ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
 - Son biten: 3. paket ve üstüne ortak saklı yer düzeltmesi (saklı toplar ortak bir yerde; yarım puan yalnız erime açıkken; 22 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
 - Sıradaki: 5. paket (bölüm haritası, çizimsiz). İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
@@ -111,6 +111,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 ### Gece işleri (22 Ekim 2026)
 
 - Durum: öneri olarak geldi (22 Ekim 2026 gecesi). Kemal panoda istedi; ayrıntı tasarım belgesi 0.10.
+- Ekran görüntüleri (telefon boyutu, 390x844): `docs/ekran/gece-22-10/1-giris.png`, `2-oyun.png`, `3-duraklatma.png`.
+- Kimde: Oyun Geliştiricisi.
 - Renk: mor-sarı tonlar Dondurmacı Kızlar'ınkiyle aynı oldu: koyu mor `#4e2470`, mor `#7a3fa8` (bant), sarı `#ffc928` (düğmeler, A çeşidi). Ekranın düzeni değişmedi.
 - Giriş ekranı: oyun açılınca önce giriş ekranı gelir. Oyunun adının yerinde `[Kemal]` yer tutucusu, altında "Başla" (kaldığın bölüm başlar; hepsi bittiyse Bölümler listesi) ve "Bölümler". Eskiden kaldığı bölüm doğrudan başlıyordu.
 - Duraklatma: oyun sırasında sağ üst köşede duraklatma düğmesi. Basınca oyun tamamen durur; "Devam et", "Baştan başla", "Bölümler" çıkar. Devam edince erime, müşteri gelişi ve bant kaldığı yerden sürer.
@@ -167,6 +169,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - 2. paket: erime kuralı, fazla top, en çok 5 müşteri (22 Ekim 2026). Kemal'in seçimi: "2 tur sonra", 1. tur sonunda puan yarıya.
 - 3. paket: sayaçlar, puan, bölüm sonu (yıldız, Tekrar oyna, Devam et) (22 Ekim 2026).
 - Ortak saklı yer düzeltmesi: saklı toplar ortak bir yerde, bir sütun azaldıkça alttan ona gelir; yarım puan yalnız erime açıkken (22 Ekim 2026).
+- Gece işleri (öneri, Kemal birleştirince biter): renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm, daha yavaş zorluk (22 Ekim 2026 gecesi).
 
 ## Bilinen eksikler
 
@@ -194,4 +197,6 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ## Kemal'e sorular
 
-Soru yok. Yıldız sorusu ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin"); "Kemal'in kararını bekleyenler"de duruyor.
+DK Lite: Hızlandırma düğmesi kaç kat hızlandırsın? Seçenekler: (a) 2 kat (önerilen, şimdi oyunda böyle), (b) 1,5 kat, (c) 3 kat.
+
+Yıldız sorusu ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin"); "Kemal'in kararını bekleyenler"de duruyor.

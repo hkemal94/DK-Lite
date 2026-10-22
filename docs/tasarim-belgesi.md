@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1., 2. ve 3. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu) ve ortak saklı yer düzeltmesi bitti; 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim 2026).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1., 2. ve 3. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu) ve ortak saklı yer düzeltmesi bitti; 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim 2026). Gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) öneri olarak geldi (22 Ekim 2026 gecesi).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -48,6 +48,7 @@ Kemal'in istekleri (CEO iletti):
 - Bölüm sayısı: ilk sürüm 10 bölüm; artık Kemal'in kararı, deneme değeri değil. Oyunda zaten 10 bölüm vardı; kodda yalnız not değişti. 0.9'daki "bölüm sayısı Kemal'in kararı" açık sorusu kapandı.
 - Zorluk: artış adımı eskisinin yaklaşık yarısı; her bölümde yalnız bir şey biraz zorlaşır. Bölüm 1'den 10'a toplam artış: müşteri 8 → 12 (eskiden 16), çeşit 3 → 4 (eskiden 5), sütun 4'te kalır (eskiden 5'e çıkıyordu), istek 2–3 → 3–4, bant yeri 12 → 10 (eskiden 9). Son bölüm eski tablonun 4.–5. bölümü kadar zor. Bölüm 1 aynı kaldı; öbür bölümlerin dizilimi değişti. Yeni tablo (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 9 / 2–3 / 12; 3: 4 / 3 / 9 / 2–4 / 12; 4: 4 / 3 / 10 / 2–4 / 12; 5: 4 / 3 / 11 / 2–4 / 12; 6: 4 / 4 / 11 / 2–4 / 12; 7: 4 / 4 / 11 / 2–4 / 11; 8: 4 / 4 / 12 / 2–4 / 11; 9: 4 / 4 / 12 / 2–4 / 10; 10: 4 / 4 / 12 / 3–4 / 10. Sayılar deneme değeri; Kemal oynayıp söyler. Bütün bölümlerin kazanılabilir kurulduğu denendi.
 - Üst şerit: sağ köşeye iki düğme sığsın diye erime düğmesi "Bölüm 3" yazısının altına indi.
+- Ekran görüntüleri (telefon boyutu, 390x844): `docs/ekran/gece-22-10/` (giriş, oyun içi, duraklatma).
 
 ### 0.9 Ortak sıra tek tek, numaralı bölümler (Kemal, 22 Ekim 2026; panodaki cevaplar)
 
@@ -418,7 +419,7 @@ elle denenip değişir.
 
 ## 8. Yapım durumu
 
-Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`), 2. paket (erime, fazla top, en çok 5 müşteri), 3. paket (sayaçlar, puan, bölüm sonu ve yıldız) ve ortak saklı yer ile "yarım puan yalnız erime açıkken" (0.8). 4. paket (numaralı bölümler, kayıt, Bölümler listesi; 0.9) öneri olarak geldi.
+Uygulamada **olan**: depo, bu iki belge, 1. paket: çizimsiz deneme oyunu (dönen bant ve sütunlar, tek bölüm; ayarlar `src/ayarlar.ts`), 2. paket (erime, fazla top, en çok 5 müşteri), 3. paket (sayaçlar, puan, bölüm sonu ve yıldız) ve ortak saklı yer ile "yarım puan yalnız erime açıkken" (0.8). 4. paket (numaralı bölümler, kayıt, Bölümler listesi; 0.9) öneri olarak geldi. Gece işleri (Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, 10 bölüm ve daha yavaş artan zorluk; 0.10) öneri olarak geldi.
 
 Uygulamada **olmayan**: bu belgedeki her şey. Sıra yol haritasında; ilk
 paket başlayabilir.
@@ -430,5 +431,6 @@ Yapım aşaması ve işler: [Kemal] (KKM'de boş; yol haritası onaylandıkça d
 ## Kemal'e sorular
 
 1. DK Lite: Bölüm haritasında yol hangi mahallelerden geçsin? Seçenekler: (a) dükkânın olduğu Liman'dan başlayıp Sahil Yolu boyunca öbür mahallelere, (b) Liman'dan başlayıp Ada Tepesi'ne çıkan, (c) başka bir sıra (sen söyle).
-2. DK Lite: İlk sürümde kaç bölüm olsun? Seçenekler: (a) sayıyı sen ver, (b) öneri oyununu oynadıktan sonra karar ver.
+2. DK Lite: İlk sürümde kaç bölüm olsun? Kapandı (Kemal, 22 Ekim: 10 bölüm).
+4. DK Lite: Hızlandırma düğmesi kaç kat hızlandırsın? Seçenekler: (a) 2 kat (önerilen, şimdi oyunda böyle), (b) 1,5 kat, (c) 3 kat.
 3. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) şimdiki deneme gibi puana göre, oynayıp eşikleri söylerim, (b) hiç top eritmeden bitirme, (c) kalan bant yeri. Ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin").
