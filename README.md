@@ -1,7 +1,7 @@
 # DK Lite
 
 Dondurmacı Kızlar'ın küçük, sade bulmaca sürümü (Kems Company).
-Aşama: 3. paket, sayaçlar ve bölüm sonu (22 Ekim 2026; çizimsiz öneri oyunu üstüne).
+Aşama: 3. paket bitti; üstüne ortak saklı yer düzeltmesi (22 Ekim 2026; çizimsiz öneri oyunu).
 
 - Tasarım belgesi: `docs/tasarim-belgesi.md`
 - Yol haritası: `docs/yol-haritasi.md`
@@ -18,25 +18,30 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
   Bölüm birkaç müşteriyle başlar, ötekiler arayla gelir; giden müşterinin
   yerine yenisi birkaç saniye sonra gelir.
 - Ortada dönen bant; altta sütunlar.
-- Her sütunda yalnız üstteki birkaç top görünür; gerisi gizlidir. Sıradaki
-  top sütunun banda yakın ucunda parlak durur, altındakiler soluktur.
+- Bölüm başında her sütunda 4 top durur. Geri kalan bütün toplar tek bir
+  ortak saklı yerde bekler; kaç tane kaldığı yazmaz. Sıradaki top sütunun
+  banda yakın ucunda parlak durur, altındakiler soluktur.
 - Bir sütuna dokun: o sütunun en üstteki tek topu banda gider. Kalanlar
-  yukarı kayar, alttan gizli bir top gelir. İstediği harf önünden geçen
-  müşteri onu alır.
+  yukarı kayar, ortak saklı yerden sıradaki top o sütunun en altına gelir.
+  Hangi sütuna dokunursan dokun, gelen top ortak sıranın sıradakidir; yani
+  sütunların içi baştan belli değildir. Saklı yer boşalınca sütunlar
+  kısalmaya başlar. İstediği harf önünden geçen müşteri onu alır.
 - Sütunlarda müşterilerin istediğinden fazla top var; hata yapma payı.
 - En üstte sade bir şerit: solda erime düğmesi, sağda sayaçlar.
   "Müşteri" karşılanan / toplam müşteriyi (ör. "3 / 12"), "Puan" toplanan
   puanı, "Bant" ince çubukla bantın ne kadar dolu olduğunu gösterir.
-- Puan: müşterinin aldığı her top puan getirir. Bantta 1 turdan uzun kalan
-  top hafif soluklaşır ve alttan biraz erimiş görünür; o top alınırsa puanın
-  yarısını getirir.
+- Puan: müşterinin aldığı her top puan getirir. Erime açıkken ("1 tur
+  sonra", "2 tur sonra") bantta 1 turdan uzun kalan top hafif soluklaşır ve
+  alttan biraz erimiş görünür; o top alınırsa puanın yarısını getirir.
+  "Erime yok"ta her top tam puan getirir ve top soluklaşmaz.
 - Erime düğmesi her dokunuşta değişir: "Erime yok", "1 tur sonra",
   "2 tur sonra" (başlangıç). Bantta kimsenin almadığı top, bant o kadar tur
-  dönünce yavaşça solup kaybolur ve yeri açılır. Puan kuralı her biçimde
-  aynıdır. Seçim bölüm değişince de kalır; sayfa yenilenince başlangıca döner.
+  dönünce yavaşça solup kaybolur ve yeri açılır. Seçim bölüm değişince de
+  kalır; sayfa yenilenince başlangıca döner.
 - Bütün müşteriler karşılanınca "Bölüm tamamlandı": yıldızlar (en çok 3),
-  puan, "Tekrar oyna" (aynı bölüm baştan) ve "Devam et" (yeni bir bölüm).
-  Yıldız şimdilik puana göre bir denemedir; ölçüsüne Kemal karar verecek.
+  puan, "Tekrar oyna" (aynı bölüm baştan; sütunlar ve saklı yerden gelen
+  topların sırası aynı) ve "Devam et" (yeni bir bölüm).
+  Yıldız şimdilik puana göre bir denemedir; Kemal "şimdiki kalsın" dedi.
 - Toplar eriyip kalanlar istekleri karşılayamazsa "Top kalmadı". "Erime
   yok" seçiliyken bant dolar ve bantta kimsenin istemediği toplar kalırsa
   "Bant doldu". Bu ikisinde yıldız yok, yalnız "Tekrar oyna" var.
