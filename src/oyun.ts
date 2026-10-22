@@ -107,6 +107,8 @@ export class Oyun {
 
   private bolum!: Bolum;
   private sutunlar: number[][] = [];
+  // Ortak saklı sıradan bir sonraki gelecek topun yeri (sıra bölüm verisinde, sabit).
+  private sakliSira = 0;
   private musteriYerleri: (MusteriYeri | null)[] = [];
   // Boş müşteri yerine yenisinin geleceği an (dolu yerde kullanılmaz).
   private gelisAnlari: number[] = [];
@@ -211,6 +213,7 @@ export class Oyun {
   yenidenBasla(ayniBolum?: Bolum) {
     this.bolum = ayniBolum ?? bolumKur();
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
+    this.sakliSira = 0;
     this.siradaki = 0;
     this.karsilanan = 0;
     this.puan = 0;
@@ -251,7 +254,8 @@ export class Oyun {
     this.sayaclariCiz();
   }
 
-  // Bölümün en yüksek olası puanı: her istenen top tam puanla alınırsa.
+  // Bölümün en yüksek olası puanı: her istenen top tam puanla alınırsa
+  // (her erime biçiminde aynı; "Erime yok"ta her top zaten tam puan getirir).
   private enYuksekPuan(): number {
     return this.bolum.musteriler.reduce((a, m) => a + m.adet, 0) * TOP_PUANI;
   }
@@ -516,9 +520,9 @@ export class Oyun {
     });
   }
 
-  // Her sütunda yalnız üstten SUTUNDA_GORUNEN_TOP kadar top çizilir; kalanı gizli.
-  // kayanSutun: o sütundan az önce `giden` kadar top gitti; kalanlar yukarı kayar,
-  // gizliden görünür olan alttan belirerek gelir.
+  // Sütunda en çok SUTUNDA_GORUNEN_TOP kadar top durur, hepsi görünür; saklı toplar
+  // ortak sıradadır. kayanSutun: o sütundan az önce `giden` kadar top gitti; kalanlar
+  // yukarı kayar, ortak sıradan gelen alttan belirerek gelir.
   private sutunlariCiz(kayanSutun = -1, giden = 0, oncekiUst = 0) {
     const y = this.y;
     const boy = y.sutunTopBoyu - 4;
@@ -620,6 +624,11 @@ export class Oyun {
       this.yuvalar[top.yuva] = top;
       this.toplar.push(top);
     }
+    // Giden her topun yerine ortak saklı sıradan sıradaki top bu sütunun en altına gelir.
+    // Sıra bittiyse sütun kısalır.
+    for (let k = 0; k < giden && this.sakliSira < this.bolum.sakli.length; k++) {
+      sutun.unshift(this.bolum.sakli[this.sakliSira++]);
+    }
     this.sutunlariCiz(sutunNo, giden, obek);
     this.sayaclariCiz();
   }
@@ -656,11 +665,16 @@ export class Oyun {
         t.durum = 'eriyor';
         t.baslangic = an;
         t.el.classList.add('eriyor');
-      } else if (!t.gec && t.tur >= GEC_TOP_TURU) {
+      } else {
         // 1 turu geçti: artık yarım puanlı; hafif solup biraz erimiş görünür.
-        t.gec = true;
-        t.el.classList.add('gec');
-        t.el.style.opacity = String(GEC_TOP_SOLUKLUK);
+        // Yalnız erime açıkken (Kemal, 22 Ekim: "Hayır, yalnız erime açıkken").
+        // Biçim oyun ortasında değişirse görünüm de ona uyar.
+        const gec = erimeTuru > 0 && t.tur >= GEC_TOP_TURU;
+        if (gec !== t.gec) {
+          t.gec = gec;
+          t.el.classList.toggle('gec', gec);
+          t.el.style.opacity = gec ? String(GEC_TOP_SOLUKLUK) : '';
+        }
       }
     }
 
@@ -676,8 +690,10 @@ export class Oyun {
           const fark = (((y.musteriYolu[m] - sOnce) % y.cevre) + y.cevre) % y.cevre;
           if (fark < adim) {
             my.kalan--;
-            // Puan: tam puan; bantta 1 turdan uzun kaldıysa yarısı (Kemal, 22 Ekim).
-            this.puan += t.tur >= GEC_TOP_TURU ? TOP_PUANI * GEC_TOP_PUAN_ORANI : TOP_PUANI;
+            // Puan: tam puan; erime açıkken bantta 1 turdan uzun kaldıysa yarısı (Kemal, 22 Ekim).
+            // "Erime yok"ta her top tam puan.
+            const yarim = erimeTuru > 0 && t.tur >= GEC_TOP_TURU;
+            this.puan += yarim ? TOP_PUANI * GEC_TOP_PUAN_ORANI : TOP_PUANI;
             if (my.kalan === 0) {
               my.durum = 'bitti';
               my.bittigiAn = an;
@@ -731,10 +747,11 @@ export class Oyun {
     this.sonucBak(eridi);
   }
 
-  // Sütunda ve bantta kalan toplar kalan istekleri karşılayabiliyor mu?
+  // Sütunda, ortak saklı sırada ve bantta kalan toplar kalan istekleri karşılayabiliyor mu?
   private toplarYetiyorMu(): boolean {
     const eldeki: number[] = new Array(CESITLER.length).fill(0);
     for (const s of this.sutunlar) for (const c of s) eldeki[c]++;
+    for (let i = this.sakliSira; i < this.bolum.sakli.length; i++) eldeki[this.bolum.sakli[i]]++;
     for (const t of this.toplar) if (t.durum === 'ucuyor' || t.durum === 'bantta') eldeki[t.cesit]++;
     const istek: number[] = new Array(CESITLER.length).fill(0);
     for (const m of this.musteriYerleri) if (m && m.durum === 'bekliyor') istek[m.cesit] += m.kalan;

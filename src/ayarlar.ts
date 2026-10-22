@@ -69,9 +69,12 @@ export const TUTMA_MS = 300;
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const TEK_SEFERDE_TOP = 1;
 
-// Her sütunda üstten kaç top görünür. Geri kalanı gizlidir (çizilmez);
-// üstteki top gidince kalanlar yukarı kayar, alttan gizlilerden biri gelir.
+// Her sütunda kaç top görünür (bölüm başında her sütuna bu kadar top dizilir).
+// Geri kalan bütün toplar tek bir ortak saklı sırada durur (çizilmez, sayısı yazmaz);
+// bir sütundan top gidince kalanlar yukarı kayar, ortak sıradan sıradaki top
+// o sütunun en altına gelir. Ortak sıra bitince sütunlar kısalır.
 // Kemal, 21 Ekim: "bütün gelecekleri görmemem lazım ... alttan gelmeye devam etmesi lazım".
+// Kemal, 22 Ekim: "Saklı toplar ortak bir yerde dursun; bir sütun azaldıkça alttan ona gelsin."
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const SUTUNDA_GORUNEN_TOP = 4;
 
@@ -104,7 +107,8 @@ export const GEC_TOP_TURU = 1;
 
 // Geç alınan topun puanı tam puanın bu oranıdır.
 // Kemal'in kararı (22 Ekim, "%50"); deneme değeri değil.
-// Kural her erime biçiminde aynıdır ("Erime yok"ta da); yalnız erime değişir.
+// Yalnız erime açıkken ("1 tur sonra", "2 tur sonra"). "Erime yok"ta her top tam puan
+// ve 1 turu geçen top soluklaşmaz (Kemal, 22 Ekim: "Hayır, yalnız erime açıkken").
 export const GEC_TOP_PUAN_ORANI = 0.5;
 
 // Geç kalmış (yarım puanlı) topun bantta solukluğu (1: hiç soluk değil).
