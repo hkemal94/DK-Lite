@@ -141,12 +141,13 @@ export const GEC_TOP_SOLUKLUK = 0.6;
 // DENEME; Kemal karar verecek (yıldız ölçüsü açık soru).
 export const YILDIZ_ESIKLERI = [0, 0.7, 0.9];
 
-// Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı; tonlar taslak).
+// Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı). Sarı #ffc928, mor #7a3fa8 ve
+// yazıdaki koyu mor #4e2470 Dondurmacı Kızlar ile aynı ton (Kemal, 22 Ekim); öbürleri taslak.
 // Harfler yalnız ayırt etmek için; çeşit adları [Kemal].
 export const CESITLER = [
-  { harf: 'A', renk: '#F2C94C', yazi: '#3B2560' }, // sarı
-  { harf: 'B', renk: '#6E46A8', yazi: '#FFF6DC' }, // mor
-  { harf: 'C', renk: '#C9B2E6', yazi: '#3B2560' }, // lila
-  { harf: 'D', renk: '#FFF3D1', yazi: '#3B2560' }, // açık sarı
+  { harf: 'A', renk: '#ffc928', yazi: '#4e2470' }, // sarı
+  { harf: 'B', renk: '#7a3fa8', yazi: '#FFF6DC' }, // mor
+  { harf: 'C', renk: '#C9B2E6', yazi: '#4e2470' }, // lila
+  { harf: 'D', renk: '#FFF3D1', yazi: '#4e2470' }, // açık sarı
   { harf: 'E', renk: '#B88A1E', yazi: '#FFF6DC' }, // koyu sarı (5. çeşit gerekirse)
 ];
