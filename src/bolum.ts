@@ -1,12 +1,15 @@
 // Bölümü kurar: müşterilerin isteklerini ve sütunlardaki topları.
-// Sütunlardaki toplar, müşterilerin istediği toplamla birebir aynıdır.
+// Sütunlarda müşterilerin istediğinden fazla top vardır (FAZLA_TOP_ORANI);
+// fazlalar çeşitlere dengeli dağılır. Kazanmak için bütün müşteriler
+// karşılanır; artan top kalması sorun değildir.
 // Kurulan her bölüm, basit bir çözücüyle "kazanılabilir mi" diye denenir;
-// kazanılamıyorsa yeniden kurulur.
+// kazanılamıyorsa yeniden kurulur. Çözücü erimeyi bilmez (erime yokmuş gibi dener).
 
 import {
   AYNI_ANDA_MUSTERI,
   BANT_YERI,
   CESIT_SAYISI,
+  FAZLA_TOP_ORANI,
   ISTEK_EN_AZ,
   ISTEK_EN_COK,
   OBEK_EN_COK,
@@ -51,6 +54,12 @@ function bolumTaslagi(): Bolum {
   // Her çeşidin toplamı küçük öbeklere bölünür.
   const toplamlar = new Array(CESIT_SAYISI).fill(0);
   for (const m of musteriler) toplamlar[m.cesit] += m.adet;
+  // Fazla toplar: istenen toplamın FAZLA_TOP_ORANI kadarı, çeşitlere eşit;
+  // eşit bölünmeyen artık rastgele çeşitlere birer birer.
+  const istenenToplam = toplamlar.reduce((a, b) => a + b, 0);
+  const fazla = Math.round(istenenToplam * Math.max(0, FAZLA_TOP_ORANI));
+  const fazlaSiralama = karistir(Array.from({ length: CESIT_SAYISI }, (_, i) => i));
+  for (let k = 0; k < fazla; k++) toplamlar[fazlaSiralama[k % CESIT_SAYISI]]++;
   const obekler: number[][] = [];
   toplamlar.forEach((toplam, cesit) => {
     let kalan = toplam;
@@ -87,11 +96,19 @@ export function gidecekTopSayisi(sutun: number[]): number {
   return Math.min(ustObekBoyu(sutun), Math.max(1, TEK_SEFERDE_TOP));
 }
 
+// Çözücünün bir bölümde en çok kaç durum deneyeceği. Aşılırsa bölüm
+// "kazanılamaz" sayılır ve yenisi kurulur (bölüm kurma hızlı kalsın diye).
+const COZUCU_SINIRI = 20000;
+
 // Basit çözücü: bant bir torba gibi düşünülür; bantta istenen çeşit varsa
 // görünen müşteri hemen alır. Oyuncunun her hamlesi denenir.
+// Kazanma: bütün müşteriler karşılandı (bantta ya da sütunda artan top olabilir).
+// Ekranda müşteri yerleri hep dolu sayılır: erime yokken oyuncu bekleyerek
+// yerlerin dolmasını sağlayabilir, bu yüzden bu varsayım oyuncunun elindedir.
 export function kazanilabilirMi(bolum: Bolum): boolean {
   const gorulen = new Set<string>();
   const { musteriler } = bolum;
+  let denenen = 0;
 
   function ara(
     sutunBoylari: number[],
@@ -127,6 +144,7 @@ export function kazanilabilirMi(bolum: Bolum): boolean {
       gorunen.map((g) => g.cesit + ':' + g.kalan).join(',') + '|' + siradaki;
     if (gorulen.has(anahtar)) return false;
     gorulen.add(anahtar);
+    if (++denenen > COZUCU_SINIRI) return false;
 
     const bantta = bant.reduce((a, b) => a + b, 0);
     const bos = BANT_YERI - bantta;

@@ -172,3 +172,24 @@ html, body {
   padding: 12px 32px;
   cursor: pointer;
 }
+
+/* 5 müşterili dar ekranda (360 px) istek balonu sığsın diye. */
+.musteri.dar .istek { padding: 4px 5px; gap: 2px; }
+.musteri.dar .adet { font-size: 14px; }
+
+/* Erime biçimi düğmesi: küçük, göze batmayan; dokundukça biçim değişir. */
+.erime-dugme {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  z-index: 5;
+  font: inherit;
+  font-size: 12px;
+  color: var(--mor);
+  background: transparent;
+  border: 1px solid rgba(75, 46, 122, 0.25);
+  border-radius: 10px;
+  padding: 3px 8px;
+  opacity: 0.7;
+  cursor: pointer;
+}
