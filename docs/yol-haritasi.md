@@ -16,7 +16,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 - Aşama: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
 - Son biten: 3. paket ve üstüne ortak saklı yer düzeltmesi (saklı toplar ortak bir yerde; yarım puan yalnız erime açıkken; 22 Ekim).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: 5. paket (bölüm haritası, çizimsiz). Bölüm sayısı Kemal'in kararı; deneme oyununu oynadıktan sonra. Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
+- Sıradaki: 5. paket (bölüm haritası, çizimsiz). İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -94,7 +94,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 ### 4. Numaralı bölümler
 
 - Durum: öneri olarak geldi (22 Ekim 2026). Kemal: "4. paket: numaralı bölümler (her biri biraz daha zor; kaldığın bölüm ve yıldızlar telefonda saklanır)".
-- İçerik: elle hazırlanmış bölümler, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanır. Bölüm sayısı Kemal'in kararı (açık soru; Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
+- İçerik: elle hazırlanmış bölümler, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanır. Bölüm sayısı: ilk sürüm 10 (Kemal, 22 Ekim).
 - Nasıl denenir: Kemal baştan sona oynar, zorluk artışını söyler.
 - Kimde: Oyun Geliştiricisi; bölüm denemesi Oyun Kontrolörü.
 - 22 Ekim: ne geldi (tasarım belgesi 0.9):
@@ -106,7 +106,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
   - Üst şerit: solda "Bölüm 3" gibi bölüm numarası (ad yok) ve erime düğmesi; sağda sayaçlar. "Bölüm 3" yazısına dokununca "Bölümler" listesi açılır.
   - Bölümler listesi (harita 5. pakette): numaralı kutular, her birinde kazanılan yıldızlar; kilitli olanlar soluk ve dokununca başlamaz; açık olana dokununca o bölüm başlar.
   - Bölüm sonu: "Tekrar oyna" (aynı bölüm baştan), "Devam et" (sonraki bölüm; son bölümdeyse "Bölümler" listesi) ve altta küçük "Bölümler" yolu. Kaybedince "Tekrar oyna" ve "Bölümler". Son bölüm de kazanılınca "Bütün bölümler bitti" yazar (listede de).
-  - Yeni deneme değerleri (karar değil): bölüm sayısı 10; art arda aynı çeşit en çok 2; zorluk tablosu (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 10 / 2–3 / 12; 3: 4 / 4 / 10 / 2–4 / 12; 4: 4 / 4 / 12 / 2–4 / 12; 5: 4 / 4 / 13 / 2–4 / 11; 6: 4 / 4 / 14 / 2–4 / 11; 7: 4 / 4 / 14 / 3–4 / 10; 8: 5 / 5 / 14 / 2–4 / 10; 9: 5 / 5 / 15 / 3–4 / 10; 10: 5 / 5 / 16 / 3–4 / 9. Bant hızı, sütunda görünen top (4), aynı anda en çok 5 müşteri, erime ve puan kuralları her bölümde aynı. Hepsi `src/ayarlar.ts` dosyasında.
+  - Yeni deneme değerleri (karar değil; bölüm sayısı ve zorluk tablosu 22 Ekim gece işlerinde değişti, aşağıda): bölüm sayısı 10; art arda aynı çeşit en çok 2; zorluk tablosu (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 10 / 2–3 / 12; 3: 4 / 4 / 10 / 2–4 / 12; 4: 4 / 4 / 12 / 2–4 / 12; 5: 4 / 4 / 13 / 2–4 / 11; 6: 4 / 4 / 14 / 2–4 / 11; 7: 4 / 4 / 14 / 3–4 / 10; 8: 5 / 5 / 14 / 2–4 / 10; 9: 5 / 5 / 15 / 3–4 / 10; 10: 5 / 5 / 16 / 3–4 / 9. Bant hızı, sütunda görünen top (4), aynı anda en çok 5 müşteri, erime ve puan kuralları her bölümde aynı. Hepsi `src/ayarlar.ts` dosyasında.
 
 ### Gece işleri (22 Ekim 2026)
 
@@ -115,6 +115,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Giriş ekranı: oyun açılınca önce giriş ekranı gelir. Oyunun adının yerinde `[Kemal]` yer tutucusu, altında "Başla" (kaldığın bölüm başlar; hepsi bittiyse Bölümler listesi) ve "Bölümler". Eskiden kaldığı bölüm doğrudan başlıyordu.
 - Duraklatma: oyun sırasında sağ üst köşede duraklatma düğmesi. Basınca oyun tamamen durur; "Devam et", "Baştan başla", "Bölümler" çıkar. Devam edince erime, müşteri gelişi ve bant kaldığı yerden sürer.
 - Hızlandırma: duraklatma düğmesinin yanında "2×" düğmesi. Basınca oyun 2 kat hızlanır (düğme sarı dolar), tekrar basınca normale döner. 2 kat öneri; Kemal onaylayınca kesinleşir. Erime düğmesi sağa yer kalsın diye "Bölüm 3" yazısının altına indi.
+- Bölüm sayısı: ilk sürüm 10 bölüm (Kemal'in kararı). Oyunda zaten 10 vardı; değişmedi.
+- Zorluk daha yavaş artıyor (Kemal'in kararı): artış adımı eskisinin yaklaşık yarısı, her bölümde yalnız bir şey biraz zorlaşır. Bölüm 10'da müşteri 12 (eskiden 16), çeşit 4 (eskiden 5), sütun 4 (eskiden 5), istek 3–4, bant yeri 10 (eskiden 9). Bölüm 1 aynı kaldı. Yeni tablo (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 9 / 2–3 / 12; 3: 4 / 3 / 9 / 2–4 / 12; 4: 4 / 3 / 10 / 2–4 / 12; 5: 4 / 3 / 11 / 2–4 / 12; 6: 4 / 4 / 11 / 2–4 / 12; 7: 4 / 4 / 11 / 2–4 / 11; 8: 4 / 4 / 12 / 2–4 / 11; 9: 4 / 4 / 12 / 2–4 / 10; 10: 4 / 4 / 12 / 3–4 / 10. Sayılar deneme değeri.
 
 ### 5. Bölüm haritası (çizimsiz)
 
@@ -182,8 +184,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 ## Kemal'in kararını bekleyenler
 
 - Bölüm yolunun haritada geçtiği mahalleler.
-- İlk sürümdeki bölüm sayısı (öneri oyununda deneme olarak 10; Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
-- Bölümlerin zorluk artışı (deneme tablosu `src/ayarlar.ts`'te; Kemal oynayıp söyler).
+- Bölümlerin zorluk artışı: 22 Ekim'de yavaşlatıldı (adım yaklaşık yarıya indi); yeni tablo yine deneme, Kemal oynayıp söyler.
+- Hızlandırma katı: öneri 2 kat; Kemal onaylayınca kesinleşir.
 - Yıldız ölçüsü. Şimdilik deneme: puana göre (en yüksek olası puanın %70'i 2 yıldız, %90'ı 3 yıldız; kazanınca en az 1). Kemal (22 Ekim): "Sonra bakariz simdiki kalsin".
 - Bir topun puanı (şimdilik deneme değeri 10; yalnız oranlar önemli olduğu için yıldızı etkilemez).
 - Hangi sezon.

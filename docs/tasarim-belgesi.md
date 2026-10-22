@@ -37,12 +37,16 @@ Kemal'in istekleri (CEO iletti):
 - Giriş ekranı: oyun açılınca önce giriş ekranı gelsin (oyunun adı yerine yer tutucu, "Başla" ve "Bölümler").
 - Duraklatma: oyun sırasında köşede duraklatma düğmesi; basınca oyun durur, "Devam et", "Baştan başla", "Bölümler" seçenekleri çıkar.
 - Hızlandırma: oyun sırasında bir hızlandırma düğmesi; basınca oyun 2 kat hızlanır, tekrar basınca normale döner. 2 kat öneri; Kemal onaylayınca kesinleşir.
+- Bölüm sayısı: ilk sürüm 10 bölüm (Kemal'in 22 Ekim cevabı).
+- Zorluk: bölümlerde zorluk daha yavaş artsın (Kemal'in 22 Ekim cevabı).
 
 Öneri oyununda böyle yapıldı:
 - Renk: koyu mor `#4e2470` (yazılar, müşteri kutuları), mor `#7a3fa8` (bant ve B çeşidi), sarı `#ffc928` (düğmeler, A çeşidi, yıldız). Tonlar Dondurmacı Kızlar ile aynı; açık lila zemin ve öbür çeşit renkleri değişmedi, ekranın genel görünüşü aynı.
 - Giriş ekranı: oyun açılınca ilk o gelir. Ortada oyunun adı yerine kesik çerçeveli `[Kemal]` yer tutucusu (ad Kemal'in), altında "Başla" ve "Bölümler". "Başla" kaldığı bölümü (açılan en ileri bölüm) baştan başlatır; bütün bölümler bittiyse Bölümler listesini açar. "Bölümler" listeyi açar. Giriş ekranı açıkken oyun akmaz. Eskiden oyun açılınca bölüm doğrudan başlıyordu.
 - Duraklatma: üst şeridin sağ köşesinde iki dik çizgili yuvarlak düğme. Basınca oyun tamamen durur (bant, erime, müşteri gelişi, havadaki toplar); üstüne "Devam et", "Baştan başla" (aynı bölüm baştan) ve "Bölümler" çıkar. Oyunun kendi saati var; duraklatınca, giriş ekranında ve Bölümler listesinde bu saat durur, devam edince her şey kaldığı yerden sürer.
 - Hızlandırma: duraklatma düğmesinin solunda "2×" yazan yuvarlak düğme. Basınca oyunun bütün akışı (bant, erime, müşteri gelişi, uçuşlar) 2 kat hızlanır ve düğme sarı dolar; tekrar basınca normale döner. Seçim bölüm değişince de kalır, sayfa yenilenince normale döner. **2 kat öneridir; Kemal onaylayınca kesinleşir** (`src/ayarlar.ts`, `HIZ_KATI`).
+- Bölüm sayısı: ilk sürüm 10 bölüm; artık Kemal'in kararı, deneme değeri değil. Oyunda zaten 10 bölüm vardı; kodda yalnız not değişti. 0.9'daki "bölüm sayısı Kemal'in kararı" açık sorusu kapandı.
+- Zorluk: artış adımı eskisinin yaklaşık yarısı; her bölümde yalnız bir şey biraz zorlaşır. Bölüm 1'den 10'a toplam artış: müşteri 8 → 12 (eskiden 16), çeşit 3 → 4 (eskiden 5), sütun 4'te kalır (eskiden 5'e çıkıyordu), istek 2–3 → 3–4, bant yeri 12 → 10 (eskiden 9). Son bölüm eski tablonun 4.–5. bölümü kadar zor. Bölüm 1 aynı kaldı; öbür bölümlerin dizilimi değişti. Yeni tablo (bölüm: sütun / çeşit / müşteri / istek / bant yeri): 1: 4 / 3 / 8 / 2–3 / 12; 2: 4 / 3 / 9 / 2–3 / 12; 3: 4 / 3 / 9 / 2–4 / 12; 4: 4 / 3 / 10 / 2–4 / 12; 5: 4 / 3 / 11 / 2–4 / 12; 6: 4 / 4 / 11 / 2–4 / 12; 7: 4 / 4 / 11 / 2–4 / 11; 8: 4 / 4 / 12 / 2–4 / 11; 9: 4 / 4 / 12 / 2–4 / 10; 10: 4 / 4 / 12 / 3–4 / 10. Sayılar deneme değeri; Kemal oynayıp söyler. Bütün bölümlerin kazanılabilir kurulduğu denendi.
 - Üst şerit: sağ köşeye iki düğme sığsın diye erime düğmesi "Bölüm 3" yazısının altına indi.
 
 ### 0.9 Ortak sıra tek tek, numaralı bölümler (Kemal, 22 Ekim 2026; panodaki cevaplar)
@@ -408,7 +412,7 @@ elle denenip değişir.
 - **Bir bölümün süresi:** önerilen 1–3 dakika. Gerekçe: Kemal'in oturumu 5–10 dakika; bir oturuma birkaç bölüm sığarsa oyuncu her oturumda ilerleme görür.
 - **Sütun sayısı:** önerilen 3–5 (ilk bölümlerde az, sonra artar). Gerekçe: dik telefon ekranında parmağın rahat dokunacağı genişlik.
 - **Aynı anda bekleyen müşteri:** önerilen 2–4. Gerekçe: sakin oyuncu için ilk bölümlerde az. (0.6 ile en çok 5; yerler her an dolu değil.)
-- İlk sürümdeki bölüm sayısı, yıldız ölçüsü, can sayısı ve dolma süresi: Kemal'in kararı; bu belge sayı önermez.
+- İlk sürümdeki bölüm sayısı: 10 (Kemal, 22 Ekim; 0.10). Yıldız ölçüsü, can sayısı ve dolma süresi: Kemal'in kararı; bu belge sayı önermez.
 
 ---
 
