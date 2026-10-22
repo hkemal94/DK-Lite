@@ -4,8 +4,8 @@
 import {
   AYNI_ANDA_MUSTERI,
   BANT_TUR_SANIYE,
-  BANT_YERI,
   BASTA_MUSTERI,
+  BOLUM_SAYISI,
   CESITLER,
   ERIME_BICIMLERI,
   ERIME_MS,
@@ -21,6 +21,7 @@ import {
   YILDIZ_ESIKLERI,
 } from './ayarlar';
 import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
+import { bolumKazanildi, hepsiBitti, kayitOku, type Kayit } from './kayit';
 
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
@@ -74,6 +75,9 @@ interface Yerlesim {
 
 type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
 
+// Son bölüm de kazanılınca görünen basit durum yazısı (kurgu metni değil).
+const HEPSI_BITTI_YAZISI = 'Bütün bölümler bitti';
+
 // Bölüm sonunda görünen basit durum yazısı (kurgu metni değil).
 const SONUC_YAZISI: Record<Sonuc, string> = {
   kazandin: 'Bölüm tamamlandı',
@@ -104,6 +108,12 @@ export class Oyun {
   private doluKutuEl!: HTMLDivElement;
   private sonEl!: HTMLDivElement;
   private erimeEl!: HTMLButtonElement;
+  private bolumNoEl!: HTMLButtonElement; // üst şeritte "Bölüm 3"; dokununca Bölümler listesi
+  private listeEl!: HTMLDivElement; // Bölümler listesi (harita 5. pakette)
+
+  // Telefonda saklanan kayıt: kaldığı bölüm ve yıldızlar.
+  private kayit: Kayit = kayitOku();
+  private listeAcik = false;
 
   private bolum!: Bolum;
   private sutunlar: number[][] = [];
@@ -128,7 +138,10 @@ export class Oyun {
   constructor(kok: HTMLElement) {
     this.kok = kok;
     this.iskeletKur();
-    this.yenidenBasla();
+    // Oyun açılınca kaldığı bölüm (açılan en ileri bölüm) doğrudan başlar.
+    // Bütün bölümler bittiyse Bölümler listesi açılır.
+    this.yenidenBasla(this.kayit.acik);
+    if (hepsiBitti(this.kayit)) this.listeAc();
     window.addEventListener('resize', () => {
       this.yerlesimHesapla();
       this.sabitleriCiz();
@@ -178,13 +191,6 @@ export class Oyun {
     this.bantEl.className = 'bant';
     this.sahne.appendChild(this.bantEl);
 
-    for (let i = 0; i < BANT_YERI; i++) {
-      const y = document.createElement('div');
-      y.className = 'yuva';
-      this.sahne.appendChild(y);
-      this.yuvaEller.push(y);
-    }
-
     for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) {
       const m = document.createElement('div');
       m.className = 'musteri';
@@ -200,18 +206,36 @@ export class Oyun {
       this.erimeSirasi = (this.erimeSirasi + 1) % ERIME_BICIMLERI.length;
       this.erimeYazisi();
     });
-    this.ustEl.append(this.erimeEl, sayaclar);
+    // Bölüm numarası (ad yok). Dokununca Bölümler listesi açılır.
+    this.bolumNoEl = document.createElement('button');
+    this.bolumNoEl.className = 'bolum-no';
+    this.bolumNoEl.id = 'bolum-no';
+    this.bolumNoEl.addEventListener('click', () => this.listeAc());
+    const sol = document.createElement('div');
+    sol.className = 'ust-sol';
+    sol.append(this.bolumNoEl, this.erimeEl);
+    this.ustEl.append(sol, sayaclar);
     this.erimeYazisi();
 
     this.sonEl = document.createElement('div');
     this.sonEl.className = 'son gizli';
     this.sonEl.id = 'son';
     this.kok.appendChild(this.sonEl);
+
+    this.listeEl = document.createElement('div');
+    this.listeEl.className = 'liste gizli';
+    this.listeEl.id = 'liste';
+    this.kok.appendChild(this.listeEl);
   }
 
-  // Yeni bölüm kurar. `ayniBolum` verilirse aynı dizilim baştan oynanır (Tekrar oyna).
-  yenidenBasla(ayniBolum?: Bolum) {
-    this.bolum = ayniBolum ?? bolumKur();
+  // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
+  // (Tekrar oyna da budur). Kilitli bölüm başlamaz.
+  yenidenBasla(no: number) {
+    if (no < 1 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
+    this.listeKapat();
+    this.bolum = bolumKur(no);
+    this.bolumNoEl.textContent = `Bölüm ${no}`;
+    this.bolumNoEl.dataset.no = String(no);
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
     this.sakliSira = 0;
     this.siradaki = 0;
@@ -241,7 +265,16 @@ export class Oyun {
     });
     for (const t of this.toplar) t.el.remove();
     this.toplar = [];
-    this.yuvalar = new Array(BANT_YERI).fill(null);
+    this.yuvalar = new Array(this.bolum.bantYeri).fill(null);
+    // Bant yerleri bölüme göre (zorluk tablosu).
+    for (const el of this.yuvaEller) el.remove();
+    this.yuvaEller = [];
+    for (let i = 0; i < this.bolum.bantYeri; i++) {
+      const y = document.createElement('div');
+      y.className = 'yuva';
+      this.bantEl.after(y);
+      this.yuvaEller.push(y);
+    }
     this.bitti = null;
     this.sonEl.className = 'son gizli';
     this.sonEl.innerHTML = '';
@@ -274,10 +307,11 @@ export class Oyun {
     this.puanEl.textContent = String(Math.round(this.puan * 10) / 10);
     this.puanEl.dataset.puan = String(this.puan);
     const dolu = this.yuvalar.filter((t) => t !== null).length;
-    this.doluEl.style.width = `${(100 * dolu) / BANT_YERI}%`;
+    const yer = this.bolum.bantYeri;
+    this.doluEl.style.width = `${(100 * dolu) / yer}%`;
     this.doluKutuEl.dataset.dolu = String(dolu);
-    this.doluKutuEl.dataset.yer = String(BANT_YERI);
-    this.doluKutuEl.classList.toggle('dolu', dolu >= BANT_YERI);
+    this.doluKutuEl.dataset.yer = String(yer);
+    this.doluKutuEl.classList.toggle('dolu', dolu >= yer);
   }
 
   private siradakiMusteri(): MusteriYeri | null {
@@ -388,7 +422,7 @@ export class Oyun {
       bantY2,
       bantKalinlik: kalinlik,
       cevre,
-      topBoyu: Math.min(kalinlik - 8, (cevre / BANT_YERI) * 0.8),
+      topBoyu: Math.min(kalinlik - 8, (cevre / this.bolum.bantYeri) * 0.8),
       musteriNoktalari,
       musteriYolu,
       sutunlarUst,
@@ -575,7 +609,7 @@ export class Oyun {
   // ---------- oynanış ----------
 
   private gonder(sutunNo: number) {
-    if (this.bitti) return;
+    if (this.bitti || this.listeAcik) return;
     const sutun = this.sutunlar[sutunNo];
     const obek = gidecekTopSayisi(sutun);
     if (obek === 0) return;
@@ -596,7 +630,7 @@ export class Oyun {
       { x: this.sutunTopNoktasi(sutunNo, 0).x, y: this.y.bantY + this.y.bantY2 + 40 },
       this.y.bantX, this.y.bantY, this.y.bantG, this.y.bantY2,
     );
-    const aralik = this.y.cevre / BANT_YERI;
+    const aralik = this.y.cevre / this.bolum.bantYeri;
     const uzaklik = (i: number) => {
       const s = (((this.kayma + i * aralik - giris) % this.y.cevre) + this.y.cevre) % this.y.cevre;
       return Math.min(s, this.y.cevre - s);
@@ -642,9 +676,9 @@ export class Oyun {
   }
 
   private ilerlet(dt: number, an: number) {
-    if (this.bitti) return;
+    if (this.bitti || this.listeAcik) return;
     const y = this.y;
-    const aralik = y.cevre / BANT_YERI;
+    const aralik = y.cevre / this.bolum.bantYeri;
     const once = this.kayma;
     const adim = (y.cevre / BANT_TUR_SANIYE) * dt;
     this.kayma = (this.kayma + adim) % y.cevre;
@@ -680,7 +714,7 @@ export class Oyun {
 
     // İstediği çeşit önünden geçen müşteri onu alır.
     if (adim > 0) {
-      for (let i = 0; i < BANT_YERI; i++) {
+      for (let i = 0; i < this.bolum.bantYeri; i++) {
         const t = this.yuvalar[i];
         if (!t || t.durum !== 'bantta') continue;
         const sOnce = once + i * aralik;
@@ -815,10 +849,12 @@ export class Oyun {
     };
     const dugmeler = document.createElement('div');
     dugmeler.className = 'son-dugmeler';
-    const ayni = this.bolum;
+    const no = this.bolum.no;
     if (sonuc === 'kazandin') {
       // Yıldızlar (0–3) ve puan. Kaybedince ikisi de yok.
       const yildiz = this.yildizSayisi();
+      // Kayıt: en iyi yıldız saklanır, sonraki bölüm açılır.
+      this.kayit = bolumKazanildi(this.kayit, no, yildiz);
       const yildizlar = document.createElement('div');
       yildizlar.className = 'yildizlar';
       yildizlar.dataset.yildiz = String(yildiz);
@@ -831,22 +867,89 @@ export class Oyun {
       puan.dataset.enYuksek = String(this.enYuksekPuan());
       puan.textContent = `Puan ${Math.round(this.puan * 10) / 10}`;
       kutu.append(yildizlar, puan);
+      const sonBolum = no >= BOLUM_SAYISI;
+      if (sonBolum) {
+        const durum = document.createElement('div');
+        durum.className = 'son-durum';
+        durum.textContent = HEPSI_BITTI_YAZISI;
+        kutu.appendChild(durum);
+      }
       dugmeler.append(
-        dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(ayni)),
-        // Numaralı bölümler 4. pakette; şimdilik yeni rastgele bir bölüm.
-        dugme('Devam et', 'devam', () => this.yenidenBasla()),
+        dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)),
+        // Sonraki bölüm; son bölümdeyse Bölümler listesi.
+        dugme('Devam et', 'devam', () => (sonBolum ? this.listeAc() : this.yenidenBasla(no + 1))),
       );
     } else {
-      dugmeler.append(dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(ayni)));
+      dugmeler.append(dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)));
     }
     kutu.appendChild(dugmeler);
+    // Listeye dönüş için küçük bir yol.
+    const listeYolu = document.createElement('button');
+    listeYolu.className = 'liste-yolu';
+    listeYolu.textContent = 'Bölümler';
+    listeYolu.addEventListener('click', () => this.listeAc());
+    kutu.appendChild(listeYolu);
     this.sonEl.appendChild(kutu);
+  }
+
+  // ---------- Bölümler listesi ----------
+  // Çok sade bir ızgara (harita 5. pakette): numara ve kazanılan yıldızlar;
+  // kilitli olanlar soluk ve dokununca başlamaz; açık olana dokununca başlar.
+
+  listeAc() {
+    this.listeAcik = true;
+    this.listeEl.className = 'liste';
+    this.listeEl.innerHTML = '';
+    const kutu = document.createElement('div');
+    kutu.className = 'liste-kutu';
+    const baslik = document.createElement('div');
+    baslik.className = 'liste-baslik';
+    baslik.textContent = 'Bölümler';
+    kutu.appendChild(baslik);
+    if (hepsiBitti(this.kayit)) {
+      const durum = document.createElement('div');
+      durum.className = 'liste-durum';
+      durum.id = 'hepsi-bitti';
+      durum.textContent = HEPSI_BITTI_YAZISI;
+      kutu.appendChild(durum);
+    }
+    const izgara = document.createElement('div');
+    izgara.className = 'izgara';
+    for (let no = 1; no <= BOLUM_SAYISI; no++) {
+      const d = document.createElement('button');
+      const kilitli = no > this.kayit.acik;
+      const yildiz = this.kayit.yildizlar[no - 1] ?? 0;
+      d.className = 'bolum-dugme' + (kilitli ? ' kilitli' : '');
+      d.dataset.no = String(no);
+      d.dataset.yildiz = String(yildiz);
+      if (kilitli) d.setAttribute('aria-disabled', 'true');
+      const sayi = document.createElement('span');
+      sayi.className = 'bolum-sayi';
+      sayi.textContent = String(no);
+      const yildizlar = document.createElement('span');
+      yildizlar.className = 'kucuk-yildizlar';
+      for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) yildizlar.appendChild(yildizCiz(k < yildiz));
+      d.append(sayi, yildizlar);
+      d.addEventListener('click', () => {
+        if (no > this.kayit.acik) return; // kilitli: başlamaz
+        this.yenidenBasla(no);
+      });
+      izgara.appendChild(d);
+    }
+    kutu.appendChild(izgara);
+    this.listeEl.appendChild(kutu);
+  }
+
+  private listeKapat() {
+    this.listeAcik = false;
+    this.listeEl.className = 'liste gizli';
+    this.listeEl.innerHTML = '';
   }
 
   private topCiz(an: number) {
     const y = this.y;
-    const aralik = y.cevre / BANT_YERI;
-    for (let i = 0; i < BANT_YERI; i++) {
+    const aralik = y.cevre / this.bolum.bantYeri;
+    for (let i = 0; i < this.bolum.bantYeri; i++) {
       const p = this.yoldakiNokta(this.kayma + i * aralik);
       this.yuvaEller[i].style.transform =
         `translate(${p.x - y.topBoyu / 2}px, ${p.y - y.topBoyu / 2}px)`;

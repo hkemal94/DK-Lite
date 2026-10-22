@@ -2,9 +2,46 @@
 // Buradaki sayıların hepsi DENEME DEĞERİDİR; karar değildir.
 // Kemal oynayıp karar verecek. Aralıklar tasarım belgesi 7.1'den.
 
-// Alttaki sütun sayısı. Önerilen aralık 3–5.
-// Deneme değeri, Kemal oynayıp karar verecek.
-export const SUTUN_SAYISI = 4;
+// ---------- Numaralı bölümler ----------
+
+// Kaç bölüm var. DENEME; sayı Kemal'in kararı
+// (Kemal: "Deneme oyununu oynadıktan sonra karar vereyim").
+export const BOLUM_SAYISI = 10;
+
+// Bir bölümün zorluk ayarları.
+export interface BolumZorlugu {
+  sutun: number; // alttaki sütun sayısı (önerilen aralık 3–5)
+  cesit: number; // kaç farklı çeşit (en çok 5; harfle ayrılır, adlar Kemal'in)
+  musteri: number; // bölümdeki toplam müşteri (sırayla gelirler)
+  istekEnAz: number; // bir müşterinin istediği adet: en az
+  istekEnCok: number; // bir müşterinin istediği adet: en çok
+  bantYeri: number; // bantta kaç yer var
+}
+
+// Zorluk tablosu: sıra bölüm numarasıdır (ilk satır Bölüm 1).
+// Zorluk yavaşça artar: çeşit ve müşteri çoğalır, istek büyür, bant yeri azalır.
+// Bölüm 1 3. paketteki oyundan biraz kolay (o oyun: 4 sütun, 4 çeşit,
+// 12 müşteri, istek 2–4, bant 12; aşağıda Bölüm 4'e denk). Son bölüm biraz zor.
+// Bütün sayılar DENEME DEĞERİDİR; Kemal oynayıp karar verecek.
+// Satır sayısı BOLUM_SAYISI'ndan azsa son satır sonraki bölümlerde de kullanılır.
+export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
+  { sutun: 4, cesit: 3, musteri: 8, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 1
+  { sutun: 4, cesit: 3, musteri: 10, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 2
+  { sutun: 4, cesit: 4, musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 3
+  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 4
+  { sutun: 4, cesit: 4, musteri: 13, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 5
+  { sutun: 4, cesit: 4, musteri: 14, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 6
+  { sutun: 4, cesit: 4, musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 10 }, // 7
+  { sutun: 5, cesit: 5, musteri: 14, istekEnAz: 2, istekEnCok: 4, bantYeri: 10 }, // 8
+  { sutun: 5, cesit: 5, musteri: 15, istekEnAz: 3, istekEnCok: 4, bantYeri: 10 }, // 9
+  { sutun: 5, cesit: 5, musteri: 16, istekEnAz: 3, istekEnCok: 4, bantYeri: 9 }, // 10
+];
+
+// Bölüm numarasına (1'den) göre zorluk.
+export function bolumZorlugu(no: number): BolumZorlugu {
+  const i = Math.min(Math.max(1, no), BOLUM_ZORLUKLARI.length) - 1;
+  return BOLUM_ZORLUKLARI[i];
+}
 
 // Ekrandaki müşteri yeri sayısı (aynı anda en çok bu kadar müşteri görünür).
 // Kemal, 22 Ekim: "Maksimum 5 ama her saniye maksimum musteri olmak zorunda degil".
@@ -21,36 +58,19 @@ export const MUSTERI_GELIS_ARALIGI_SN = { enAz: 1, enCok: 5 };
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const BASTA_MUSTERI = { enAz: 2, enCok: 3 };
 
-// Bölümdeki toplam müşteri sayısı (sırayla gelirler).
-// Bölüm süresi önerisi 1–3 dakika.
-// 21 Ekim: 8'den 12'ye çıktı; müşteri çoğalsın ve sütunlar derinleşsin ki
-// sütunda gizli toplar olsun (Kemal: "müşteriler çoğalınca").
-// Deneme değeri, Kemal oynayıp karar verecek.
-export const TOPLAM_MUSTERI = 12;
-
-// Kaç farklı çeşit var. Ekranda harfle ayrılır (adlar Kemal'in).
-// Deneme değeri, Kemal oynayıp karar verecek.
-export const CESIT_SAYISI = 4;
-
-// Bir müşterinin istediği adet: en az / en çok.
-// Deneme değeri, Kemal oynayıp karar verecek.
-export const ISTEK_EN_AZ = 2;
-export const ISTEK_EN_COK = 4;
-
 // Sütunlara müşterilerin istediğinden fazla top konur ki hata yapma payı olsun.
 // Kemal, 22 Ekim: "Erime kurali gelirse cok daha fazla top koyulmali ki
 // insanlarin hata yapma luksu olsun".
 // 0.5: istenen toplamın yarısı kadar fazla top. Fazlalar çeşitlere dengeli dağılır.
-// Deneme değeri, Kemal oynayıp karar verecek.
+// Kemal'in kararı (22 Ekim, "Şimdiki gibi, istenenin yarısı kadar fazla");
+// her bölümde aynı.
 export const FAZLA_TOP_ORANI = 0.5;
 
-// Sütunlarda aynı çeşitten üst üste duran en uzun öbek.
+// Ortak saklı sıra (ve bölüm başında sütunlara dizilen toplar) tek tek karıştırılır;
+// öbek yoktur. Aynı çeşit art arda en çok bu kadar gelir.
+// Kemal, 22 Ekim: "Toplar tek tek karıştırılsın; art arda aynı çeşit daha az gelsin".
 // Deneme değeri, Kemal oynayıp karar verecek.
-export const OBEK_EN_COK = 3;
-
-// Bantta kaç yer var. Hepsi dolar ve kimse bantta olanı istemezse "Bant doldu".
-// Deneme değeri, Kemal oynayıp karar verecek.
-export const BANT_YERI = 12;
+export const ORTAK_SIRA_ART_ARDA_EN_COK = 2;
 
 // Bant bir turu kaç saniyede döner (büyüdükçe yavaşlar; sakin oyuncu için yavaş).
 // Deneme değeri, Kemal oynayıp karar verecek.

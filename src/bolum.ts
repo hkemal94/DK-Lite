@@ -1,30 +1,39 @@
-// Bölümü kurar: müşterilerin isteklerini, sütunlardaki görünen topları ve
-// ortak saklı sırayı.
-// Kemal, 22 Ekim: "Saklı toplar ortak bir yerde dursun; bir sütun azaldıkça
-// alttan ona gelsin. Böylece sütunların içi baştan belli olmaz."
+// Numaralı bölümleri kurar: müşterilerin isteklerini, sütunlardaki görünen
+// topları ve ortak saklı sırayı.
+//
+// Numaralı bölümler (4. paket; Kemal, 22 Ekim: "numaralı bölümler (her biri
+// biraz daha zor; kaldığın bölüm ve yıldızlar telefonda saklanır)"):
+// - Her bölüm kendi numarasından çıkan sabit bir tohumla kurulur; aynı numara
+//   her açılışta aynı dizilimi verir ("elle hazırlanmış" gibi tekrar eder).
+// - Zorluk bölüm numarasına göre `ayarlar.ts`'teki tablodan gelir.
+// - Kurulan dizilim kazanılabilirlik denetiminden geçmezse aynı tohumun
+//   devamından bir sonraki deneme kurulur; o da her açılışta aynıdır.
+//
+// Ortak saklı yer (Kemal, 22 Ekim: "Saklı toplar ortak bir yerde dursun; bir
+// sütun azaldıkça alttan ona gelsin."):
 // Bölüm başında her sütunda yalnız görünen kadar top (SUTUNDA_GORUNEN_TOP) durur.
-// Geri kalan bütün toplar (fazla toplar dahil) tek bir ortak sırada saklıdır;
-// sıra bölüm kurulurken karıştırılır ve sabittir ("Tekrar oyna" aynı sırayı getirir).
+// Geri kalan bütün toplar (fazla toplar dahil) tek bir ortak sırada saklıdır.
 // Bir sütundan top gidince ortak sıradaki sıradaki top o sütunun en altına gelir.
 // Ortak sıra bitince sütunlar kısalır.
+//
+// Karıştırma (Kemal, 22 Ekim: "Toplar tek tek karıştırılsın; art arda aynı
+// çeşit daha az gelsin"): bütün toplar öbek olmadan tek tek karıştırılır; aynı
+// çeşit art arda en çok ORTAK_SIRA_ART_ARDA_EN_COK kez gelir. Sütunlara dizilen
+// ilk toplar da bu tek sıranın başıdır (bir kural, bir sıra).
+//
 // Sütunlarda müşterilerin istediğinden fazla top vardır (FAZLA_TOP_ORANI);
 // fazlalar çeşitlere dengeli dağılır. Kazanmak için bütün müşteriler
 // karşılanır; artan top kalması sorun değildir.
-// Kurulan her bölüm, basit bir çözücüyle "kazanılabilir mi" diye denenir;
-// kazanılamıyorsa yeniden kurulur. Çözücü erimeyi bilmez (erime yokmuş gibi dener).
+// Çözücü erimeyi bilmez (erime yokmuş gibi dener).
 
 import {
   AYNI_ANDA_MUSTERI,
-  BANT_YERI,
-  CESIT_SAYISI,
+  BOLUM_SAYISI,
   FAZLA_TOP_ORANI,
-  ISTEK_EN_AZ,
-  ISTEK_EN_COK,
-  OBEK_EN_COK,
-  SUTUN_SAYISI,
+  ORTAK_SIRA_ART_ARDA_EN_COK,
   SUTUNDA_GORUNEN_TOP,
   TEK_SEFERDE_TOP,
-  TOPLAM_MUSTERI,
+  bolumZorlugu,
 } from './ayarlar';
 
 export interface Istek {
@@ -33,69 +42,123 @@ export interface Istek {
 }
 
 export interface Bolum {
+  no: number; // bölüm numarası (1'den)
+  cesitSayisi: number;
+  bantYeri: number;
   musteriler: Istek[]; // geliş sırasıyla
   // Bölüm başında sütunlarda görünen toplar: her sütun alttan üste çeşit sırası;
   // son eleman en üstte (ilk gidecek top). Her sütunda en çok SUTUNDA_GORUNEN_TOP.
   sutunlar: number[][];
   // Ortak saklı sıra: ilk eleman, bir sütundan top gidince ilk gelecek top.
   sakli: number[];
+  deneme: number; // kaçıncı denemede kazanılabilir çıktı (1'den)
 }
 
-function rastgeleTam(enAz: number, enCok: number): number {
-  return enAz + Math.floor(Math.random() * (enCok - enAz + 1));
+// Tohumlu rastgele sayı üreteci: aynı tohum her zaman aynı sayıları verir.
+type Uretec = () => number; // [0, 1)
+
+function uretecKur(tohum: number): Uretec {
+  let a = tohum >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
-function karistir<T>(dizi: T[]): T[] {
+// Bölüm numarasından tohum (sabit; değiştirilirse bütün bölümlerin dizilimi değişir).
+function bolumTohumu(no: number): number {
+  return (Math.imul(no, 2654435761) ^ 0x5d4b11e) >>> 0;
+}
+
+function rastgeleTam(r: Uretec, enAz: number, enCok: number): number {
+  return enAz + Math.floor(r() * (enCok - enAz + 1));
+}
+
+function karistir<T>(r: Uretec, dizi: T[]): T[] {
   for (let i = dizi.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(r() * (i + 1));
     [dizi[i], dizi[j]] = [dizi[j], dizi[i]];
   }
   return dizi;
 }
 
-function bolumTaslagi(): Bolum {
+// Topları tek tek karıştırır: her adımda kalan toplardan biri, kalan sayısına
+// göre ağırlıklı seçilir; aynı çeşit art arda en çok `enCok` kez gelir.
+// Bir çeşit öbürlerine göre çok fazla kalırsa sırası öne alınır ki sonda
+// art arda yığılmasın. Kural tutturulamazsa null (bir sonraki deneme kurulur).
+function tekTekKaristir(r: Uretec, sayilar: number[], enCok: number): number[] | null {
+  const kalan = sayilar.slice();
+  let toplam = kalan.reduce((a, b) => a + b, 0);
+  const dizi: number[] = [];
+  let sonCesit = -1;
+  let seri = 0;
+  while (toplam > 0) {
+    const yasak = seri >= enCok ? sonCesit : -1;
+    const adaylar = kalan.map((n, c) => (c !== yasak && n > 0 ? c : -1)).filter((c) => c >= 0);
+    if (adaylar.length === 0) return null;
+    // Zorunlu: bir çeşit öbürlerinin araya giremeyeceği kadar çoksa önce o.
+    let secilen = -1;
+    for (const c of adaylar) {
+      const obur = toplam - kalan[c];
+      if (kalan[c] > enCok * obur) secilen = c;
+    }
+    if (secilen < 0) {
+      const agirlik = adaylar.reduce((a, c) => a + kalan[c], 0);
+      let x = r() * agirlik;
+      secilen = adaylar[adaylar.length - 1];
+      for (const c of adaylar) {
+        x -= kalan[c];
+        if (x < 0) {
+          secilen = c;
+          break;
+        }
+      }
+    }
+    dizi.push(secilen);
+    kalan[secilen]--;
+    toplam--;
+    seri = secilen === sonCesit ? seri + 1 : 1;
+    sonCesit = secilen;
+  }
+  return dizi;
+}
+
+function bolumTaslagi(no: number, r: Uretec): Omit<Bolum, 'deneme'> | null {
+  const z = bolumZorlugu(no);
   // Müşteriler: art arda gelen iki müşteri aynı çeşidi istemez.
   const musteriler: Istek[] = [];
-  for (let i = 0; i < TOPLAM_MUSTERI; i++) {
-    let cesit = rastgeleTam(0, CESIT_SAYISI - 1);
-    while (i > 0 && CESIT_SAYISI > 1 && cesit === musteriler[i - 1].cesit) {
-      cesit = rastgeleTam(0, CESIT_SAYISI - 1);
+  for (let i = 0; i < z.musteri; i++) {
+    let cesit = rastgeleTam(r, 0, z.cesit - 1);
+    while (i > 0 && z.cesit > 1 && cesit === musteriler[i - 1].cesit) {
+      cesit = rastgeleTam(r, 0, z.cesit - 1);
     }
-    musteriler.push({ cesit, adet: rastgeleTam(ISTEK_EN_AZ, ISTEK_EN_COK) });
+    musteriler.push({ cesit, adet: rastgeleTam(r, z.istekEnAz, z.istekEnCok) });
   }
 
-  // Her çeşidin toplamı küçük öbeklere bölünür.
-  const toplamlar = new Array(CESIT_SAYISI).fill(0);
+  const toplamlar = new Array(z.cesit).fill(0);
   for (const m of musteriler) toplamlar[m.cesit] += m.adet;
   // Fazla toplar: istenen toplamın FAZLA_TOP_ORANI kadarı, çeşitlere eşit;
   // eşit bölünmeyen artık rastgele çeşitlere birer birer.
   const istenenToplam = toplamlar.reduce((a, b) => a + b, 0);
   const fazla = Math.round(istenenToplam * Math.max(0, FAZLA_TOP_ORANI));
-  const fazlaSiralama = karistir(Array.from({ length: CESIT_SAYISI }, (_, i) => i));
-  for (let k = 0; k < fazla; k++) toplamlar[fazlaSiralama[k % CESIT_SAYISI]]++;
-  const obekler: number[][] = [];
-  toplamlar.forEach((toplam, cesit) => {
-    let kalan = toplam;
-    while (kalan > 0) {
-      const boy = Math.min(kalan, rastgeleTam(1, OBEK_EN_COK));
-      obekler.push(new Array(boy).fill(cesit));
-      kalan -= boy;
-    }
-  });
-  karistir(obekler);
+  const fazlaSiralama = karistir(r, Array.from({ length: z.cesit }, (_, i) => i));
+  for (let k = 0; k < fazla; k++) toplamlar[fazlaSiralama[k % z.cesit]]++;
 
-  // Öbekler karıştırılmış sırayla tek bir diziye dizilir. Baştan her sütuna
-  // görünen kadar top verilir (öbekler sütunda üst üste durur); kalanı ortak
-  // saklı sıradır. Böylece sıra karışıktır ama sabittir.
-  const dizi = obekler.flat();
+  // Bütün toplar tek bir sıraya tek tek karıştırılır. Baştan her sütuna
+  // görünen kadar top verilir; kalanı ortak saklı sıradır.
+  const dizi = tekTekKaristir(r, toplamlar, Math.max(1, ORTAK_SIRA_ART_ARDA_EN_COK));
+  if (!dizi) return null;
   const sutunlar: number[][] = [];
   let k = 0;
-  for (let s = 0; s < SUTUN_SAYISI; s++) {
+  for (let s = 0; s < z.sutun; s++) {
     const boy = Math.min(Math.max(1, SUTUNDA_GORUNEN_TOP), dizi.length - k);
     sutunlar.push(dizi.slice(k, k + boy));
     k += boy;
   }
-  return { musteriler, sutunlar, sakli: dizi.slice(k) };
+  return { no, cesitSayisi: z.cesit, bantYeri: z.bantYeri, musteriler, sutunlar, sakli: dizi.slice(k) };
 }
 
 // En üstteki aynı çeşitlerin sayısı.
@@ -113,8 +176,9 @@ export function gidecekTopSayisi(sutun: number[]): number {
   return Math.min(ustObekBoyu(sutun), Math.max(1, TEK_SEFERDE_TOP));
 }
 
-// Çözücünün bir bölümde en çok kaç durum deneyeceği. Aşılırsa bölüm
-// "kazanılamaz" sayılır ve yenisi kurulur (bölüm kurma hızlı kalsın diye).
+// Çözücünün bir bölümde en çok kaç durum deneyeceği. Aşılırsa dizilim
+// "kazanılamaz" sayılır ve bir sonraki deneme kurulur (bölüm kurma hızlı kalsın diye).
+// Saate bağlı değildir; her açılışta aynı sonucu verir.
 const COZUCU_SINIRI = 20000;
 
 // Basit çözücü: bant bir torba gibi düşünülür; bantta istenen çeşit varsa
@@ -124,9 +188,9 @@ const COZUCU_SINIRI = 20000;
 // Kazanma: bütün müşteriler karşılandı (bantta ya da sütunda artan top olabilir).
 // Ekranda müşteri yerleri hep dolu sayılır: erime yokken oyuncu bekleyerek
 // yerlerin dolmasını sağlayabilir, bu yüzden bu varsayım oyuncunun elindedir.
-export function kazanilabilirMi(bolum: Bolum): boolean {
+export function kazanilabilirMi(bolum: Omit<Bolum, 'deneme'>): boolean {
   const gorulen = new Set<string>();
-  const { musteriler, sakli } = bolum;
+  const { musteriler, sakli, bantYeri, cesitSayisi } = bolum;
   let denenen = 0;
 
   function ara(
@@ -167,7 +231,7 @@ export function kazanilabilirMi(bolum: Bolum): boolean {
     if (++denenen > COZUCU_SINIRI) return false;
 
     const bantta = bant.reduce((a, b) => a + b, 0);
-    const bos = BANT_YERI - bantta;
+    const bos = bantYeri - bantta;
     if (bos <= 0) return false;
 
     // Önce görünen müşterilerin istediği üst topları dener (yalnız hız için;
@@ -199,16 +263,29 @@ export function kazanilabilirMi(bolum: Bolum): boolean {
   return ara(
     bolum.sutunlar.map((s) => s.slice()),
     0,
-    new Array(CESIT_SAYISI).fill(0),
+    new Array(cesitSayisi).fill(0),
     [],
     0,
   );
 }
 
-// Kazanılabilir bir bölüm kurar; kazanılabilir olana kadar yeniden dener.
-export function bolumKur(): Bolum {
-  for (;;) {
-    const b = bolumTaslagi();
-    if (kazanilabilirMi(b)) return b;
+// Kurulan bölümler bellekte tutulur (aynı bölüm ikinci kez hemen açılsın).
+const kurulanlar = new Map<number, Bolum>();
+
+// Bölüm numarasına göre kazanılabilir bölümü kurar. Aynı numara her zaman
+// aynı dizilimi verir: tohum numaradan gelir, geçmeyen denemeden sonra aynı
+// üretecin devamıyla bir sonraki deneme kurulur.
+export function bolumKur(no: number): Bolum {
+  no = Math.min(Math.max(1, Math.floor(no)), BOLUM_SAYISI);
+  const hazir = kurulanlar.get(no);
+  if (hazir) return hazir;
+  const r = uretecKur(bolumTohumu(no));
+  for (let deneme = 1; ; deneme++) {
+    const b = bolumTaslagi(no, r);
+    if (b && kazanilabilirMi(b)) {
+      const bolum: Bolum = { ...b, deneme };
+      kurulanlar.set(no, bolum);
+      return bolum;
+    }
   }
 }
