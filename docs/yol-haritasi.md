@@ -114,6 +114,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Renk: mor-sarı tonlar Dondurmacı Kızlar'ınkiyle aynı oldu: koyu mor `#4e2470`, mor `#7a3fa8` (bant), sarı `#ffc928` (düğmeler, A çeşidi). Ekranın düzeni değişmedi.
 - Giriş ekranı: oyun açılınca önce giriş ekranı gelir. Oyunun adının yerinde `[Kemal]` yer tutucusu, altında "Başla" (kaldığın bölüm başlar; hepsi bittiyse Bölümler listesi) ve "Bölümler". Eskiden kaldığı bölüm doğrudan başlıyordu.
 - Duraklatma: oyun sırasında sağ üst köşede duraklatma düğmesi. Basınca oyun tamamen durur; "Devam et", "Baştan başla", "Bölümler" çıkar. Devam edince erime, müşteri gelişi ve bant kaldığı yerden sürer.
+- Hızlandırma: duraklatma düğmesinin yanında "2×" düğmesi. Basınca oyun 2 kat hızlanır (düğme sarı dolar), tekrar basınca normale döner. 2 kat öneri; Kemal onaylayınca kesinleşir. Erime düğmesi sağa yer kalsın diye "Bölüm 3" yazısının altına indi.
 
 ### 5. Bölüm haritası (çizimsiz)
 

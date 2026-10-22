@@ -48,14 +48,14 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 8px 12px 4px;
+  gap: 6px;
+  padding: 8px 10px 4px;
 }
 
 .sayaclar {
   display: flex;
   align-items: flex-end;
-  gap: 14px;
+  gap: 10px;
 }
 
 .sayac {
@@ -290,11 +290,13 @@ html, body {
   cursor: pointer;
 }
 
-/* Üst şeridin sol yanı: bölüm numarası ve erime düğmesi. */
+/* Üst şeridin sol yanı: bölüm numarası, altında erime düğmesi
+   (sağda hız ve duraklatma düğmelerine yer kalsın diye alt alta). */
 .ust-sol {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
   min-width: 0;
 }
 
@@ -442,14 +444,14 @@ html, body {
 .ust-sag {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 
 /* Köşedeki küçük yuvarlak düğmeler (duraklatma, hız). */
 .kose-dugme {
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid rgba(78, 36, 112, 0.25);
   background: #fff;
@@ -480,3 +482,9 @@ html, body {
 }
 
 .duraklat-kutu .dugme { width: 100%; }
+
+/* Hızlandırma açıkken düğme sarı dolu. */
+.hiz-dugme.acik {
+  background: var(--sari);
+  border-color: var(--sari);
+}

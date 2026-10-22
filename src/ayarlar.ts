@@ -76,6 +76,11 @@ export const ORTAK_SIRA_ART_ARDA_EN_COK = 2;
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const BANT_TUR_SANIYE = 12;
 
+// Hızlandırma düğmesine basınca oyun bu kadar kat hızlı akar (bant, erime,
+// müşteri gelişi, uçuşlar). Tekrar basınca normale döner.
+// ÖNERİ (Kemal, 22 Ekim: hızlandırma düğmesi istedi); 2 kat Kemal onaylayınca kesinleşir.
+export const HIZ_KATI = 2;
+
 // Sütundan gönderme biçimi:
 //  'dokun' : sütuna dokununca hemen gider.
 //  'tut'   : sütuna basılı tutunca (TUTMA_MS kadar) gider.

@@ -14,6 +14,7 @@ import {
   GEC_TOP_SOLUKLUK,
   GEC_TOP_TURU,
   GONDERME_BICIMI,
+  HIZ_KATI,
   MUSTERI_GELIS_ARALIGI_SN,
   SUTUNDA_GORUNEN_TOP,
   TOP_PUANI,
@@ -115,6 +116,7 @@ export class Oyun {
   private listeEl!: HTMLDivElement; // Bölümler listesi (harita 5. pakette)
   private girisEl!: HTMLDivElement; // giriş ekranı (oyun açılınca ilk o gelir)
   private duraklatEl!: HTMLButtonElement; // köşedeki duraklatma düğmesi
+  private hizEl!: HTMLButtonElement; // hızlandırma düğmesi (basınca HIZ_KATI kat, tekrar basınca normal)
   private duraklatMenuEl!: HTMLDivElement; // duraklatınca çıkan seçenekler
 
   // Telefonda saklanan kayıt: kaldığı bölüm ve yıldızlar.
@@ -122,6 +124,8 @@ export class Oyun {
   private listeAcik = false;
   private girisAcik = false;
   private duraklatildi = false;
+  // Hızlandırma açık mı. Bölüm değişince de kalır; sayfa yenilenince normale döner.
+  private hizli = false;
   // Oyunun kendi saati (milisaniye). Yalnız oyun akarken ilerler; duraklatınca,
   // giriş ekranında ve Bölümler listesinde durur. Uçuşlar, erime, müşteri
   // gelişleri hep bu saate göre; böylece duraklatınca hiçbir şey kaçmaz.
@@ -233,9 +237,20 @@ export class Oyun {
     this.duraklatEl.setAttribute('aria-label', 'Duraklat');
     this.duraklatEl.append(document.createElement('span'), document.createElement('span'));
     this.duraklatEl.addEventListener('click', () => this.duraklat());
+    // Hızlandırma düğmesi: basınca oyun HIZ_KATI kat hızlanır, tekrar basınca normale döner.
+    this.hizEl = document.createElement('button');
+    this.hizEl.className = 'kose-dugme hiz-dugme';
+    this.hizEl.id = 'hiz';
+    this.hizEl.setAttribute('aria-label', 'Hızlandır');
+    this.hizEl.textContent = `${HIZ_KATI}×`;
+    this.hizEl.addEventListener('click', () => {
+      this.hizli = !this.hizli;
+      this.hizYazisi();
+    });
+    this.hizYazisi();
     const sag = document.createElement('div');
     sag.className = 'ust-sag';
-    sag.append(sayaclar, this.duraklatEl);
+    sag.append(sayaclar, this.hizEl, this.duraklatEl);
     this.ustEl.append(sol, sag);
     this.erimeYazisi();
 
@@ -301,6 +316,13 @@ export class Oyun {
     girisKutu.append(ad, basla, bolumler);
     this.girisEl.appendChild(girisKutu);
     this.kok.appendChild(this.girisEl);
+  }
+
+  // Hızlıyken düğme sarı dolu görünür.
+  private hizYazisi() {
+    this.hizEl.classList.toggle('acik', this.hizli);
+    this.hizEl.setAttribute('aria-pressed', String(this.hizli));
+    this.hizEl.dataset.kat = String(this.hizli ? HIZ_KATI : 1);
   }
 
   // Oyun sırasında duraklatır; bölüm bittiyse ya da üstte başka ekran varsa bir şey yapmaz.
@@ -776,14 +798,14 @@ export class Oyun {
     return !this.bitti && !this.listeAcik && !this.girisAcik && !this.duraklatildi;
   }
 
-  // Her karede oyunun saati, geçen gerçek süre kadar ilerler (duraklatınca,
+  // Her karede oyunun saati, geçen gerçek süre kadar (hızlıyken HIZ_KATI katı) ilerler (duraklatınca,
   // giriş ekranında ve Bölümler listesinde durur). Bölüm bitince de saat akar
   // ki havadaki toplar yerine varsın; oynanış (ilerlet) o zaman zaten durur.
   private kare(an: number) {
     const gercekDt = this.sonAn ? Math.min(0.05, (an - this.sonAn) / 1000) : 0;
     this.sonAn = an;
     const durdu = this.duraklatildi || this.girisAcik || this.listeAcik;
-    const dt = durdu ? 0 : gercekDt;
+    const dt = durdu ? 0 : gercekDt * (this.hizli ? HIZ_KATI : 1);
     this.oyunAn += dt * 1000;
     this.ilerlet(dt, this.oyunAn);
     this.topCiz(this.oyunAn);
