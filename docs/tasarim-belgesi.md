@@ -28,7 +28,21 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 ## 0. Kararlar
 
-En yeni karar en üstte. Çelişen yerde 0.4 geçerlidir.
+En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.5 Sınırlı görünüm (Kemal, 21 Ekim 2026; öneri oyununun ikinci denemesi)
+
+Kemal'in cümlesi, olduğu gibi: "Önümüzde yolumuz var ya, bütün gelecekleri
+görmemem lazım benim ve alttan gelmeye devam etmesi lazım; aynı zamanda
+müşteriler çoğalınca yani maksimumda 4-5 taneyi görmem lazım ve ben
+tıkladıkça alttan gelmeye devam etmesi lazım."
+
+Şefin yorumu (öneri oyununda böyle denendi; sayılar deneme değeri):
+- Sütunların tamamı baştan görünmez. Her sütunda yalnız üstten birkaç top görünür (deneme değeri 4); gerisi gizlidir, sayısı yazmaz.
+- Oyuncu gönderdikçe kalanlar yukarı kayar, alttan gizli bir top gelir.
+- Ekranda aynı anda en çok birkaç müşteri görünür (deneme değeri 4; Kemal "4-5" dedi).
+- Önceki karar sürer: görünen alt toplar soluk; gönderme dokununca, tek tek.
+- Bölüm 2.1'deki "sütunların en üstü her an görünür ama altı kapalıdır" kalıbıyla örtüşür.
 
 ### 0.4 Tasarım kararları (Kemal, 21 Ekim 2026; panodaki soru turu)
 

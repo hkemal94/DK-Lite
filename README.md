@@ -1,7 +1,7 @@
 # DK Lite
 
 Dondurmacı Kızlar'ın küçük, sade bulmaca sürümü (Kems Company).
-Aşama: 1. paket, çizimsiz öneri oyunu (21 Ekim 2026; Kemal deneyecek).
+Aşama: 1. paket, çizimsiz öneri oyunu (21 Ekim 2026; Kemal'in ikinci denemesine göre düzeltildi).
 
 - Tasarım belgesi: `docs/tasarim-belgesi.md`
 - Yol haritası: `docs/yol-haritasi.md`
@@ -14,10 +14,13 @@ belge oyun sayfasında canlı okunur.
 
 Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
 
-- Üstte müşteriler ve her birinin istediği çeşit (harf) ve adet.
+- Üstte müşteriler (aynı anda en çok 4) ve her birinin istediği çeşit (harf) ve adet.
 - Ortada dönen bant; altta sütunlar.
-- Bir sütuna dokun: en üstteki aynı harfler banda gider. İstediği harf
-  önünden geçen müşteri onu alır.
+- Her sütunda yalnız üstteki birkaç top görünür; gerisi gizlidir. Sıradaki
+  top sütunun banda yakın ucunda parlak durur, altındakiler soluktur.
+- Bir sütuna dokun: o sütunun en üstteki tek topu banda gider. Kalanlar
+  yukarı kayar, alttan gizli bir top gelir. İstediği harf önünden geçen
+  müşteri onu alır.
 - Bütün müşteriler karşılanınca "Kazandın"; bant dolar ve bantta kimsenin
   istemediği toplar kalırsa "Bant doldu". İkisinde de "Baştan" düğmesi var.
 - Her "Baştan"da yeni bir dizilim gelir; her dizilim kazanılabilir.

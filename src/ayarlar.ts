@@ -7,13 +7,16 @@
 export const SUTUN_SAYISI = 4;
 
 // Aynı anda bekleyen (görünen) müşteri sayısı. Önerilen aralık 2–4.
+// Kemal, 21 Ekim: "müşteriler çoğalınca yani maksimumda 4-5 taneyi görmem lazım".
 // Deneme değeri, Kemal oynayıp karar verecek.
-export const AYNI_ANDA_MUSTERI = 3;
+export const AYNI_ANDA_MUSTERI = 4;
 
 // Bölümdeki toplam müşteri sayısı (sırayla gelirler).
-// Bölüm süresi önerisi 1–3 dakika; bu sayı ona göre seçildi.
+// Bölüm süresi önerisi 1–3 dakika.
+// 21 Ekim: 8'den 12'ye çıktı; müşteri çoğalsın ve sütunlar derinleşsin ki
+// sütunda gizli toplar olsun (Kemal: "müşteriler çoğalınca").
 // Deneme değeri, Kemal oynayıp karar verecek.
-export const TOPLAM_MUSTERI = 8;
+export const TOPLAM_MUSTERI = 12;
 
 // Kaç farklı çeşit var. Ekranda harfle ayrılır (adlar Kemal'in).
 // Deneme değeri, Kemal oynayıp karar verecek.
@@ -48,6 +51,12 @@ export const TUTMA_MS = 300;
 // Üstteki aynı çeşitler bu sayıdan fazlaysa kalanlar sütunda bekler.
 // Deneme değeri, Kemal oynayıp karar verecek.
 export const TEK_SEFERDE_TOP = 1;
+
+// Her sütunda üstten kaç top görünür. Geri kalanı gizlidir (çizilmez);
+// üstteki top gidince kalanlar yukarı kayar, alttan gizlilerden biri gelir.
+// Kemal, 21 Ekim: "bütün gelecekleri görmemem lazım ... alttan gelmeye devam etmesi lazım".
+// Deneme değeri, Kemal oynayıp karar verecek.
+export const SUTUNDA_GORUNEN_TOP = 4;
 
 // Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı; tonlar taslak).
 // Harfler yalnız ayırt etmek için; çeşit adları [Kemal].
