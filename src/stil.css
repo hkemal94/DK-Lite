@@ -437,3 +437,46 @@ html, body {
   padding: 18px 28px;
   margin-bottom: 28px;
 }
+
+/* Üst şeridin sağ yanı: sayaçlar ve köşe düğmeleri. */
+.ust-sag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Köşedeki küçük yuvarlak düğmeler (duraklatma, hız). */
+.kose-dugme {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(78, 36, 112, 0.25);
+  background: #fff;
+  color: var(--mor);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Duraklatma işareti: iki dik çizgi. */
+.duraklat-dugme span {
+  width: 4px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--mor);
+}
+
+/* Duraklatma seçenekleri alt alta, eşit genişlikte. */
+.duraklat-kutu {
+  width: min(260px, calc(100% - 48px));
+  gap: 12px;
+}
+
+.duraklat-kutu .dugme { width: 100%; }

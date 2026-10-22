@@ -114,11 +114,18 @@ export class Oyun {
   private bolumNoEl!: HTMLButtonElement; // üst şeritte "Bölüm 3"; dokununca Bölümler listesi
   private listeEl!: HTMLDivElement; // Bölümler listesi (harita 5. pakette)
   private girisEl!: HTMLDivElement; // giriş ekranı (oyun açılınca ilk o gelir)
+  private duraklatEl!: HTMLButtonElement; // köşedeki duraklatma düğmesi
+  private duraklatMenuEl!: HTMLDivElement; // duraklatınca çıkan seçenekler
 
   // Telefonda saklanan kayıt: kaldığı bölüm ve yıldızlar.
   private kayit: Kayit = kayitOku();
   private listeAcik = false;
   private girisAcik = false;
+  private duraklatildi = false;
+  // Oyunun kendi saati (milisaniye). Yalnız oyun akarken ilerler; duraklatınca,
+  // giriş ekranında ve Bölümler listesinde durur. Uçuşlar, erime, müşteri
+  // gelişleri hep bu saate göre; böylece duraklatınca hiçbir şey kaçmaz.
+  private oyunAn = 0;
 
   private bolum!: Bolum;
   private sutunlar: number[][] = [];
@@ -219,7 +226,17 @@ export class Oyun {
     const sol = document.createElement('div');
     sol.className = 'ust-sol';
     sol.append(this.bolumNoEl, this.erimeEl);
-    this.ustEl.append(sol, sayaclar);
+    // Sağ köşede duraklatma düğmesi (iki dik çizgi). Basınca oyun durur, seçenekler çıkar.
+    this.duraklatEl = document.createElement('button');
+    this.duraklatEl.className = 'kose-dugme duraklat-dugme';
+    this.duraklatEl.id = 'duraklat';
+    this.duraklatEl.setAttribute('aria-label', 'Duraklat');
+    this.duraklatEl.append(document.createElement('span'), document.createElement('span'));
+    this.duraklatEl.addEventListener('click', () => this.duraklat());
+    const sag = document.createElement('div');
+    sag.className = 'ust-sag';
+    sag.append(sayaclar, this.duraklatEl);
+    this.ustEl.append(sol, sag);
     this.erimeYazisi();
 
     this.sonEl = document.createElement('div');
@@ -231,6 +248,31 @@ export class Oyun {
     this.listeEl.className = 'liste gizli';
     this.listeEl.id = 'liste';
     this.kok.appendChild(this.listeEl);
+
+    // Duraklatma seçenekleri: Devam et, Baştan başla, Bölümler.
+    this.duraklatMenuEl = document.createElement('div');
+    this.duraklatMenuEl.className = 'son gizli';
+    this.duraklatMenuEl.id = 'duraklat-menu';
+    const menuKutu = document.createElement('div');
+    menuKutu.className = 'son-kutu duraklat-kutu';
+    const menuDugme = (yazi: string, sinif: string, id: string, is: () => void) => {
+      const d = document.createElement('button');
+      d.className = 'dugme ' + sinif;
+      d.id = id;
+      d.textContent = yazi;
+      d.addEventListener('click', is);
+      return d;
+    };
+    menuKutu.append(
+      menuDugme('Devam et', 'devam', 'menu-devam', () => this.devamEt()),
+      menuDugme('Baştan başla', 'tekrar', 'menu-bastan', () => this.yenidenBasla(this.bolum.no)),
+      menuDugme('Bölümler', 'tekrar', 'menu-bolumler', () => {
+        this.duraklatMenuKapat();
+        this.listeAc();
+      }),
+    );
+    this.duraklatMenuEl.appendChild(menuKutu);
+    this.kok.appendChild(this.duraklatMenuEl);
 
     // Giriş ekranı: oyunun adı yerine yer tutucu (ad Kemal'in), "Başla" ve "Bölümler".
     this.girisEl = document.createElement('div');
@@ -261,6 +303,22 @@ export class Oyun {
     this.kok.appendChild(this.girisEl);
   }
 
+  // Oyun sırasında duraklatır; bölüm bittiyse ya da üstte başka ekran varsa bir şey yapmaz.
+  private duraklat() {
+    if (!this.oynuyor()) return;
+    this.duraklatildi = true;
+    this.duraklatMenuEl.className = 'son';
+  }
+
+  private devamEt() {
+    this.duraklatildi = false;
+    this.duraklatMenuKapat();
+  }
+
+  private duraklatMenuKapat() {
+    this.duraklatMenuEl.className = 'son gizli';
+  }
+
   private girisAc() {
     this.girisAcik = true;
     this.girisEl.className = 'giris';
@@ -277,6 +335,8 @@ export class Oyun {
     if (no < 1 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
     this.listeKapat();
     this.girisKapat();
+    this.duraklatildi = false;
+    this.duraklatMenuKapat();
     this.bolum = bolumKur(no);
     this.bolumNoEl.textContent = `Bölüm ${no}`;
     this.bolumNoEl.dataset.no = String(no);
@@ -286,7 +346,7 @@ export class Oyun {
     this.karsilanan = 0;
     this.puan = 0;
     // Bölüm birkaç müşteriyle başlar (rastgele yerlerde); ötekiler teker teker gelir.
-    const an = performance.now();
+    const an = this.oyunAn;
     this.musteriYerleri = new Array(AYNI_ANDA_MUSTERI).fill(null);
     this.gelisAnlari = new Array(AYNI_ANDA_MUSTERI).fill(Infinity);
     const yerler = Array.from({ length: AYNI_ANDA_MUSTERI }, (_, i) => i);
@@ -681,7 +741,7 @@ export class Oyun {
     };
     bosYuvalar.sort((a, b) => uzaklik(a) - uzaklik(b));
 
-    const an = performance.now();
+    const an = this.oyunAn;
     for (let k = 0; k < giden; k++) {
       const cesit = sutun.pop()!;
       const nereden = this.sutunTopNoktasi(sutunNo, k); // sütundaki yerinden kalkar
@@ -713,14 +773,20 @@ export class Oyun {
 
   // Oyun şu an akıyor mu (bölüm bitmedi, üstünde liste ya da giriş ekranı yok).
   private oynuyor(): boolean {
-    return !this.bitti && !this.listeAcik && !this.girisAcik;
+    return !this.bitti && !this.listeAcik && !this.girisAcik && !this.duraklatildi;
   }
 
+  // Her karede oyunun saati, geçen gerçek süre kadar ilerler (duraklatınca,
+  // giriş ekranında ve Bölümler listesinde durur). Bölüm bitince de saat akar
+  // ki havadaki toplar yerine varsın; oynanış (ilerlet) o zaman zaten durur.
   private kare(an: number) {
-    const dt = this.sonAn ? Math.min(0.05, (an - this.sonAn) / 1000) : 0;
+    const gercekDt = this.sonAn ? Math.min(0.05, (an - this.sonAn) / 1000) : 0;
     this.sonAn = an;
-    this.ilerlet(dt, an);
-    this.topCiz(an);
+    const durdu = this.duraklatildi || this.girisAcik || this.listeAcik;
+    const dt = durdu ? 0 : gercekDt;
+    this.oyunAn += dt * 1000;
+    this.ilerlet(dt, this.oyunAn);
+    this.topCiz(this.oyunAn);
     requestAnimationFrame((a) => this.kare(a));
   }
 
