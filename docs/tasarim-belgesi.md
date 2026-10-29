@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026, öneri).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026). Oyun ekranının yeni hâli için soru turu yapıldı (0.14; 29 Ekim 2026).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -29,6 +29,38 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 ## 0. Kararlar
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.14 Oyun ekranının yeni hâli (Kemal, 29 Ekim 2026; sohbette soru turu)
+
+Kemal bir örnek oyun ekranı paylaştı (`docs/gorseller/kemal-taslak/5-oyun-ekrani-29-10.jpg`; köşesinde "Dondurmacı Kızlar Lite" simgesi var) ve "Ekran mantığı olarak buna benzememesi normal mi?" diye sordu. Ardından uzun bir soru turu yapıldı. Kemal'in cevapları:
+
+Ekranın dizilişi:
+- Diziliş: "Resimdeki gibi". Tezgâh ortada büyük, bant tezgâhın çevresinden döner, müşteriler tezgâhın arkasında durur.
+- Tezgâhın ortasında dondurmacı bir kız görünür: "Evet, ortada dursun". Adı ve hikâyesi yok, yalnız görüntü.
+- Sayaçlar: "Şimdiki sayaçlar" (müşteri, puan, bant doluluğu); yalnız görünüşleri güzelleşir.
+- Gönderme: "Dokununca gitsin" (şimdiki gibi; resimdeki "Oynamak için tutun" alınmaz).
+- Bölüm başında sütunların üstü: "Karışık kalsın" (0.9 sürer).
+
+Çeşitler ve yeni kurallar:
+- Harflerin yerine gerçek dondurma çeşitleri: çikolata, çilek, limon, fıstık, vanilya.
+- Bir müşteri kaç çeşit ister: "İleriki bölümlerde 2". İki çeşit isteyen müşteriler "Ortalardan itibaren" gelir (10 bölümün yarısından sonra; tam bölüm deneme değeri, Kemal oynayıp söyler).
+- Sütunlarda tatlılar da olur: dilim pasta, küçük kek, kâsede meyve. Kemal: "İçecekler de; zorlaştıkça çeşitler eklensin işte". İçecekler: limonata, gazoz, kahve, çay. Hangi bölümde hangisinin geleceği deneme değeri.
+- Tatlılar ve içecekler: "Resimdeki gibi"; aynı sütunlarda, dondurmaların altında karışık sırada gelir.
+- Yeni kurallar (iki çeşit isteyen müşteri, tatlılar, içecekler) yeni dizilişle birlikte gelir.
+
+Görünüş:
+- Tarz: "Yakın ama Dondurmacı Kızlar temasında". Resimdeki el çizimi tarza yakın; resmin görselleri, karakterleri birebir alınmaz.
+- Dondurmacı Kızlar teması: mor-sarı çizgili tente, dükkânın logosu, mor-sarı tezgâh (resimdeki gökkuşağı renkli tezgâh önü yerine), dondurmacının önlüğü ve saç bandı dükkân renklerinde.
+- Arka plan: "Dükkândan dışarısı gibi" (dükkân Liman'da, iskelenin yakını; künyede olmayan yer adı yazılmaz).
+- Oyunun adı: "Şimdilik çalışma adı". Ekranda "Dondurmacı Kızlar Lite" çalışma adı olarak kullanılır; son ad sonra belli olur.
+
+Sıradaki iş:
+- "İkisi birlikte": çizimsiz yeni diziliş (yeni kurallarla) ve 6. paket görsel denemesi, iki ayrı öneri olarak aynı anda.
+- Görsel denemesi aracı: "Önce Canva ile" (Scenario sonra; 0.4'teki 22 Ekim kararı böyle daraldı).
+
+Bunlardan çıkanlar (şefin notu):
+- 0.13'teki geçici Dondurmacı Kızlar resimleri yeni dizilişte de kullanılabilir; çizimler gelince yerine geçer.
+- 0.6'daki "en çok 5 müşteri" ve 0.7'deki fazla top oranı sürer. Tatlı ve içecek de bir "top" gibi sayılır (bir yer kaplar, bir puan getirir); kesin kural yeni dizilişin önerisinde Kemal'e gösterilir.
 
 ### 0.13 Oyun ekranına Dondurmacı Kızlar görselleri (Kemal, 29 Ekim 2026)
 
