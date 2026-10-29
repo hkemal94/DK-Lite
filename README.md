@@ -16,7 +16,7 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
 
 - Numaralı bölümler: oyun açılınca kaldığın bölüm doğrudan başlar (ilk
   açılışta Bölüm 1). Üst şeritte solda "Bölüm 3" gibi bölüm numarası yazar.
-  Her bölüm biraz daha zor. Deneme olarak 10 bölüm var; sayı senin kararın.
+  Her bölüm biraz daha zor. 30 bölüm var (önce 10'du; 11–30. bölümlerin zorluğu deneme); sayı senin kararın.
 - Aynı bölüm her açılışta aynı başlar (sütunlar ve saklı yerden gelen
   topların sırası aynı); müşterilerin hangi yere ve kaç saniye arayla
   geldiği yine değişir.

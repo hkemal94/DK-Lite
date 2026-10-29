@@ -30,6 +30,36 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.22 Bölüm sonunda dondurmacı fişin üstünde, 30 bölüm, harita önlemi (öneri; 29 Ekim 2026)
+
+Kemal'in istekleri (CEO iletti): bölüm sonunda sevinen dondurmacı havada asılı kalıyor; "bölümleri 30'a çıkarabilirsin" (ileride yaklaşık 500 bölüm); telefonda "Bölümler" ekranı mavi düz ekran kaldı.
+
+Bölüm sonu:
+- Neden değişti: dondurmacı fişin dışında, fişin üstüne yapıştırılmış gibi duruyordu; telefonda fiş uzun olunca başı ekranın üstünden taşıyor, logonun üstünde havada duruyordu.
+- Şimdi: dondurmacı fişin sol üstünde, fişin üst kenarına basıyormuş gibi durur (alt kenarı fişin arkasına biraz girer). Kısa ekranda küçülür; hiçbir ekran boyunda ekrandan taşmaz, logoyu kapatmaz. Yer yetmezse fiş kısalır ve kendi içinde kayar; "Tekrar oyna", "Devam et" ve "Bölümler" hep görünür. Sevinç hareketi yalnız hafif sallanma.
+
+30 bölüm:
+- Bölüm sayısı 10'dan 30'a çıktı. 1–10. bölüm değişmedi. Sayı yalnız `src/ayarlar.ts`'te (`BOLUM_SAYISI`); ileride artırılırsa harita, kayıt ve zorluk kendiliğinden uyar.
+- 11. bölümden sonrası tabloyla değil kuralla gelir (500'e kadar uzayabilsin diye). Hepsi DENEME DEĞERİDİR; Kemal oynayıp karar verecek. İlke (Kemal, 22 Ekim): her adımda yalnız bir şey biraz zorlaşır.
+  - Müşteri: her 4 bölümde bir fazla (11. bölümde 16, 30. bölümde 20); en çok 22.
+  - Çeşit: 4; 16. bölümden 5; 25. bölümden 6 (en çok 6).
+  - Bant yeri: 10; 14. bölümden 9; 22. bölümden 8 (en az 7).
+  - İki çeşit isteyen müşteri oranı: 0.5; 18. bölümden 0.6; 26. bölümden 0.7 (en çok 0.7).
+  - Sütun 4 ve istek 3–5 değişmedi.
+  - Ürünler: yeni ürün yok; her bölümde iki dondurma çeşidi, kalanı tatlı ve içecekten dönüşümlü. Aynı bölüm hep aynı ürünlerle gelir. Hangi bölümde hangi ürün: DENEME.
+- 30 bölümün hepsi kurulup ölçüldü: hepsi kazanılabilir dizilimle kuruldu, en yavaşı 25. bölüm (4. denemede, yaklaşık 0,3 saniye).
+- Eski kayıt: 10 bölümün hepsini bitirmiş kayıtta 11. bölüm kilitli kalmaz, açılır.
+- "Bütün bölümler bitti" yazısı artık 30. bölüm kazanılınca çıkar.
+- Bölüm haritası (sahil yolu) 30 noktaya uzadı; manzara alt alta tekrar eder.
+
+"Bölümler" ekranında mavi düz ekran:
+- Kök neden doğrulanamadı: bilgisayarda harita düzgün açılıyor, yayındaki sitede resim var. En olası neden: yavaş bağlantıda harita resmi geç geliyor, o sırada yalnız düz mavi zemin görünüyor.
+- Önlem: oyun açılırken harita resmi önceden indirilir; resim gelmediyse düz mavi yerine denizden kuma ve çimene yumuşak bir geçiş görünür. Kemal telefonda tekrar görürse hangi düğmelere bastığını söyler.
+
+Açık sorular (Kemal'in; karar verilmedi):
+- 11–30. bölümlerin zorluk eğrisi böyle mi olsun (oynayınca çok kolay ya da çok zor gelen bölüm var mı)?
+- 500 bölüme giderken harita ve zorluk nasıl olsun (yol hep aynı manzarada mı uzasın; zorluk bir yerde dursun mu, dalgalı mı gitsin)?
+
 ### 0.21 Tam boy müşteriler, daha uzun sabır, giriş ekranı için Canva sayfası (öneri; 30 Ekim 2026)
 
 Kemal'in isteği (telefondan bir ekran görüntüsüyle; bandın sol köşesindeki kesik gövdeyi işaretlemiş): "en sondakilere urunler kalmadan ondekiler aliyor bununla ilgili nasil bir yol izlemeliyim ayrica insanlari tam boy olarak ciz bu sekildeki bosluklar hosuma gitmiyor. Giris sayfasi biraz daha cezbedici olsun ve canvada bunun icin bir tasarim belgesi hazirla ben yanlarina kendi fikirlerimi cizip verebileyim sana."
@@ -551,7 +581,7 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 
 İlk sürümde yalnız bölümler, yıldız ve harita var (Kemal, 21 Ekim).
 
-- **Bölümler:** numaralı; her bölüm biraz daha zor. İlk sürüm 10 bölüm (Kemal, 22 Ekim; 0.10).
+- **Bölümler:** numaralı; her bölüm biraz daha zor. İlk sürüm 10 bölüm (Kemal, 22 Ekim; 0.10); 30'a çıkarıldı (0.22).
 - **Yıldız:** sayısı ve neye göre verildiği [Kemal] (bkz. Kemal'e sorular, 6). Öneri: kalan hamle ya da hiç erimeden bitirme gibi bir ölçü. Öneri oyununda deneme olarak üç yıldız, puana göre (0.7).
 - **Harita:** bölüm geçildikçe yol üstünde bir sonraki bölüm açılır.
 - **Kayıt:** oyuncunun kaldığı bölüm ve yıldızları telefonda saklanır (4. pakette denendi, 0.9).
@@ -608,6 +638,8 @@ kapananlar (DK'nın ne olduğu, görsel stil, palet, oynanış seçeneği,
 haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı.
 
 İlk sürüm için:
+- 11–30. bölümlerin zorluk eğrisi böyle mi? (0.22; sayılar deneme)
+- 500 bölüme giderken harita ve zorluk nasıl olsun? (0.22)
 - Yıldız neye göre verilir? (Kemal'e sorular, 6) Öneri oyununda şimdilik puana göre deneme ölçüsü var (0.7). Kemal (0.8): "Sonra bakariz simdiki kalsin"; soru ertelendi.
 - Hangi sezon.
 
@@ -627,7 +659,7 @@ elle denenip değişir.
 - **Bir bölümün süresi:** önerilen 1–3 dakika. Gerekçe: Kemal'in oturumu 5–10 dakika; bir oturuma birkaç bölüm sığarsa oyuncu her oturumda ilerleme görür.
 - **Sütun sayısı:** önerilen 3–5 (ilk bölümlerde az, sonra artar). Gerekçe: dik telefon ekranında parmağın rahat dokunacağı genişlik.
 - **Aynı anda bekleyen müşteri:** önerilen 2–4. Gerekçe: sakin oyuncu için ilk bölümlerde az. (0.6 ile en çok 5; yerler her an dolu değil.)
-- İlk sürümdeki bölüm sayısı: 10 (Kemal, 22 Ekim; 0.10). Yıldız ölçüsü, can sayısı ve dolma süresi: Kemal'in kararı; bu belge sayı önermez.
+- İlk sürümdeki bölüm sayısı: 10 (Kemal, 22 Ekim; 0.10); 30'a çıkarıldı (0.22). Yıldız ölçüsü, can sayısı ve dolma süresi: Kemal'in kararı; bu belge sayı önermez.
 
 ---
 
@@ -648,5 +680,5 @@ Yapım aşaması ve işler: [Kemal] (KKM'de boş; yol haritası onaylandıkça d
 2. DK Lite: Haritada Merkez ne olsun? Kapandı (Kemal, 22 Ekim: "Belki yuzlerce bolum yapacagiz bunun onemi yok"; şimdiki gibi kalır, 0.12).
 3. DK Lite: Harita ekranda nasıl dursun? Kapandı (Kemal, 22 Ekim: "Cizim yapariz bunun icin harita olmak zorunda degil"; şimdilik kuzey yukarıda, 7. pakette çizimle yapılır, 0.12).
 4. DK Lite: Hızlandırma düğmesi kaç kat hızlandırsın? Kapandı (Kemal, 22 Ekim: 2 kat, 0.12).
-5. DK Lite: İlk sürümde kaç bölüm olsun? Kapandı (Kemal, 22 Ekim: 10 bölüm).
+5. DK Lite: İlk sürümde kaç bölüm olsun? Kapandı (Kemal, 22 Ekim: 10 bölüm). Sonra 30'a çıkarıldı (0.22).
 6. DK Lite: Yıldız neye göre verilsin? Seçenekler: (a) şimdiki deneme gibi puana göre, oynayıp eşikleri söylerim, (b) hiç top eritmeden bitirme, (c) kalan bant yeri. Ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin").
