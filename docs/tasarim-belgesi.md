@@ -41,6 +41,7 @@ Kemal'in isteği (telefondan iki ekran görüntüsüyle): "Insanlar barin arkasi
 - Arka plan resmi (dükkândan dışarısı) bütün sayfaya yayılır ve biraz saydamdır (yarıdan biraz fazla görünür); sütunlar da onun üstünde durur.
 - Kurallar ve sayılar değişmedi.
 - Ekran görüntüleri: `docs/ekran/bar-3b/`.
+- Müşteri boyu (Kemal, 30 Ekim: "Musteriler boyunlarindan yukari gorunuyor boylari daha cok gorunmeli"): müşteri resmi büyüdü (büyük telefonda 86 piksel; kısa ekranda bar sıkışmasın diye ekran yüksekliğine göre küçülür, en az 60), barın arkasında kalan kısmı azaldı; müşteriler belden yukarı görünür. Ekran görüntüleri: `docs/ekran/musteri-boyu/`.
 
 ### 0.19 Büyük paket: bar, sabır, fiş, ayarlar, sahil yolu (öneri; 30 Ekim 2026)
 
