@@ -46,6 +46,8 @@ const TEZGAH_RESIMLERI = [
 const LOGO_RESMI = 'gorseller/logo-yazi.webp';
 // Arkada dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları (Canva, parlak çizgi film).
 const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
+// Bantta dondurma topunun altındaki külah (Canva, parlak çizgi film).
+const KULAH_RESMI = 'gorseller/kulah.webp';
 // Müşteri kartındaki kişi resminin boyu (px).
 const KISI_BOY = 56;
 // Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
@@ -867,6 +869,17 @@ export class Oyun {
       const nereden = this.sutunTopNoktasi(sutunNo, k); // sütundaki yerinden kalkar
       const el = this.topElKur(cesit, this.y.topBoyu);
       el.classList.add('bantta');
+      // Bantta dondurma topu külahın üstünde döner (Kemal, 30 Ekim: "Bantta").
+      // Sütunlarda ve istek balonunda çıplak top kalır.
+      if (URUNLER[cesit].tur === 'dondurma') {
+        el.classList.add('kulahli');
+        const kulah = document.createElement('img');
+        kulah.className = 'kulah';
+        kulah.src = KULAH_RESMI;
+        kulah.alt = '';
+        kulah.draggable = false;
+        el.prepend(kulah);
+      }
       this.sahne.appendChild(el);
       const top: Top = {
         el,

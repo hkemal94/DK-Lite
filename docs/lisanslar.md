@@ -17,6 +17,7 @@ yalnız yazılı tarif kullanıldı.
 | `public/gorseller/urunler/gazoz.webp` | Gazoz şişesi (ilk çizim kolaya benzediği için yeniden çizildi) | https://www.canva.com/M/MAHZYpAngJY |
 | `public/gorseller/musteriler/` | 10 müşteri, belden yukarısı | https://www.canva.com/M/MAHZYoCG0RQ |
 | `public/gorseller/tezgah/dondurmaci.webp` | Tezgâhtaki dondurmacı (sarı tişört, mor önlük, mor kasket) | https://www.canva.com/M/MAHZYsbgjPQ |
+| `public/gorseller/kulah.webp` | Bantta dondurma topunun altındaki külah | https://www.canva.com/M/MAHZYtoyWcc |
 | `public/gorseller/arka-plan.webp` | Dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları | https://www.canva.com/M/MAHZYh4YtGo |
 
 Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi

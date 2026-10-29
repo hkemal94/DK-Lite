@@ -164,7 +164,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 7. Görsellerin oyuna girmesi
 
-- Durum: oyun ekranı ve giriş ekranı öneri olarak geldi (30 Ekim; tasarım belgesi 0.17). Kemal: "Birleştirdim, başlayabilirsin". Kalan: bölüm haritasının çizimi, bölüm sonu kutusu.
+- Durum: oyun ekranı ve giriş ekranı geldi (30 Ekim, PR #17 birleşti; tasarım belgesi 0.17). Bantta dondurma külahın üstünde (Kemal, 30 Ekim: "Bantta"; öneri). Kemal: "Birleştirdim, başlayabilirsin". Kalan: bölüm haritasının çizimi, bölüm sonu kutusu.
 - Ekran görüntüleri: `docs/ekran/paket-7/1-bolum1-390x844.png`, `2-bolum7-390x844.png`, `3-bolum9-360x640.png`, `4-giris-390x844.png`.
 - İçerik: 6. pakette beğenilen dille oyun ekranı, bölüm sonu ve harita çizilir, kutuların yerine geçer.
 - Harita Düzada'ya göre çizilir: zeytinlik, maki, kayalık, koylar, Ada Tepesi; yanardağ ve palmiye yok. Dükkân kanondaki yerinde (Liman, iskelenin yakını).
