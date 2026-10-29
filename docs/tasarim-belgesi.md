@@ -30,6 +30,13 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.16 Görsel tarzı: parlak çizgi film (Kemal, 30 Ekim 2026)
+
+6. paketteki iki Canva denemesinden (`docs/gorseller/deneme-canva/`) Kemal'in seçimi, olduğu gibi: "Parlak cizgi film iyi".
+- DK Lite'ın görsel tarzı: parlak çizgi film; kalın hatlar, canlı renkler, el çizimi 2D (0.4 sürer), Dondurmacı Kızlar teması (0.14).
+- Örnek resim: https://www.canva.com/M/MAHZWRtI0gY (Kemal'in Canva hesabında). Resim birebir oyuna girmez; 7. pakette oyunun parçaları bu tarzda ayrı ayrı çizilir.
+- Suluboya denemesi seçilmedi.
+
 ### 0.15 Yeni diziliş ve yeni kurallar, çizimsiz (öneri; 29 Ekim 2026 gecesi)
 
 Kemal'in isteği: 0.14'teki soru turu ve "Yatıyorum, limitler dahilinde çalışabilirsin" (29 Ekim gecesi). Öneri oyununda böyle yapıldı:

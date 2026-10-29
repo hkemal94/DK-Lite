@@ -13,10 +13,10 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: yeni diziliş ve yeni kurallar öneri olarak geldi (29 Ekim gecesi; tasarım belgesi 0.15): tente, dükkândan dışarısı, müşteriler tezgâhın arkasında, ortada dondurmacı, tezgâh önünde logo; harflerin yerine dondurma çeşitleri, tatlılar ve içecekler; 6. bölümden iki çeşit isteyen müşteriler. Önceki: Kemal'le oyun ekranının yeni hâli için uzun soru turu yapıldı (29 Ekim; tasarım belgesi 0.14): örnek ekrandaki gibi diziliş, gerçek çeşitler, tatlılar ve içecekler, Dondurmacı Kızlar teması. Önceki: oyun ekranına Dondurmacı Kızlar görselleri kondu (29 Ekim, PR #13 birleşti; tasarım belgesi 0.13): müşteriler karakter resmi, bandın ortası tezgâh (külahlar, sundae, kasa), toplar dondurma topu gibi. Geçici; el çizimi görseller gelince değişir. Önceki: Kemal'in 22 Ekim akşamı harita ve hız cevapları belgelere işlendi (28 Ekim gecesi, öneri; oyunda ekran değişmedi): hızlandırma 2 kat kesin; yolun yönü, Merkez ve haritanın duruşu şimdiki gibi kalır. Önceki: 5. paket (çizimsiz bölüm haritası) ve gece işleri ana dala birleşti (PR #10, #11). Gece işleri (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler; PR #9 birleşti, 22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Aşama: görsel tarzı seçildi (Kemal, 30 Ekim: "Parlak çizgi film iyi"; tasarım belgesi 0.16): 6. paketteki Canva denemelerinden parlak çizgi film. Önceki: yeni diziliş ve yeni kurallar (29 Ekim gecesi, PR #15 birleşti; tasarım belgesi 0.15): tente, dükkândan dışarısı, müşteriler tezgâhın arkasında, ortada dondurmacı, tezgâh önünde logo; harflerin yerine dondurma çeşitleri, tatlılar ve içecekler; 6. bölümden iki çeşit isteyen müşteriler. Önceki: Kemal'le oyun ekranının yeni hâli için uzun soru turu yapıldı (29 Ekim; tasarım belgesi 0.14): örnek ekrandaki gibi diziliş, gerçek çeşitler, tatlılar ve içecekler, Dondurmacı Kızlar teması. Önceki: oyun ekranına Dondurmacı Kızlar görselleri kondu (29 Ekim, PR #13 birleşti; tasarım belgesi 0.13): müşteriler karakter resmi, bandın ortası tezgâh (külahlar, sundae, kasa), toplar dondurma topu gibi. Geçici; el çizimi görseller gelince değişir. Önceki: Kemal'in 22 Ekim akşamı harita ve hız cevapları belgelere işlendi (28 Ekim gecesi, öneri; oyunda ekran değişmedi): hızlandırma 2 kat kesin; yolun yönü, Merkez ve haritanın duruşu şimdiki gibi kalır. Önceki: 5. paket (çizimsiz bölüm haritası) ve gece işleri ana dala birleşti (PR #10, #11). Gece işleri (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler; PR #9 birleşti, 22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
 - Son biten: 5. paket (çizimsiz bölüm haritası) ve gece işleri (PR #10, #11 birleşti).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki (Kemal, 29 Ekim soru turu; tasarım belgesi 0.14): iki iş birlikte, iki ayrı öneri: (1) çizimsiz yeni diziliş ve yeni kurallar (tezgâh ortada, bant çevresinde, müşteriler arkada, ortada dondurmacı; gerçek çeşitler; ortalardan itibaren iki çeşit isteyen müşteri; tatlılar ve içecekler), (2) 6. paket görsel dil denemesi Canva ile, bu ekran için. İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
+- Sıradaki: 7. paket (görsellerin oyuna girmesi), parlak çizgi film tarzında (Kemal, 30 Ekim). İlk sürüm 10 bölüm. Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
 - Yayın: tarih yok, acele yok.
 
 ## Nasıl ilerler (tek kişilik ekip için)
@@ -148,7 +148,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### Yeni diziliş ve yeni kurallar (çizimsiz)
 
-- Durum: öneri olarak geldi (29 Ekim gecesi). Kemal: "İkisi birlikte"; "Yatıyorum, limitler dahilinde çalışabilirsin". Ayrıntı tasarım belgesi 0.14 (kararlar) ve 0.15 (nasıl yapıldı).
+- Durum: bitti (PR #15 birleşti). Kemal: "İkisi birlikte"; "Yatıyorum, limitler dahilinde çalışabilirsin". Ayrıntı tasarım belgesi 0.14 (kararlar) ve 0.15 (nasıl yapıldı).
 - Ekran görüntüleri: `docs/ekran/yeni-dizilis/1-bolum1-390x844.png`, `2-bolum6-390x844.png`, `3-bolum9-360x640.png`.
 - Diziliş: Kemal'in örnek ekranı gibi (`docs/gorseller/kemal-taslak/5-oyun-ekrani-29-10.jpg`): tezgâh ortada büyük, bant tezgâhın çevresinden döner, müşteriler tezgâhın arkasında, ortada dondurmacı. Sayaçlar şimdiki gibi; gönderme dokununca.
 - Çeşitler: çikolata, çilek, limon, fıstık, vanilya (harflerin yerine).
@@ -157,7 +157,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ### 6. Görsel dil denemesi
 
-- Durum: sırada (Kemal, 29 Ekim). Araç: önce Canva (Scenario sonra).
+- Durum: bitti; Kemal seçti (30 Ekim): "Parlak çizgi film iyi". Araç: önce Canva (Scenario sonra). İki tarz denendi: parlak çizgi film (seçildi) ve suluboya; bağlantılar ve önizlemeler `docs/gorseller/deneme-canva/README.md`. Seçilen tarzla 7. pakette parçalar çizilir.
 - İçerik: yeni dizilişteki oyun ekranının el çizimi denemesi. Tarz Kemal'in örnek ekranına yakın ama Dondurmacı Kızlar temasında: mor-sarı çizgili tente, dükkânın logosu, mor-sarı tezgâh, dondurmacının önlüğü ve saç bandı dükkân renklerinde; arkada dükkândan dışarısı. Köşede "Dondurmacı Kızlar Lite" çalışma adı.
 - Örnek oyunun görselleri, karakterleri ve adı kullanılmaz.
 - Kimde: Asset Hazırlayıcı; oyuna yerleştirme Oyun Geliştiricisi.
