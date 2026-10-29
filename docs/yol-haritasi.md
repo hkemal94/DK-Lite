@@ -13,7 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Aşama: Kemal'in 22 Ekim akşamı harita ve hız cevapları belgelere işlendi (28 Ekim gecesi, öneri; oyunda ekran değişmedi): hızlandırma 2 kat kesin; yolun yönü, Merkez ve haritanın duruşu şimdiki gibi kalır. Önceki: 5. paket (çizimsiz bölüm haritası) ve gece işleri ana dala birleşti (PR #10, #11). Gece işleri (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler; PR #9 birleşti, 22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Aşama: oyun ekranına Dondurmacı Kızlar görselleri kondu (29 Ekim, öneri; Kemal istedi, tasarım belgesi 0.13): müşteriler karakter resmi, bandın ortası tezgâh (külahlar, sundae, kasa), toplar dondurma topu gibi. Geçici; el çizimi görseller gelince değişir. Önceki: Kemal'in 22 Ekim akşamı harita ve hız cevapları belgelere işlendi (28 Ekim gecesi, öneri; oyunda ekran değişmedi): hızlandırma 2 kat kesin; yolun yönü, Merkez ve haritanın duruşu şimdiki gibi kalır. Önceki: 5. paket (çizimsiz bölüm haritası) ve gece işleri ana dala birleşti (PR #10, #11). Gece işleri (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler; PR #9 birleşti, 22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
 - Son biten: 5. paket (çizimsiz bölüm haritası) ve gece işleri (PR #10, #11 birleşti).
 - Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
 - Sıradaki: 6. paket (görsel dil denemesi). İlk sürüm 10 bölüm (Kemal, 22 Ekim). Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
@@ -137,6 +137,14 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
   - Sol üstte "Geri": harita nereden açıldıysa oraya döner (giriş ekranı, duraklatma seçenekleri, oyun ya da bölüm sonu).
   - Zeytinlik, kayalık, koylar ve çizim 7. pakette.
   - Yeni sayı yok.
+
+### Oyun ekranına Dondurmacı Kızlar görselleri (29 Ekim 2026)
+
+- Durum: öneri olarak geldi (29 Ekim 2026). Kemal: "Dondurmaci kizlar oyunundan ilgili assetleri cekip gameplay kismina bir arayuz hazirlayabilirsin basitce". Ayrıntı tasarım belgesi 0.13.
+- Ne geldi: müşterilerin yerine Dondurmacı Kızlar'ın müşteri karakterleri (belden yukarısı, 10 kişi); bandın ortasında tezgâh (külahlar, sundae, külah figürü, krem şanti, yazar kasa); toplar dondurma topu gibi parlak. Kurallar ve sayılar aynı.
+- Lisans: hepsi ücretsiz kullanılabilen (CC0) paketlerden; `docs/lisanslar.md`.
+- Ekran görüntüleri: `docs/ekran/oyun-arayuzu/1-oyun-390x844.png`, `2-oyun-360x640.png`.
+- Kimde: Oyun Geliştiricisi.
 
 ### 6. Görsel dil denemesi
 
