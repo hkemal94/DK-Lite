@@ -30,6 +30,21 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.17 7. paket: görseller oyuna girdi (öneri; 30 Ekim 2026)
+
+Kemal'in isteği: "Birleştirdim, başlayabilirsin" (30 Ekim) ve Canva hesabına "DK Lite çalışma" tasarımı kaydetme izni ("Evet, izin veriyorum"; yalnız 7. paket boyunca, yalnız ekibin açtığı çalışma tasarımı).
+
+Öneri oyununda böyle yapıldı (tarz: parlak çizgi film, 0.16):
+- Canva ile dört resim çizildi: ürünler (12), müşteriler (10), dondurmacı, arka plan; gazoz kolaya benzediği için ayrıca yeniden çizildi. Resimler tek tek kesilip oyuna kondu. Kaynaklar ve bağlantılar: `docs/lisanslar.md`.
+- Ürünler: dondurma topları, tatlılar ve içecekler artık el çizimi resim (eski düz şekiller kalktı). Limon topu vanilyadan ayrılsın diye biraz daha sarı.
+- Müşteriler: 10 farklı kişi, belden yukarısı; Dondurmacı Kızlar'dan alınan geçici 3B resimlerin yerine.
+- Dondurmacı: sarı tişört, mor önlük, mor kasket, elinde dondurma kaşığı; tezgâhın ortasında. İki yanında tezgâhta kâsede meyve, dilim pasta, küçük kek, limonata.
+- Arka plan: dükkânın açık kapısından deniz, taş iskele, deniz feneri (künyede Liman'da Deniz Feneri var), zeytin ağaçları, beyaz evler. Yer adı yok.
+- Tente, bant, tezgâh önü ve sütunlar aynı tarzda: koyu kahverengi kalın hat; sütunlar ahşap raf gibi; sütunların arkası sıcak krem (eskiden açık lila). Üst şeridin arkasına okunsun diye yarı saydam açık zemin.
+- Giriş ekranı: arkada aynı manzara; oyunun adı yerinde dükkânın logosu ve mor "Lite" (0.14: "Dondurmacı Kızlar Lite" şimdilik çalışma adı). `[Kemal]` yer tutucusu kalktı.
+- Oyunun kuralları, sayılar, düğmeler değişmedi. Bölüm haritası ve bölüm sonu kutusu bu pakette değişmedi (haritanın çizimi sıradaki adım).
+- Ekran görüntüleri: `docs/ekran/paket-7/`.
+
 ### 0.16 Görsel tarzı: parlak çizgi film (Kemal, 30 Ekim 2026)
 
 6. paketteki iki Canva denemesinden (`docs/gorseller/deneme-canva/`) Kemal'in seçimi, olduğu gibi: "Parlak cizgi film iyi".
