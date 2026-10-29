@@ -883,6 +883,8 @@ export class Oyun {
     // Dış köşe = orta çizginin köşesi + bandın yarı kalınlığı; iç köşe CSS'te kendiliğinden.
     const disKose = koseYaricapi(y.bantY2) + y.bantKalinlik / 2;
     b.borderRadius = `${disKose}px`;
+    // İç alan (bar) bandın iç köşesi kadar yuvarlak: dış köşe eksi bant kalınlığı.
+    b.setProperty('--ic-kose', `${Math.max(6, disKose - y.bantKalinlik)}px`);
 
     // Tezgâhın önü bandın alt düz kısmının altında (arka plan bütün sayfaya yayılır, CSS).
     const onu = this.onuEl.style;
