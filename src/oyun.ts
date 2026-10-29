@@ -61,9 +61,22 @@ const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
 // Bantta dondurma topunun altındaki külah (Canva, parlak çizgi film).
 const KULAH_RESMI = 'gorseller/kulah.webp';
 // Müşteri kartındaki kişi resminin boyu (px).
-const KISI_BOY = 56;
+const KISI_BOY = 64;
 // Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
-const KISI_ORTUSME = 16;
+const KISI_ORTUSME = 22;
+
+// Bant köşeleri yuvarlatılmış bir dikdörtgen (Kemal, 30 Ekim: "Insanlar barin arkasina
+// sığmıyor"): üst düz kenarı uzun olsun ki müşterilerin hepsi barın arkasında dursun.
+// Bandın orta çizgisinin köşe yarıçapı, bandın yüksekliğine göre.
+function koseYaricapi(bh: number): number {
+  return Math.min(bh / 2, Math.max(24, bh * 0.3));
+}
+
+// Bandın orta çizgisinin çevresi (köşeleri yuvarlatılmış dikdörtgen).
+function bantCevresi(bg: number, bh: number): number {
+  const rk = koseYaricapi(bh);
+  return 2 * (bg - 2 * rk) + 2 * (bh - 2 * rk) + 2 * Math.PI * rk;
+}
 // Müşterinin balonunun altındaki sabır çubuğunun kalınlığı (px).
 const SABIR_BOY = 6;
 // Uçan yazıların (puan, seri, kalp) ekranda kalma süresi (ms).
@@ -79,6 +92,8 @@ const UZGUN_SVG =
   '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#9fc3e6" stroke="#5a3a22" stroke-width="2"/><circle cx="8.5" cy="10" r="1.4" fill="#5a3a22"/><circle cx="15.5" cy="10" r="1.4" fill="#5a3a22"/><path d="M8 17 Q12 13.5 16 17" fill="none" stroke="#5a3a22" stroke-width="2" stroke-linecap="round"/></svg>';
 // Tezgâhın önündeki mor-sarı çizgili yüzün bandın altından görünen boyu (px).
 const ONU_BOY = 40;
+// Bandın üç boyutlu görünen koyu yan yüzünün kalınlığı (px; stil.css'teki .bant gölgesiyle aynı).
+const BANT_YAN = 15;
 
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
@@ -713,7 +728,8 @@ export class Oyun {
     const bantG = g - 2 * bantX;
 
     const ustAlt = this.ustEl.offsetTop + this.ustEl.offsetHeight;
-    const kartG = Math.min(110, (g - 24) / AYNI_ANDA_MUSTERI - 8);
+    // Kartlar bandın dış enine sığar (müşteriler barın arkasında durur).
+    const kartG = Math.min(110, (bantG + kalinlik) / AYNI_ANDA_MUSTERI - 4);
     const dar = kartG < 72;
     const istekBoy = Math.max(20, Math.min(30, Math.floor(kartG - 46)));
     // Kart: istek balonu (bir ya da iki satır: top + iç boşluk) + aralık + kişi resmi.
@@ -730,23 +746,22 @@ export class Oyun {
     const sutunEnAz = SUTUNDA_GORUNEN_TOP * 36 + 20;
     const bantY2 = Math.max(
       40,
-      Math.min(h * 0.26, bantG * 0.62, h - 16 - sutunEnAz - 14 - ONU_BOY - kalinlik / 2 - bantY),
+      Math.min(h * 0.26, bantG * 0.62, h - 16 - sutunEnAz - 14 - BANT_YAN - ONU_BOY - kalinlik / 2 - bantY),
     );
-    const r = bantY2 / 2;
-    const duz = bantG - bantY2;
-    const cevre = 2 * duz + 2 * Math.PI * r;
+    const cevre = bantCevresi(bantG, bantY2);
 
-    // Müşteriler bandın üstünde, ekran genişliğince eşit aralıkla
-    // (dört kart dar ekranda da birbirine binmesin diye bandın değil ekranın eni).
+    // Müşteriler barın arkasında: bandın dış eni boyunca eşit aralıkla.
     const musteriNoktalari: Nokta[] = [];
     const musteriYolu: number[] = [];
+    const disSol = bantX - kalinlik / 2;
+    const disEn = bantG + kalinlik;
     for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) {
-      const x = 12 + ((g - 24) * (i + 0.5)) / AYNI_ANDA_MUSTERI;
+      const x = disSol + (disEn * (i + 0.5)) / AYNI_ANDA_MUSTERI;
       musteriNoktalari.push({ x, y: kartUst + istekBoy / 2 + 4 });
       musteriYolu.push(this.enYakinYol({ x, y: bantY - 40 }, bantX, bantY, bantG, bantY2));
     }
 
-    const sutunlarUst = bantY + bantY2 + kalinlik / 2 + ONU_BOY + 14;
+    const sutunlarUst = bantY + bantY2 + kalinlik / 2 + BANT_YAN + ONU_BOY + 14;
     const sutunlarAlt = h - 16;
     const sutunGenislik = (g - 24) / this.sutunlar.length;
     // Top boyu sütunun boyuna değil, sütunda görünen top sayısına göre.
@@ -780,28 +795,37 @@ export class Oyun {
 
   // Bandın orta çizgisinde, çevre boyunca s uzaklığındaki nokta.
   // s=0 üst düz kısmın sol ucu; saat yönünde ilerler.
+  // Bant köşeleri yuvarlatılmış bir dikdörtgendir; s=0 üst düz kenarın sol ucu, saat yönünde.
   private yoldakiNokta(s: number, bx = this.y.bantX, by = this.y.bantY, bg = this.y.bantG, bh = this.y.bantY2): Nokta {
-    const r = bh / 2;
-    const duz = bg - bh;
-    const yay = Math.PI * r;
-    const cevre = 2 * duz + 2 * yay;
+    const rk = koseYaricapi(bh);
+    const yatay = bg - 2 * rk;
+    const dikey = bh - 2 * rk;
+    const yay = (Math.PI / 2) * rk;
+    const cevre = bantCevresi(bg, bh);
     s = ((s % cevre) + cevre) % cevre;
-    if (s < duz) return { x: bx + r + s, y: by };
-    s -= duz;
-    if (s < yay) {
-      const a = -Math.PI / 2 + s / r;
-      return { x: bx + r + duz + r * Math.cos(a), y: by + r + r * Math.sin(a) };
-    }
+    const kose = (cx: number, cy: number, bas: number, t: number): Nokta => {
+      const a = bas + t / rk;
+      return { x: cx + rk * Math.cos(a), y: cy + rk * Math.sin(a) };
+    };
+    if (s < yatay) return { x: bx + rk + s, y: by };
+    s -= yatay;
+    if (s < yay) return kose(bx + bg - rk, by + rk, -Math.PI / 2, s);
     s -= yay;
-    if (s < duz) return { x: bx + r + duz - s, y: by + bh };
-    s -= duz;
-    const a = Math.PI / 2 + s / r;
-    return { x: bx + r + r * Math.cos(a), y: by + r + r * Math.sin(a) };
+    if (s < dikey) return { x: bx + bg, y: by + rk + s };
+    s -= dikey;
+    if (s < yay) return kose(bx + bg - rk, by + bh - rk, 0, s);
+    s -= yay;
+    if (s < yatay) return { x: bx + bg - rk - s, y: by + bh };
+    s -= yatay;
+    if (s < yay) return kose(bx + rk, by + bh - rk, Math.PI / 2, s);
+    s -= yay;
+    if (s < dikey) return { x: bx, y: by + bh - rk - s };
+    s -= dikey;
+    return kose(bx + rk, by + rk, Math.PI, s);
   }
 
   private enYakinYol(p: Nokta, bx: number, by: number, bg: number, bh: number): number {
-    const r = bh / 2;
-    const cevre = 2 * (bg - bh) + 2 * Math.PI * r;
+    const cevre = bantCevresi(bg, bh);
     let enIyi = 0;
     let enAz = Infinity;
     for (let i = 0; i < 400; i++) {
@@ -847,18 +871,21 @@ export class Oyun {
     b.width = `${y.bantG + y.bantKalinlik}px`;
     b.height = `${y.bantY2 + y.bantKalinlik}px`;
     b.borderWidth = `${y.bantKalinlik}px`;
-    b.borderRadius = `${(y.bantY2 + y.bantKalinlik) / 2}px`;
+    b.setProperty('--bant-kalinlik', `${y.bantKalinlik}px`);
+    // Dış köşe = orta çizginin köşesi + bandın yarı kalınlığı; iç köşe CSS'te kendiliğinden.
+    const disKose = koseYaricapi(y.bantY2) + y.bantKalinlik / 2;
+    b.borderRadius = `${disKose}px`;
 
-    // Gök ve deniz bandın ortasına kadar iner; tezgâhın önü bandın alt düz kısmının altında.
-    this.manzaraEl.style.height = `${y.bantY + y.bantY2 / 2}px`;
+    // Tezgâhın önü bandın alt düz kısmının altında (arka plan bütün sayfaya yayılır, CSS).
     const onu = this.onuEl.style;
-    const r = (y.bantY2 + y.bantKalinlik) / 2;
+    const r = disKose;
     const altKenar = y.bantY + y.bantY2 + y.bantKalinlik / 2;
     onu.left = `${y.bantX - y.bantKalinlik / 2 + r * 0.45}px`;
     onu.width = `${y.bantG + y.bantKalinlik - r * 0.9}px`;
+    // Bandın altındaki koyu yan yüz (BANT_YAN, CSS'teki gölge) logoyu örtmesin.
     onu.top = `${altKenar - r}px`;
-    onu.height = `${r + ONU_BOY}px`;
-    onu.paddingTop = `${r}px`;
+    onu.height = `${r + BANT_YAN + ONU_BOY}px`;
+    onu.paddingTop = `${r + BANT_YAN}px`;
 
     for (const el of this.yuvaEller) {
       el.style.width = el.style.height = `${y.topBoyu}px`;

@@ -30,6 +30,18 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.20 Müşteriler barın arkasında, üç boyutlu bant ve bar, saydam arka plan (öneri; 30 Ekim 2026)
+
+Kemal'in isteği (telefondan iki ekran görüntüsüyle): "Insanlar barin arkasina sığmıyor bant ve bar da biraz uc boyutlu olsun ayrica arkaplan gorseli biraz daha seffaf ve tum sayfaya yayilsin".
+
+Öneri oyununda böyle yapıldı:
+- Bant artık yuvarlak uçlu değil, köşeleri yuvarlatılmış bir dikdörtgen; üst kenarı uzadı. Müşteriler bandın dış eni boyunca dizilir, hepsi barın arkasında durur (eskiden ekranın enine dizilip kenardakiler barın dışında kalıyordu). Toplar bandın yeni biçimi üstünde döner.
+- Müşteri resmi biraz büyüdü; belden aşağısı barın arkasında kalır.
+- Üç boyut: bandın altında koyu mor bir yan yüz ve yere düşen gölge; bandın üstü üstten ışık alır gibi; iç kenarda içe doğru gölge. Bar: arka duvar kenarlara doğru koyulaşır, rafların altında gölge, bar tezgâhında ışık alan üst yüz ve öne bakan ahşap yüz. Tezgâhın önündeki mor-sarı çizgiler aşağı doğru koyulaşır.
+- Arka plan resmi (dükkândan dışarısı) bütün sayfaya yayılır ve biraz saydamdır (yarıdan biraz fazla görünür); sütunlar da onun üstünde durur.
+- Kurallar ve sayılar değişmedi.
+- Ekran görüntüleri: `docs/ekran/bar-3b/`.
+
 ### 0.19 Büyük paket: bar, sabır, fiş, ayarlar, sahil yolu (öneri; 30 Ekim 2026)
 
 Kemal: "Başla" (0.18'deki iki soru turundan sonra). Öneri oyununda böyle yapıldı:
