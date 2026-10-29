@@ -60,10 +60,15 @@ const LOGO_RESMI = 'gorseller/logo-yazi.webp';
 const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
 // Bantta dondurma topunun altındaki külah (Canva, parlak çizgi film).
 const KULAH_RESMI = 'gorseller/kulah.webp';
-// Müşteri kartındaki kişi resminin boyu (px).
-const KISI_BOY = 64;
+// Müşteri kartındaki kişi resminin boyu (px). Kemal, 30 Ekim: "Musteriler boyunlarindan
+// yukari gorunuyor boylari daha cok gorunmeli": resim büyüdü, barın arkasında kalan kısmı azaldı.
+// Ekran yüksekliğine göre: büyük telefonda 86, kısa ekranda (360x640) bar sıkışmasın diye daha küçük.
+function kisiBoyu(ekranYuksekligi: number): number {
+  return Math.round(Math.min(86, Math.max(60, ekranYuksekligi * 0.102)));
+}
 // Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
-const KISI_ORTUSME = 22;
+// Resimler belden kesik; yalnız bel hizası barın arkasına girer.
+const KISI_ORTUSME = 10;
 
 // Bant köşeleri yuvarlatılmış bir dikdörtgen (Kemal, 30 Ekim: "Insanlar barin arkasina
 // sığmıyor"): üst düz kenarı uzun olsun ki müşterilerin hepsi barın arkasında dursun.
@@ -143,6 +148,7 @@ interface Yerlesim {
   sutunTopBoyu: number;
   kartG: number; // müşteri kartının eni
   kartUst: number; // müşteri kartlarının üst kenarı
+  kisiBoy: number; // müşteri resminin boyu
   istekBoy: number; // istek balonundaki topun boyu
 }
 
@@ -736,7 +742,8 @@ export class Oyun {
     // İki çeşit isteyen müşterisi olan bölümde balona iki satırlık yer ayrılır.
     const satir = this.bolum.musteriler.some((m) => m.parcalar.length > 1) ? 2 : 1;
     // Balonun altında sabır çubuğu (SABIR_BOY + aralık).
-    const kartYuk = satir * istekBoy + (satir - 1) * 2 + (dar ? 8 : 12) + 4 + SABIR_BOY + 3 + KISI_BOY;
+    const kisiBoy = kisiBoyu(h);
+    const kartYuk = satir * istekBoy + (satir - 1) * 2 + (dar ? 8 : 12) + 4 + SABIR_BOY + 3 + kisiBoy;
     const kartUst = ustAlt + 4;
     const kartAlt = kartUst + kartYuk;
 
@@ -789,6 +796,7 @@ export class Oyun {
       sutunTopBoyu,
       kartG,
       kartUst,
+      kisiBoy,
       istekBoy,
     };
   }
@@ -875,6 +883,8 @@ export class Oyun {
     // Dış köşe = orta çizginin köşesi + bandın yarı kalınlığı; iç köşe CSS'te kendiliğinden.
     const disKose = koseYaricapi(y.bantY2) + y.bantKalinlik / 2;
     b.borderRadius = `${disKose}px`;
+    // İç alan (bar) bandın iç köşesi kadar yuvarlak: dış köşe eksi bant kalınlığı.
+    b.setProperty('--ic-kose', `${Math.max(6, disKose - y.bantKalinlik)}px`);
 
     // Tezgâhın önü bandın alt düz kısmının altında (arka plan bütün sayfaya yayılır, CSS).
     const onu = this.onuEl.style;
@@ -936,7 +946,7 @@ export class Oyun {
       kisi.src = m.resim;
       kisi.alt = '';
       kisi.draggable = false;
-      kisi.style.width = kisi.style.height = `${KISI_BOY}px`;
+      kisi.style.width = kisi.style.height = `${y.kisiBoy}px`;
       // Sabır çubuğu: yavaşça azalır, yeşilden sarıya, sonra kırmızıya döner (her karede güncellenir).
       const sabir = document.createElement('div');
       sabir.className = 'sabir';
