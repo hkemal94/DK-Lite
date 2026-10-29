@@ -33,17 +33,21 @@ export interface BolumZorlugu {
 // Her bölümde en az iki dondurma çeşidi var. Hangi bölümde hangi ürün: DENEME.
 // İki çeşit isteyen müşteri (Kemal, 29 Ekim: "Ortalardan itibaren"): 6. bölümden;
 // oranı DENEME DEĞERİDİR.
+// Bölüm uzunluğu (Kemal, 30 Ekim: bölümler "Kısa geldi"; "İkisi birden, az az";
+// "Biraz (1,5 kat)"): müşteri sayısı yaklaşık 1,25 kat, müşteri başına istenen
+// adet yaklaşık 1,2 kat; bölüm toplamda yaklaşık 1,5 kat uzun (2–3 dakika).
+// Çeşit sayısı, bant yeri ve iki çeşit oranı değişmedi. Sayılar DENEME DEĞERİDİR.
 export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
-  { sutun: 4, urunler: ['cikolata', 'cilek', 'limon'], musteri: 8, istekEnAz: 2, istekEnCok: 3, bantYeri: 12, ikiCesitOrani: 0 }, // 1
-  { sutun: 4, urunler: ['cikolata', 'cilek', 'fistik'], musteri: 9, istekEnAz: 2, istekEnCok: 3, bantYeri: 12, ikiCesitOrani: 0 }, // 2: müşteri +1
-  { sutun: 4, urunler: ['limon', 'vanilya', 'pasta'], musteri: 9, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 3: istek en çok 4; ilk tatlı
-  { sutun: 4, urunler: ['cilek', 'fistik', 'kek'], musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 4: müşteri +1
-  { sutun: 4, urunler: ['cikolata', 'vanilya', 'meyve'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 5: müşteri +1
-  { sutun: 4, urunler: ['cilek', 'limon', 'pasta', 'limonata'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0.3 }, // 6: 4. çeşit; ilk içecek; iki çeşit isteyenler
-  { sutun: 4, urunler: ['cikolata', 'fistik', 'kek', 'gazoz'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.3 }, // 7: bant yeri −1
-  { sutun: 4, urunler: ['vanilya', 'cilek', 'meyve', 'kahve'], musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.4 }, // 8: müşteri +1
-  { sutun: 4, urunler: ['limon', 'cikolata', 'pasta', 'cay'], musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 10, ikiCesitOrani: 0.4 }, // 9: bant yeri −1
-  { sutun: 4, urunler: ['fistik', 'vanilya', 'kek', 'limonata'], musteri: 12, istekEnAz: 3, istekEnCok: 4, bantYeri: 10, ikiCesitOrani: 0.5 }, // 10: istek en az 3
+  { sutun: 4, urunler: ['cikolata', 'cilek', 'limon'], musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 1
+  { sutun: 4, urunler: ['cikolata', 'cilek', 'fistik'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 2: müşteri +1
+  { sutun: 4, urunler: ['limon', 'vanilya', 'pasta'], musteri: 11, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 3: istek en az 3; ilk tatlı
+  { sutun: 4, urunler: ['cilek', 'fistik', 'kek'], musteri: 13, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 4: müşteri +2
+  { sutun: 4, urunler: ['cikolata', 'vanilya', 'meyve'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 5: müşteri +1
+  { sutun: 4, urunler: ['cilek', 'limon', 'pasta', 'limonata'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0.3 }, // 6: 4. çeşit; ilk içecek; iki çeşit isteyenler
+  { sutun: 4, urunler: ['cikolata', 'fistik', 'kek', 'gazoz'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.3 }, // 7: bant yeri −1
+  { sutun: 4, urunler: ['vanilya', 'cilek', 'meyve', 'kahve'], musteri: 15, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.4 }, // 8: müşteri +1
+  { sutun: 4, urunler: ['limon', 'cikolata', 'pasta', 'cay'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.4 }, // 9: bant yeri −1; istek en çok 5
+  { sutun: 4, urunler: ['fistik', 'vanilya', 'kek', 'limonata'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.5 }, // 10
 ];
 
 // Bölüm numarasına (1'den) göre zorluk.
@@ -51,6 +55,24 @@ export function bolumZorlugu(no: number): BolumZorlugu {
   const i = Math.min(Math.max(1, no), BOLUM_ZORLUKLARI.length) - 1;
   return BOLUM_ZORLUKLARI[i];
 }
+
+// Müşterinin sabrı (Kemal, 30 Ekim: "Sabir bitince gider ama cok hizli bitmesin sabir";
+// "Uzun: 60 saniye"): bir müşteri bu kadar saniye bekler; başının üstündeki çubuk
+// yavaşça azalır (yeşil → sarı → kırmızı). Bitince müşteri gider, onun puanı alınamaz.
+export const SABIR_SN = 60;
+// Bir bölümde bu kadar müşteri sabrı bitip giderse bölüm kaybedilir
+// (Kemal, 30 Ekim: "Üç kaçırma bölümü bitirir" ve "Yalnız puan gitsin" birlikte).
+export const KACAN_EN_COK = 3;
+// Çubuk bu orandan az kalınca sarı, bundan az kalınca kırmızı olur. Deneme değeri.
+export const SABIR_SARI = 0.5;
+export const SABIR_KIRMIZI = 0.25;
+
+// Art arda doğru gönderim (Kemal, 30 Ekim: "Ek puan"): görünen bir müşterinin
+// istediği (bantta olanlar düşüldükten sonra) bir şeyi göndermek "doğru" sayılır.
+// Art arda SERI_BASLANGIC. doğru gönderimden itibaren her doğru gönderim
+// SERI_EK_PUAN ek puan getirir; yanlış gönderim seriyi sıfırlar. DENEME DEĞERİ.
+export const SERI_BASLANGIC = 3;
+export const SERI_EK_PUAN = 2;
 
 // Ekrandaki müşteri yeri sayısı (aynı anda en çok bu kadar müşteri görünür).
 // Kemal, 22 Ekim: "Maksimum 5 ama her saniye maksimum musteri olmak zorunda degil".

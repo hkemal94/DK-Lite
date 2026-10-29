@@ -30,6 +30,61 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.19 Büyük paket: bar, sabır, fiş, ayarlar, sahil yolu (öneri; 30 Ekim 2026)
+
+Kemal: "Başla" (0.18'deki iki soru turundan sonra). Öneri oyununda böyle yapıldı:
+
+Bar ve dondurmacı:
+- Bandın içi ahşap kafe barı: ahşap duvar, iki raf, önde ahşap bar tezgâhı. Üst rafta kahve makinesi, bardaklar, şeker kavanozu, külah yığını, saksı, kâse; alt rafta kâsede meyve, dilim pasta, kırmızı ve sarı şurup, küçük kek, limonata. Eşyalar Canva ile aynı tarzda çizildi.
+- Dondurmacı tam ortada, orta boy, barın arkasında; belden aşağısı bar tezgâhının arkasında kalır. Yerinde hafifçe nefes alır gibi oynar; sütuna dokununca kısa bir zıplama yapar.
+- Bandın altındaki mor-sarı çizgili ön yüz ve logo kaldı.
+
+Bölüm uzunluğu (DENEME): müşteri sayısı 10–15 (eskiden 8–12), müşteri başına adet 2–4'ten 3–5'e kadar; bölümdeki toplam istek yaklaşık 1,5 kat (ör. Bölüm 1: 21 → 32). Çeşit sayısı, bant yeri, iki çeşit oranı aynı. Bütün bölümler kazanılabilir kuruldu.
+
+Sabır:
+- Her müşterinin balonunun altında sabır çubuğu: 60 saniyede biter (Kemal'in seçimi). Yarıdan azında sarı, dörtte birden azında kırmızı (eşikler deneme).
+- Sabrı biten müşteri istediğini alamadan gider; başında küçük üzgün yüz çıkar, solar. Onun puanı alınamaz.
+- Bir bölümde 3 müşteri giderse bölüm kaybedilir ("Müşteriler gitti").
+- Oyunun saati durunca (duraklatma, harita, giriş) sabır da durur; hızlandırınca sabır da 2 kat hızlı akar.
+
+Müşteri tepkileri ve seri:
+- Müşteri bir şey alınca kazanılan puan ("+10") küçük yeşil bir yazıyla yukarı uçar; isteği tamamlanınca başında kalp çıkar.
+- Seri (DENEME): görünen bir müşterinin hâlâ istediği (bantta olanlar düşüldükten sonra) bir şeyi göndermek "doğru" sayılır; art arda 3. doğru gönderimden itibaren her doğru gönderim +2 ek puan getirir ve sütunun üstünde "Seri ×3 +2" yazısı uçar. Yanlış gönderim seriyi sıfırlar.
+- Yıldız eskisi gibi puana göre (Kemal: "Puana göre kalsın"); seri ek puanı yıldız hesabına girmez ki yıldız kolaylaşmasın (şefin yorumu).
+
+Bölüm sonu fişi:
+- Kâğıt fiş: üstte logo ve "Bölüm 3", sonuç yazısı; bölümün ürünleri simgeleriyle ve kaç tane satıldığı; hizmet edilen müşteri (11 / 14 gibi) ve giden müşteri (varsa kırmızı); "TOPLAM PUAN"; kazanınca yıldızlar; en altta teşekkür satırının yeri `[Kemal]`.
+- Kazanınca: yıldızlar teker teker parlayarak gelir, konfeti dökülür, fişin üstünde sevinen dondurmacı (aynı karakter, kollar havada; Canva) sallanır.
+- Kaybedince de fiş çıkar (sonuç: "Bant doldu", "Top kalmadı" ya da "Müşteriler gitti"); yalnız "Tekrar oyna".
+- Duraklatma, bölüm sonu ve ayarlar kutuları çizgi film tarzında: krem zemin, kalın kahverengi hat, gölgeli düğmeler.
+
+Ayarlar: giriş ekranının sağ üstünde dişli. İçinde "Erime" (Erime yok / 1 tur sonra / 2 tur sonra) ve "Titreşim" (Açık / Kapalı; açıkken sütuna dokununca telefon çok kısa titrer, telefon destekliyorsa). Seçimler telefonda saklanır; erime seçimi artık sayfa yenilenince de kalır. Üst şeritteki erime düğmesi de duruyor (Kemal: "Şimdilik kalsın"), ikisi aynı seçimi kullanır.
+
+Bölüm seçme ekranı: sahil yolu. Arkada çizilmiş sahil manzarası (solda deniz ve tekneler, sağda zeytinlik, kayalar, beyaz evler; Canva). Üstünde aşağıdan yukarı kıvrılan kum rengi yol, ortasında kesik beyaz çizgi; açılan bölüme kadarki kısmı sarı. 1. bölüm en altta, altında "Dondurmacı Kızlar" yazısı. Ekran yukarı kaydırılır; açılınca kaldığın bölüm ortaya gelir. Bölüm sayısı artınca yol kendiliğinden uzar (manzara alt alta tekrar eder; dikiş görünmesin diye üst yarısı alt yarısının aynadaki hâli). Geçilmiş bölüm mor ve yıldızlı, sıradaki sarı, kilitli soluk; dokununca başlar. Eski ada haritası ve onu üreten araç kaldırıldı (`src/haritaVerisi.ts`, `araclar/haritaUret.mjs`).
+
+Yapılmayanlar (Kemal'in kararıyla sonraya): sesler ve nasıl oynanır gösterimi yayına yakın.
+
+Ekran görüntüleri: `docs/ekran/buyuk-paket/`.
+
+### 0.18 İki soru turu: oynanış, ekranlar, bar (Kemal, 30 Ekim 2026; sohbette)
+
+Kemal'in cevapları:
+- Zorluk: bölümler "Kısa geldi". Nasıl uzasın: "İkisi birden, az az" (müşteri sayısı ve müşteri başına adet); ne kadar: "Biraz (1,5 kat)".
+- Müşteri sabrı: "Sabir bitince gider ama cok hizli bitmesin sabir"; süre "Uzun: 60 saniye"; gidince "1 ve 2 beraber" (o müşterinin puanı alınamaz ve bir bölümde 3 müşteri giderse bölüm kaybedilir).
+- Sabır nasıl anlaşılsın: "Çubuk renk değiştirsin", "Giderken el sallasın" (gidenin başında üzüntü işareti).
+- Nasıl oynanır gösterimi: "Şimdi için değil yayına yakın yaparız".
+- Erime düğmesi: "Şimdilik kalsın".
+- Bölüm seçme ekranı: "Sahil yolu çizimi"; bölüm sayısı için "Uzayabilir yol".
+- Bölüm sonu: "Parlak yıldızlar", "Konfeti", "Sevinen dondurmacı", "Kaçan müşteri sayısı" ve "Bir receipt ekrani olabilir bolum sonu gibi". Fişte: satılan ürünler, puan ve yıldız, müşteri sayıları, dükkân başlığı. Teşekkür satırı: "Boş kalsın [Kemal]".
+- Kutular çizgi film tarzına: "Evet".
+- Ayarlar: "Şimdi, basit"; içinde erime seçimi ve titreşim aç/kapa.
+- Sesler: "Yayına yakın".
+- Yıldız: "Puana göre kalsın".
+- Sıra: "Hepsi bir arada".
+- Telefonda: "Bağlantıdan açıyorum".
+- Bar (Kemal'in isteği: "bantın ortasını bir bar gibi tasarla ve barmaid biraz daha ortalansin ve gorunur olsun"): "Ahşap kafe barı"; dondurmacı "Ortada, orta boy"; yan ürünler "Raflara gitsin"; hareket "İkisi de" (hafif sallansın ve dokununca tepki).
+- Seri: "Ek puan". Müşteri isteğini alınca: "İkisi de" (kalp ve uçan puan). Tezgâh önü (logolu mor-sarı çizgili yüz): "Kalsın".
+
 ### 0.17 7. paket: görseller oyuna girdi (öneri; 30 Ekim 2026)
 
 Kemal'in isteği: "Birleştirdim, başlayabilirsin" (30 Ekim) ve Canva hesabına "DK Lite çalışma" tasarımı kaydetme izni ("Evet, izin veriyorum"; yalnız 7. paket boyunca, yalnız ekibin açtığı çalışma tasarımı).

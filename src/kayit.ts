@@ -65,3 +65,34 @@ export function bolumKazanildi(k: Kayit, no: number, yildiz: number): Kayit {
 export function hepsiBitti(k: Kayit): boolean {
   return (k.yildizlar[BOLUM_SAYISI - 1] ?? 0) > 0;
 }
+
+// ---------- Ayarlar ----------
+// Kemal, 30 Ekim: ayarlar ekranı "Şimdi, basit"; içinde erime seçimi ve titreşim.
+// Ayarlar da telefonda saklanır (kayıttan ayrı). Saklama çalışmazsa varsayılanlar.
+
+const AYAR_ANAHTARI = 'dk-lite-ayarlar';
+
+export interface Ayarlar {
+  erime: number; // ERIME_BICIMLERI içindeki sıra
+  titresim: boolean; // sütuna dokununca telefon hafifçe titresin mi
+}
+
+export function ayarOku(varsayilanErime: number, bicimSayisi: number): Ayarlar {
+  const a: Ayarlar = { erime: varsayilanErime, titresim: true };
+  try {
+    const h = JSON.parse(window.localStorage.getItem(AYAR_ANAHTARI) ?? 'null') as Partial<Ayarlar> | null;
+    if (h && typeof h.erime === 'number' && h.erime >= 0 && h.erime < bicimSayisi) a.erime = Math.floor(h.erime);
+    if (h && typeof h.titresim === 'boolean') a.titresim = h.titresim;
+  } catch {
+    // Okunamadı; varsayılanlar.
+  }
+  return a;
+}
+
+export function ayarYaz(a: Ayarlar): void {
+  try {
+    window.localStorage.setItem(AYAR_ANAHTARI, JSON.stringify(a));
+  } catch {
+    // Saklanamadı; ayar bu açılış boyunca bellekte kalır.
+  }
+}
