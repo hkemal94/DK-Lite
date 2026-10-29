@@ -1,8 +1,10 @@
 // Oyunun kendisi. Diziliş (Kemal, 29 Ekim: "Resimdeki gibi"; tasarım belgesi 0.14):
 // üstte mor-sarı tente ve dükkândan dışarısı; müşteriler tezgâhın arkasında;
 // ortada tezgâh, ortasında dondurmacı, çevresinde dönen bant; tezgâhın önünde
-// mor-sarı çizgiler ve dükkânın logosu; altta sütunlar. Çizim yok; düz şekiller
-// ve Dondurmacı Kızlar'dan alınmış geçici resimler.
+// mor-sarı çizgiler ve dükkânın logosu; altta sütunlar.
+// Görseller (7. paket; Kemal, 30 Ekim: "Parlak cizgi film iyi"): müşteriler,
+// dondurmacı, ürünler ve arka plan parlak çizgi film tarzında el çizimi (Canva).
+// Tente, bant ve tezgâh aynı tarzda: canlı renkler, koyu kahverengi kalın hat.
 
 import {
   AYNI_ANDA_MUSTERI,
@@ -29,18 +31,21 @@ import { urunSimgesi } from './urunSimgesi';
 import { bolumKazanildi, hepsiBitti, kayitOku, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
 
-// Müşteri ve tezgâh resimleri Dondurmacı Kızlar oyunundan alındı (Kemal, 29 Ekim:
-// "ilgili assetleri çekip gameplay kısmına bir arayüz"). Kaynak paketler ve
-// lisansları: docs/lisanslar.md. Geçici: el çizimi 2D görseller gelince değişir.
-const MUSTERI_RESIMLERI = [
-  'kadin-casual', 'erkek-casual_2', 'kadin-formal', 'erkek-beach', 'kadin-worker',
-  'erkek-farmer', 'kadin-suit', 'erkek-casual_hoodie', 'erkek-worker', 'erkek-suit',
-].map((ad) => `gorseller/musteriler/${ad}.webp`);
-// Tezgâhın üstü: ortada dondurmacı (Dondurmacı Kızlar'ın dükkân üniforması:
-// sarı tişört, mor önlük, mor kasket), iki yanında ürünler.
-const TEZGAH_RESIMLERI = ['kulahlar', 'sundae', 'dondurmaci', 'kremSanti', 'yazarKasa']
-  .map((ad) => `gorseller/tezgah/${ad}.webp`);
+// Müşteriler: 10 farklı kişi, belden yukarısı (Canva, parlak çizgi film). Kaynak: docs/lisanslar.md.
+const MUSTERI_RESIMLERI = Array.from({ length: 10 }, (_, i) =>
+  `gorseller/musteriler/musteri-${String(i + 1).padStart(2, '0')}.webp`);
+// Tezgâhın üstü: ortada dondurmacı (dükkân renkleri: sarı tişört, mor önlük, mor kasket),
+// iki yanında tezgâhta duran ürünler.
+const TEZGAH_RESIMLERI = [
+  'gorseller/urunler/meyve.webp',
+  'gorseller/urunler/pasta.webp',
+  'gorseller/tezgah/dondurmaci.webp',
+  'gorseller/urunler/kek.webp',
+  'gorseller/urunler/limonata.webp',
+];
 const LOGO_RESMI = 'gorseller/logo-yazi.webp';
+// Arkada dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları (Canva, parlak çizgi film).
+const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
 // Müşteri kartındaki kişi resminin boyu (px).
 const KISI_BOY = 56;
 // Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
@@ -102,8 +107,9 @@ type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
 // Haritada "Geri" nereye döner.
 type HaritaDonus = 'giris' | 'duraklat' | 'yerinde';
 
-// Giriş ekranında oyunun adı yerine duran yer tutucu. Ad Kemal'in.
-const OYUN_ADI_YER_TUTUCU = '[Kemal]';
+// Giriş ekranında oyunun adı: "Dondurmacı Kızlar Lite" şimdilik çalışma adı
+// (Kemal, 29 Ekim: "Şimdilik çalışma adı"; son ad sonra). Dükkânın logosu ve "Lite".
+const OYUN_ADI = 'Dondurmacı Kızlar Lite';
 
 // Son bölüm de kazanılınca görünen basit durum yazısı (kurgu metni değil).
 const HEPSI_BITTI_YAZISI = 'Bütün bölümler bitti';
@@ -238,6 +244,7 @@ export class Oyun {
     // Arkada dükkândan dışarısı (gök ve deniz), en üstte mor-sarı tente.
     this.manzaraEl = document.createElement('div');
     this.manzaraEl.className = 'manzara';
+    this.manzaraEl.style.backgroundImage = `url('${ARKA_PLAN_RESMI}')`;
     this.sahne.prepend(this.manzaraEl);
     const tente = document.createElement('div');
     tente.className = 'tente';
@@ -356,9 +363,18 @@ export class Oyun {
     this.girisEl.id = 'giris';
     const girisKutu = document.createElement('div');
     girisKutu.className = 'giris-kutu';
+    this.girisEl.style.backgroundImage = `url('${ARKA_PLAN_RESMI}')`;
     const ad = document.createElement('div');
     ad.className = 'giris-ad';
-    ad.textContent = OYUN_ADI_YER_TUTUCU;
+    ad.setAttribute('aria-label', OYUN_ADI);
+    const adLogo = document.createElement('img');
+    adLogo.src = LOGO_RESMI;
+    adLogo.alt = '';
+    adLogo.draggable = false;
+    const lite = document.createElement('span');
+    lite.className = 'giris-lite';
+    lite.textContent = 'Lite';
+    ad.append(adLogo, lite);
     const basla = document.createElement('button');
     basla.className = 'dugme';
     basla.id = 'giris-basla';

@@ -1,6 +1,6 @@
 /* Çizimsiz deneme: düz renkler, mor-sarı ağırlıklı, sakin. Tonlar taslak. */
 :root {
-  --zemin: #F4EEF8;
+  --zemin: #f7ead6; /* sütunların arkası: sıcak krem (7. paket; eskiden açık lila) */
   --mor: #4e2470; /* koyu mor, Dondurmacı Kızlar ile aynı ton (Kemal, 22 Ekim) */
   --mor-acik: #E3D6F0;
   --sari: #ffc928; /* sarı, Dondurmacı Kızlar ile aynı ton */
@@ -10,6 +10,7 @@
   --gok: #cfe9f7; /* dükkândan dışarısı: gök */
   --deniz: #7cc4e4; /* dükkândan dışarısı: deniz */
   --tezgah: #fbefdf; /* tezgâhın üstü */
+  --hat: #5a3a22; /* çizgi film tarzının koyu kahverengi kalın hattı (7. paket) */
 }
 
 * { box-sizing: border-box; }
@@ -54,6 +55,10 @@ html, body {
   justify-content: space-between;
   gap: 6px;
   padding: 8px 10px 4px;
+  /* arka plan resmi renkli: yazılar okunsun diye açık, yarı saydam zemin */
+  background: rgba(255, 250, 240, 0.82);
+  border-bottom: 2px solid rgba(90, 58, 34, 0.25);
+  border-radius: 0 0 16px 16px;
 }
 
 .sayaclar {
@@ -105,7 +110,8 @@ html, body {
   left: 0;
   right: 0;
   top: 0;
-  background: linear-gradient(var(--gok) 0 62%, var(--deniz) 62% 100%);
+  /* resim oyun.ts'de verilir (yol oyunun açıldığı adrese göre) */
+  background: var(--gok) center 18% / cover no-repeat;
   pointer-events: none;
 }
 
@@ -118,6 +124,7 @@ html, body {
   height: var(--tente);
   z-index: 4;
   background: repeating-linear-gradient(90deg, var(--bant) 0 28px, var(--sari) 28px 56px);
+  filter: drop-shadow(0 3px 0 var(--hat));
   -webkit-mask: radial-gradient(circle at 50% 0, #000 13px, transparent 14px) bottom / 28px 14px repeat-x,
     linear-gradient(#000, #000) top / 100% calc(100% - 14px) no-repeat;
   mask: radial-gradient(circle at 50% 0, #000 13px, transparent 14px) bottom / 28px 14px repeat-x,
@@ -131,8 +138,8 @@ html, body {
   z-index: 2;
   border-style: solid;
   border-color: var(--bant);
-  background: linear-gradient(#efe2f5 0 38%, var(--tezgah) 38% 100%);
-  box-shadow: inset 0 0 0 4px var(--sari), 0 4px 0 rgba(78, 36, 112, 0.25);
+  background: linear-gradient(#f3dcb8 0 38%, var(--tezgah) 38% 100%);
+  box-shadow: inset 0 0 0 4px var(--sari), inset 0 0 0 7px var(--hat), 0 0 0 3px var(--hat), 0 6px 0 rgba(90, 58, 34, 0.35);
 }
 
 /* Tezgâhın önü: mor-sarı dikey çizgiler, ortada dükkânın logosu. */
@@ -144,7 +151,9 @@ html, body {
   justify-content: center;
   border-radius: 0 0 18px 18px;
   background: repeating-linear-gradient(90deg, var(--bant) 0 22px, var(--sari) 22px 44px);
-  box-shadow: 0 3px 0 rgba(78, 36, 112, 0.3);
+  border: 3px solid var(--hat);
+  border-top: none;
+  box-shadow: 0 5px 0 rgba(90, 58, 34, 0.35);
   pointer-events: none;
 }
 .tezgah-onu img {
@@ -206,7 +215,7 @@ html, body {
   box-shadow: none;
   background-image: none;
 }
-.top svg { display: block; }
+.top img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
 /* Bantta 1 turu geçmiş top (yarım puanlı): hafif soluk, alttan biraz erimiş. */
 .top.bantta.gec {
@@ -257,7 +266,9 @@ html, body {
 .sutun {
   position: absolute;
   border-radius: 14px;
-  background: rgba(122, 63, 168, 0.12);
+  /* ahşap raf gibi (çizgi film tarzı, 7. paket) */
+  background: linear-gradient(90deg, #e2bf8d, #efd5ad 50%, #e2bf8d);
+  box-shadow: inset 0 0 0 3px rgba(90, 58, 34, 0.45);
   cursor: pointer;
   touch-action: none;
 }
@@ -621,7 +632,8 @@ html, body {
   position: absolute;
   inset: 0;
   z-index: 15;
-  background: var(--zemin);
+  /* resim (dükkândan dışarısı) oyun.ts'de verilir */
+  background: var(--zemin) center / cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -637,18 +649,33 @@ html, body {
   width: min(260px, calc(100% - 48px));
 }
 
-.giris-kutu .dugme { width: 100%; }
+.giris-kutu .dugme {
+  width: 100%;
+  border: 3px solid var(--hat);
+  box-shadow: 0 4px 0 rgba(90, 58, 34, 0.35);
+}
+/* resmin üstünde okunsun diye "Bölümler" de dolu zeminli */
+.giris-kutu .dugme.tekrar { background: #fffaf0; }
 
-/* Oyunun adı yerine yer tutucu; boş olduğu görünsün diye kesik çerçeveli. */
+/* Oyunun adı (çalışma adı): dükkânın logosu, sağ altında mor "Lite". */
 .giris-ad {
-  font-size: 30px;
-  font-weight: 600;
-  color: var(--mor);
-  opacity: 0.6;
-  border: 2px dashed rgba(78, 36, 112, 0.3);
-  border-radius: 16px;
-  padding: 18px 28px;
+  position: relative;
+  width: min(300px, calc(100vw - 48px));
   margin-bottom: 28px;
+  filter: drop-shadow(0 4px 0 rgba(90, 58, 34, 0.35));
+}
+.giris-ad img { display: block; width: 100%; }
+.giris-lite {
+  position: absolute;
+  right: 4%;
+  bottom: -10px;
+  padding: 2px 14px;
+  border-radius: 999px;
+  background: var(--bant);
+  border: 3px solid var(--hat);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 /* Üst şeridin sağ yanı: sayaçlar ve köşe düğmeleri. */

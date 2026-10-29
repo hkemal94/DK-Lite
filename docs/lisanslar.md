@@ -1,19 +1,34 @@
-# Lisanslar
+# Lisanslar ve görsellerin kaynağı
 
 Oyunda kullanılan hazır görseller. Her yeni görsel eklenince buraya yazılır.
 
-Resimler Dondurmacı Kızlar deposundan alındı (Kemal, 29 Ekim 2026). Oradaki
-hazır 3B paketlerden çekilmiş resimlerdir; paketlerin hepsi CC0 1.0
-(https://creativecommons.org/publicdomain/zero/1.0/). Ayrıntı Dondurmacı
-Kızlar deposunda `docs/lisanslar.md`.
+## 7. paket: parlak çizgi film görselleri (30 Ekim 2026)
 
-| Klasör | Ne | Kaynak paket | Lisans |
+Kemal'in seçtiği tarzda (tasarım belgesi 0.16) Canva'nın resim üretme aracıyla
+çizildi; Kemal'in Canva hesabında, "DK Lite çalışma (7. paket görselleri)"
+tasarımında duruyor (Kemal'in izniyle oraya kaydedildi ve oradan indirildi).
+Kullanım koşulları Canva'nın yapay zekâ ile üretilen içerik koşullarıdır
+(Kemal'in hesabı). Örnek oyunun ya da başka bir oyunun görseli araca verilmedi;
+yalnız yazılı tarif kullanıldı.
+
+| Klasör / dosya | Ne | Canva'daki resim |
+|---|---|---|
+| `public/gorseller/urunler/` (gazoz hariç) | 12 ürün: 5 dondurma topu, dilim pasta, küçük kek, kâsede meyve, limonata, kahve, çay | https://www.canva.com/M/MAHZYrTnF6w |
+| `public/gorseller/urunler/gazoz.webp` | Gazoz şişesi (ilk çizim kolaya benzediği için yeniden çizildi) | https://www.canva.com/M/MAHZYpAngJY |
+| `public/gorseller/musteriler/` | 10 müşteri, belden yukarısı | https://www.canva.com/M/MAHZYoCG0RQ |
+| `public/gorseller/tezgah/dondurmaci.webp` | Tezgâhtaki dondurmacı (sarı tişört, mor önlük, mor kasket) | https://www.canva.com/M/MAHZYsbgjPQ |
+| `public/gorseller/arka-plan.webp` | Dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları | https://www.canva.com/M/MAHZYh4YtGo |
+
+Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
+işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
+ayrılsın diye biraz daha sarı yapıldı.
+
+## Dondurmacı Kızlar'dan
+
+| Dosya | Ne | Kaynak | Lisans |
 |---|---|---|---|
-| `public/gorseller/musteriler/` | 10 müşteri, belden yukarısı | Quaternius — Ultimate Modular Women ve Ultimate Modular Men (Dondurmacı Kızlar'daki modellerden bu depo için resim olarak çekildi) | CC0 1.0 |
-| `public/gorseller/tezgah/kulahlar.webp`, `sundae.webp`, `kremSanti.webp` | Külahlar, sundae, krem şanti | Kenney Food Kit (Dondurmacı Kızlar `public/gorseller/urunler/`) | CC0 1.0 |
-| `public/gorseller/tezgah/yazarKasa.webp` | Yazar kasa | Tiny Treats — Bakery Interior (Dondurmacı Kızlar `public/gorseller/urunler/`) | CC0 1.0 |
-| `public/gorseller/tezgah/kulahFiguru.webp` | Külah figürü | Dondurmacı Kızlar `public/gorseller/esyalar/` (oyundaki dekorasyon eşyası) | CC0 1.0 |
-| `public/gorseller/tezgah/dondurmaci.webp` | Tezgâhtaki dondurmacı (dükkân üniforması: sarı tişört, mor önlük, mor kasket) | Quaternius — Ultimate Modular Women (Dondurmacı Kızlar'daki çalışan modelinden bu depo için resim olarak çekildi; üniforma ve önlük Dondurmacı Kızlar'ın kendi kodu) | CC0 1.0 |
 | `public/gorseller/logo-yazi.webp` | Dükkânın logosu (yazı) | Kemal'in logosu; Dondurmacı Kızlar `public/gorseller/logo-yazi.webp` | Kemal'in (Kems Company) |
 
-Ürün simgeleri (dondurma topları, tatlılar, içecekler) bu depoda kodla çizilir (`src/urunSimgesi.ts`); hazır paket değildir.
+29 Ekim'de Dondurmacı Kızlar'dan alınan geçici 3B resimler (müşteriler, külahlar,
+sundae, krem şanti, yazar kasa, külah figürü, üniformalı çalışan) 7. pakette
+kaldırıldı; yerlerine yukarıdaki çizimler geldi.
