@@ -1,12 +1,15 @@
-// Oyunun kendisi: müşteriler (üstte), dönen bant (ortada), sütunlar (altta).
-// Çizim yok; düz renkli daireler ve kutular.
+// Oyunun kendisi. Diziliş (Kemal, 29 Ekim: "Resimdeki gibi"; tasarım belgesi 0.14):
+// üstte mor-sarı tente ve dükkândan dışarısı; müşteriler tezgâhın arkasında;
+// ortada tezgâh, ortasında dondurmacı, çevresinde dönen bant; tezgâhın önünde
+// mor-sarı çizgiler ve dükkânın logosu; altta sütunlar. Çizim yok; düz şekiller
+// ve Dondurmacı Kızlar'dan alınmış geçici resimler.
 
 import {
   AYNI_ANDA_MUSTERI,
   BANT_TUR_SANIYE,
   BASTA_MUSTERI,
   BOLUM_SAYISI,
-  CESITLER,
+  URUNLER,
   ERIME_BICIMLERI,
   ERIME_MS,
   ERIME_VARSAYILAN,
@@ -21,7 +24,8 @@ import {
   TUTMA_MS,
   YILDIZ_ESIKLERI,
 } from './ayarlar';
-import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
+import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
+import { urunSimgesi } from './urunSimgesi';
 import { bolumKazanildi, hepsiBitti, kayitOku, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
 
@@ -32,10 +36,17 @@ const MUSTERI_RESIMLERI = [
   'kadin-casual', 'erkek-casual_2', 'kadin-formal', 'erkek-beach', 'kadin-worker',
   'erkek-farmer', 'kadin-suit', 'erkek-casual_hoodie', 'erkek-worker', 'erkek-suit',
 ].map((ad) => `gorseller/musteriler/${ad}.webp`);
-const TEZGAH_RESIMLERI = ['kulahlar', 'sundae', 'kulahFiguru', 'kremSanti', 'yazarKasa']
+// Tezgâhın üstü: ortada dondurmacı (Dondurmacı Kızlar'ın dükkân üniforması:
+// sarı tişört, mor önlük, mor kasket), iki yanında ürünler.
+const TEZGAH_RESIMLERI = ['kulahlar', 'sundae', 'dondurmaci', 'kremSanti', 'yazarKasa']
   .map((ad) => `gorseller/tezgah/${ad}.webp`);
+const LOGO_RESMI = 'gorseller/logo-yazi.webp';
 // Müşteri kartındaki kişi resminin boyu (px).
 const KISI_BOY = 56;
+// Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
+const KISI_ORTUSME = 16;
+// Tezgâhın önündeki mor-sarı çizgili yüzün bandın altından görünen boyu (px).
+const ONU_BOY = 40;
 
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
@@ -60,8 +71,7 @@ interface Top {
 }
 
 interface MusteriYeri {
-  cesit: number;
-  kalan: number;
+  parcalar: { cesit: number; kalan: number }[]; // bir ya da iki çeşit; her birinden kalan adet
   durum: 'bekliyor' | 'bitti';
   bittigiAn: number;
   resim: string; // müşterinin görünüşü (kişi resmi)
@@ -155,6 +165,8 @@ export class Oyun {
   // Ortak saklı sıradan bir sonraki gelecek topun yeri (sıra bölüm verisinde, sabit).
   private sakliSira = 0;
   private musteriYerleri: (MusteriYeri | null)[] = [];
+  private manzaraEl!: HTMLDivElement;
+  private onuEl!: HTMLDivElement;
   private resimSirasi = 0; // art arda gelen müşteriler farklı görünsün
   // Boş müşteri yerine yenisinin geleceği an (dolu yerde kullanılmaz).
   private gelisAnlari: number[] = [];
@@ -223,10 +235,28 @@ export class Oyun {
     cubuk.appendChild(this.doluEl);
     this.doluKutuEl.appendChild(cubuk);
 
+    // Arkada dükkândan dışarısı (gök ve deniz), en üstte mor-sarı tente.
+    this.manzaraEl = document.createElement('div');
+    this.manzaraEl.className = 'manzara';
+    this.sahne.prepend(this.manzaraEl);
+    const tente = document.createElement('div');
+    tente.className = 'tente';
+    this.sahne.prepend(tente);
+
+    // Tezgâhın önü: mor-sarı çizgiler, ortada dükkânın logosu. Bandın altında kalır.
+    this.onuEl = document.createElement('div');
+    this.onuEl.className = 'tezgah-onu';
+    const logo = document.createElement('img');
+    logo.src = LOGO_RESMI;
+    logo.alt = 'Dondurmacı Kızlar';
+    logo.draggable = false;
+    this.onuEl.appendChild(logo);
+    this.sahne.appendChild(this.onuEl);
+
     this.bantEl = document.createElement('div');
     this.bantEl.className = 'bant';
     this.sahne.appendChild(this.bantEl);
-    // Bandın ortası tezgâh: Dondurmacı Kızlar'dan külahlar, sundae, krem şanti, kasa.
+    // Bandın ortası tezgâh: ortada dondurmacı, yanlarda külahlar, sundae, krem şanti, kasa.
     const tezgah = document.createElement('div');
     tezgah.className = 'tezgah';
     for (const yol of TEZGAH_RESIMLERI) {
@@ -447,7 +477,7 @@ export class Oyun {
   // Bölümün en yüksek olası puanı: her istenen top tam puanla alınırsa
   // (her erime biçiminde aynı; "Erime yok"ta her top zaten tam puan getirir).
   private enYuksekPuan(): number {
-    return this.bolum.musteriler.reduce((a, m) => a + m.adet, 0) * TOP_PUANI;
+    return this.bolum.musteriler.reduce((a, m) => a + istekAdedi(m), 0) * TOP_PUANI;
   }
 
   // Kazanınca yıldız sayısı (deneme ölçüsü; Kemal karar verecek).
@@ -475,7 +505,8 @@ export class Oyun {
     if (this.siradaki >= this.bolum.musteriler.length) return null;
     const m = this.bolum.musteriler[this.siradaki++];
     const resim = MUSTERI_RESIMLERI[this.resimSirasi++ % MUSTERI_RESIMLERI.length];
-    return { cesit: m.cesit, kalan: m.adet, durum: 'bekliyor', bittigiAn: 0, resim };
+    const parcalar = m.parcalar.map((p) => ({ cesit: p.cesit, kalan: p.adet }));
+    return { parcalar, durum: 'bekliyor', bittigiAn: 0, resim };
   }
 
   private erimeTuru(): number {
@@ -531,21 +562,24 @@ export class Oyun {
     const bantX = 18 + kalinlik / 2;
     const bantG = g - 2 * bantX;
 
-    const ustAlt = this.ustEl.offsetHeight;
+    const ustAlt = this.ustEl.offsetTop + this.ustEl.offsetHeight;
     const kartG = Math.min(110, (g - 24) / AYNI_ANDA_MUSTERI - 8);
     const dar = kartG < 72;
-    const istekBoy = Math.max(20, Math.min(34, Math.floor(kartG - 46)));
-    // Kart: istek balonu (top + iç boşluk) + aralık + kişi resmi.
-    const kartYuk = istekBoy + (dar ? 8 : 12) + 6 + KISI_BOY;
-    const kartUst = ustAlt + 6;
+    const istekBoy = Math.max(20, Math.min(30, Math.floor(kartG - 46)));
+    // Kart: istek balonu (bir ya da iki satır: top + iç boşluk) + aralık + kişi resmi.
+    // İki çeşit isteyen müşterisi olan bölümde balona iki satırlık yer ayrılır.
+    const satir = this.bolum.musteriler.some((m) => m.parcalar.length > 1) ? 2 : 1;
+    const kartYuk = satir * istekBoy + (satir - 1) * 2 + (dar ? 8 : 12) + 4 + KISI_BOY;
+    const kartUst = ustAlt + 4;
     const kartAlt = kartUst + kartYuk;
 
-    const bantY = Math.max(h * 0.25, kartAlt + 12 + kalinlik / 2);
+    // Müşterilerin alt kısmı tezgâhın arkasında kalır: bant onların üstüne biner.
+    const bantY = kartAlt - KISI_ORTUSME + kalinlik / 2;
     // Sütunlara en az bu kadar yer kalsın: görünen toplar için 36 px'lik yer.
     const sutunEnAz = SUTUNDA_GORUNEN_TOP * 36 + 20;
     const bantY2 = Math.max(
       40,
-      Math.min(h * 0.24, bantG * 0.62, h - 16 - sutunEnAz - 24 - kalinlik / 2 - bantY),
+      Math.min(h * 0.26, bantG * 0.62, h - 16 - sutunEnAz - 14 - ONU_BOY - kalinlik / 2 - bantY),
     );
     const r = bantY2 / 2;
     const duz = bantG - bantY2;
@@ -561,7 +595,7 @@ export class Oyun {
       musteriYolu.push(this.enYakinYol({ x, y: bantY - 40 }, bantX, bantY, bantG, bantY2));
     }
 
-    const sutunlarUst = bantY + bantY2 + kalinlik / 2 + 24;
+    const sutunlarUst = bantY + bantY2 + kalinlik / 2 + ONU_BOY + 14;
     const sutunlarAlt = h - 16;
     const sutunGenislik = (g - 24) / this.sutunlar.length;
     // Top boyu sütunun boyuna değil, sütunda görünen top sayısına göre.
@@ -646,13 +680,11 @@ export class Oyun {
   private topElKur(cesit: number, boy: number): HTMLDivElement {
     const el = document.createElement('div');
     el.className = 'top';
-    const c = CESITLER[cesit];
-    el.style.backgroundColor = c.renk;
-    el.style.color = c.yazi;
     el.style.width = el.style.height = `${boy}px`;
-    el.style.fontSize = `${Math.round(boy * 0.45)}px`;
-    el.textContent = c.harf;
+    el.innerHTML = urunSimgesi(cesit);
     el.dataset.cesit = String(cesit);
+    el.dataset.tur = URUNLER[cesit].tur;
+    el.title = URUNLER[cesit].ad;
     return el;
   }
 
@@ -666,12 +698,22 @@ export class Oyun {
     b.borderWidth = `${y.bantKalinlik}px`;
     b.borderRadius = `${(y.bantY2 + y.bantKalinlik) / 2}px`;
 
+    // Gök ve deniz bandın ortasına kadar iner; tezgâhın önü bandın alt düz kısmının altında.
+    this.manzaraEl.style.height = `${y.bantY + y.bantY2 / 2}px`;
+    const onu = this.onuEl.style;
+    const r = (y.bantY2 + y.bantKalinlik) / 2;
+    const altKenar = y.bantY + y.bantY2 + y.bantKalinlik / 2;
+    onu.left = `${y.bantX - y.bantKalinlik / 2 + r * 0.45}px`;
+    onu.width = `${y.bantG + y.bantKalinlik - r * 0.9}px`;
+    onu.top = `${altKenar - r}px`;
+    onu.height = `${r + ONU_BOY}px`;
+    onu.paddingTop = `${r}px`;
+
     for (const el of this.yuvaEller) {
       el.style.width = el.style.height = `${y.topBoyu}px`;
     }
     for (const t of this.toplar) {
       t.el.style.width = t.el.style.height = `${y.topBoyu}px`;
-      t.el.style.fontSize = `${Math.round(y.topBoyu * 0.45)}px`;
     }
     this.musterileriCiz();
     this.sutunlariCiz();
@@ -692,20 +734,24 @@ export class Oyun {
       el.innerHTML = '';
       if (!m) {
         el.className = 'musteri bos' + dar;
-        delete el.dataset.cesit;
-        delete el.dataset.kalan;
+        delete el.dataset.istek;
         return;
       }
       el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : '');
-      el.dataset.cesit = String(m.cesit);
-      el.dataset.kalan = String(m.kalan);
+      el.dataset.istek = m.parcalar.map((p) => `${URUNLER[p.cesit].id}:${p.kalan}`).join(',');
+      // İstek balonu: her çeşit bir satır (simge ve kalan adet; biten çeşitte ✓).
       const istek = document.createElement('div');
       istek.className = 'istek';
-      istek.appendChild(this.topElKur(m.cesit, istekBoy));
-      const adet = document.createElement('span');
-      adet.className = 'adet';
-      adet.textContent = m.durum === 'bitti' ? '✓' : `×${m.kalan}`;
-      istek.appendChild(adet);
+      for (const p of m.parcalar) {
+        const satir = document.createElement('div');
+        satir.className = 'istek-satir' + (p.kalan === 0 ? ' tamam' : '');
+        satir.appendChild(this.topElKur(p.cesit, istekBoy));
+        const adet = document.createElement('span');
+        adet.className = 'adet';
+        adet.textContent = p.kalan === 0 ? '✓' : `×${p.kalan}`;
+        satir.appendChild(adet);
+        istek.appendChild(satir);
+      }
       const kisi = document.createElement('img');
       kisi.className = 'kisi';
       kisi.src = m.resim;
@@ -893,15 +939,17 @@ export class Oyun {
         const sOnce = once + i * aralik;
         for (let m = 0; m < this.musteriYerleri.length; m++) {
           const my = this.musteriYerleri[m];
-          if (!my || my.durum !== 'bekliyor' || my.cesit !== t.cesit || my.kalan <= 0) continue;
+          if (!my || my.durum !== 'bekliyor') continue;
+          const parca = my.parcalar.find((p) => p.cesit === t.cesit && p.kalan > 0);
+          if (!parca) continue;
           const fark = (((y.musteriYolu[m] - sOnce) % y.cevre) + y.cevre) % y.cevre;
           if (fark < adim) {
-            my.kalan--;
+            parca.kalan--;
             // Puan: tam puan; erime açıkken bantta 1 turdan uzun kaldıysa yarısı (Kemal, 22 Ekim).
             // "Erime yok"ta her top tam puan.
             const yarim = erimeTuru > 0 && t.tur >= GEC_TOP_TURU;
             this.puan += yarim ? TOP_PUANI * GEC_TOP_PUAN_ORANI : TOP_PUANI;
-            if (my.kalan === 0) {
+            if (my.parcalar.every((p) => p.kalan === 0)) {
               my.durum = 'bitti';
               my.bittigiAn = an;
               this.karsilanan++;
@@ -956,15 +1004,16 @@ export class Oyun {
 
   // Sütunda, ortak saklı sırada ve bantta kalan toplar kalan istekleri karşılayabiliyor mu?
   private toplarYetiyorMu(): boolean {
-    const eldeki: number[] = new Array(CESITLER.length).fill(0);
+    const eldeki: number[] = new Array(URUNLER.length).fill(0);
     for (const s of this.sutunlar) for (const c of s) eldeki[c]++;
     for (let i = this.sakliSira; i < this.bolum.sakli.length; i++) eldeki[this.bolum.sakli[i]]++;
     for (const t of this.toplar) if (t.durum === 'ucuyor' || t.durum === 'bantta') eldeki[t.cesit]++;
-    const istek: number[] = new Array(CESITLER.length).fill(0);
-    for (const m of this.musteriYerleri) if (m && m.durum === 'bekliyor') istek[m.cesit] += m.kalan;
+    const istek: number[] = new Array(URUNLER.length).fill(0);
+    for (const m of this.musteriYerleri) {
+      if (m && m.durum === 'bekliyor') for (const p of m.parcalar) istek[p.cesit] += p.kalan;
+    }
     for (let i = this.siradaki; i < this.bolum.musteriler.length; i++) {
-      const m = this.bolum.musteriler[i];
-      istek[m.cesit] += m.adet;
+      for (const p of this.bolum.musteriler[i].parcalar) istek[p.cesit] += p.adet;
     }
     return istek.every((n, c) => eldeki[c] >= n);
   }
@@ -994,7 +1043,9 @@ export class Oyun {
     // Boş bir müşteri yerine yenisi gelecekse beklenir (o, bantta olanı isteyebilir).
     if (this.musteriYerleri.some((m) => !m) && this.siradaki < this.bolum.musteriler.length) return;
     const istenen = new Set(
-      this.musteriYerleri.filter((m): m is MusteriYeri => !!m).map((m) => m.cesit),
+      this.musteriYerleri
+        .filter((m): m is MusteriYeri => !!m)
+        .flatMap((m) => m.parcalar.filter((p) => p.kalan > 0).map((p) => p.cesit)),
     );
     if (this.yuvalar.some((t) => t && istenen.has(t.cesit))) return;
     this.bitir('doldu');
