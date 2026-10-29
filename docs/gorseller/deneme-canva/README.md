@@ -8,7 +8,7 @@ kopyalanmasın diye). Resimlerde yazı, sayı, logo yok.
 
 | Deneme | Tarz | Canva'da aç (tam boy, 944x1680) |
 |---|---|---|
-| 1 | Parlak çizgi film: kalın hatlar, canlı renkler | https://www.canva.com/M/MAHZWRtI0gY |
+| 1 | Parlak çizgi film: kalın hatlar, canlı renkler (**Kemal seçti, 30 Ekim**) | https://www.canva.com/M/MAHZWRtI0gY |
 | 2 | Suluboya masal kitabı: ince kahverengi hatlar, pastel renkler | https://www.canva.com/M/MAHZWQpHW0Y |
 
 Bu klasördeki `1-canva-cizgi-film-kucuk.png` ve `2-canva-suluboya-kucuk.png`

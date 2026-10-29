@@ -30,6 +30,40 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.16 Görsel tarzı: parlak çizgi film (Kemal, 30 Ekim 2026)
+
+6. paketteki iki Canva denemesinden (`docs/gorseller/deneme-canva/`) Kemal'in seçimi, olduğu gibi: "Parlak cizgi film iyi".
+- DK Lite'ın görsel tarzı: parlak çizgi film; kalın hatlar, canlı renkler, el çizimi 2D (0.4 sürer), Dondurmacı Kızlar teması (0.14).
+- Örnek resim: https://www.canva.com/M/MAHZWRtI0gY (Kemal'in Canva hesabında). Resim birebir oyuna girmez; 7. pakette oyunun parçaları bu tarzda ayrı ayrı çizilir.
+- Suluboya denemesi seçilmedi.
+
+### 0.15 Yeni diziliş ve yeni kurallar, çizimsiz (öneri; 29 Ekim 2026 gecesi)
+
+Kemal'in isteği: 0.14'teki soru turu ve "Yatıyorum, limitler dahilinde çalışabilirsin" (29 Ekim gecesi). Öneri oyununda böyle yapıldı:
+
+Ekran (yukarıdan aşağı):
+- En üstte mor-sarı çizgili tente, alt kenarı dalgalı.
+- Arkada dükkândan dışarısı: açık mavi gök, altında deniz (bandın ortasına kadar). Yer adı yok.
+- Üst şerit (bölüm, erime düğmesi, müşteri / puan / bant sayaçları, hız ve duraklatma) tentenin altında; eskisi gibi.
+- Müşteriler tezgâhın arkasında: istek balonu başlarının üstünde, belden aşağısı tezgâhın (bandın) arkasında kalır.
+- Ortada tezgâh: mor bant tezgâhın çevresinden döner (iç kenarında sarı çizgi). Tezgâhın üstünde ortada dondurmacı, iki yanında külahlar, sundae, krem şanti, yazar kasa.
+- Dondurmacı: Dondurmacı Kızlar'ın dükkân üniforması (sarı tişört, mor önlük, mor kasket). Resim Dondurmacı Kızlar'daki çalışan modelinden bu iş için çekildi; adı yok. Geçici.
+- Tezgâhın önü: bandın altından görünen mor-sarı dikey çizgiler, ortada dükkânın logosu (Dondurmacı Kızlar deposundaki logo).
+- Altta sütunlar; dokununca gider (değişmedi).
+
+Ürünler:
+- Harfler kalktı. Dondurma çeşitleri yuvarlak, alttan dalgalı top: çikolata (kahverengi), çilek (pembe, kırmızı benekli), limon (sarı), fıstık (yeşil), vanilya (krem, ince benekli). Tatlılar ve içecekler açık renk bir tabağın üstünde sade simge: dilim pasta, küçük kek, kâsede meyve, limonata, gazoz, kahve, çay. Hepsi düz şekil (çizimsiz); çizimler gelince yerine geçer.
+- Hangi bölümde hangi ürünler (DENEME): çeşit sayısı eski tablodaki gibi kaldı (1–5: 3 çeşit, 6–10: 4 çeşit) ki zorluk değişmesin; yalnız türler değişir. 1: çikolata, çilek, limon; 2: çikolata, çilek, fıstık; 3: limon, vanilya, dilim pasta (ilk tatlı); 4: çilek, fıstık, küçük kek; 5: çikolata, vanilya, kâsede meyve; 6: çilek, limon, dilim pasta, limonata (ilk içecek); 7: çikolata, fıstık, küçük kek, gazoz; 8: vanilya, çilek, kâsede meyve, kahve; 9: limon, çikolata, dilim pasta, çay; 10: fıstık, vanilya, küçük kek, limonata. Her bölümde en az iki dondurma çeşidi var.
+- Tatlı ve içecek de bir "top" gibidir: sütunda bir yer, bantta bir yer kaplar, bir topun puanını getirir, erime kuralı ona da uyar (0.14'teki şef notu böyle uygulandı).
+- Tatlılar ve içecekler sütunlarda dondurmalarla aynı karışık sırada gelir (0.9'daki karıştırma kuralı sürer).
+
+İki çeşit isteyen müşteri:
+- 6. bölümden başlar ("Ortalardan itibaren"). Oran (DENEME): 6–7. bölümde müşterilerin yaklaşık %30'u, 8–9'da %40'ı, 10'da %50'si.
+- Müşterinin istediği toplam adet (tablodaki gibi, ör. 2–4) iki çeşide bölünür; her birinden en az bir tane. Balonda iki satır: her çeşidin simgesi ve kalan adedi. Bir çeşit bitince o satırda ✓ olur ve soluklaşır; ikisi de bitince müşteri gider.
+- Bütün bölümler yeni kurallarla kazanılabilir kuruldu (denetim iki çeşidi de biliyor). 1., 6., 9. ve 10. bölüm baştan sona kendiliğinden oynatılıp kazanıldı.
+
+Ekran görüntüleri: `docs/ekran/yeni-dizilis/` (1. bölüm 390x844; 6. bölüm 390x844, iki çeşit isteyen müşteri, dilim pasta ve limonata; 9. bölüm 360x640).
+
 ### 0.14 Oyun ekranının yeni hâli (Kemal, 29 Ekim 2026; sohbette soru turu)
 
 Kemal bir örnek oyun ekranı paylaştı (`docs/gorseller/kemal-taslak/5-oyun-ekrani-29-10.jpg`; köşesinde "Dondurmacı Kızlar Lite" simgesi var) ve "Ekran mantığı olarak buna benzememesi normal mi?" diye sordu. Ardından uzun bir soru turu yapıldı. Kemal'in cevapları:
