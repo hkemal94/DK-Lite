@@ -44,7 +44,7 @@ Tam boy müşteriler:
 - Müşteriler büyüdü: büyük telefonda en çok 110 piksel görünür; kısa ekranda (360x640) bar sıkışmasın diye küçülür.
 - Ekran görüntüleri: `docs/ekran/tam-boy/`.
 
-Giriş ekranı: Kemal'in kendi fikirlerini çizebileceği bir Canva sayfası hazırlandı (bağlantı yol haritasında ve PR'da). Giriş ekranı Kemal'in çizimleri gelince değişecek; bu öneride değişmedi.
+Giriş ekranı: Kemal'in kendi fikirlerini çizebileceği bir Canva sayfası hazırlandı: https://canva.link/09dz2aegf2mlsc9 (5 sayfa: kapak, şimdiki giriş ekranı, ekibin önerileri, boş çizim sayfası, oyun ekranı; her sayfada sağ taraf çizim için boş). Öneriler: açılışta dondurmacı el sallar ve deniz dalgalanır; logo zıplayarak gelir; Başla düğmesi yavaşça büyüyüp küçülür, üstünde kaldığı bölüm ve yıldızlar; alt yarıda dondurma dolabı ya da tezgâh; giriş müziği (ses paketiyle). Giriş ekranı Kemal'in çizimleri gelince değişecek; bu öneride değişmedi.
 
 ### 0.20 Müşteriler barın arkasında, üç boyutlu bant ve bar, saydam arka plan (öneri; 30 Ekim 2026)
 
