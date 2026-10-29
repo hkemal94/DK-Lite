@@ -104,12 +104,15 @@ html, body {
 
 #sayac-bant.dolu .cubuk-dolu { background: #F26B6F; }
 
-/* Dükkândan dışarısı: üstte gök, altta deniz (bandın ortasına kadar). */
+/* Dükkândan dışarısı: bütün sayfaya yayılır, biraz saydam (Kemal, 30 Ekim:
+   "arkaplan gorseli biraz daha seffaf ve tum sayfaya yayilsin"). */
 .manzara {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
+  bottom: 0;
+  opacity: 0.55;
   /* resim oyun.ts'de verilir (yol oyunun açıldığı adrese göre) */
   background: var(--gok) center 18% / cover no-repeat;
   pointer-events: none;
@@ -139,7 +142,31 @@ html, body {
   border-style: solid;
   border-color: var(--bant);
   background: linear-gradient(#f3dcb8 0 38%, var(--tezgah) 38% 100%);
-  box-shadow: inset 0 0 0 4px var(--sari), inset 0 0 0 7px var(--hat), 0 0 0 3px var(--hat), 0 6px 0 rgba(90, 58, 34, 0.35);
+  /* Üç boyutlu bant (Kemal, 30 Ekim: "bant ve bar da biraz üç boyutlu olsun"):
+     iç kenarda sarı çizgi ve içe doğru gölge; dışta kalın hat, altında bandın
+     koyu mor yan yüzü ve yere düşen gölge. */
+  box-shadow:
+    inset 0 0 0 4px var(--sari),
+    inset 0 0 0 7px var(--hat),
+    inset 0 12px 0 7px rgba(60, 30, 10, 0.28),
+    0 0 0 3px var(--hat),
+    0 12px 0 0 #4b2272,
+    0 12px 0 3px var(--hat),
+    0 20px 14px rgba(40, 20, 10, 0.35);
+}
+/* Bandın üst yüzüne ışık: üstte açık, altta koyu (bant kalınlığı boyunca). */
+.bant::before {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--bant-kalinlik, 40px));
+  border-radius: inherit;
+  border: var(--bant-kalinlik, 40px) solid transparent;
+  background: linear-gradient(rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.12)) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) border-box, linear-gradient(#000 0 0) padding-box;
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) border-box exclude, linear-gradient(#000 0 0) padding-box;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Tezgâhın önü: mor-sarı dikey çizgiler, ortada dükkânın logosu. */
@@ -150,7 +177,10 @@ html, body {
   align-items: center;
   justify-content: center;
   border-radius: 0 0 18px 18px;
-  background: repeating-linear-gradient(90deg, var(--bant) 0 22px, var(--sari) 22px 44px);
+  /* üç boyutlu: aşağı doğru koyulaşan gölge */
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.28)),
+    repeating-linear-gradient(90deg, var(--bant) 0 22px, var(--sari) 22px 44px);
   border: 3px solid var(--hat);
   border-top: none;
   box-shadow: 0 5px 0 rgba(90, 58, 34, 0.35);
@@ -661,6 +691,8 @@ html, body {
   background:
     repeating-linear-gradient(90deg, rgba(90, 58, 34, 0.08) 0 2px, transparent 2px 34px),
     linear-gradient(#e7c193, #d9ad7a);
+  /* arka duvar içe çökük görünsün: kenarlarda koyulaşan gölge */
+  box-shadow: inset 0 0 26px rgba(60, 30, 10, 0.45);
   pointer-events: none;
 }
 .raf {
@@ -671,8 +703,10 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  border-bottom: 6px solid #a8743f;
-  box-shadow: 0 3px 0 var(--hat);
+  border-bottom: 8px solid #b98149;
+  box-shadow: 0 3px 0 var(--hat), 0 9px 6px rgba(60, 30, 10, 0.3);
+  /* rafın arkasında hafif gölge */
+  background: linear-gradient(transparent 70%, rgba(60, 30, 10, 0.12));
 }
 .raf-ust { top: 10%; }
 .raf-alt { top: 40%; left: 5%; right: 5%; }
@@ -715,11 +749,14 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 22%;
+  height: 26%;
+  /* üç boyutlu bar tezgâhı: üstte ışık alan tezgâh yüzü, altında öne bakan ahşap yüz */
   background:
-    linear-gradient(#c98d55 0 22%, var(--hat) 22% 26%, transparent 26%),
+    linear-gradient(#f0c48c, #d9a066 30%, #c98d55 34%, var(--hat) 34% 38%, transparent 38%),
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)),
     repeating-linear-gradient(90deg, #b57a45 0 26px, #a96e3b 26px 52px);
   border-top: 3px solid var(--hat);
+  box-shadow: 0 -6px 10px rgba(60, 30, 10, 0.3);
 }
 
 /* ---------- Sabır çubuğu ve uçan yazılar ---------- */
