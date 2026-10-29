@@ -44,6 +44,7 @@ Kemal'in isteği: "Birleştirdim, başlayabilirsin" (30 Ekim) ve Canva hesabına
 - Giriş ekranı: arkada aynı manzara; oyunun adı yerinde dükkânın logosu ve mor "Lite" (0.14: "Dondurmacı Kızlar Lite" şimdilik çalışma adı). `[Kemal]` yer tutucusu kalktı.
 - Oyunun kuralları, sayılar, düğmeler değişmedi. Bölüm haritası ve bölüm sonu kutusu bu pakette değişmedi (haritanın çizimi sıradaki adım).
 - Ekran görüntüleri: `docs/ekran/paket-7/`.
+- Bantta külah (Kemal, 30 Ekim: "Itemleri banta attığımda top dondurmalar külahın üzerinde görünecek değil mi"; seçimi "Bantta"): banda giden dondurma topu külahın ağzında döner, müşteriye külahıyla gider. Sütunlarda ve istek balonunda çıplak top kalır. Tatlı ve içecek değişmedi. Külah Canva ile aynı tarzda çizildi (`public/gorseller/kulah.webp`). Kural değişmedi. Ekran görüntüsü: `docs/ekran/paket-7/5-bantta-kulah-390x844.png`.
 
 ### 0.16 Görsel tarzı: parlak çizgi film (Kemal, 30 Ekim 2026)
 
