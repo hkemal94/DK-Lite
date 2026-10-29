@@ -20,6 +20,12 @@ import {
   GEC_TOP_TURU,
   GONDERME_BICIMI,
   HIZ_KATI,
+  KACAN_EN_COK,
+  SABIR_KIRMIZI,
+  SABIR_SARI,
+  SABIR_SN,
+  SERI_BASLANGIC,
+  SERI_EK_PUAN,
   MUSTERI_GELIS_ARALIGI_SN,
   SUTUNDA_GORUNEN_TOP,
   TOP_PUANI,
@@ -28,7 +34,7 @@ import {
 } from './ayarlar';
 import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
-import { bolumKazanildi, hepsiBitti, kayitOku, type Kayit } from './kayit';
+import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
 
 // Müşteriler: 10 farklı kişi, belden yukarısı (Canva, parlak çizgi film). Kaynak: docs/lisanslar.md.
@@ -36,13 +42,19 @@ const MUSTERI_RESIMLERI = Array.from({ length: 10 }, (_, i) =>
   `gorseller/musteriler/musteri-${String(i + 1).padStart(2, '0')}.webp`);
 // Tezgâhın üstü: ortada dondurmacı (dükkân renkleri: sarı tişört, mor önlük, mor kasket),
 // iki yanında tezgâhta duran ürünler.
-const TEZGAH_RESIMLERI = [
-  'gorseller/urunler/meyve.webp',
-  'gorseller/urunler/pasta.webp',
-  'gorseller/tezgah/dondurmaci.webp',
-  'gorseller/urunler/kek.webp',
-  'gorseller/urunler/limonata.webp',
-];
+// Bar (Kemal, 30 Ekim: "bantın ortasını bir bar gibi tasarla"; "Ahşap kafe barı";
+// yan ürünler "Raflara gitsin"): arkada iki ahşap raf, rafların iki yanında kafe
+// eşyaları ve tatlılar; ortada dondurmacı; önde ahşap bar tezgâhı.
+const RAF_UST = {
+  sol: ['bar/kahve-makinesi', 'bar/bardaklar', 'bar/seker-kavanozu'],
+  sag: ['bar/kulah-yigini', 'bar/saksi', 'bar/kase'],
+};
+const RAF_ALT = {
+  sol: ['urunler/meyve', 'urunler/pasta', 'bar/surup-kirmizi'],
+  sag: ['bar/surup-sari', 'urunler/kek', 'urunler/limonata'],
+};
+const DONDURMACI_RESMI = 'gorseller/tezgah/dondurmaci.webp';
+const SEVINEN_DONDURMACI_RESMI = 'gorseller/tezgah/dondurmaci-seviniyor.webp';
 const LOGO_RESMI = 'gorseller/logo-yazi.webp';
 // Arkada dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları (Canva, parlak çizgi film).
 const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
@@ -52,6 +64,19 @@ const KULAH_RESMI = 'gorseller/kulah.webp';
 const KISI_BOY = 56;
 // Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
 const KISI_ORTUSME = 16;
+// Müşterinin balonunun altındaki sabır çubuğunun kalınlığı (px).
+const SABIR_BOY = 6;
+// Uçan yazıların (puan, seri, kalp) ekranda kalma süresi (ms).
+const UCAN_MS = 900;
+// İsteği tamamlanan müşterinin başında çıkan kalp ve sabrı biten müşterinin
+// üzgün yüzü (çizgi film tarzı, kalın hat).
+// Ayarlar düğmesindeki dişli.
+const DISLI_SVG =
+  '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.3 4.7.1-1.2-.1-1.2 2-1.6-2-3.4-2.4 1a8 8 0 0 0-2-1.2L15.5 3h-4l-.4 2.6a8 8 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6-.1 1.2.1 1.2-2 1.6 2 3.4 2.4-1c.6.5 1.3.9 2 1.2l.4 2.6h4l.4-2.6c.7-.3 1.4-.7 2-1.2l2.4 1 2-3.4-2-1.6Z" fill="currentColor"/></svg>';
+const KALP_SVG =
+  '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 21 C5 15 2 12 2 8 C2 5 4.5 3 7 3 C9 3 11 4.5 12 6 C13 4.5 15 3 17 3 C19.5 3 22 5 22 8 C22 12 19 15 12 21 Z" fill="#e2475b" stroke="#5a3a22" stroke-width="2" stroke-linejoin="round"/></svg>';
+const UZGUN_SVG =
+  '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#9fc3e6" stroke="#5a3a22" stroke-width="2"/><circle cx="8.5" cy="10" r="1.4" fill="#5a3a22"/><circle cx="15.5" cy="10" r="1.4" fill="#5a3a22"/><path d="M8 17 Q12 13.5 16 17" fill="none" stroke="#5a3a22" stroke-width="2" stroke-linecap="round"/></svg>';
 // Tezgâhın önündeki mor-sarı çizgili yüzün bandın altından görünen boyu (px).
 const ONU_BOY = 40;
 
@@ -79,8 +104,9 @@ interface Top {
 
 interface MusteriYeri {
   parcalar: { cesit: number; kalan: number }[]; // bir ya da iki çeşit; her birinden kalan adet
-  durum: 'bekliyor' | 'bitti';
+  durum: 'bekliyor' | 'bitti' | 'gitti'; // gitti: sabrı bitti, istediğini alamadan gitti
   bittigiAn: number;
+  gelisAn: number; // geldiği an (oyunun saatiyle); sabır buradan sayılır
   resim: string; // müşterinin görünüşü (kişi resmi)
 }
 
@@ -105,7 +131,7 @@ interface Yerlesim {
   istekBoy: number; // istek balonundaki topun boyu
 }
 
-type Sonuc = 'kazandin' | 'doldu' | 'kalmadi';
+type Sonuc = 'kazandin' | 'doldu' | 'kalmadi' | 'kacti';
 // Haritada "Geri" nereye döner.
 type HaritaDonus = 'giris' | 'duraklat' | 'yerinde';
 
@@ -116,11 +142,15 @@ const OYUN_ADI = 'Dondurmacı Kızlar Lite';
 // Son bölüm de kazanılınca görünen basit durum yazısı (kurgu metni değil).
 const HEPSI_BITTI_YAZISI = 'Bütün bölümler bitti';
 
+// Bölüm sonu fişinin altındaki teşekkür satırı: yazı Kemal'in (boş yer tutucu).
+const FIS_TESEKKUR = '[Kemal]';
+
 // Bölüm sonunda görünen basit durum yazısı (kurgu metni değil).
 const SONUC_YAZISI: Record<Sonuc, string> = {
   kazandin: 'Bölüm tamamlandı',
   doldu: 'Bant doldu',
   kalmadi: 'Top kalmadı',
+  kacti: 'Müşteriler gitti',
 };
 
 function rastgeleArasi(enAz: number, enCok: number): number {
@@ -179,10 +209,18 @@ export class Oyun {
   // Boş müşteri yerine yenisinin geleceği an (dolu yerde kullanılmaz).
   private gelisAnlari: number[] = [];
   // Seçili erime biçiminin sırası; bölüm değişince de kalır.
-  private erimeSirasi = ERIME_VARSAYILAN;
+  private erimeSirasi = ERIME_VARSAYILAN; // ayarlardan okunur (kurucuda)
   private siradaki = 0;
   private karsilanan = 0; // işi biten müşteri sayısı
+  private kacan = 0; // sabrı bitip giden müşteri sayısı
+  private satilan: number[] = []; // her üründen kaç tane satıldı (bölüm sonu fişi için)
+  private seri = 0; // art arda doğru gönderim sayısı
+  private seriPuani = 0; // seriden gelen ek puan (yıldız hesabına girmez)
   private puan = 0;
+  private ayarlar!: Ayarlar;
+  private dondurmaciEl!: HTMLImageElement;
+  private sabirEller: (HTMLDivElement | null)[] = [];
+  private ayarlarEl!: HTMLDivElement;
   private yuvalar: (Top | null)[] = [];
   private toplar: Top[] = [];
   private kayma = 0; // bandın dönüşü (çevre boyunca)
@@ -193,6 +231,8 @@ export class Oyun {
 
   constructor(kok: HTMLElement) {
     this.kok = kok;
+    this.ayarlar = ayarOku(ERIME_VARSAYILAN, ERIME_BICIMLERI.length);
+    this.erimeSirasi = this.ayarlar.erime;
     this.iskeletKur();
     // Oyun açılınca önce giriş ekranı gelir (Kemal, 22 Ekim). Arkada kaldığı
     // bölüm hazır durur ama başlamaz; "Başla" ile başlar.
@@ -265,17 +305,34 @@ export class Oyun {
     this.bantEl = document.createElement('div');
     this.bantEl.className = 'bant';
     this.sahne.appendChild(this.bantEl);
-    // Bandın ortası tezgâh: ortada dondurmacı, yanlarda külahlar, sundae, krem şanti, kasa.
-    const tezgah = document.createElement('div');
-    tezgah.className = 'tezgah';
-    for (const yol of TEZGAH_RESIMLERI) {
+    // Bandın ortası ahşap kafe barı: arkada raflar, ortada dondurmacı, önde bar tezgâhı.
+    const resim = (yol: string, sinif = '') => {
       const r = document.createElement('img');
       r.src = yol;
       r.alt = '';
       r.draggable = false;
-      tezgah.appendChild(r);
+      if (sinif) r.className = sinif;
+      return r;
+    };
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    for (const [sinif, raf] of [['raf raf-ust', RAF_UST], ['raf raf-alt', RAF_ALT]] as const) {
+      const r = document.createElement('div');
+      r.className = sinif;
+      for (const yan of ['sol', 'sag'] as const) {
+        const grup = document.createElement('div');
+        grup.className = 'raf-yan';
+        for (const ad of raf[yan]) grup.appendChild(resim(`gorseller/${ad}.webp`));
+        r.appendChild(grup);
+      }
+      bar.appendChild(r);
     }
-    this.bantEl.appendChild(tezgah);
+    this.dondurmaciEl = resim(DONDURMACI_RESMI, 'dondurmaci');
+    bar.appendChild(this.dondurmaciEl);
+    const barTezgah = document.createElement('div');
+    barTezgah.className = 'bar-tezgah';
+    bar.appendChild(barTezgah);
+    this.bantEl.appendChild(bar);
 
     for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) {
       const m = document.createElement('div');
@@ -289,8 +346,7 @@ export class Oyun {
     this.erimeEl.className = 'erime-dugme';
     this.erimeEl.id = 'erime';
     this.erimeEl.addEventListener('click', () => {
-      this.erimeSirasi = (this.erimeSirasi + 1) % ERIME_BICIMLERI.length;
-      this.erimeYazisi();
+      this.erimeSec((this.erimeSirasi + 1) % ERIME_BICIMLERI.length);
     });
     // Bölüm numarası (ad yok). Dokununca bölüm haritası açılır.
     this.bolumNoEl = document.createElement('button');
@@ -394,7 +450,70 @@ export class Oyun {
     bolumler.addEventListener('click', () => this.listeAc('giris'));
     girisKutu.append(ad, basla, bolumler);
     this.girisEl.appendChild(girisKutu);
+    // Sağ üstte ayarlar dişlisi (Kemal, 30 Ekim: ayarlar "Şimdi, basit").
+    const disli = document.createElement('button');
+    disli.className = 'kose-dugme ayar-dugme';
+    disli.id = 'ayarlar-ac';
+    disli.setAttribute('aria-label', 'Ayarlar');
+    disli.innerHTML = DISLI_SVG;
+    disli.addEventListener('click', () => this.ayarlarAc());
+    this.girisEl.appendChild(disli);
     this.kok.appendChild(this.girisEl);
+
+    this.ayarlarEl = document.createElement('div');
+    this.ayarlarEl.className = 'son ayarlar gizli';
+    this.ayarlarEl.id = 'ayarlar';
+    this.kok.appendChild(this.ayarlarEl);
+  }
+
+  // Ayarlar: erime seçimi ve titreşim (Kemal, 30 Ekim). Seçimler telefonda saklanır.
+  private ayarlarAc() {
+    this.ayarlarEl.className = 'son ayarlar';
+    this.ayarlarEl.innerHTML = '';
+    const kutu = document.createElement('div');
+    kutu.className = 'son-kutu ayar-kutu';
+    const baslik = document.createElement('div');
+    baslik.className = 'son-baslik';
+    baslik.textContent = 'Ayarlar';
+    kutu.appendChild(baslik);
+    const grup = (ad: string, secenekler: string[], secili: number, sec: (i: number) => void) => {
+      const g = document.createElement('div');
+      g.className = 'ayar-grup';
+      const etiket = document.createElement('div');
+      etiket.className = 'ayar-etiket';
+      etiket.textContent = ad;
+      const sira = document.createElement('div');
+      sira.className = 'ayar-secenekler';
+      secenekler.forEach((yazi, i) => {
+        const d = document.createElement('button');
+        d.className = 'ayar-secenek' + (i === secili ? ' secili' : '');
+        d.textContent = yazi;
+        d.addEventListener('click', () => {
+          sec(i);
+          this.ayarlarAc(); // seçimi göstermek için yeniden çizilir
+        });
+        sira.appendChild(d);
+      });
+      g.append(etiket, sira);
+      return g;
+    };
+    kutu.append(
+      grup('Erime', ERIME_BICIMLERI.map((b) => b.yazi), this.erimeSirasi, (i) => this.erimeSec(i)),
+      grup('Titreşim', ['Açık', 'Kapalı'], this.ayarlar.titresim ? 0 : 1, (i) => {
+        this.ayarlar.titresim = i === 0;
+        ayarYaz(this.ayarlar);
+      }),
+    );
+    const kapat = document.createElement('button');
+    kapat.className = 'dugme';
+    kapat.id = 'ayarlar-kapat';
+    kapat.textContent = 'Kapat';
+    kapat.addEventListener('click', () => {
+      this.ayarlarEl.className = 'son ayarlar gizli';
+      this.ayarlarEl.innerHTML = '';
+    });
+    kutu.appendChild(kapat);
+    this.ayarlarEl.appendChild(kutu);
   }
 
   // Hızlıyken düğme sarı dolu görünür.
@@ -445,6 +564,10 @@ export class Oyun {
     this.sakliSira = 0;
     this.siradaki = 0;
     this.karsilanan = 0;
+    this.kacan = 0;
+    this.satilan = new Array(URUNLER.length).fill(0);
+    this.seri = 0;
+    this.seriPuani = 0;
     this.puan = 0;
     // Bölüm birkaç müşteriyle başlar (rastgele yerlerde); ötekiler teker teker gelir.
     const an = this.oyunAn;
@@ -500,7 +623,8 @@ export class Oyun {
 
   // Kazanınca yıldız sayısı (deneme ölçüsü; Kemal karar verecek).
   private yildizSayisi(): number {
-    const oran = this.puan / Math.max(1, this.enYuksekPuan());
+    // Seri ek puanı yıldızı kolaylaştırmasın: yıldız yalnız ürünlerden gelen puana göre.
+    const oran = (this.puan - this.seriPuani) / Math.max(1, this.enYuksekPuan());
     return YILDIZ_ESIKLERI.filter((e) => oran >= e - 1e-9).length;
   }
 
@@ -524,11 +648,19 @@ export class Oyun {
     const m = this.bolum.musteriler[this.siradaki++];
     const resim = MUSTERI_RESIMLERI[this.resimSirasi++ % MUSTERI_RESIMLERI.length];
     const parcalar = m.parcalar.map((p) => ({ cesit: p.cesit, kalan: p.adet }));
-    return { parcalar, durum: 'bekliyor', bittigiAn: 0, resim };
+    return { parcalar, durum: 'bekliyor', bittigiAn: 0, gelisAn: this.oyunAn, resim };
   }
 
   private erimeTuru(): number {
     return ERIME_BICIMLERI[this.erimeSirasi].tur;
+  }
+
+  // Erime biçimini seçer: üst şeritteki düğme ve ayarlar aynı seçimi kullanır; telefonda saklanır.
+  private erimeSec(sira: number) {
+    this.erimeSirasi = sira;
+    this.ayarlar.erime = sira;
+    ayarYaz(this.ayarlar);
+    this.erimeYazisi();
   }
 
   private erimeYazisi() {
@@ -587,7 +719,8 @@ export class Oyun {
     // Kart: istek balonu (bir ya da iki satır: top + iç boşluk) + aralık + kişi resmi.
     // İki çeşit isteyen müşterisi olan bölümde balona iki satırlık yer ayrılır.
     const satir = this.bolum.musteriler.some((m) => m.parcalar.length > 1) ? 2 : 1;
-    const kartYuk = satir * istekBoy + (satir - 1) * 2 + (dar ? 8 : 12) + 4 + KISI_BOY;
+    // Balonun altında sabır çubuğu (SABIR_BOY + aralık).
+    const kartYuk = satir * istekBoy + (satir - 1) * 2 + (dar ? 8 : 12) + 4 + SABIR_BOY + 3 + KISI_BOY;
     const kartUst = ustAlt + 4;
     const kartAlt = kartUst + kartYuk;
 
@@ -750,12 +883,13 @@ export class Oyun {
       el.style.top = `${y.kartUst}px`;
       el.style.width = `${kartG}px`;
       el.innerHTML = '';
+      this.sabirEller[i] = null;
       if (!m) {
         el.className = 'musteri bos' + dar;
         delete el.dataset.istek;
         return;
       }
-      el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : '');
+      el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : m.durum === 'gitti' ? ' gitti' : '');
       el.dataset.istek = m.parcalar.map((p) => `${URUNLER[p.cesit].id}:${p.kalan}`).join(',');
       // İstek balonu: her çeşit bir satır (simge ve kalan adet; biten çeşitte ✓).
       const istek = document.createElement('div');
@@ -776,7 +910,16 @@ export class Oyun {
       kisi.alt = '';
       kisi.draggable = false;
       kisi.style.width = kisi.style.height = `${KISI_BOY}px`;
-      el.append(istek, kisi);
+      // Sabır çubuğu: yavaşça azalır, yeşilden sarıya, sonra kırmızıya döner (her karede güncellenir).
+      const sabir = document.createElement('div');
+      sabir.className = 'sabir';
+      sabir.style.height = `${SABIR_BOY}px`;
+      const dolu = document.createElement('div');
+      dolu.className = 'sabir-dolu';
+      sabir.appendChild(dolu);
+      if (m.durum === 'bekliyor') this.sabirEller[i] = dolu;
+      else sabir.style.visibility = 'hidden';
+      el.append(istek, sabir, kisi);
     });
   }
 
@@ -864,6 +1007,38 @@ export class Oyun {
     bosYuvalar.sort((a, b) => uzaklik(a) - uzaklik(b));
 
     const an = this.oyunAn;
+    // Doğru mu: gönderilen şeyi görünen bir müşteri hâlâ istiyor mu (bantta ve
+    // havada olanlar düşüldükten sonra)? Art arda doğrular ek puan getirir.
+    const ilkCesit = sutun[sutun.length - 1];
+    let ihtiyac = 0;
+    for (const m of this.musteriYerleri) {
+      if (m && m.durum === 'bekliyor') for (const p of m.parcalar) if (p.cesit === ilkCesit) ihtiyac += p.kalan;
+    }
+    for (const t of this.toplar) {
+      if ((t.durum === 'bantta' || t.durum === 'ucuyor') && t.cesit === ilkCesit) ihtiyac--;
+    }
+    const sutunUstu = this.sutunTopNoktasi(sutunNo, 0);
+    if (ihtiyac > 0) {
+      this.seri++;
+      if (this.seri >= SERI_BASLANGIC) {
+        this.puan += SERI_EK_PUAN;
+        this.seriPuani += SERI_EK_PUAN;
+        this.ucanYazi(sutunUstu.x, sutunUstu.y - 20, `Seri ×${this.seri} +${SERI_EK_PUAN}`, 'ucan-seri');
+      }
+    } else {
+      this.seri = 0;
+    }
+    // Dondurmacı kısa bir tepki verir; ayarlarda açıksa telefon hafifçe titrer.
+    this.dondurmaciEl.classList.remove('tepki');
+    void this.dondurmaciEl.offsetWidth;
+    this.dondurmaciEl.classList.add('tepki');
+    if (this.ayarlar.titresim && 'vibrate' in navigator) {
+      try {
+        navigator.vibrate(15);
+      } catch {
+        // Titreşim yoksa sessizce geçilir.
+      }
+    }
     for (let k = 0; k < giden; k++) {
       const cesit = sutun.pop()!;
       const nereden = this.sutunTopNoktasi(sutunNo, k); // sütundaki yerinden kalkar
@@ -902,6 +1077,17 @@ export class Oyun {
     }
     this.sutunlariCiz(sutunNo, giden, obek);
     this.sayaclariCiz();
+  }
+
+  // Ekranda kısa süre yukarı uçup kaybolan yazı ya da simge (puan, seri, kalp, üzgün yüz).
+  private ucanYazi(x: number, y: number, icerik: string, sinif: string) {
+    const el = document.createElement('div');
+    el.className = 'ucan ' + sinif;
+    el.innerHTML = icerik;
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+    this.sahne.appendChild(el);
+    window.setTimeout(() => el.remove(), UCAN_MS);
   }
 
   // Oyun şu an akıyor mu (bölüm bitmedi, üstünde liste ya da giriş ekranı yok).
@@ -977,11 +1163,18 @@ export class Oyun {
             // Puan: tam puan; erime açıkken bantta 1 turdan uzun kaldıysa yarısı (Kemal, 22 Ekim).
             // "Erime yok"ta her top tam puan.
             const yarim = erimeTuru > 0 && t.tur >= GEC_TOP_TURU;
-            this.puan += yarim ? TOP_PUANI * GEC_TOP_PUAN_ORANI : TOP_PUANI;
+            const kazanilan = yarim ? TOP_PUANI * GEC_TOP_PUAN_ORANI : TOP_PUANI;
+            this.puan += kazanilan;
+            this.satilan[t.cesit]++;
+            const mp = y.musteriNoktalari[m];
+            // Kazanılan puan küçük bir yazıyla yukarı uçar (Kemal, 30 Ekim: "İkisi de").
+            this.ucanYazi(mp.x, mp.y - 6, `+${kazanilan}`, 'ucan-puan');
             if (my.parcalar.every((p) => p.kalan === 0)) {
               my.durum = 'bitti';
               my.bittigiAn = an;
               this.karsilanan++;
+              // İsteği tamam: başının üstünde kalp.
+              this.ucanYazi(mp.x, mp.y + 24, KALP_SVG, 'ucan-kalp');
             }
             this.yuvalar[i] = null;
             t.durum = 'aliniyor';
@@ -1011,10 +1204,31 @@ export class Oyun {
       return true;
     });
 
+    // Sabır (Kemal, 30 Ekim): her bekleyen müşterinin çubuğu SABIR_SN içinde azalır;
+    // bitince müşteri istediğini alamadan gider (puanı alınamaz), kaçan sayısı artar.
+    for (let m = 0; m < this.musteriYerleri.length; m++) {
+      const my = this.musteriYerleri[m];
+      if (!my || my.durum !== 'bekliyor') continue;
+      const oran = 1 - (an - my.gelisAn) / (SABIR_SN * 1000);
+      const cubuk = this.sabirEller[m];
+      if (cubuk) {
+        cubuk.style.width = `${Math.max(0, oran) * 100}%`;
+        cubuk.className = 'sabir-dolu' + (oran < SABIR_KIRMIZI ? ' kirmizi' : oran < SABIR_SARI ? ' sari' : '');
+      }
+      if (oran <= 0) {
+        my.durum = 'gitti';
+        my.bittigiAn = an;
+        this.kacan++;
+        const mp = y.musteriNoktalari[m];
+        this.ucanYazi(mp.x, mp.y + 24, UZGUN_SVG, 'ucan-uzgun');
+        musteriDegisti = true;
+      }
+    }
+
     // İşi biten müşteri gider; yeri boş kalır, yenisi rastgele bir bekleyişten sonra gelir.
     for (let m = 0; m < this.musteriYerleri.length; m++) {
       const my = this.musteriYerleri[m];
-      if (my && my.durum === 'bitti' && an - my.bittigiAn >= GIDIS_MS) {
+      if (my && (my.durum === 'bitti' || my.durum === 'gitti') && an - my.bittigiAn >= GIDIS_MS) {
         this.musteriYerleri[m] = null;
         this.gelisAnlari[m] = an + gelisBeklemesi();
         musteriDegisti = true;
@@ -1056,6 +1270,12 @@ export class Oyun {
       return;
     }
 
+    // Bir bölümde KACAN_EN_COK müşteri sabrı bitip giderse bölüm kaybedilir.
+    if (this.kacan >= KACAN_EN_COK) {
+      this.bitir('kacti');
+      return;
+    }
+
     // Top kalmadı: bir top eridi ve kalanlar (sütun + bant) kalan istekleri artık karşılayamıyor.
     if (eridi && !this.toplarYetiyorMu()) {
       this.bitir('kalmadi');
@@ -1068,30 +1288,122 @@ export class Oyun {
     const dolu = this.yuvalar.every((t) => t !== null);
     if (!dolu) return;
     if (this.toplar.some((t) => t.durum !== 'bantta')) return;
-    if (this.musteriYerleri.some((m) => m && m.durum === 'bitti')) return;
+    if (this.musteriYerleri.some((m) => m && m.durum !== 'bekliyor')) return;
     // Boş bir müşteri yerine yenisi gelecekse beklenir (o, bantta olanı isteyebilir).
     if (this.musteriYerleri.some((m) => !m) && this.siradaki < this.bolum.musteriler.length) return;
     const istenen = new Set(
       this.musteriYerleri
-        .filter((m): m is MusteriYeri => !!m)
+        .filter((m): m is MusteriYeri => !!m && m.durum === 'bekliyor')
         .flatMap((m) => m.parcalar.filter((p) => p.kalan > 0).map((p) => p.cesit)),
     );
     if (this.yuvalar.some((t) => t && istenen.has(t.cesit))) return;
     this.bitir('doldu');
   }
 
+  // Bölüm sonu: dükkân fişi gibi (Kemal, 30 Ekim: "Bir receipt ekrani olabilir bolum sonu gibi").
+  // Üstte logo ve bölüm numarası; satılan ürünler ve adetleri; hizmet edilen ve
+  // giden müşteri; en altta toplam puan ve yıldızlar; teşekkür satırı [Kemal].
+  // Kazanınca yıldızlar teker teker parlar, konfeti saçılır, dondurmacı sevinir.
   private bitir(sonuc: Sonuc) {
     this.bitti = sonuc;
     this.sayaclariCiz();
     this.sonEl.className = 'son';
     this.sonEl.dataset.sonuc = sonuc;
     this.sonEl.innerHTML = '';
+    const kazandi = sonuc === 'kazandin';
+    const no = this.bolum.no;
+    const yildiz = kazandi ? this.yildizSayisi() : 0;
+    // Kayıt: en iyi yıldız saklanır, sonraki bölüm açılır.
+    if (kazandi) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
+
     const kutu = document.createElement('div');
-    kutu.className = 'son-kutu';
+    kutu.className = 'son-kutu fisli';
+    if (kazandi) {
+      const sevinen = document.createElement('img');
+      sevinen.className = 'son-dondurmaci';
+      sevinen.src = SEVINEN_DONDURMACI_RESMI;
+      sevinen.alt = '';
+      sevinen.draggable = false;
+      kutu.appendChild(sevinen);
+    }
+
+    const fis = document.createElement('div');
+    fis.className = 'fis';
+    const satir = (sol: string | Node, sag: string, sinif = '') => {
+      const d = document.createElement('div');
+      d.className = 'fis-satir ' + sinif;
+      const a = document.createElement('span');
+      a.className = 'fis-sol';
+      a.append(sol);
+      const b = document.createElement('span');
+      b.className = 'fis-sag';
+      b.textContent = sag;
+      d.append(a, b);
+      return d;
+    };
+    const cizgi = () => {
+      const d = document.createElement('div');
+      d.className = 'fis-cizgi';
+      return d;
+    };
+    // Başlık: dükkânın logosu ve bölüm numarası.
+    const logo = document.createElement('img');
+    logo.className = 'fis-logo';
+    logo.src = LOGO_RESMI;
+    logo.alt = 'Dondurmacı Kızlar';
+    logo.draggable = false;
+    const bolumYazi = document.createElement('div');
+    bolumYazi.className = 'fis-bolum';
+    bolumYazi.textContent = `Bölüm ${no}`;
     const baslik = document.createElement('div');
     baslik.className = 'son-baslik';
     baslik.textContent = SONUC_YAZISI[sonuc];
-    kutu.appendChild(baslik);
+    fis.append(logo, bolumYazi, cizgi(), baslik);
+    // Satılan ürünler (bölümde gelen ürünler sırasıyla; satılmayan da 0 ile görünür).
+    const urunler = document.createElement('div');
+    urunler.className = 'fis-urunler';
+    for (const c of this.bolum.urunler) {
+      const ad = document.createElement('span');
+      ad.className = 'fis-urun';
+      const simge = document.createElement('span');
+      simge.className = 'fis-simge';
+      simge.innerHTML = urunSimgesi(c);
+      ad.append(simge, URUNLER[c].ad);
+      urunler.appendChild(satir(ad, `×${this.satilan[c] ?? 0}`));
+    }
+    fis.append(cizgi(), urunler, cizgi());
+    fis.append(
+      satir('Hizmet edilen müşteri', `${this.karsilanan} / ${this.bolum.musteriler.length}`),
+      satir('Giden müşteri', String(this.kacan), this.kacan > 0 ? 'uyari' : ''),
+      cizgi(),
+    );
+    const puanSatir = satir('TOPLAM PUAN', String(Math.round(this.puan * 10) / 10), 'toplam');
+    puanSatir.dataset.puan = String(this.puan);
+    puanSatir.dataset.enYuksek = String(this.enYuksekPuan());
+    fis.appendChild(puanSatir);
+    if (kazandi) {
+      const yildizlar = document.createElement('div');
+      yildizlar.className = 'yildizlar';
+      yildizlar.dataset.yildiz = String(yildiz);
+      for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) {
+        const y = yildizCiz(k < yildiz);
+        y.style.animationDelay = `${0.25 + k * 0.35}s`;
+        yildizlar.appendChild(y);
+      }
+      fis.appendChild(yildizlar);
+    }
+    if (kazandi && no >= BOLUM_SAYISI) {
+      const durum = document.createElement('div');
+      durum.className = 'son-durum';
+      durum.textContent = HEPSI_BITTI_YAZISI;
+      fis.appendChild(durum);
+    }
+    // Teşekkür satırı: yazı Kemal'in (Kemal, 30 Ekim: "Boş kalsın [Kemal]").
+    const tesekkur = document.createElement('div');
+    tesekkur.className = 'fis-tesekkur';
+    tesekkur.textContent = FIS_TESEKKUR;
+    fis.appendChild(tesekkur);
+    kutu.appendChild(fis);
 
     const dugme = (yazi: string, sinif: string, is: () => void) => {
       const d = document.createElement('button');
@@ -1102,31 +1414,8 @@ export class Oyun {
     };
     const dugmeler = document.createElement('div');
     dugmeler.className = 'son-dugmeler';
-    const no = this.bolum.no;
-    if (sonuc === 'kazandin') {
-      // Yıldızlar (0–3) ve puan. Kaybedince ikisi de yok.
-      const yildiz = this.yildizSayisi();
-      // Kayıt: en iyi yıldız saklanır, sonraki bölüm açılır.
-      this.kayit = bolumKazanildi(this.kayit, no, yildiz);
-      const yildizlar = document.createElement('div');
-      yildizlar.className = 'yildizlar';
-      yildizlar.dataset.yildiz = String(yildiz);
-      for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) {
-        yildizlar.appendChild(yildizCiz(k < yildiz));
-      }
-      const puan = document.createElement('div');
-      puan.className = 'son-puan';
-      puan.dataset.puan = String(this.puan);
-      puan.dataset.enYuksek = String(this.enYuksekPuan());
-      puan.textContent = `Puan ${Math.round(this.puan * 10) / 10}`;
-      kutu.append(yildizlar, puan);
+    if (kazandi) {
       const sonBolum = no >= BOLUM_SAYISI;
-      if (sonBolum) {
-        const durum = document.createElement('div');
-        durum.className = 'son-durum';
-        durum.textContent = HEPSI_BITTI_YAZISI;
-        kutu.appendChild(durum);
-      }
       dugmeler.append(
         dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)),
         // Sonraki bölüm; son bölümdeyse bölüm haritası.
@@ -1143,6 +1432,25 @@ export class Oyun {
     listeYolu.addEventListener('click', () => this.listeAc('yerinde'));
     kutu.appendChild(listeYolu);
     this.sonEl.appendChild(kutu);
+    if (kazandi) this.konfeti();
+  }
+
+  // Kazanınca kısa bir renkli konfeti (yalnız görüntü).
+  private konfeti() {
+    const renkler = ['#7a3fa8', '#ffc928', '#e2475b', '#7cc4e4', '#a9cf6b', '#ffffff'];
+    const alan = document.createElement('div');
+    alan.className = 'konfeti';
+    for (let k = 0; k < 40; k++) {
+      const p = document.createElement('i');
+      p.style.left = `${Math.random() * 100}%`;
+      p.style.background = renkler[k % renkler.length];
+      p.style.animationDelay = `${Math.random() * 0.6}s`;
+      p.style.animationDuration = `${1.6 + Math.random() * 1.2}s`;
+      p.style.transform = `rotate(${Math.random() * 360}deg)`;
+      alan.appendChild(p);
+    }
+    this.sonEl.appendChild(alan);
+    window.setTimeout(() => alan.remove(), 3200);
   }
 
   // ---------- Bölüm haritası ("Bölümler"; 5. paket) ----------

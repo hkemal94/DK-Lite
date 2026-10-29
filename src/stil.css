@@ -163,23 +163,7 @@ html, body {
   filter: drop-shadow(0 2px 0 rgba(78, 36, 112, 0.35));
 }
 
-/* Bandın ortası: tezgâh. Dondurmacı Kızlar'dan ürün resimleri yan yana, ortada. */
-.tezgah {
-  position: absolute;
-  inset: 6% 7% 8%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 3%;
-  pointer-events: none;
-}
-.tezgah img {
-  flex: 1 1 0;
-  min-width: 0;
-  max-height: 100%;
-  object-fit: contain;
-}
-.tezgah img:nth-child(3) { flex-grow: 1.6; max-height: 112%; } /* ortadaki dondurmacı büyük */
+/* ortadaki dondurmacı büyük */
 
 .yuva {
   position: absolute;
@@ -508,72 +492,6 @@ html, body {
   stroke-linejoin: round;
 }
 
-/* Haritanın alanı: ortada, ekranın genişliğine sığar. */
-.harita-alan {
-  position: relative;
-  width: 100%;
-  margin: auto 0;
-}
-
-.harita-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.harita-kucuk-ad.sola { text-anchor: start; }
-
-/* Haritada bütün ekran deniz rengi; ada ortada. */
-.liste.harita-ekran { background: #DCE7F0; }
-
-.harita-ada {
-  fill: #E4E7CF; /* zeytin yeşiline çalan açık toprak rengi */
-  stroke: #B9BF98;
-  stroke-width: 0.8;
-  stroke-linejoin: round;
-}
-
-.harita-mahalle {
-  fill: transparent;
-  stroke: #fff;
-  stroke-width: 0.7;
-  stroke-dasharray: 2 1.6;
-  stroke-linejoin: round;
-}
-
-.harita-tepe { fill: #A7AE84; }
-
-.harita-ad {
-  font-family: inherit;
-  font-size: 6.4px;
-  font-weight: 600;
-  fill: var(--mor);
-  fill-opacity: 0.75;
-  text-anchor: middle;
-  dominant-baseline: middle;
-}
-
-.harita-kucuk-ad {
-  font-family: inherit;
-  font-size: 4.4px;
-  fill: var(--mor);
-  fill-opacity: 0.6;
-  text-anchor: middle;
-}
-
-/* Sahil Yolu: bütün yol açık, açılan bölüme kadarki kısmı sarı. */
-.harita-yol {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.harita-yol.gecilen { stroke: var(--sari); }
-
 /* Bölüm noktası: yuvarlak, içinde numara, altında kazanılan yıldızlar. */
 .harita-nokta {
   position: absolute;
@@ -732,3 +650,286 @@ html, body {
   background: var(--sari);
   border-color: var(--sari);
 }
+
+/* ---------- Bar (30 Ekim: "Ahşap kafe barı") ---------- */
+/* Bandın içi: arkada ahşap duvar ve iki raf, ortada dondurmacı, önde bar tezgâhı. */
+.bar {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(90deg, rgba(90, 58, 34, 0.08) 0 2px, transparent 2px 34px),
+    linear-gradient(#e7c193, #d9ad7a);
+  pointer-events: none;
+}
+.raf {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  height: 24%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 6px solid #a8743f;
+  box-shadow: 0 3px 0 var(--hat);
+}
+.raf-ust { top: 10%; }
+.raf-alt { top: 40%; left: 5%; right: 5%; }
+.raf-yan {
+  width: 34%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 2%;
+}
+.raf-yan img {
+  min-width: 0;
+  max-width: 34%;
+  max-height: 92%;
+  object-fit: contain;
+}
+.bar .dondurmaci {
+  position: absolute;
+  left: 50%;
+  bottom: 16%;
+  height: 74%;
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  animation: nefes 2.6s ease-in-out infinite;
+}
+/* Sütuna dokununca kısa bir zıplama. */
+.bar .dondurmaci.tepki { animation: tepki 0.35s ease-out, nefes 2.6s ease-in-out 0.35s infinite; }
+@keyframes nefes {
+  0%, 100% { transform: translateX(-50%) scale(1, 1); }
+  50% { transform: translateX(-50%) scale(1.015, 1.03); }
+}
+@keyframes tepki {
+  0% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(-9%) rotate(-3deg); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+.bar-tezgah {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22%;
+  background:
+    linear-gradient(#c98d55 0 22%, var(--hat) 22% 26%, transparent 26%),
+    repeating-linear-gradient(90deg, #b57a45 0 26px, #a96e3b 26px 52px);
+  border-top: 3px solid var(--hat);
+}
+
+/* ---------- Sabır çubuğu ve uçan yazılar ---------- */
+.sabir {
+  width: 80%;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 2px solid var(--hat);
+  overflow: hidden;
+  box-sizing: content-box;
+}
+.sabir-dolu {
+  height: 100%;
+  width: 100%;
+  background: #5cb85c;
+  transition: background-color 0.3s;
+}
+.sabir-dolu.sari { background: var(--sari); }
+.sabir-dolu.kirmizi { background: #e2475b; }
+.musteri.gitti { opacity: 0.35; transition: opacity 0.6s; }
+
+.ucan {
+  position: absolute;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-weight: 700;
+  white-space: nowrap;
+  animation: uc 0.9s ease-out forwards;
+}
+.ucan-puan { color: #2f8a3a; font-size: 17px; text-shadow: 0 2px 0 #fff, 0 0 3px #fff; }
+.ucan-seri {
+  color: #fff;
+  font-size: 14px;
+  background: var(--bant);
+  border: 2px solid var(--hat);
+  border-radius: 99px;
+  padding: 2px 10px;
+}
+@keyframes uc {
+  0% { opacity: 0; transform: translate(-50%, -30%) scale(0.8); }
+  20% { opacity: 1; transform: translate(-50%, -60%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-50%, -160%) scale(1); }
+}
+
+/* ---------- Kutular çizgi film tarzında (duraklatma, bölüm sonu, ayarlar) ---------- */
+.son { background: rgba(60, 30, 80, 0.55); }
+.son-kutu {
+  background: #fff7ea;
+  border: 3px solid var(--hat);
+  box-shadow: 0 6px 0 rgba(90, 58, 34, 0.45);
+}
+.son-kutu .dugme {
+  border: 3px solid var(--hat);
+  box-shadow: 0 4px 0 rgba(90, 58, 34, 0.35);
+}
+.son-kutu .dugme.tekrar { background: #fffaf0; }
+
+/* Bölüm sonu: fiş. */
+.son-kutu.fisli {
+  position: relative;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  gap: 14px;
+  max-height: calc(100% - 24px);
+}
+.fis {
+  position: relative;
+  width: min(300px, calc(100vw - 48px));
+  background: #fffef9;
+  color: #3d2b1f;
+  padding: 18px 18px 22px;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+  overflow-y: auto;
+  /* üst ve alt kenarı fiş kâğıdı gibi tırtıklı */
+  -webkit-mask:
+    linear-gradient(#000, #000) center / 100% calc(100% - 16px) no-repeat,
+    conic-gradient(from -45deg at 50% 100%, #000 90deg, transparent 0) top / 16px 8px repeat-x,
+    conic-gradient(from 135deg at 50% 0, #000 90deg, transparent 0) bottom / 16px 8px repeat-x;
+  mask:
+    linear-gradient(#000, #000) center / 100% calc(100% - 16px) no-repeat,
+    conic-gradient(from -45deg at 50% 100%, #000 90deg, transparent 0) top / 16px 8px repeat-x,
+    conic-gradient(from 135deg at 50% 0, #000 90deg, transparent 0) bottom / 16px 8px repeat-x;
+}
+.fis-logo { display: block; width: 62%; margin: 0 auto; }
+.fis-bolum { text-align: center; font-weight: 600; margin-top: 2px; }
+.fis .son-baslik { text-align: center; font-size: 20px; margin: 4px 0; }
+.fis-cizgi { border-top: 2px dashed rgba(61, 43, 31, 0.35); margin: 8px 0; }
+.fis-satir {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.fis-satir.uyari .fis-sag { color: #c0392b; font-weight: 700; }
+.fis-satir.toplam { font-size: 17px; font-weight: 700; }
+.fis-urun { display: flex; align-items: center; gap: 6px; }
+.fis-simge { width: 22px; height: 22px; display: inline-block; }
+.fis-simge img { width: 100%; height: 100%; object-fit: contain; }
+.fis .yildizlar { justify-content: center; margin-top: 6px; }
+.fis .yildiz { animation: yildiz-gel 0.45s ease-out backwards; }
+@keyframes yildiz-gel {
+  0% { transform: scale(0) rotate(-40deg); opacity: 0; }
+  70% { transform: scale(1.25) rotate(8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+.fis .son-durum { text-align: center; margin-top: 6px; font-weight: 600; }
+.fis-tesekkur { text-align: center; margin-top: 10px; opacity: 0.45; font-style: italic; }
+.son-dondurmaci {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 120px;
+  transform: translate(-112%, -78%);
+  z-index: 1;
+  animation: sevin 0.8s ease-in-out infinite alternate;
+}
+@keyframes sevin {
+  from { transform: translate(-112%, -78%) rotate(-3deg); }
+  to { transform: translate(-112%, -84%) rotate(3deg); }
+}
+.son-kutu.fisli .liste-yolu { color: #fff; }
+
+/* Konfeti: kazanınca yukarıdan dökülen renkli kâğıtlar. */
+.konfeti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 11; }
+.konfeti i {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  animation-name: dokul;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+@keyframes dokul {
+  to { top: 105%; transform: rotate(540deg) translateX(30px); }
+}
+
+/* Ayarlar: giriş ekranında sağ üstte dişli; kutuda seçenekler. */
+.ayar-dugme {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  top: 14px;
+  right: 14px;
+  color: var(--mor);
+  border: 3px solid var(--hat);
+  box-shadow: 0 3px 0 rgba(90, 58, 34, 0.35);
+}
+.son.ayarlar { z-index: 30; }
+.ayar-kutu { width: min(320px, calc(100vw - 32px)); }
+.ayar-grup { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.ayar-etiket { font-weight: 600; }
+.ayar-secenekler { display: flex; gap: 6px; flex-wrap: wrap; }
+.ayar-secenek {
+  flex: 1 1 0;
+  font: inherit;
+  font-size: 13px;
+  color: var(--mor);
+  background: #fff;
+  border: 2px solid var(--hat);
+  border-radius: 12px;
+  padding: 8px 6px;
+  cursor: pointer;
+}
+.ayar-secenek.secili { background: var(--sari); font-weight: 700; }
+
+/* ---------- Bölüm seçme ekranı: sahil yolu (30 Ekim) ---------- */
+.liste.harita-ekran { background: #7cc4e4; overflow: hidden; }
+.harita-kutu.sahil { padding: 0; gap: 0; height: 100%; min-height: 0; max-width: 480px; }
+.harita-kutu.sahil .harita-ust {
+  padding: 10px 12px;
+  background: rgba(255, 250, 240, 0.9);
+  border-bottom: 3px solid var(--hat);
+  z-index: 2;
+}
+.harita-kutu.sahil .liste-durum { padding: 4px 0; background: rgba(255, 250, 240, 0.9); width: 100%; text-align: center; }
+.harita-geri { left: 12px; border: 2px solid var(--hat); }
+.sahil-kaydir { flex: 1; width: 100%; overflow-y: auto; touch-action: pan-y; }
+.sahil-alan { position: relative; width: 100%; background-repeat: repeat-y; background-position: center bottom; }
+.sahil-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.sahil-yol-kenar { fill: none; stroke: var(--hat); stroke-width: 34; stroke-linecap: round; }
+.sahil-yol { fill: none; stroke: #f3d9a4; stroke-width: 27; stroke-linecap: round; }
+.sahil-yol-cizgi { fill: none; stroke: #fff; stroke-width: 3; stroke-dasharray: 10 12; stroke-linecap: round; opacity: 0.8; }
+.sahil-yol-gecilen { fill: none; stroke: var(--sari); stroke-width: 9; stroke-linecap: round; }
+.sahil-dukkan {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  background: var(--bant);
+  border: 2px solid var(--hat);
+  border-radius: 99px;
+  padding: 2px 10px;
+  white-space: nowrap;
+}
+.harita-kutu.sahil .harita-nokta {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border: 3px solid var(--hat);
+  box-shadow: 0 4px 0 rgba(90, 58, 34, 0.4);
+}
+.harita-kutu.sahil .harita-nokta.siradaki { box-shadow: 0 0 0 6px rgba(255, 201, 40, 0.5), 0 4px 0 rgba(90, 58, 34, 0.4); }
+.harita-kutu.sahil .harita-nokta.kilitli { background: #e9e1d6; color: rgba(90, 58, 34, 0.45); border-color: rgba(90, 58, 34, 0.45); }
+.harita-kutu.sahil .harita-sayi { font-size: 18px; font-weight: 700; }
