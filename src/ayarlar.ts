@@ -59,7 +59,10 @@ export function bolumZorlugu(no: number): BolumZorlugu {
 // Müşterinin sabrı (Kemal, 30 Ekim: "Sabir bitince gider ama cok hizli bitmesin sabir";
 // "Uzun: 60 saniye"): bir müşteri bu kadar saniye bekler; başının üstündeki çubuk
 // yavaşça azalır (yeşil → sarı → kırmızı). Bitince müşteri gider, onun puanı alınamaz.
-export const SABIR_SN = 60;
+// Kemal, 30 Ekim: "sabirlar biraz daha uzun olsun" (bant ürünü önünden ilk geçen
+// müşteriye verir, bu böyle kalır; sondakiler daha uzun bekleyebilsin): 60'tan 90'a.
+// 90 deneme değeridir; Kemal oynayıp onaylayınca kesinleşir.
+export const SABIR_SN = 90;
 // Bir bölümde bu kadar müşteri sabrı bitip giderse bölüm kaybedilir
 // (Kemal, 30 Ekim: "Üç kaçırma bölümü bitirir" ve "Yalnız puan gitsin" birlikte).
 export const KACAN_EN_COK = 3;

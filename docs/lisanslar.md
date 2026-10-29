@@ -15,7 +15,7 @@ yalnız yazılı tarif kullanıldı.
 |---|---|---|
 | `public/gorseller/urunler/` (gazoz hariç) | 12 ürün: 5 dondurma topu, dilim pasta, küçük kek, kâsede meyve, limonata, kahve, çay | https://www.canva.com/M/MAHZYrTnF6w |
 | `public/gorseller/urunler/gazoz.webp` | Gazoz şişesi (ilk çizim kolaya benzediği için yeniden çizildi) | https://www.canva.com/M/MAHZYpAngJY |
-| `public/gorseller/musteriler/` | 10 müşteri, belden yukarısı | https://www.canva.com/M/MAHZYoCG0RQ |
+| `public/gorseller/musteriler/` | 10 müşteri, tam boy (baştan ayağa; 30 Ekim, belden yukarı çizimler örnek verilerek yeniden çizildi) | https://www.canva.com/M/MAHZZvKWZio (1–5), https://www.canva.com/M/MAHZZnt6WHU (6–10) |
 | `public/gorseller/tezgah/dondurmaci.webp` | Tezgâhtaki dondurmacı (sarı tişört, mor önlük, mor kasket) | https://www.canva.com/M/MAHZYsbgjPQ |
 | `public/gorseller/kulah.webp` | Bantta dondurma topunun altındaki külah | https://www.canva.com/M/MAHZYtoyWcc |
 | `public/gorseller/bar/` | Bar rafındaki kafe eşyaları: kahve makinesi, bardaklar, şeker kavanozu, külah yığını, iki şurup şişesi, saksı, kâse | https://www.canva.com/M/MAHZYp3Zon8 |
