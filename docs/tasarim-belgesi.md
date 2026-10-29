@@ -30,6 +30,22 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.21 Tam boy müşteriler, daha uzun sabır, giriş ekranı için Canva sayfası (öneri; 30 Ekim 2026)
+
+Kemal'in isteği (telefondan bir ekran görüntüsüyle; bandın sol köşesindeki kesik gövdeyi işaretlemiş): "en sondakilere urunler kalmadan ondekiler aliyor bununla ilgili nasil bir yol izlemeliyim ayrica insanlari tam boy olarak ciz bu sekildeki bosluklar hosuma gitmiyor. Giris sayfasi biraz daha cezbedici olsun ve canvada bunun icin bir tasarim belgesi hazirla ben yanlarina kendi fikirlerimi cizip verebileyim sana."
+
+Kim alır sorusu (sohbette soruldu: en çok bekleyen mi alsın, oyuncu mu seçsin, böyle mi kalsın). Kemal'in cevabı, olduğu gibi: "O zaman sabirlar biraz daha uzun olsun ve boyle kalsin".
+- Bant ürünü yine önünden ilk geçtiği müşteriye verir (değişmedi).
+- Müşteri sabrı 60 saniyeden 90 saniyeye çıktı. 90 deneme değeridir; Kemal oynayıp söyleyince kesinleşir.
+
+Tam boy müşteriler:
+- Aynı 10 müşteri Canva'da baştan ayağa yeniden çizildi (eski belden yukarı resimleri örnek verildi, yüzleri ve kıyafetleri aynı). Boyları birbirine göre doğal: çocuklar biraz kısa.
+- Müşterinin üst yarısından biraz fazlası (kalçaya kadar) barın üstünde görünür, bacakları barın arkasında kalır. Bandın yuvarlak köşesinde kalan boşlukta artık kesik gövde değil, kişinin bacakları görünür.
+- Müşteriler büyüdü: büyük telefonda en çok 110 piksel görünür; kısa ekranda (360x640) bar sıkışmasın diye küçülür.
+- Ekran görüntüleri: `docs/ekran/tam-boy/`.
+
+Giriş ekranı: Kemal'in kendi fikirlerini çizebileceği bir Canva sayfası hazırlandı (bağlantı yol haritasında ve PR'da). Giriş ekranı Kemal'in çizimleri gelince değişecek; bu öneride değişmedi.
+
 ### 0.20 Müşteriler barın arkasında, üç boyutlu bant ve bar, saydam arka plan (öneri; 30 Ekim 2026)
 
 Kemal'in isteği (telefondan iki ekran görüntüsüyle): "Insanlar barin arkasina sığmıyor bant ve bar da biraz uc boyutlu olsun ayrica arkaplan gorseli biraz daha seffaf ve tum sayfaya yayilsin".

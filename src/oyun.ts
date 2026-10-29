@@ -62,13 +62,17 @@ const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
 const KULAH_RESMI = 'gorseller/kulah.webp';
 // Müşteri kartındaki kişi resminin boyu (px). Kemal, 30 Ekim: "Musteriler boyunlarindan
 // yukari gorunuyor boylari daha cok gorunmeli": resim büyüdü, barın arkasında kalan kısmı azaldı.
-// Ekran yüksekliğine göre: büyük telefonda 86, kısa ekranda (360x640) bar sıkışmasın diye daha küçük.
+// Ekran yüksekliğine göre: tam boy resimle (aşağıda) büyük telefonda 110 piksele kadar;
+// kısa ekranda (360x640) bar sıkışmasın diye 64.
 function kisiBoyu(ekranYuksekligi: number): number {
-  return Math.round(Math.min(86, Math.max(60, ekranYuksekligi * 0.102)));
+  return Math.round(Math.min(110, Math.max(64, 64 + (ekranYuksekligi - 640) * 0.2)));
 }
 // Müşterinin alt kısmı tezgâhın (bandın) arkasında kalır: bu kadarı görünmez (px).
-// Resimler belden kesik; yalnız bel hizası barın arkasına girer.
 const KISI_ORTUSME = 10;
+// Müşteriler tam boy çizili (Kemal, 30 Ekim: "insanlari tam boy olarak ciz"): resmin
+// üstten bu kadarı barın üstünde görünür, gerisi (bacaklar) barın arkasında kalır.
+// Bandın yuvarlak köşesinde kalan boşlukta artık kesik gövde değil bacaklar görünür.
+const KISI_GORUNEN_ORAN = 0.62;
 
 // Bant köşeleri yuvarlatılmış bir dikdörtgen (Kemal, 30 Ekim: "Insanlar barin arkasina
 // sığmıyor"): üst düz kenarı uzun olsun ki müşterilerin hepsi barın arkasında dursun.
@@ -946,7 +950,10 @@ export class Oyun {
       kisi.src = m.resim;
       kisi.alt = '';
       kisi.draggable = false;
-      kisi.style.width = kisi.style.height = `${y.kisiBoy}px`;
+      // Tam boy resim: kartta kisiBoy kadar yer kaplar, kalanı aşağı, barın arkasına uzar.
+      const tamBoy = Math.round(y.kisiBoy / KISI_GORUNEN_ORAN);
+      kisi.style.height = `${tamBoy}px`;
+      kisi.style.marginBottom = `${y.kisiBoy - tamBoy}px`;
       // Sabır çubuğu: yavaşça azalır, yeşilden sarıya, sonra kırmızıya döner (her karede güncellenir).
       const sabir = document.createElement('div');
       sabir.className = 'sabir';
