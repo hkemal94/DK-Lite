@@ -10,11 +10,12 @@ export const BOLUM_SAYISI = 10;
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
   sutun: number; // alttaki sütun sayısı (önerilen aralık 3–5)
-  cesit: number; // kaç farklı çeşit (en çok 5; harfle ayrılır, adlar Kemal'in)
+  urunler: string[]; // bölümde gelen ürünler (URUNLER'deki id); kaç tane olduğu çeşit sayısıdır
   musteri: number; // bölümdeki toplam müşteri (sırayla gelirler)
   istekEnAz: number; // bir müşterinin istediği adet: en az
   istekEnCok: number; // bir müşterinin istediği adet: en çok
   bantYeri: number; // bantta kaç yer var
+  ikiCesitOrani: number; // müşterilerin ne kadarı iki çeşit ister (0: hiçbiri, 0.5: yarısı)
 }
 
 // Zorluk tablosu: sıra bölüm numarasıdır (ilk satır Bölüm 1).
@@ -25,17 +26,24 @@ export interface BolumZorlugu {
 // Son bölüm eski tablonun 4.–5. bölümü kadar zor.
 // Sayılar DENEME DEĞERİDİR; Kemal oynayıp karar verecek.
 // Satır sayısı BOLUM_SAYISI'ndan azsa son satır sonraki bölümlerde de kullanılır.
+//
+// Ürünler (Kemal, 29 Ekim: "zorlaştıkça çeşitler eklensin"): çeşit SAYISI eski
+// tablodaki gibi (3, sonra 4) kalır ki zorluk değişmesin; bölüm ilerledikçe
+// yeni türler gelir: 1–2 yalnız dondurma, 3'ten tatlılar, 6'dan içecekler.
+// Her bölümde en az iki dondurma çeşidi var. Hangi bölümde hangi ürün: DENEME.
+// İki çeşit isteyen müşteri (Kemal, 29 Ekim: "Ortalardan itibaren"): 6. bölümden;
+// oranı DENEME DEĞERİDİR.
 export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
-  { sutun: 4, cesit: 3, musteri: 8, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 1
-  { sutun: 4, cesit: 3, musteri: 9, istekEnAz: 2, istekEnCok: 3, bantYeri: 12 }, // 2: müşteri +1
-  { sutun: 4, cesit: 3, musteri: 9, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 3: istek en çok 4
-  { sutun: 4, cesit: 3, musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 4: müşteri +1
-  { sutun: 4, cesit: 3, musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 5: müşteri +1
-  { sutun: 4, cesit: 4, musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12 }, // 6: 4. çeşit
-  { sutun: 4, cesit: 4, musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 7: bant yeri −1
-  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 11 }, // 8: müşteri +1
-  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 10 }, // 9: bant yeri −1
-  { sutun: 4, cesit: 4, musteri: 12, istekEnAz: 3, istekEnCok: 4, bantYeri: 10 }, // 10: istek en az 3
+  { sutun: 4, urunler: ['cikolata', 'cilek', 'limon'], musteri: 8, istekEnAz: 2, istekEnCok: 3, bantYeri: 12, ikiCesitOrani: 0 }, // 1
+  { sutun: 4, urunler: ['cikolata', 'cilek', 'fistik'], musteri: 9, istekEnAz: 2, istekEnCok: 3, bantYeri: 12, ikiCesitOrani: 0 }, // 2: müşteri +1
+  { sutun: 4, urunler: ['limon', 'vanilya', 'pasta'], musteri: 9, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 3: istek en çok 4; ilk tatlı
+  { sutun: 4, urunler: ['cilek', 'fistik', 'kek'], musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 4: müşteri +1
+  { sutun: 4, urunler: ['cikolata', 'vanilya', 'meyve'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 5: müşteri +1
+  { sutun: 4, urunler: ['cilek', 'limon', 'pasta', 'limonata'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0.3 }, // 6: 4. çeşit; ilk içecek; iki çeşit isteyenler
+  { sutun: 4, urunler: ['cikolata', 'fistik', 'kek', 'gazoz'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.3 }, // 7: bant yeri −1
+  { sutun: 4, urunler: ['vanilya', 'cilek', 'meyve', 'kahve'], musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.4 }, // 8: müşteri +1
+  { sutun: 4, urunler: ['limon', 'cikolata', 'pasta', 'cay'], musteri: 12, istekEnAz: 2, istekEnCok: 4, bantYeri: 10, ikiCesitOrani: 0.4 }, // 9: bant yeri −1
+  { sutun: 4, urunler: ['fistik', 'vanilya', 'kek', 'limonata'], musteri: 12, istekEnAz: 3, istekEnCok: 4, bantYeri: 10, ikiCesitOrani: 0.5 }, // 10: istek en az 3
 ];
 
 // Bölüm numarasına (1'den) göre zorluk.
@@ -147,13 +155,35 @@ export const GEC_TOP_SOLUKLUK = 0.6;
 // DENEME; Kemal karar verecek (yıldız ölçüsü açık soru).
 export const YILDIZ_ESIKLERI = [0, 0.7, 0.9];
 
-// Çeşitlerin harfleri ve renkleri (mor-sarı ağırlıklı). Sarı #ffc928, mor #7a3fa8 ve
-// yazıdaki koyu mor #4e2470 Dondurmacı Kızlar ile aynı ton (Kemal, 22 Ekim); öbürleri taslak.
-// Harfler yalnız ayırt etmek için; çeşit adları [Kemal].
-export const CESITLER = [
-  { harf: 'A', renk: '#ffc928', yazi: '#4e2470' }, // sarı
-  { harf: 'B', renk: '#7a3fa8', yazi: '#FFF6DC' }, // mor
-  { harf: 'C', renk: '#C9B2E6', yazi: '#4e2470' }, // lila
-  { harf: 'D', renk: '#FFF3D1', yazi: '#4e2470' }, // açık sarı
-  { harf: 'E', renk: '#B88A1E', yazi: '#FFF6DC' }, // koyu sarı (5. çeşit gerekirse)
+// Ürünler (Kemal, 29 Ekim soru turu; tasarım belgesi 0.14): harflerin yerine
+// gerçek dondurma çeşitleri; bölümler ilerledikçe tatlılar ve içecekler de gelir.
+// Adlar ve hangi ürünlerin olacağı Kemal'in seçimi. Renkler taslak.
+// Sıra önemli değil; bölümler ürünü `id` ile seçer (BOLUM_ZORLUKLARI).
+export type UrunTuru = 'dondurma' | 'tatli' | 'icecek';
+export interface Urun {
+  id: string;
+  ad: string;
+  tur: UrunTuru;
+  renk: string; // dondurma topunun rengi (tatlı ve içecekte simgenin ana rengi)
+}
+export const URUNLER: Urun[] = [
+  { id: 'cikolata', ad: 'Çikolata', tur: 'dondurma', renk: '#7b4a2d' },
+  { id: 'cilek', ad: 'Çilek', tur: 'dondurma', renk: '#f39ab4' },
+  { id: 'limon', ad: 'Limon', tur: 'dondurma', renk: '#ffd83d' },
+  { id: 'fistik', ad: 'Fıstık', tur: 'dondurma', renk: '#a9cf6b' },
+  { id: 'vanilya', ad: 'Vanilya', tur: 'dondurma', renk: '#fff3d6' },
+  { id: 'pasta', ad: 'Dilim pasta', tur: 'tatli', renk: '#f7d9a8' },
+  { id: 'kek', ad: 'Küçük kek', tur: 'tatli', renk: '#c98a4a' },
+  { id: 'meyve', ad: 'Kâsede meyve', tur: 'tatli', renk: '#e2475b' },
+  { id: 'limonata', ad: 'Limonata', tur: 'icecek', renk: '#ffe680' },
+  { id: 'gazoz', ad: 'Gazoz', tur: 'icecek', renk: '#9fd8c4' },
+  { id: 'kahve', ad: 'Kahve', tur: 'icecek', renk: '#5b3a24' },
+  { id: 'cay', ad: 'Çay', tur: 'icecek', renk: '#b8401f' },
 ];
+
+// Ürünün URUNLER içindeki sırası (oyun içinde ürünler bu sırayla tutulur).
+export function urunSirasi(id: string): number {
+  const i = URUNLER.findIndex((u) => u.id === id);
+  if (i < 0) throw new Error(`Bilinmeyen ürün: ${id}`);
+  return i;
+}
