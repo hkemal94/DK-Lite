@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026, öneri).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -29,6 +29,19 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 ## 0. Kararlar
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.13 Oyun ekranına Dondurmacı Kızlar görselleri (Kemal, 29 Ekim 2026)
+
+Kemal'in isteği, olduğu gibi: "Dondurmaci kizlar oyunundan ilgili assetleri cekip gameplay kismina bir arayuz hazirlayabilirsin basitce"
+
+Öneri oyununda böyle yapıldı (geçici; el çizimi 2D görseller 6. ve 7. pakette gelince yerine geçer):
+- Müşteriler: koyu mor kutuların yerine Dondurmacı Kızlar'daki müşteri karakterlerinin belden yukarısı (10 kişi). Art arda gelen müşteriler sırayla farklı görünür. Kişinin altında ince bir tezgâh çizgisi.
+- Bandın ortası tezgâh oldu: Dondurmacı Kızlar'dan külahlar, iki sundae, ortada büyük külah figürü, krem şanti ve yazar kasa yan yana.
+- Toplar dondurma topu gibi: sol üstte hafif parlaklık. Renkler ve harfler aynı.
+- Oyunun kuralları, sayılar, düğmeler, giriş ekranı, harita değişmedi.
+- Resimler Dondurmacı Kızlar deposundan alındı (oradaki hazır, ücretsiz kullanılabilen 3B paketlerden çekilmiş resimler); müşteri resimleri oradaki modellerden bu depo için çekildi. Liste ve lisans: `docs/lisanslar.md`. Dondurmacı Kızlar'ın oyun ayarları (fiyat, süre, oran) taşınmadı.
+- 0.4 ile ilişkisi (şefin notu): 0.4'te görsel stil el çizimi 2D, ana oyunun 3B modelleri doğrudan kullanılamaz deniyordu. Bu resimler o modellerin düz resmi; Kemal istediği için geçici olarak kondu. Son görsel dil 6. pakette Kemal seçince belli olur.
+- Ekran görüntüleri: `docs/ekran/oyun-arayuzu/` (390x844, 360x640).
 
 ### 0.12 Harita ve hız cevapları (Kemal, 22 Ekim 2026 akşamı; panodaki cevaplar)
 

@@ -25,6 +25,18 @@ import { bolumKur, gidecekTopSayisi, type Bolum } from './bolum';
 import { bolumKazanildi, hepsiBitti, kayitOku, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
 
+// Müşteri ve tezgâh resimleri Dondurmacı Kızlar oyunundan alındı (Kemal, 29 Ekim:
+// "ilgili assetleri çekip gameplay kısmına bir arayüz"). Kaynak paketler ve
+// lisansları: docs/lisanslar.md. Geçici: el çizimi 2D görseller gelince değişir.
+const MUSTERI_RESIMLERI = [
+  'kadin-casual', 'erkek-casual_2', 'kadin-formal', 'erkek-beach', 'kadin-worker',
+  'erkek-farmer', 'kadin-suit', 'erkek-casual_hoodie', 'erkek-worker', 'erkek-suit',
+].map((ad) => `gorseller/musteriler/${ad}.webp`);
+const TEZGAH_RESIMLERI = ['kulahlar', 'sundae', 'kulahFiguru', 'kremSanti', 'yazarKasa']
+  .map((ad) => `gorseller/tezgah/${ad}.webp`);
+// Müşteri kartındaki kişi resminin boyu (px).
+const KISI_BOY = 56;
+
 const UCUS_MS = 220; // sütundan banda uçuş
 const ALIS_MS = 320; // banttan müşteriye uçuş
 const GIDIS_MS = 600; // işi biten müşterinin yerine yenisinin gelmesi
@@ -52,6 +64,7 @@ interface MusteriYeri {
   kalan: number;
   durum: 'bekliyor' | 'bitti';
   bittigiAn: number;
+  resim: string; // müşterinin görünüşü (kişi resmi)
 }
 
 interface Yerlesim {
@@ -142,6 +155,7 @@ export class Oyun {
   // Ortak saklı sıradan bir sonraki gelecek topun yeri (sıra bölüm verisinde, sabit).
   private sakliSira = 0;
   private musteriYerleri: (MusteriYeri | null)[] = [];
+  private resimSirasi = 0; // art arda gelen müşteriler farklı görünsün
   // Boş müşteri yerine yenisinin geleceği an (dolu yerde kullanılmaz).
   private gelisAnlari: number[] = [];
   // Seçili erime biçiminin sırası; bölüm değişince de kalır.
@@ -212,6 +226,17 @@ export class Oyun {
     this.bantEl = document.createElement('div');
     this.bantEl.className = 'bant';
     this.sahne.appendChild(this.bantEl);
+    // Bandın ortası tezgâh: Dondurmacı Kızlar'dan külahlar, sundae, krem şanti, kasa.
+    const tezgah = document.createElement('div');
+    tezgah.className = 'tezgah';
+    for (const yol of TEZGAH_RESIMLERI) {
+      const r = document.createElement('img');
+      r.src = yol;
+      r.alt = '';
+      r.draggable = false;
+      tezgah.appendChild(r);
+    }
+    this.bantEl.appendChild(tezgah);
 
     for (let i = 0; i < AYNI_ANDA_MUSTERI; i++) {
       const m = document.createElement('div');
@@ -449,7 +474,8 @@ export class Oyun {
   private siradakiMusteri(): MusteriYeri | null {
     if (this.siradaki >= this.bolum.musteriler.length) return null;
     const m = this.bolum.musteriler[this.siradaki++];
-    return { cesit: m.cesit, kalan: m.adet, durum: 'bekliyor', bittigiAn: 0 };
+    const resim = MUSTERI_RESIMLERI[this.resimSirasi++ % MUSTERI_RESIMLERI.length];
+    return { cesit: m.cesit, kalan: m.adet, durum: 'bekliyor', bittigiAn: 0, resim };
   }
 
   private erimeTuru(): number {
@@ -509,8 +535,8 @@ export class Oyun {
     const kartG = Math.min(110, (g - 24) / AYNI_ANDA_MUSTERI - 8);
     const dar = kartG < 72;
     const istekBoy = Math.max(20, Math.min(34, Math.floor(kartG - 46)));
-    // Kart: istek balonu (top + iç boşluk) + aralık + kişi kutusu (44).
-    const kartYuk = istekBoy + (dar ? 8 : 12) + 6 + 44;
+    // Kart: istek balonu (top + iç boşluk) + aralık + kişi resmi.
+    const kartYuk = istekBoy + (dar ? 8 : 12) + 6 + KISI_BOY;
     const kartUst = ustAlt + 6;
     const kartAlt = kartUst + kartYuk;
 
@@ -621,7 +647,7 @@ export class Oyun {
     const el = document.createElement('div');
     el.className = 'top';
     const c = CESITLER[cesit];
-    el.style.background = c.renk;
+    el.style.backgroundColor = c.renk;
     el.style.color = c.yazi;
     el.style.width = el.style.height = `${boy}px`;
     el.style.fontSize = `${Math.round(boy * 0.45)}px`;
@@ -680,8 +706,12 @@ export class Oyun {
       adet.className = 'adet';
       adet.textContent = m.durum === 'bitti' ? '✓' : `×${m.kalan}`;
       istek.appendChild(adet);
-      const kisi = document.createElement('div');
+      const kisi = document.createElement('img');
       kisi.className = 'kisi';
+      kisi.src = m.resim;
+      kisi.alt = '';
+      kisi.draggable = false;
+      kisi.style.width = kisi.style.height = `${KISI_BOY}px`;
       el.append(istek, kisi);
     });
   }
