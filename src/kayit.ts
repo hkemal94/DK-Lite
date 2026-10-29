@@ -30,6 +30,10 @@ function duzelt(ham: unknown): Kayit {
       if (typeof y === 'number' && Number.isFinite(y)) k.yildizlar[i] = Math.min(3, Math.max(0, Math.floor(y)));
     }
   }
+  // Eski kayıt uyumu (29 Ekim 2026, bölüm sayısı 10'dan 30'a çıktı): son açık bölüm
+  // zaten kazanılmışsa bir sonraki de açılır. Örn. 10 bölümün hepsini bitirmiş
+  // kayıtta 11. bölüm kilitli kalmasın. Döngü en çok BOLUM_SAYISI kez döner.
+  while (k.acik < BOLUM_SAYISI && k.yildizlar[k.acik - 1] > 0) k.acik++;
   return k;
 }
 

@@ -5,7 +5,9 @@
 // ---------- Numaralı bölümler ----------
 
 // Kaç bölüm var. Kemal'in kararı (22 Ekim): ilk sürüm 10 bölüm.
-export const BOLUM_SAYISI = 10;
+// Kemal, 29 Ekim 2026: "bölümleri 30'a çıkarabilirsin" (ileride yaklaşık 500 bölüm).
+// Sayı yalnız burada değişir; harita, kayıt ve zorluk kendiliğinden uyar.
+export const BOLUM_SAYISI = 30;
 
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
@@ -25,7 +27,7 @@ export interface BolumZorlugu {
 // sütun 4'te kalır (eskiden 5'e çıkıyordu), istek 2–3 → 3–4, bant yeri 12 → 10 (eskiden 9).
 // Son bölüm eski tablonun 4.–5. bölümü kadar zor.
 // Sayılar DENEME DEĞERİDİR; Kemal oynayıp karar verecek.
-// Satır sayısı BOLUM_SAYISI'ndan azsa son satır sonraki bölümlerde de kullanılır.
+// Tablo 1–10. bölümdür; 11. bölümden sonrası aşağıdaki bolumZorlugu'nda kuralla gelir.
 //
 // Ürünler (Kemal, 29 Ekim: "zorlaştıkça çeşitler eklensin"): çeşit SAYISI eski
 // tablodaki gibi (3, sonra 4) kalır ki zorluk değişmesin; bölüm ilerledikçe
@@ -50,10 +52,68 @@ export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
   { sutun: 4, urunler: ['fistik', 'vanilya', 'kek', 'limonata'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.5 }, // 10
 ];
 
+// 11. bölümden sonrası: tablo yerine kural (Kemal, 29 Ekim 2026: 30 bölüm; ileride
+// yaklaşık 500). Satır satır yazmak yerine kural, ki bölüm sayısı arttıkça kendiliğinden uzasın.
+// Bütün sayılar DENEME DEĞERİDİR, Kemal oynayıp karar verecek.
+// İlke (Kemal, 22 Ekim): zorluk yavaş artsın, her adımda yalnız bir şey biraz zorlaşsın.
+// Bu yüzden aşağıdaki artışlar farklı bölümlere düşer (11, 14, 15, 16, 18, 19, 22, 23, 25, 26, 27).
+// Başlangıç 10. bölümün değerleri: sütun 4, çeşit 4, müşteri 15, istek 3–5, bant yeri 10, iki çeşit 0.5.
+
+// Müşteri: her 4 bölümde bir müşteri daha (yavaş uzasın diye); 30. bölümde 20.
+// En çok 22 (bölüm çok uzayıp yormasın diye).
+function kuralMusteri(no: number): number {
+  return Math.min(22, 15 + Math.ceil((no - 10) / 4));
+}
+// Çeşit sayısı: 16. bölümden 5, 25. bölümden 6. En çok 6 (sütun 4 iken daha fazlası
+// sütunları tıkar).
+function kuralCesit(no: number): number {
+  return Math.min(6, no >= 25 ? 6 : no >= 16 ? 5 : 4);
+}
+// Bant yeri: 14. bölümden 9, 22. bölümden 8. En az 7 (bant çok daralırsa
+// oyuncu hamle yapamaz hâle gelir).
+function kuralBantYeri(no: number): number {
+  return Math.max(7, no >= 22 ? 8 : no >= 14 ? 9 : 10);
+}
+// İki çeşit isteyen müşteri oranı: 18. bölümden 0.6, 26. bölümden 0.7.
+// En çok 0.7 (her müşteri iki çeşit isterse çeşitler arasındaki fark kaybolur).
+function kuralIkiCesit(no: number): number {
+  return Math.min(0.7, no >= 26 ? 0.7 : no >= 18 ? 0.6 : 0.5);
+}
+// Ürünler: yalnız URUNLER'deki mevcut ürünler. Her bölümde iki dondurma çeşidi;
+// kalan yerler tatlı ve içecekten dönüşümlü. Seçim bölüm numarasından çıkar,
+// aynı bölüm her açılışta aynı ürünleri verir. Hangi bölümde hangi ürün: DENEME.
+function kuralUrunler(no: number, cesit: number): string[] {
+  const tur = (t: UrunTuru) => URUNLER.filter((u) => u.tur === t).map((u) => u.id);
+  const dondurma = tur('dondurma');
+  const tatli = tur('tatli');
+  const icecek = tur('icecek');
+  const secim = [dondurma[no % dondurma.length], dondurma[(no + 2) % dondurma.length]];
+  let t = 0;
+  let c = 0;
+  for (let k = 0; secim.length < cesit; k++) {
+    // Çift numaralı bölüm tatlıyla, tek numaralı içecekle başlar (dönüşümlü).
+    const tatliSirasi = (k + no) % 2 === 0;
+    if (tatliSirasi && t < tatli.length) secim.push(tatli[(no + t++) % tatli.length]);
+    else if (c < icecek.length) secim.push(icecek[(no + c++) % icecek.length]);
+    else secim.push(tatli[(no + t++) % tatli.length]);
+  }
+  return secim;
+}
+
 // Bölüm numarasına (1'den) göre zorluk.
 export function bolumZorlugu(no: number): BolumZorlugu {
-  const i = Math.min(Math.max(1, no), BOLUM_ZORLUKLARI.length) - 1;
-  return BOLUM_ZORLUKLARI[i];
+  no = Math.max(1, Math.floor(no));
+  if (no <= BOLUM_ZORLUKLARI.length) return BOLUM_ZORLUKLARI[no - 1];
+  const cesit = kuralCesit(no);
+  return {
+    sutun: 4, // sabit (Kemal'in 22 Ekim kararıyla tabloda da 4'te kaldı)
+    urunler: kuralUrunler(no, cesit),
+    musteri: kuralMusteri(no),
+    istekEnAz: 3, // sabit: istek 3–5, 10. bölümdeki gibi
+    istekEnCok: 5,
+    bantYeri: kuralBantYeri(no),
+    ikiCesitOrani: kuralIkiCesit(no),
+  };
 }
 
 // Müşterinin sabrı (Kemal, 30 Ekim: "Sabir bitince gider ama cok hizli bitmesin sabir";

@@ -21,6 +21,14 @@ const ALT_BOSLUK = 120; // ilk noktanın altında dükkân yazısına yer
 // ederken dikiş görünmez).
 const ARKA_PLAN_ORAN = 896 / (1776 * 2);
 const ARKA_PLAN_RESMI = 'gorseller/sahil-yolu.webp';
+// Resim yokken görünen yedek zemin: solda deniz, ortada kum, sağda çimen.
+const YEDEK_ZEMIN = 'linear-gradient(90deg, #7cc4e4 0%, #9fd4e6 22%, #f3e2b8 34%, #b9dc8c 46%, #8fcf8a 100%)';
+
+// Oyun açılırken harita resmi önceden indirilir; "Bölümler"e basıldığında hazır olsun.
+export function haritaResminiOnYukle(): void {
+  const r = new Image();
+  r.src = ARKA_PLAN_RESMI;
+}
 
 function svgOge<K extends keyof SVGElementTagNameMap>(ad: K, nitelik: Record<string, string | number>) {
   const o = document.createElementNS(NS, ad);
@@ -106,9 +114,13 @@ export function haritaCiz(
   const alan = document.createElement('div');
   alan.className = 'sahil-alan';
   alan.style.aspectRatio = `${GENISLIK} / ${yukseklik}`;
-  // Manzara resmi alt alta tekrar eder; enine sığar.
-  alan.style.backgroundImage = `url('${ARKA_PLAN_RESMI}')`;
-  alan.style.backgroundSize = `100% ${((GENISLIK / ARKA_PLAN_ORAN) / yukseklik) * 100}%`;
+  // Manzara resmi alt alta tekrar eder; enine sığar. Altında denizden kuma ve
+  // çimene yumuşak bir geçiş var: resim geç gelirse (yavaş bağlantı) ya da hiç
+  // gelmezse düz mavi yerine o görünür (29 Ekim 2026, "mavi düz ekran" önlemi).
+  alan.style.backgroundImage = `url('${ARKA_PLAN_RESMI}'), ${YEDEK_ZEMIN}`;
+  alan.style.backgroundSize = `100% ${((GENISLIK / ARKA_PLAN_ORAN) / yukseklik) * 100}%, 100% 100%`;
+  alan.style.backgroundRepeat = 'repeat-y, no-repeat';
+  alan.style.backgroundPosition = 'center bottom, center';
 
   const n = noktalar(BOLUM_SAYISI, yukseklik);
   const svg = svgOge('svg', { viewBox: `0 0 ${GENISLIK} ${yukseklik}`, class: 'sahil-svg', 'aria-hidden': 'true' });
