@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026). Oyun ekranının yeni hâli için soru turu yapıldı (0.14; 29 Ekim 2026).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026). Oyun ekranının yeni hâli için soru turu yapıldı (0.14; 29 Ekim 2026). Sonraki kararlar 0.22'ye kadar aşağıda işlendi (3 Kasım 2026 itibarıyla).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -208,7 +208,7 @@ Ekranın dizilişi:
 
 Çeşitler ve yeni kurallar:
 - Harflerin yerine gerçek dondurma çeşitleri: çikolata, çilek, limon, fıstık, vanilya.
-- Bir müşteri kaç çeşit ister: "İleriki bölümlerde 2". İki çeşit isteyen müşteriler "Ortalardan itibaren" gelir (10 bölümün yarısından sonra; tam bölüm deneme değeri, Kemal oynayıp söyler).
+- Bir müşteri kaç çeşit ister: "İleriki bölümlerde 2". İki çeşit isteyen müşteriler "Ortalardan itibaren" gelir (bölümlerin yarısından sonra; tam bölüm deneme değeri, Kemal oynayıp söyler).
 - Sütunlarda tatlılar da olur: dilim pasta, küçük kek, kâsede meyve. Kemal: "İçecekler de; zorlaştıkça çeşitler eklensin işte". İçecekler: limonata, gazoz, kahve, çay. Hangi bölümde hangisinin geleceği deneme değeri.
 - Tatlılar ve içecekler: "Resimdeki gibi"; aynı sütunlarda, dondurmaların altında karışık sırada gelir.
 - Yeni kurallar (iki çeşit isteyen müşteri, tatlılar, içecekler) yeni dizilişle birlikte gelir.

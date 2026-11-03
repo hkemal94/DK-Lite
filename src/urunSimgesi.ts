@@ -8,5 +8,5 @@ import { URUNLER } from './ayarlar';
 // Ürün sırasına (URUNLER) göre simge (yazı olarak; topun yuvarlak yerine oturur).
 export function urunSimgesi(cesit: number): string {
   const u = URUNLER[cesit];
-  return `<img src="gorseller/urunler/${u.id}.webp" alt="" draggable="false">`;
+  return `<img src="gorseller/urunler/${u.id}.webp" alt="${u.ad}" draggable="false">`;
 }
