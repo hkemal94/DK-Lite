@@ -27,6 +27,10 @@ Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
 işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
 ayrılsın diye biraz daha sarı yapıldı.
 
+## Ekran görüntüleri
+
+- `docs/ekran-goruntuleri/`: yayındaki oyunun ekran görüntüleri; kendi işimiz.
+
 ## Dondurmacı Kızlar'dan
 
 | Dosya | Ne | Kaynak | Lisans |

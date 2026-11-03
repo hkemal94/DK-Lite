@@ -1,7 +1,7 @@
 # DK Lite
 
 Dondurmacı Kızlar'ın küçük, sade bulmaca sürümü (Kems Company).
-Aşama: 4. paket (numaralı bölümler) öneri olarak geldi (22 Ekim 2026; çizimsiz öneri oyunu).
+Aşama: güncel durum `docs/yol-haritasi.md` → "Neredeyiz"de (3 Kasım 2026: 30 bölüm, parlak çizgi film görselleri, sahil yolu bölüm ekranı).
 
 - Tasarım belgesi: `docs/tasarim-belgesi.md`
 - Yol haritası: `docs/yol-haritasi.md`
@@ -26,7 +26,7 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
   Bölüm 1'den.
 - "Bölümler" bölüm haritasını açar (giriş ekranında, duraklatmada, bölüm
   sonunda; oyun sırasında "Bölüm 3" yazısına dokununca da). Haritada
-  Düzada'nın kaba biçimi, Sahil Yolu ve 10 bölüm noktası var: 1. bölüm
+  Düzada'nın kaba biçimi, Sahil Yolu ve 30 bölüm noktası var: 1. bölüm
   Liman'da Dondurmacı Kızlar'ın önünde, yol Stadyum ve Çiftlik'ten geçip
   İskele'de biter. Geçilen bölüm koyu mor ve altında yıldızları, sıradaki
   sarı, kilitli olanlar soluk (dokununca başlamaz). Açık bir bölüme
