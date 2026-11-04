@@ -700,6 +700,10 @@ export class Oyun {
     el.addEventListener('contextmenu', (e) => e.preventDefault());
     el.addEventListener('pointerdown', (e) => {
       e.preventDefault();
+      // Dokunuş görünsün: sütunda kısa bir sarı parıltı (yalnız görünüm, 4 Kasım 2026).
+      el.classList.remove('dokunuldu');
+      void el.offsetWidth;
+      el.classList.add('dokunuldu');
       if (GONDERME_BICIMI === 'dokun') {
         this.gonder(i);
         return;
