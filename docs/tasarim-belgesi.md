@@ -30,6 +30,22 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.34 Yardımcılar, galibiyet serisi, günlük ödül, albüm (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal'in seçimleri: yardımcılar "Bandı boşalt, Sütunları karıştır, Sabrı durdur, Fazla bant yeri, +1 sütun"; kazanım "Sandıktan, Günlük ödülden, Başlangıçta her birinden 1, Galibiyet serisinden"; seri "3 kazançta yardım"; günlük "7 günlük takvim"; albüm "Şimdilik yalnızca ürünler". Sayılar DENEME (`src/ayarlar.ts`).
+
+- **Yardımcılar:** oyun ekranının altında beş düğme, köşesinde elde kaç tane olduğu. Başlangıçta her birinden 1. Bir bölümde her birinden en çok 1 kullanılır; bitince ya da kullanılınca düğme soluklaşır. 0. bölümde yok.
+  - Bandı boşalt: banttaki toplar kalkar ve sıranın başına döner (kaybolmaz; sonra sütunlara geri gelir).
+  - Sütunları karıştır: sütunlardaki toplar (buzları ve gizlilikleriyle) karışır.
+  - Sabrı durdur: 30 saniye müşterilerin sabrı azalmaz; sabır çubukları maviye döner.
+  - Fazla bant yeri: o bölüm için banda 2 yer eklenir.
+  - +1 sütun: sıradaki toplardan dolan bir sütun eklenir (sıra bittiyse kullanılamaz).
+- **Galibiyet serisi:** art arda kazanılan bölümler (0. bölüm sayılmaz). Sonraki bölümde: 1 kazanç +1 bant yeri; 2 kazanç +1 bant yeri ve bölüm başında sabır 30 saniye durur; 3 ve üstü +2 bant yeri ve sabır durur. Bölüm başında üstte kısa bir afiş söyler. Kaybedince ya da yarıda bırakınca sıfırlanır. Her 5 art arda kazançta 1 yardımcı ("Seri ödülü!"). Sonuç penceresinde "Galibiyet serisi" satırı.
+- **Sandık:** can ödülüne ek olarak 1 yardımcı da verir (rastgele).
+- **Günlük ödül:** giriş ekranında, o gün alınmadıysa 7 günlük takvim açılır: 1. gün +1 can, 2. yardımcı, 3. +1 can, 4. yardımcı, 5. 30 dakika sınırsız can, 6. yardımcı, 7. sandık. "Al" deyince ödül penceresi. Bir gün atlanırsa 1. güne dönülür; 7. günden sonra yeniden 1. gün. Gün telefonun saatine göre.
+- **Albüm:** giriş ekranında "Albüm" düğmesi. 18 ürün (3 başlangıç + 15 hediye): açılanlar resmi ve adıyla, açılmayanlar "?" ve hangi bölümden sonra geleceği; üstte "6 / 18" gibi sayaç.
+- Simgeler ekibin basit çizimleri. Bilgisayarda telefon boyutunda denendi: beş yardımcının hepsi, seri afişi, seri ödülü, sandıktan yardımcı, günlük takvim ve ödülü, albüm. Ekran görüntüleri: `docs/ekran/yardimcilar/`. Telefonda denenmedi.
+
 ### 0.33 Yeni öğeler: her mahallede bir (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal: yeni öğeler "Her mahallede bir". Adlar [Kemal]; aşağıdaki adlar yalnız ne olduğunu anlatır. Oranlar DENEME (`src/ayarlar.ts`).

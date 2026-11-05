@@ -463,3 +463,38 @@ export function bolumdeTanitilanOge(no: number): YeniOge | null {
   if (no === KILITLI_SUTUN_BOLUMU) return 'kilitli';
   return null;
 }
+
+// ---------- Yardımcılar, galibiyet serisi, günlük ödül (Kemal, 5 Kasım 2026 gecesi) ----------
+// Kemal'in seçtikleri: beş yardımcı ("Bandı boşalt, Sütunları karıştır, Sabrı durdur,
+// Fazla bant yeri, +1 sütun"); başlangıçta her birinden 1; sandıktan, günlük ödülden ve
+// galibiyet serisinden kazanılır. Seri: "3 kazançta yardım". Günlük: "7 günlük takvim".
+// Sayılar DENEME.
+export const YARDIMCI_IDLERI = ['bant-bosalt', 'karistir', 'sabir-durdur', 'fazla-bant', 'ek-sutun'] as const;
+export type Yardimci = (typeof YARDIMCI_IDLERI)[number];
+// Yazılar ne yaptığını söyler (Kemal'in kendi sözleri); süs adı değil.
+export const YARDIMCI_ADLARI: Record<Yardimci, string> = {
+  'bant-bosalt': 'Bandı boşalt',
+  karistir: 'Sütunları karıştır',
+  'sabir-durdur': 'Sabrı durdur',
+  'fazla-bant': 'Fazla bant yeri',
+  'ek-sutun': '+1 sütun',
+};
+export const BASLANGIC_YARDIMCI = 1; // her birinden
+export const SABIR_DURDUR_SN = 30; // DENEME
+export const FAZLA_BANT_YERI = 2; // DENEME
+export const BOLUMDE_YARDIMCI_EN_COK = 1; // DENEME: bir bölümde her yardımcıdan en çok bu kadar
+
+// Galibiyet serisi: art arda kazanılan bölüm sayısına göre sonraki bölümde yardım.
+// Kaybedince (ya da yarıda bırakınca) seri sıfırlanır. 0. bölüm sayılmaz.
+export function seriYardimi(seri: number): { bant: number; sabir: boolean } {
+  if (seri >= 3) return { bant: 2, sabir: true };
+  if (seri === 2) return { bant: 1, sabir: true };
+  if (seri === 1) return { bant: 1, sabir: false };
+  return { bant: 0, sabir: false };
+}
+export const SERI_YARDIMCI_ARALIGI = 5; // DENEME: her 5 art arda kazançta 1 yardımcı
+
+// Günlük ödül: 7 günlük takvim; bir gün atlanırsa 1. güne döner, 7. günden sonra yeniden 1.
+export type GunlukOdul = 'bir-can' | 'yardimci' | 'sinirsiz' | 'sandik';
+export const GUNLUK_ODULLER: GunlukOdul[] = ['bir-can', 'yardimci', 'bir-can', 'yardimci', 'sinirsiz', 'yardimci', 'sandik'];
+export const GUNLUK_SINIRSIZ_DK = 30; // DENEME
