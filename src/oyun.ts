@@ -36,7 +36,17 @@ import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
-import { bolumdeYeniUrunler } from './ayarlar';
+import { bolumdeYeniUrunler, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, SANDIK_ODULLERI, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
+import {
+  canDurumu,
+  canEkle,
+  canKaybet,
+  canlariDoldur,
+  canVar,
+  sinirsizVer,
+  sonrakiCanaKalan,
+  sureYazisi,
+} from './can';
 
 // Müşteriler: 10 farklı kişi, belden yukarısı (Canva, parlak çizgi film). Kaynak: docs/lisanslar.md.
 const MUSTERI_RESIMLERI = Array.from({ length: 10 }, (_, i) =>
@@ -271,6 +281,9 @@ export class Oyun {
   private bitti: Sonuc | null = null;
   private y!: Yerlesim;
   private tutmaZamanlayici: number | null = null;
+  // Oyuncu bu bölüme kendi başladı mı (can için: kaybedince ya da yarıda
+  // bırakınca 1 can gider). Açılışta arkada hazır duran bölüm sayılmaz.
+  private basladi = false;
 
   constructor(kok: HTMLElement) {
     this.kok = kok;
@@ -286,6 +299,9 @@ export class Oyun {
       this.sabitleriCiz();
     });
     requestAnimationFrame((an) => this.kare(an));
+    // Can göstergeleri her saniye yenilenir (dolum süresi, sınırsız can süresi).
+    this.canCiz();
+    window.setInterval(() => this.canCiz(), 1000);
   }
 
   // ---------- kurulum ----------
@@ -402,7 +418,11 @@ export class Oyun {
     this.bolumNoEl.addEventListener('click', () => this.listeAc('yerinde'));
     const sol = document.createElement('div');
     sol.className = 'ust-sol';
-    sol.append(this.bolumNoEl, this.erimeEl);
+    // Bölüm numarasının yanında can (Kemal, 5 Kasım: "can barı olması lazım").
+    const solUst = document.createElement('div');
+    solUst.className = 'ust-sol-ust';
+    solUst.append(this.bolumNoEl, canGostergesi(true));
+    sol.append(solUst, this.erimeEl);
     // Sağ köşede duraklatma düğmesi (iki dik çizgi). Basınca oyun durur, seçenekler çıkar.
     this.duraklatEl = document.createElement('button');
     this.duraklatEl.className = 'kose-dugme duraklat-dugme yuvarlak mor';
@@ -457,7 +477,7 @@ export class Oyun {
     };
     menuKutu.append(
       menuDugme('Devam et', 'yesil', 'menu-devam', () => this.devamEt()),
-      menuDugme('Baştan başla', 'krem', 'menu-bastan', () => this.yenidenBasla(this.bolum.no)),
+      menuDugme('Baştan başla', 'krem', 'menu-bastan', () => this.bolumBaslat(this.bolum.no)),
       menuDugme('Bölümler', 'krem', 'menu-bolumler', () => {
         this.duraklatMenuKapat();
         this.listeAc('duraklat');
@@ -491,7 +511,7 @@ export class Oyun {
     // bittiyse bölüm haritası açılır.
     basla.addEventListener('click', () => {
       if (hepsiBitti(this.kayit)) this.listeAc('giris');
-      else this.yenidenBasla(this.kayit.acik);
+      else this.bolumBaslat(this.kayit.acik);
     });
     const bolumler = document.createElement('button');
     bolumler.className = 'dugme krem';
@@ -508,6 +528,10 @@ export class Oyun {
     disli.innerHTML = DISLI_SVG;
     disli.addEventListener('click', () => this.ayarlarAc());
     this.girisEl.appendChild(disli);
+    // Sol üstte can ve sonraki canın süresi.
+    const girisCan = canGostergesi(false);
+    girisCan.classList.add('giris-can');
+    this.girisEl.appendChild(girisCan);
     this.kok.appendChild(this.girisEl);
 
     this.ayarlarEl = document.createElement('div');
@@ -590,6 +614,31 @@ export class Oyun {
   private girisKapat() {
     this.girisAcik = false;
     this.girisEl.className = 'giris desenli gizli';
+  }
+
+  // Oyuncunun başlattığı bölüm (Başla, Bölümler, Tekrar oyna, Devam et, Baştan başla).
+  // Can: bölüm yarıda bırakılıyorsa 1 can gider; can yoksa bölüm başlamaz,
+  // "Can yok" penceresi çıkar (Kemal, 5 Kasım).
+  private bolumBaslat(no: number) {
+    if (no < 1 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
+    if (this.basladi && !this.bitti) {
+      canKaybet();
+      this.basladi = false;
+      this.canCiz();
+      if (!canVar()) {
+        // Yarıda bırakılan bölüm biter; giriş ekranına dönülür.
+        this.listeKapat();
+        this.duraklatMenuKapat();
+        this.duraklatildi = false;
+        this.girisAc();
+      }
+    }
+    if (!canVar()) {
+      this.canYokGoster();
+      return;
+    }
+    this.yenidenBasla(no);
+    this.basladi = true;
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
@@ -1384,6 +1433,20 @@ export class Oyun {
     // bölümde ilk kez gelen ürün varsa, fişten önce "Yeni ürün!" penceresi çıkar.
     const ilkKez = kazandi && this.kayit.acik < no + 1 && no + 1 <= BOLUM_SAYISI;
     const yeniUrunler = ilkKez ? bolumdeYeniUrunler(no + 1) : [];
+    // Sandık (5 Kasım): 10., 20., 30. ... bölüm ilk kez kazanılınca.
+    const ilkKazanma = kazandi && (this.kayit.yildizlar[no - 1] ?? 0) === 0;
+    const sandik: SandikOdulu | null =
+      ilkKazanma && no % SANDIK_ARALIGI === 0
+        ? SANDIK_ODULLERI[Math.floor(Math.random() * SANDIK_ODULLERI.length)]
+        : null;
+    if (sandik === 'bir-can') canEkle(1);
+    else if (sandik === 'canlar-dolu') canlariDoldur();
+    else if (sandik === 'sinirsiz') sinirsizVer(SINIRSIZ_CAN_DK);
+    // Can: kaybedince 1 can gider (sınırsızken gitmez).
+    let canGitti = false;
+    if (!kazandi && this.basladi) canGitti = canKaybet();
+    this.basladi = false;
+    this.canCiz();
     if (kazandi) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
 
     const kutu = document.createElement('div');
@@ -1445,8 +1508,16 @@ export class Oyun {
     fis.append(
       satir('Hizmet edilen müşteri', `${this.karsilanan} / ${this.bolum.musteriler.length}`),
       satir('Giden müşteri', String(this.kacan), this.kacan > 0 ? 'uyari' : ''),
-      cizgi(),
     );
+    if (!kazandi) {
+      const kalan = canDurumu().can;
+      fis.appendChild(
+        canGitti
+          ? satir('Can', `−1 (kalan ${kalan})`, 'uyari can-satir')
+          : satir('Can', 'gitmedi (sınırsız)', 'can-satir'),
+      );
+    }
+    fis.appendChild(cizgi());
     const puanSatir = satir('TOPLAM PUAN', String(Math.round(this.puan * 10) / 10), 'toplam');
     puanSatir.dataset.puan = String(this.puan);
     puanSatir.dataset.enYuksek = String(this.enYuksekPuan());
@@ -1489,12 +1560,12 @@ export class Oyun {
     if (kazandi) {
       const sonBolum = no >= BOLUM_SAYISI;
       dugmeler.append(
-        dugme('Tekrar oyna', 'krem', () => this.yenidenBasla(no), TEKRAR_SVG),
+        dugme('Tekrar oyna', 'krem', () => this.bolumBaslat(no), TEKRAR_SVG),
         // Sonraki bölüm; son bölümdeyse bölüm haritası.
-        dugme('Devam et', 'yesil', () => (sonBolum ? this.listeAc('yerinde') : this.yenidenBasla(no + 1)), ILERI_SVG),
+        dugme('Devam et', 'yesil', () => (sonBolum ? this.listeAc('yerinde') : this.bolumBaslat(no + 1)), ILERI_SVG),
       );
     } else {
-      dugmeler.append(dugme('Tekrar oyna', 'yesil', () => this.yenidenBasla(no), TEKRAR_SVG));
+      dugmeler.append(dugme('Tekrar oyna', 'yesil', () => this.bolumBaslat(no), TEKRAR_SVG));
     }
     kutu.appendChild(dugmeler);
     // Bölüm haritasına dönüş için küçük bir yol.
@@ -1505,19 +1576,90 @@ export class Oyun {
     kutu.appendChild(listeYolu);
     this.sonEl.appendChild(kutu);
     if (kazandi) this.konfeti();
-    if (yeniUrunler.length > 0) this.yeniUrunGoster(yeniUrunler);
+    const oduller: (() => HTMLDivElement)[] = [];
+    if (sandik) oduller.push(() => this.sandikPenceresi(sandik));
+    if (yeniUrunler.length > 0) oduller.push(() => this.yeniUrunPenceresi(yeniUrunler));
+    this.odulSirasi(oduller, true);
   }
 
-  // "Yeni ürün!" penceresi: fişin üstünde, yıldızlar geldikten sonra açılır.
-  // Arkasında dönen ışık, ortada ürün(ler), "Sonraki bölümde gelir", "Tamam".
-  private yeniUrunGoster(idler: string[]) {
-    const ort = document.createElement('div');
-    ort.className = 'odul-ortu';
-    ort.id = 'yeni-urun';
+  // Ödül pencereleri sırayla: "Tamam" deyince sıradaki gelir. İlki yıldızlardan sonra açılır.
+  private odulSirasi(adimlar: (() => HTMLDivElement)[], gecikmeli: boolean) {
+    const ilk = adimlar.shift();
+    if (!ilk) return;
+    const ort = ilk();
+    if (gecikmeli) ort.classList.add('gecikmeli');
+    const tamam = ort.querySelector<HTMLButtonElement>('.odul-tamam');
+    tamam?.addEventListener('click', () => {
+      ort.remove();
+      this.odulSirasi(adimlar, false);
+    });
+    this.sonEl.appendChild(ort);
+  }
+
+  // Sandık penceresi: sandık açılır, içinden çıkan ödül görünür (ödül zaten verildi).
+  private sandikPenceresi(odul: SandikOdulu): HTMLDivElement {
+    const yazi =
+      odul === 'bir-can' ? '+1 can' : odul === 'canlar-dolu' ? 'Canlar doldu' : `${SINIRSIZ_CAN_DK / 60} saat sınırsız can`;
+    const simge = odul === 'sinirsiz' ? '∞' : odul === 'bir-can' ? '+1' : String(CAN_EN_COK);
+    const ort = odulOrtusu('sandik', 'Sandık!');
+    ort.dataset.odul = odul;
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const sahne = document.createElement('div');
+    sahne.className = 'sandik-sahne';
+    sahne.innerHTML = SANDIK_SVG;
+    const kalp = document.createElement('div');
+    kalp.className = 'sandik-kalp';
+    kalp.innerHTML = KALP_BUYUK_SVG;
+    const sayi = document.createElement('span');
+    sayi.textContent = simge;
+    kalp.appendChild(sayi);
+    sahne.appendChild(kalp);
+    const ad = document.createElement('div');
+    ad.className = 'odul-ad';
+    ad.textContent = yazi;
+    kutu.append(sahne, ad, odulTamam());
+    return ort;
+  }
+
+  // "Can yok" penceresi: sonraki canın dolmasına kalan süre.
+  private canYokGoster() {
+    const ort = odulOrtusu('can-yok', 'Can yok');
+    ort.classList.add('can-yok-ortu');
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const g = canGostergesi(false);
+    g.classList.add('can-yok-gosterge');
+    const not = document.createElement('div');
+    not.className = 'odul-not';
+    not.textContent = `Her ${CAN_DOLUM_DK_YAZI} dakikada 1 can dolar`;
+    const tamam = odulTamam();
+    tamam.addEventListener('click', () => ort.remove());
+    kutu.append(g, not, tamam);
+    this.kok.appendChild(ort);
+    this.canCiz();
+  }
+
+  // Bütün can göstergelerini günceller (üst şerit, giriş, harita, "Can yok").
+  private canCiz() {
+    const d = canDurumu();
+    const simdi = Date.now();
+    const sinirsiz = d.sinirsizBitis > simdi;
+    const kalan = sonrakiCanaKalan(simdi);
+    for (const el of this.kok.querySelectorAll<HTMLElement>('.can-gosterge')) {
+      const sayi = el.querySelector('.can-sayi');
+      const sure = el.querySelector('.can-sure');
+      if (sayi) sayi.textContent = sinirsiz ? '∞' : String(d.can);
+      if (sure) sure.textContent = sinirsiz ? sureYazisi(d.sinirsizBitis - simdi) : kalan > 0 ? sureYazisi(kalan) : 'Dolu';
+      el.dataset.can = String(d.can);
+      el.classList.toggle('sinirsiz', sinirsiz);
+      el.classList.toggle('bos', !sinirsiz && d.can === 0);
+    }
+  }
+
+  // "Yeni ürün!" penceresi: arkasında dönen ışık, ortada ürün(ler), "Sonraki bölümde gelir".
+  private yeniUrunPenceresi(idler: string[]): HTMLDivElement {
+    const ort = odulOrtusu('yeni-urun', 'Yeni ürün!');
     ort.dataset.urunler = idler.join(',');
-    const kutu = document.createElement('div');
-    kutu.className = 'son-kutu pencere odul-kutu';
-    kutu.appendChild(pencereBaslik('Yeni ürün!'));
+    const kutu = ort.firstElementChild as HTMLDivElement;
     const liste = document.createElement('div');
     liste.className = 'odul-liste';
     for (const id of idler) {
@@ -1540,14 +1682,8 @@ export class Oyun {
     const not = document.createElement('div');
     not.className = 'odul-not';
     not.textContent = 'Sonraki bölümde gelir';
-    const tamam = document.createElement('button');
-    tamam.className = 'dugme yesil';
-    tamam.id = 'yeni-urun-tamam';
-    tamam.textContent = 'Tamam';
-    tamam.addEventListener('click', () => ort.remove());
-    kutu.append(liste, not, tamam);
-    ort.appendChild(kutu);
-    this.sonEl.appendChild(ort);
+    kutu.append(liste, not, odulTamam());
+    return ort;
   }
 
   // Kazanınca kısa bir renkli konfeti (yalnız görüntü).
@@ -1580,11 +1716,19 @@ export class Oyun {
     this.listeEl.innerHTML = '';
     this.listeEl.appendChild(
       haritaCiz(this.kayit, yildizCiz, {
-        bolumSec: (no) => this.yenidenBasla(no),
+        bolumSec: (no) => this.bolumBaslat(no),
         geri: () => this.haritaGeri(),
         bittiYazisi: hepsiBitti(this.kayit) ? HEPSI_BITTI_YAZISI : null,
       }),
     );
+    // Bölümler ekranının sağ üstünde can.
+    const ust = this.listeEl.querySelector('.harita-ust');
+    if (ust) {
+      const g = canGostergesi(false);
+      g.classList.add('harita-can');
+      ust.appendChild(g);
+      this.canCiz();
+    }
   }
 
   // Haritadan geri: giriş ekranı ve bölüm sonu haritanın altında açık durur;
@@ -1679,3 +1823,59 @@ function kapatDugme(id: string, is: () => void): HTMLButtonElement {
   d.addEventListener('click', is);
   return d;
 }
+
+const CAN_DOLUM_DK_YAZI = String(CAN_DOLUM_DK);
+
+// Ödül penceresinin örtüsü ve kutusu (başlık şeridiyle).
+function odulOrtusu(id: string, baslik: string): HTMLDivElement {
+  const ort = document.createElement('div');
+  ort.className = 'odul-ortu';
+  ort.id = id;
+  const kutu = document.createElement('div');
+  kutu.className = 'son-kutu pencere odul-kutu';
+  kutu.appendChild(pencereBaslik(baslik));
+  ort.appendChild(kutu);
+  return ort;
+}
+
+function odulTamam(): HTMLButtonElement {
+  const d = document.createElement('button');
+  d.className = 'dugme yesil odul-tamam';
+  d.textContent = 'Tamam';
+  return d;
+}
+
+// Can göstergesi: kalbin içinde can sayısı; büyük olanında yanında sonraki canın süresi.
+function canGostergesi(kucuk: boolean): HTMLDivElement {
+  const g = document.createElement('div');
+  g.className = 'can-gosterge' + (kucuk ? ' kucuk' : '');
+  g.setAttribute('aria-label', 'Can');
+  const kalp = document.createElement('span');
+  kalp.className = 'can-kalp';
+  kalp.innerHTML = KALP_BUYUK_SVG;
+  const sayi = document.createElement('span');
+  sayi.className = 'can-sayi';
+  kalp.appendChild(sayi);
+  g.appendChild(kalp);
+  if (!kucuk) {
+    const sure = document.createElement('span');
+    sure.className = 'can-sure';
+    g.appendChild(sure);
+  }
+  return g;
+}
+
+// Kalp (can) ve sandık çizimleri: ekibin basit şekilleri, çizgi film hattıyla.
+// Sandığın çizimi geçici; Canva'da çizilirse yerine geçer.
+const KALP_BUYUK_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5C5.2 16 2 12.6 2 8.6 2 5.6 4.4 3.3 7.2 3.3c1.9 0 3.6 1 4.8 2.6 1.2-1.6 2.9-2.6 4.8-2.6 2.8 0 5.2 2.3 5.2 5.3 0 4-3.2 7.4-10 12.9Z" fill="#e0483f" stroke="#5a3a22" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.2 6.6c.8-.9 2-1.2 3-.9" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="1.6" stroke-linecap="round"/></svg>';
+const SANDIK_SVG =
+  '<svg class="sandik" viewBox="0 0 120 100" aria-hidden="true">' +
+  '<g class="sandik-govde"><rect x="14" y="44" width="92" height="48" rx="8" fill="#b97a3e" stroke="#5a3a22" stroke-width="4"/>' +
+  '<rect x="14" y="44" width="92" height="12" fill="#a0652f" stroke="#5a3a22" stroke-width="4"/>' +
+  '<rect x="30" y="44" width="10" height="48" fill="#ffc928" stroke="#5a3a22" stroke-width="3"/>' +
+  '<rect x="80" y="44" width="10" height="48" fill="#ffc928" stroke="#5a3a22" stroke-width="3"/>' +
+  '<rect x="52" y="52" width="16" height="18" rx="3" fill="#ffc928" stroke="#5a3a22" stroke-width="3"/></g>' +
+  '<g class="sandik-kapak"><path d="M14 44 V34 Q14 14 60 14 Q106 14 106 34 V44 Z" fill="#c98a4a" stroke="#5a3a22" stroke-width="4" stroke-linejoin="round"/>' +
+  '<path d="M30 44 V22 M40 44 V18 M80 44 V18 M90 44 V22" stroke="#5a3a22" stroke-width="3"/>' +
+  '<path d="M30 44 V22 Q35 18 40 18 V44 Z M80 44 V18 Q85 18 90 22 V44 Z" fill="#ffc928" stroke="#5a3a22" stroke-width="3" stroke-linejoin="round"/></g></svg>';

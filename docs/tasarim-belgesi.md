@@ -30,6 +30,20 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.26 Can ve ödül sandığı (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal: "Sandıktan hak çıkabilir ama oyunun oynanmasında can barı olması lazım yani bölüm bitmeyince yeniden oyna falan olması lazım". Soru turundaki cevapları: can sayısı "5 can (Önerilen)"; can ne zaman gider "Yalnız kaybedince (Önerilen)"; can bitince "Zamanla dolar, 30 dk (Önerilen)"; sandık "10 bölümde bir sandık açılsın ve bazen bir can versin bazen canı doldursun bazen 1 saat süresiz can versin". Bu, 4.1'deki "can sistemi" maddesini ve 7. bölümdeki "can sistemi sakin oyuncu ile nasıl bağdaşır" sorusunu kapatır.
+
+Ne yapıldı (öneri; `ajans/can-sandik`):
+- En çok 5 can. Bölüm kaybedilince (bant doldu, top kalmadı, müşteriler gitti) ya da yarıda bırakılınca (duraklatmadan "Baştan başla", ya da oyun sürerken Bölümler'den bir bölüm seçmek) 1 can gider. Kazanınca can gitmez. Uygulama kapatılınca giden can yok (yarıda bırakma sayılmaz).
+- Can 5'ten azsa her 30 dakikada 1 can kendiliğinden dolar, oyun kapalıyken de. Can yokken bölüm başlamaz; "Can yok" penceresinde sonraki canın süresi ve "Her 30 dakikada 1 can dolar" yazar.
+- Can göstergesi (kalbin içinde sayı): giriş ekranında sol üstte ve Bölümler ekranında sağ üstte, yanında sonraki canın süresi ya da "Dolu"; oyunda üst şeritte "Bölüm 3"ün yanında küçük kalp. Kaybedince fişte "Can −1 (kalan 4)".
+- Sandık: 10., 20., 30. ... bölüm ilk kez kazanılınca "Sandık!" penceresi çıkar; sandığın kapağı açılır, içinden kalp yükselir. Üç ödülden biri: +1 can (5'i geçebilir), canlar dolar (5'e), 1 saat sınırsız can (bu sürede can gitmez; kalpte ∞ ve kalan süre). Üçü eşit şansla: bu oran ekibin DENEME değeri (Kemal "bazen" dedi).
+- Aynı bölüm sonunda hem sandık hem yeni ürün varsa önce sandık, "Tamam" deyince yeni ürün gelir.
+- Sandığın çizimi ekibin basit şekli, geçici; Canva'da çizilirse yerine geçer.
+- Dondurmacı Kızlar'ın can ayarları buraya taşınmadı; sayılar Kemal'in bu soru turundaki seçimleri.
+- Ekran görüntüleri: `docs/ekran/can-sandik/`.
+
 ### 0.25 Kazanç: dört tür, ilk paket "yeni ürün açılır" (Kemal, 5 Kasım 2026 akşamı; öneri)
 
 Kemal: "Oyun sadece başarı üzerine kurulu ve bölümleri geçtikçe bir kazancı yok". Sorulan dört kazanç türüne (yeni ürün açılır, ödül sandığı, dükkânı süsleme, para ve market) cevabı: "Hepsi güzel". Önerilen sıra soruldu: "Bu sırayla (Önerilen)": 1) yeni ürün açılır, 2) ödül sandığı, 3) dükkânı süsleme, 4) para ve market. Her biri ayrı küçük paket; Kemal görüp onaylar. 0.4'teki "ilk sürümde yalnız bölümler, yıldız ve harita" kararı bu cevapla genişledi.
@@ -697,7 +711,7 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 
 Sonrası için:
 - Sonu yok: elle yapılmış bölümler bitince ne olur (kendiliğinden üretilen bölümler, günlük bölüm, ya da bekleme)?
-- Can sistemi "sakin oyuncu" ile nasıl bağdaşır; can bitince ne olur (para modeli, yayın dönemi)?
+- Can sistemi: kapandı (0.26; 5 can, kaybedince gider, 30 dakikada dolar). Para modeli (canın parayla alınması gibi) yayın döneminde.
 - Hikâye bölümleri kaç bölümde bir açılır; metinleri ne zaman gelir?
 - Koleksiyon ne toplar; başarımlar neler?
 - Seslendirme hangi satırlarda?

@@ -32,7 +32,7 @@ alttaki "Geçmiş notlar" bölümüne taşındı.
 - Bölüm seçme ekranı (5 Kasım 2026 akşamı, öneri; `ajans/kutulu-bolumler`): sahil yolu kalktı; bölümler sabit desenli mor zeminin üstünde numaralı kutular (satırda 4), geçilen mor ve yıldızlı, sıradaki sarı, kilitli soluk ve kilitli. Kemal: "kutulu olarak bölümleri koy sabit arka zeminde". Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`. Telefonda denenmedi.
 - Kazanç (5 Kasım 2026 akşamı; Kemal: "bölümleri geçtikçe bir kazancı yok", dört türe "Hepsi güzel", sıra "Bu sırayla"). Sıra: 1) yeni ürün açılır, 2) ödül sandığı, 3) dükkânı süsleme, 4) para ve market; her biri ayrı küçük paket.
   - 1) Yeni ürün açılır: yapıldı, öneri (`ajans/yeni-urun`; kutulu bölümler dalının üstünde). Bölüm ilk kez kazanılınca, sonraki bölümde ilk gelen ürün için "Yeni ürün!" penceresi; Bölümler ekranında ürünün geleceği kutunun köşesinde küçük resmi. Ürünler 9. bölüme kadar bitiyor; 10–30 için kazanç sandık ve süsle gelecek. Ekran görüntüleri: `docs/ekran/yeni-urun/`. Telefonda denenmedi.
-  - 2) Ödül sandığı: sırada. Kemal'in kararı: kaç bölümde bir, içinden ne çıkar.
+  - 2) Can ve ödül sandığı: yapıldı, öneri (`ajans/can-sandik`; yeni ürün dalının üstünde). Kemal: "can barı olması lazım"; 5 can, yalnız kaybedince (ya da yarıda bırakınca) gider, 30 dakikada 1 can dolar; 10 bölümde bir sandık: +1 can, canlar dolar ya da 1 saat sınırsız can (eşit şans, deneme). Tasarım belgesi 0.26; ekran görüntüleri: `docs/ekran/can-sandik/`. Telefonda denenmedi.
   - 3) Dükkânı süsleme: sonra (yeni çizimler gerekir).
   - 4) Para ve market: para modeli konuşulunca.
 - Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.

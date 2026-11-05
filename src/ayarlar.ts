@@ -291,3 +291,16 @@ export function bolumdeYeniUrunler(no: number): string[] {
   if (no <= 1) return [];
   return bolumZorlugu(no).urunler.filter((id) => ilkGeldigiBolum(id) === no);
 }
+
+// ---------- Can ve ödül sandığı (Kemal, 5 Kasım 2026) ----------
+// Kemal'in seçimleri: "5 can"; can "Yalnız kaybedince" gider; "Zamanla dolar, 30 dk".
+export const CAN_EN_COK = 5;
+export const CAN_DOLUM_DK = 30;
+// Sandık: "10 bölümde bir sandık açılsın ve bazen bir can versin bazen canı doldursun
+// bazen 1 saat süresiz can versin". 10., 20., 30. ... bölüm ilk kez kazanılınca açılır.
+export const SANDIK_ARALIGI = 10;
+export const SINIRSIZ_CAN_DK = 60;
+// Sandıktan hangisinin çıkacağı: üçü eşit şansla. Bu oran ekibin DENEME değeri
+// (Kemal "bazen" dedi; oranı söylemedi).
+export type SandikOdulu = 'bir-can' | 'canlar-dolu' | 'sinirsiz';
+export const SANDIK_ODULLERI: SandikOdulu[] = ['bir-can', 'canlar-dolu', 'sinirsiz'];
