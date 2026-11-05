@@ -30,6 +30,30 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.29 Müşteri renk çeşitleri (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Bu arada insanlar çok güzel gerçekten fakat daha da çeşitlenme imkanı var mı? Özellikle renkler falan kombinasyonlu renkler yaparsak işimize yarayabilir çeşitte". Üç yol soruldu (renk çevirme, parça parça kombinasyon, yeni kişiler); cevabı: "Hepsi".
+
+1. adım, renk çevirme (yapıldı, öneri; `ajans/musteri-renk`):
+- Her müşteri resminde kıyafetin mavi kısımları kırmızı, mor, yeşil ve pembeye çevrildi; yüz, saç, beyaz ve sarı kısımlar aynı. Mavisi olmayan 2. müşterinin çeşidi yok. 10 kişi, 46 görünüş (10 asıl + 36 çeşit). Araç: `araclar/musteri_renk.py`.
+- Gelen müşterinin görünüşü rastgele seçilir; ekranda o an olan kişi (rengi farklı da olsa) ve bir önceki gelen kişi gelmez.
+- Ekran görüntüleri: `docs/ekran/musteri-renk/`.
+Sırada: parça parça kombinasyon (gömlek, pantolon, şapka ayrı renk; kıyafetlerin ayrılması gerekir) ve Canva'da yeni kişiler (aynı tarzda farklı yaş, saç, kıyafet). Kemal'in notu (5 Kasım gecesi): "Desenler ve renkler, ayrıca etnik kökenler ve saçlar falan etkili olabilir": kıyafet desenleri, renk kombinasyonları, farklı kökenler ve ten renkleri, saç biçimleri ve renkleri.
+
+### 0.28 Kemal'in kararları (5 Kasım 2026 gecesi; soru turu)
+
+Kemal: "Vermem gereken kararları bana çoktan seçmeli sor". Cevapları:
+- İlk zor bölüm: "10. bölüm (Önerilen)". İlk dilimde (1–10) 5. bölüm artık normal, 6. bölüm rahat değil normal; ilk zor bölüm 10. bölüm (çok zor, sandık). 11. bölümden sonra düzen aynı (5. zor, 6. rahat, 10. çok zor).
+- Zor bölümler ne kadar zor: "Şimdiki gibi, oynayıp söylerim".
+- Sandık şansı: "Sınırsız can nadir". +1 can %50, canlar dolar %35, 1 saat sınırsız can %15 (oranlar ekibin DENEME değeri).
+- Sandık çizimi: "Canva'da çizilsin" (Canva hesabına "DK Lite çalışma" tasarımı kaydetme izniyle). Yapıldı: mor-sarı, yazısız sandık (`public/gorseller/sandik.webp`; kaynak `docs/lisanslar.md`). Sandık penceresinde önce sallanır, sonra üstünden kalp yükselir. Ekran görüntüleri: `docs/ekran/kararlar/`.
+- Duraklatma başlığı: "Duraklatıldı" kalır.
+- Oyunun adı: "Yurt dışından indirmek isteyen biri için çok zor bir isim, o yüzden DK ile ilgili bir şey düşünmüştüm"; sonra: "Dondurmacı Kızlar oyunu zaten bir keyif meselesi benim için, bu lite oyundan para kazanma ihtimalim var ama o yüzden düşünmedim şu anda". Ad henüz yok; [Kemal]. Şimdilik giriş ekranı aynı.
+- Yıldız: "Puana göre kalsın". Bu soru kapandı.
+- Mevsim: "Şimdilik yaz kalsın, ondan sonra aylık temalar falan yaparız, etkinlikler olur". Bu soru kapandı (yaz); aylık temalar ve etkinlikler "sonra" listesinde.
+- Bölümler ekranı: "Daha küçük sayfalar, mesela 20'li veya 12'li gibi". 20'li sayfa seçildi (satırda 4, 5 satır; telefona sığar); açılınca kaldığın bölümün sayfası gelir, altta önceki/sonraki sayfa okları ve "1–20" yazısı.
+- Eski dallar: "Sil". (Bu oturumdan silme izni yok; GitHub 403 verdi. Kemal GitHub'da siler ya da sonraki oturum.)
+
 ### 0.27 Geri bildirim, araştırma, 10'luk dilim zorluk, sonuç penceresi (Kemal, 5 Kasım 2026 akşamı; öneri)
 
 Kemal'in geri bildirimi: "Butonlarda yazının üzerindeki beyaz ... line'ı beğenmedim. Kapalı bölümlerdeki sürpriz ürünleri soru işareti olarak göster ... Gün sonundaki o fiş ... tutmuyor ... O olmamış. Ayrıca dakikayı yarım saatten 15 dakikaya düşür. Bölümleri de 50'ye getir şu an için. Ama ... nasıl zorluk olacak bilmiyorum. Bu tarz oyunları araştır ... Dükkan kısmını sevmedim. Onu koymayalım hiç."
@@ -723,8 +747,9 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 İlk sürüm için:
 - 11–30. bölümlerin zorluk eğrisi böyle mi? (0.22; sayılar deneme)
 - 500 bölüme giderken harita ve zorluk nasıl olsun? (0.22)
-- Yıldız neye göre verilir? (Kemal'e sorular, 6) Öneri oyununda şimdilik puana göre deneme ölçüsü var (0.7). Kemal (0.8): "Sonra bakariz simdiki kalsin"; soru ertelendi.
-- Hangi sezon.
+- Yıldız neye göre verilir? Kapandı (0.28): puana göre.
+- Hangi sezon: kapandı (0.28): şimdilik yaz; sonra aylık temalar ve etkinlikler.
+- Oyunun yayın adı: [Kemal] (0.28; kısa, DK ile ilgili bir ad düşünülüyor).
 
 Sonrası için:
 - Sonu yok: elle yapılmış bölümler bitince ne olur (kendiliğinden üretilen bölümler, günlük bölüm, ya da bekleme)?

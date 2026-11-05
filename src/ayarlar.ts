@@ -106,9 +106,14 @@ function kuralUrunler(no: number, cesit: number): string[] {
 // öbürleri yavaş artar. Ürünler her bölümün kendi ürünleri kalır; yalnız sayılar değişir.
 // Zor ve çok zor bölümlerdeki artışlar ve rahat bölümün ne kadar kolay olduğu DENEME DEĞERİDİR.
 export type BolumTuru = 'normal' | 'zor' | 'cok-zor' | 'rahat';
+// İlk dilimde (1–10) yalnız 10. bölüm çok zor; 5. ve 6. normal (Kemal, 5 Kasım:
+// ilk zor bölüm "10. bölüm", yeni oyuncu alışsın diye).
 export function bolumTuru(no: number): BolumTuru {
-  const p = ((Math.max(1, Math.floor(no)) - 1) % 10) + 1;
-  return p === 10 ? 'cok-zor' : p === 5 ? 'zor' : p === 6 ? 'rahat' : 'normal';
+  no = Math.max(1, Math.floor(no));
+  const p = ((no - 1) % 10) + 1;
+  if (p === 10) return 'cok-zor';
+  if (no <= 10) return 'normal';
+  return p === 5 ? 'zor' : p === 6 ? 'rahat' : 'normal';
 }
 // Zor bölüm: 2 müşteri fazla, bantta 1 yer az, iki çeşit isteyen biraz fazla.
 const ZOR_EK = { musteri: 2, bantEksik: 1, ikiCesit: 0.1 };
@@ -349,7 +354,22 @@ export const CAN_DOLUM_DK = 15;
 // bazen 1 saat süresiz can versin". 10., 20., 30. ... bölüm ilk kez kazanılınca açılır.
 export const SANDIK_ARALIGI = 10;
 export const SINIRSIZ_CAN_DK = 60;
-// Sandıktan hangisinin çıkacağı: üçü eşit şansla. Bu oran ekibin DENEME değeri
-// (Kemal "bazen" dedi; oranı söylemedi).
+// Sandıktan hangisinin çıkacağı (Kemal, 5 Kasım: "Sınırsız can nadir"): +1 can sık,
+// canlar dolar orta, 1 saat sınırsız can nadir. Şanslar ekibin DENEME değeri.
 export type SandikOdulu = 'bir-can' | 'canlar-dolu' | 'sinirsiz';
-export const SANDIK_ODULLERI: SandikOdulu[] = ['bir-can', 'canlar-dolu', 'sinirsiz'];
+export const SANDIK_SANSLARI: { odul: SandikOdulu; sans: number }[] = [
+  { odul: 'bir-can', sans: 0.5 },
+  { odul: 'canlar-dolu', sans: 0.35 },
+  { odul: 'sinirsiz', sans: 0.15 },
+];
+export function sandikOdulSec(rastgele: number): SandikOdulu {
+  let t = 0;
+  for (const s of SANDIK_SANSLARI) {
+    t += s.sans;
+    if (rastgele < t) return s.odul;
+  }
+  return SANDIK_SANSLARI[0].odul;
+}
+// Bölümler ekranında bir sayfadaki bölüm sayısı (Kemal, 5 Kasım: "Daha küçük sayfalar
+// mesela 20'li veya 12'li gibi"; 20 seçildi: satırda 4, 5 satır telefona sığar).
+export const SAYFADA_BOLUM = 20;

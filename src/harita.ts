@@ -5,7 +5,7 @@
 // satır dizilir ve yalnız kutular kayar. 1. bölüm en üstte solda. Bölüm sayısı
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
-import { BOLUM_SAYISI, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru } from './ayarlar';
+import { BOLUM_SAYISI, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru } from './ayarlar';
 import type { Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -66,8 +66,45 @@ export function haritaCiz(
   izgara.className = 'bolum-izgara';
 
   const acik = Math.min(kayit.acik, BOLUM_SAYISI);
+  // Sayfalar (Kemal, 5 Kasım: "Daha küçük sayfalar"): her sayfada SAYFADA_BOLUM bölüm;
+  // açılınca kaldığın bölümün sayfası gelir. Altta önceki / sonraki sayfa düğmeleri.
+  const sayfaSayisi = Math.ceil(BOLUM_SAYISI / SAYFADA_BOLUM);
+  let sayfa = Math.floor((acik - 1) / SAYFADA_BOLUM);
+  const alt = document.createElement('div');
+  alt.className = 'sayfa-alt';
+  const okDugme = (yon: -1 | 1) => {
+    const d = document.createElement('button');
+    d.className = 'kose-dugme yuvarlak mor sayfa-ok';
+    d.setAttribute('aria-label', yon < 0 ? 'Önceki sayfa' : 'Sonraki sayfa');
+    const o = svgOge('svg', { viewBox: '0 0 24 24', class: 'geri-ok' });
+    o.appendChild(svgOge('path', { d: yon < 0 ? 'M15 5 L8 12 L15 19' : 'M9 5 L16 12 L9 19' }));
+    d.appendChild(o);
+    d.addEventListener('click', () => {
+      const yeni = sayfa + yon;
+      if (yeni < 0 || yeni >= sayfaSayisi) return;
+      sayfa = yeni;
+      ciz();
+      kaydir.scrollTop = 0;
+    });
+    return d;
+  };
+  const onceki = okDugme(-1);
+  const sonraki = okDugme(1);
+  const sayfaYazi = document.createElement('span');
+  sayfaYazi.className = 'sayfa-yazi';
+  alt.append(onceki, sayfaYazi, sonraki);
+
   let simdiki: HTMLButtonElement | null = null;
-  for (let no = 1; no <= BOLUM_SAYISI; no++) {
+  const ciz = () => {
+  izgara.innerHTML = '';
+  simdiki = null;
+  const ilk = sayfa * SAYFADA_BOLUM + 1;
+  const son = Math.min(BOLUM_SAYISI, ilk + SAYFADA_BOLUM - 1);
+  sayfaYazi.textContent = `${ilk}–${son}`;
+  onceki.disabled = sayfa === 0;
+  sonraki.disabled = sayfa >= sayfaSayisi - 1;
+  alt.dataset.sayfa = String(sayfa + 1);
+  for (let no = ilk; no <= son; no++) {
     const kilitli = no > kayit.acik;
     const yildiz = kayit.yildizlar[no - 1] ?? 0;
     const siradaki = !kilitli && yildiz === 0;
@@ -128,13 +165,17 @@ export function haritaCiz(
     if (no === acik) simdiki = d;
     izgara.appendChild(d);
   }
+  };
+  ciz();
   kaydir.appendChild(izgara);
   kutu.appendChild(kaydir);
+  if (sayfaSayisi > 1) kutu.appendChild(alt);
 
   // Açılınca kaldığı bölüm ekranın ortasına gelsin (ekrana eklendikten sonra).
   requestAnimationFrame(() => {
-    if (!simdiki) return;
-    const hedef = simdiki.offsetTop - kaydir.clientHeight / 2 + simdiki.offsetHeight / 2;
+    const k = simdiki as HTMLButtonElement | null;
+    if (!k) return;
+    const hedef = k.offsetTop - kaydir.clientHeight / 2 + k.offsetHeight / 2;
     kaydir.scrollTop = Math.max(0, hedef);
   });
   return kutu;
