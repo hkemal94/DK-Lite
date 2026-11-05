@@ -30,13 +30,27 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.31 Düzada durakları, yeni tatlılar, sade Türk kahvesi, muzlu süt (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Bölümler ekranı (araştırma ve soru turu; Kemal: "Düzada durakları (Önerilen)"):
+- Her sayfa (20 bölüm) adanın bir yeri; sıra Sahil Yolu'nun sırası: 1–20 Liman, 21–40 Stadyum, 41–60 Çiftlik (sonra İskele). Yer adları yalnız künyeden.
+- Başlıkta yerin adı ve altında o sayfadaki ilerleme ("11/20"). Kaldığın bölümün kutusunun üstünde dondurmacının başı hafifçe zıplar.
+- Arka plan: Canva'da her yerin manzarası çizildi ama Kemal beğenmedi ("görsel dilimize uygun değil ... renkler olsun arka plan olarak"); her durak kendi renginde desenli zemin: Liman mor, Stadyum deniz mavisi, Çiftlik zeytin yeşili.
+
+Ürünler (Kemal: "Türk kahvesi fincanı daha sade olsun"; "Dondurmacıda ayrana gerek yok onu muzlu süte çevir biraz krem rengi yaparak"; "Biraz daha tatlı çizebilirsin"):
+- Türk kahvesi sade beyaz fincanda yeniden çizildi. Ayran çıktı; yerine krem rengi muzlu süt. Yeni tatlılar: sütlaç, lokma, profiterol. Hepsi Canva (kaynak `docs/lisanslar.md`).
+- Yeni tatlılarla her zorlu bölüm (10'dan sonra her 5 bölümde bir) bir hediye verir (DENEME sırası): 10 çay, 15 sütlaç, 20 Türk kahvesi, 25 lokma, 30 sakızlı, 35 profiterol, 40 baklava, 45 muzlu süt. Ürün sonraki bölümde ilk kez gelir.
+- "Biraz daha tatlı çizebilirsin" ekip tarafından "birkaç tatlı daha" diye anlaşıldı; Kemal "daha sevimli çiz" demek istediyse ona dönülecek.
+- 50 bölümün hepsi kazanılabilir kuruldu (en yavaşı 45. bölüm).
+- Ekran görüntüsü: `docs/ekran/duraklar/`.
+
 ### 0.30 Sandık açılır, zor bölümler yazısız (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal: "Sandık işini sevmedim. Çünkü açılmıyor, duruyor, durduğu yerden üzerine bir kalp geliyor. Onu ... ışıklar içinde geldiği gibi yapalım, hediye gibi. Zor bölümlerin renklenmesini sevmedim. ... çok daha soft ... bir ton kırmızıya yakınını zorluk ayırt etmeksizin hiçbir bilgi vermeden koyabilirsin. ... gidecek olan kişi onun biraz daha zorlu olduğunu bilir."
 
 - Sandık: Canva'da açık hâli de çizildi (içinden ışık ve hediye kutusu). Penceredeki sıra: sandık yukarıdan düşerek gelir, sallanır, beyaz bir parlamayla açık hâline geçer, arkasında dönen sarı ışık açılır, parıltılar saçılır, ödülün kalbi içinden yükselir, sonra ödülün yazısı belirir.
 - Zor bölümler: kırmızı kutular, "Zor" / "Çok zor" etiketleri, bölüm başındaki "Zor bölüm" afişi ve üst şeritteki kırmızımsı numara kalktı. Bölümler ekranında zor ve çok zor bölümler aynı, yumuşak bir kırmızımsı mor tonda (kilitliyken soluk pembemsi krem); hiçbir yazı yok.
-- Hediye ürünler (Kemal: türler "Türk kahvesi, Yeni dondurma çeşitleri, Ege tatlıları, Soğuk içecekler"; "On bölümde bir yeni ürün gelirse kurtarıyor aslında"; çay "Evet, taşınsın"): her çok zor bölüm (10, 20, 30, 40, 50) bir ürün hediye eder; ilk kez kazanınca "Yeni ürün!" penceresi çıkar, ürün sonraki bölümde ilk kez gelir. Sıra (DENEME): 10 çay, 20 Türk kahvesi, 30 sakızlı dondurma, 40 baklava, 50 ayran (51. bölüm gelince). Çay ve kahve artık ilk 9 bölümde yok (8. bölümde gazoz, 9.'da limonata). Kahve resmi Türk kahvesi olarak yeniden çizildi; sakızlı, baklava, ayran yeni (Canva; kaynak `docs/lisanslar.md`).
+- Hediye ürünler (Kemal: türler "Türk kahvesi, Yeni dondurma çeşitleri, Ege tatlıları, Soğuk içecekler"; "On bölümde bir yeni ürün gelirse kurtarıyor aslında"; çay "Evet, taşınsın"): her çok zor bölüm (10, 20, 30, 40, 50) bir ürün hediye eder; ilk kez kazanınca "Yeni ürün!" penceresi çıkar, ürün sonraki bölümde ilk kez gelir. Sıra (DENEME): 10 çay, 20 Türk kahvesi, 30 sakızlı dondurma, 40 baklava, 50 ayran (51. bölüm gelince). (0.31 ile değişti: ayran çıktı, yeni tatlılar geldi, her zorlu bölüm hediye verir.) Çay ve kahve artık ilk 9 bölümde yok (8. bölümde gazoz, 9.'da limonata). Kahve resmi Türk kahvesi olarak yeniden çizildi; sakızlı, baklava, ayran yeni (Canva; kaynak `docs/lisanslar.md`).
 - Bölümler ekranında hediye, onu veren bölümün kutusunun köşesinde: kazanılmamışsa "?", kazanılmışsa ürünün resmi. İlk bölümlerdeki ürün resimleri de aynı mantıkla bir kutu öne kaydı (ör. fıstık 1. bölümün köşesinde: 1'i kazanınca açılır). Ekran görüntüsü: `docs/ekran/hediye-urunler/`.
 - 50 bölümün hepsi kazanılabilir kuruldu (en yavaşı 35. bölüm, 1 saniyenin altında).
 - Ekran görüntüleri: `docs/ekran/sandik-acilis/`.

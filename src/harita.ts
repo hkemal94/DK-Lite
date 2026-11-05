@@ -10,6 +10,17 @@ import type { Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
 
+// Düzada durakları (Kemal, 5 Kasım 2026 gecesi: Bölümler ekranı "Düzada durakları"):
+// her sayfa (20 bölüm) adanın bir yeri; her yerin kendi renginde desenli zemin (Kemal:
+// sahne çizimleri "görsel dilimize uygun değil ... renkler olsun arka plan olarak"). Sıra Sahil
+// Yolu'nun sırası (tasarım belgesi 2.3, 0.11): Liman → Stadyum → Çiftlik → İskele.
+// Yer adları yalnız künyeden (KKM docs/03-duzada-kunyesi.md). Sayfa sayısı durak
+// sayısını geçerse duraklar baştan tekrar eder.
+const DURAKLAR = [{ ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }];
+// Kaldığın bölümün üstünde dondurmacının başı.
+const DONDURMACI_BAS = 'gorseller/dondurmaci-bas.webp';
+
+
 function svgOge<K extends keyof SVGElementTagNameMap>(ad: K, nitelik: Record<string, string | number>) {
   const o = document.createElementNS(NS, ad);
   for (const [k, v] of Object.entries(nitelik)) o.setAttribute(k, String(v));
@@ -48,7 +59,13 @@ export function haritaCiz(
   const baslik = document.createElement('div');
   baslik.className = 'liste-baslik';
   baslik.textContent = 'Bölümler';
-  ust.append(geri, baslik);
+  // Başlığın altında sayfadaki ilerleme ("12/20" gibi: geçilen bölüm / sayfadaki bölüm).
+  const ilerleme = document.createElement('div');
+  ilerleme.className = 'durak-ilerleme';
+  const baslikKutu = document.createElement('div');
+  baslikKutu.className = 'durak-baslik';
+  baslikKutu.append(baslik, ilerleme);
+  ust.append(geri, baslikKutu);
   kutu.appendChild(ust);
 
   if (s.bittiYazisi) {
@@ -101,6 +118,12 @@ export function haritaCiz(
   const ilk = sayfa * SAYFADA_BOLUM + 1;
   const son = Math.min(BOLUM_SAYISI, ilk + SAYFADA_BOLUM - 1);
   sayfaYazi.textContent = `${ilk}–${son}`;
+  const durak = DURAKLAR[sayfa % DURAKLAR.length];
+  baslik.textContent = durak.ad;
+  kutu.dataset.durak = String(sayfa % DURAKLAR.length);
+  let gecilen = 0;
+  for (let n = ilk; n <= son; n++) if ((kayit.yildizlar[n - 1] ?? 0) > 0) gecilen++;
+  ilerleme.textContent = `${gecilen}/${son - ilk + 1}`;
   onceki.disabled = sayfa === 0;
   sonraki.disabled = sayfa >= sayfaSayisi - 1;
   alt.dataset.sayfa = String(sayfa + 1);
@@ -136,7 +159,7 @@ export function haritaCiz(
     }
     // Hediye: bu bölüm kazanılınca açılacak ürün kutunun köşesinde (kapalıyken "?").
     // Kemal (5 Kasım gecesi): zor bölüme "verilecek hediyeyi koyarız. O soru işaretini koyarız".
-    // Çok zor bölümler (10, 20, 30, 40) çay, Türk kahvesi, sakızlı, baklava verir.
+    // Zorlu bölümler (10, 15, 20, ... 45) birer ürün verir (HEDIYE_URUNLER).
     const yeni = no < BOLUM_SAYISI ? bolumdeYeniUrunler(no + 1) : [];
     if (yeni.length > 0) {
       const rozet = document.createElement('span');
@@ -159,7 +182,16 @@ export function haritaCiz(
       if (no > kayit.acik) return; // kilitli: başlamaz
       s.bolumSec(no);
     });
-    if (no === acik) simdiki = d;
+    if (no === acik) {
+      simdiki = d;
+      // Kaldığın bölüm: üstünde dondurmacının başı.
+      const bas = document.createElement('img');
+      bas.className = 'bolum-kutu-bas';
+      bas.src = DONDURMACI_BAS;
+      bas.alt = '';
+      bas.draggable = false;
+      d.appendChild(bas);
+    }
     izgara.appendChild(d);
   }
   };

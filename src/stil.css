@@ -1978,3 +1978,68 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
   0% { transform: translateY(50px) scale(0.2); opacity: 0; }
   100% { transform: translateY(-14px) scale(1.15); opacity: 1; }
 }
+
+/* ---------- Düzada durakları (5 Kasım 2026 gecesi) ----------
+   Her sayfa adanın bir yeri: arkada o yerin çizimi, kaymaz; üstünde kutular. */
+.harita-kutu.kutulu {
+  position: relative;
+  background-color: var(--bant);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.durak-baslik { display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.durak-ilerleme {
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--mor);
+  background: var(--sari);
+  border: 2px solid var(--hat);
+  border-radius: 999px;
+  padding: 0 8px;
+}
+.bolum-kutu-bas {
+  position: absolute;
+  left: 50%;
+  top: -26px;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  border-radius: 50%;
+  background: #fff7ea;
+  border: 3px solid var(--hat);
+  box-shadow: 0 3px 0 rgba(40, 14, 60, 0.4);
+  object-fit: cover;
+  z-index: 2;
+  animation: bas-zipla 1.4s ease-in-out infinite;
+}
+@keyframes bas-zipla {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.bolum-izgara { padding-top: 30px; }
+
+/* Düzada durakları: her durak kendi renginde desenli zemin (5 Kasım 2026 gecesi; sahne çizimleri yerine).
+   Liman mor, Stadyum deniz mavisi, Çiftlik zeytin yeşili. */
+.harita-kutu.kutulu[data-durak="0"] {
+  background-color: #8a4cbc;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #b27fe0 0%, #8a4cbc 38%, #5e2b86 78%, #4e2470 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+  transition: background-color 0.3s;
+}
+.harita-kutu.kutulu[data-durak="1"] {
+  background-color: #3fa6c4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #7fd3e6 0%, #3fa6c4 38%, #23779a 78%, #1b5f7e 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+  transition: background-color 0.3s;
+}
+.harita-kutu.kutulu[data-durak="2"] {
+  background-color: #93b456;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #c6d98a 0%, #93b456 38%, #64853a 78%, #4f6b2c 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+  transition: background-color 0.3s;
+}
