@@ -306,7 +306,7 @@ const kurulanlar = new Map<number, Bolum>();
 // aynı dizilimi verir: tohum numaradan gelir, geçmeyen denemeden sonra aynı
 // üretecin devamıyla bir sonraki deneme kurulur.
 export function bolumKur(no: number): Bolum {
-  no = Math.min(Math.max(1, Math.floor(no)), BOLUM_SAYISI);
+  no = Math.min(Math.max(0, Math.floor(no)), BOLUM_SAYISI);
   const hazir = kurulanlar.get(no);
   if (hazir) return hazir;
   const r = uretecKur(bolumTohumu(no));

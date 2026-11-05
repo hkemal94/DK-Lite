@@ -7,7 +7,10 @@
 // Kaç bölüm var. Kemal'in kararı (22 Ekim): ilk sürüm 10 bölüm.
 // Kemal, 29 Ekim 2026: "bölümleri 30'a çıkarabilirsin" (ileride yaklaşık 500 bölüm).
 // Sayı yalnız burada değişir; harita, kayıt ve zorluk kendiliğinden uyar.
-export const BOLUM_SAYISI = 50; // Kemal, 5 Kasım 2026: "Bölümleri de 50'ye getir şu an için"
+// Kemal, 5 Kasım 2026 gecesi: "kaç adet yeni ürünümüz varsa ona göre onluk sistemde yeni
+// bölüm hazırla" → 15 hediye ürün, her 10 bölümde bir; "150 bölüm". Bunun önünde 0. bölüm
+// (ipuçlu başlangıç bölümü) var; o BOLUM_SAYISI'na girmez.
+export const BOLUM_SAYISI = 150;
 
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
@@ -18,6 +21,7 @@ export interface BolumZorlugu {
   istekEnCok: number; // bir müşterinin istediği adet: en çok
   bantYeri: number; // bantta kaç yer var
   ikiCesitOrani: number; // müşterilerin ne kadarı iki çeşit ister (0: hiçbiri, 0.5: yarısı)
+  cesit?: number; // kuralla kurulan bölümde çeşit sayısı (ürünler sonra seçilir)
 }
 
 // Zorluk tablosu: sıra bölüm numarasıdır (ilk satır Bölüm 1).
@@ -82,45 +86,62 @@ function kuralIkiCesit(no: number): number {
 // Ürünler: yalnız URUNLER'deki mevcut ürünler. Her bölümde iki dondurma çeşidi;
 // kalan yerler tatlı ve içecekten dönüşümlü. Seçim bölüm numarasından çıkar,
 // aynı bölüm her açılışta aynı ürünleri verir. Hangi bölümde hangi ürün: DENEME.
-// Hediye ürünler: her 10 bölümde bir, çok zor bölümün (10, 20, 30 ...) hediyesi. O bölüm
-// ilk kez kazanılınca açılır ("?" kutusu), sonraki bölümde ilk kez gelir, sonra dönüşüme girer.
-// Çay ve Türk kahvesi önce 8. ve 9. bölümde geliyordu; Kemal: "Evet, taşınsın". Sıra DENEME.
-// Yeni tatlılarla (5 Kasım gecesi) her zorlu bölüm (10'dan sonra 5. ve 10.) bir hediye verir.
-export const HEDIYE_URUNLER: Record<string, number> = {
-  cay: 10, sutlac: 15, kahve: 20, lokma: 25, sakizli: 30, profiterol: 35, baklava: 40, 'muzlu-sut': 45,
-};
+// ---------- Ürün düzeni: başlangıç ve hediyeler (Kemal, 5 Kasım 2026 gecesi) ----------
+// Başlangıçta yalnız üç dondurma. Geri kalan bütün ürünler hediye: 0. bölümde ve sonra her
+// 10 bölümde bir (10, 20 ... 140), birer birer (Kemal: "1'er 1'er"): içecek, dondurma, tatlı
+// sırayla. Hediye o bölüm ilk kez kazanılınca açılır; ürün sonraki bölümde ilk kez gelir.
+// "İlk onda başka hediye istemiyorum": ilk bölümlerdeki ürünler de bu sıraya taşındı.
+export const BASLANGIC_URUNLERI = ['cikolata', 'cilek', 'limon'];
+export const HEDIYE_SIRASI = [
+  'limonata', 'fistik', 'pasta', 'gazoz', 'vanilya', 'kek', 'cay', 'sakizli',
+  'meyve', 'kahve', 'sutlac', 'muzlu-sut', 'lokma', 'profiterol', 'baklava',
+];
+export const HEDIYE_ARALIGI = 10;
+// Ürünün hediye olarak verildiği bölüm (başlangıç ürünleri için -1).
+export function hediyeBolumu(id: string): number {
+  const i = HEDIYE_SIRASI.indexOf(id);
+  return i < 0 ? -1 : i * HEDIYE_ARALIGI;
+}
+// Bu bölüm ilk kez kazanılınca açılan hediye ürün (yoksa null).
+export function bolumHediyesi(no: number): string | null {
+  if (no < 0 || no % HEDIYE_ARALIGI !== 0) return null;
+  return HEDIYE_SIRASI[no / HEDIYE_ARALIGI] ?? null;
+}
 function urunIzinli(id: string, no: number): boolean {
-  const h = HEDIYE_URUNLER[id];
-  return h === undefined || no > h;
+  return no > hediyeBolumu(id);
 }
 
-function kuralUrunler(no: number, cesit: number): string[] {
-  const tur = (t: UrunTuru) => URUNLER.filter((u) => u.tur === t && urunIzinli(u.id, no)).map((u) => u.id);
-  const dondurma = tur('dondurma');
-  const tatli = tur('tatli');
-  const icecek = tur('icecek');
-  const secim = [dondurma[no % dondurma.length], dondurma[(no + 2) % dondurma.length]];
+// Bölümün ürünleri: o bölüme kadar açılmış ürünlerden, bölüm numarasına göre dönüşümlü
+// (aynı bölüm her açılışta aynı). En az iki dondurma; kalanı tatlı ve içecekten. Bir önceki
+// bölümde açılan hediye bu bölümde mutlaka gelir. Hangi bölümde hangi ürün: DENEME.
+function bolumUrunleri(no: number, cesit: number): string[] {
+  const havuz = URUNLER.map((u) => u.id).filter((id) => urunIzinli(id, no));
+  const tur = (id: string) => URUNLER.find((u) => u.id === id)?.tur;
+  const dondurma = havuz.filter((id) => tur(id) === 'dondurma');
+  const tatli = havuz.filter((id) => tur(id) === 'tatli');
+  const icecek = havuz.filter((id) => tur(id) === 'icecek');
+  cesit = Math.min(cesit, havuz.length);
+  const secim: string[] = [];
+  const ekle = (id: string | undefined) => {
+    if (id && !secim.includes(id) && secim.length < cesit) secim.push(id);
+  };
+  ekle(bolumHediyesi(no - 1) ?? undefined);
+  const dondurmaSayisi = Math.min(dondurma.length, Math.max(2, cesit - tatli.length - icecek.length));
+  for (let k = 0; secim.filter((id) => tur(id) === 'dondurma').length < dondurmaSayisi && k < dondurma.length; k++) {
+    ekle(dondurma[(no + 2 * k) % dondurma.length]);
+  }
   let t = 0;
   let c = 0;
-  for (let k = 0; secim.length < cesit; k++) {
-    // Çift numaralı bölüm tatlıyla, tek numaralı içecekle başlar (dönüşümlü).
+  for (let k = 0; secim.length < cesit && k < 40; k++) {
     const tatliSirasi = (k + no) % 2 === 0;
-    if (tatliSirasi && t < tatli.length) secim.push(tatli[(no + t++) % tatli.length]);
-    else if (c < icecek.length) secim.push(icecek[(no + c++) % icecek.length]);
-    else secim.push(tatli[(no + t++) % tatli.length]);
+    if (tatliSirasi && t < tatli.length) ekle(tatli[(no + t++) % tatli.length]);
+    else if (c < icecek.length) ekle(icecek[(no + c++) % icecek.length]);
+    else if (t < tatli.length) ekle(tatli[(no + t++) % tatli.length]);
+    else ekle(dondurma[(no + k) % dondurma.length]);
   }
-  // Hediye ürün, açıldığı bölümden sonraki bölümde mutlaka gelir ("Sonraki bölümde gelir").
-  for (const [id, h] of Object.entries(HEDIYE_URUNLER)) {
-    if (no !== h + 1 || secim.includes(id)) continue;
-    const u = URUNLER.find((x) => x.id === id);
-    let yer = secim.length - 1;
-    for (let k = secim.length - 1; k >= 0; k--) {
-      if (URUNLER.find((x) => x.id === secim[k])?.tur === u?.tur) { yer = k; break; }
-    }
-    secim[yer] = id;
-  }
-  return [...new Set(secim)];
+  return secim;
 }
+
 
 // ---------- 10'luk dilimlerde testere dişi zorluk (Kemal, 5 Kasım 2026: "10'luk dilim") ----------
 // Araştırma: docs/arastirma-zorluk-ve-baglilik.md. Her 10 bölüm bir dilim:
@@ -149,7 +170,19 @@ const IKI_CESIT_EN_COK = 0.8;
 
 // Bölüm numarasına (1'den) göre zorluk: önce düz artan taban, sonra bölümün türüne göre ayar.
 export function bolumZorlugu(no: number): BolumZorlugu {
-  no = Math.max(1, Math.floor(no));
+  no = Math.max(0, Math.floor(no));
+  if (no === 0) return OGRETICI_BOLUM;
+  const z = sayilarlaZorluk(no);
+  return { ...z, urunler: bolumUrunleri(no, z.urunler.length || z.cesit || 3) };
+}
+
+// 0. bölüm (Kemal: "0. Bölüm yap istersen tutorial gibi"; "İpuçlu kolay bölüm"): üç müşteri,
+// başlangıçtaki üç dondurma, geniş bant. Kaybedilmez (kaybederse sessizce yeniden başlar).
+const OGRETICI_BOLUM: BolumZorlugu = {
+  sutun: 4, urunler: BASLANGIC_URUNLERI, musteri: 3, istekEnAz: 2, istekEnCok: 2, bantYeri: 12, ikiCesitOrani: 0,
+};
+
+function sayilarlaZorluk(no: number): BolumZorlugu & { cesit?: number } {
   const t = tabanZorluk(no);
   const tur = bolumTuru(no);
   const yuvarla = (x: number) => Math.round(x * 100) / 100;
@@ -182,7 +215,8 @@ function tabanZorluk(no: number): BolumZorlugu {
   const cesit = kuralCesit(no);
   return {
     sutun: 4, // sabit (Kemal'in 22 Ekim kararıyla tabloda da 4'te kaldı)
-    urunler: kuralUrunler(no, cesit),
+    urunler: [], // bolumZorlugu'nda bolumUrunleri ile dolar
+    cesit,
     musteri: kuralMusteri(no),
     istekEnAz: 3, // sabit: istek 3–5, 10. bölümdeki gibi
     istekEnCok: 5,
@@ -357,23 +391,12 @@ export function urunSirasi(id: string): number {
   return i;
 }
 
-// ---------- Kazanç: yeni ürün açılır (Kemal, 5 Kasım 2026) ----------
-// Kemal: "Oyun sadece başarı üzerine kurulu ve bölümleri geçtikçe bir kazancı yok";
-// dört kazanç türü de istendi, ilk paket "Yeni ürün açılır".
-// Bir ürün, ilk geldiği bölümden bir önceki bölüm ilk kez kazanılınca "açılır".
-// Hangi ürünün hangi bölümde ilk geldiği zorluk tablosundan çıkar (DENEME).
-// 1. bölümün ürünleri başlangıçta açık sayılır.
-export function ilkGeldigiBolum(id: string): number {
-  for (let no = 1; no <= BOLUM_SAYISI; no++) {
-    if (bolumZorlugu(no).urunler.includes(id)) return no;
-  }
-  return Infinity;
-}
-
-// Bu bölümde ilk kez gelen ürünler (URUNLER'deki id). 1. bölümde boş.
+// ---------- Kazanç: yeni ürün açılır ----------
+// Bu bölümde ilk kez gelen hediye ürün(ler) (bir önceki bölümün hediyesi). 5 Kasım gecesinden
+// beri yalnız hediyeler "yeni ürün" sayılır (0, 10, 20 ... bölümlerin hediyesi).
 export function bolumdeYeniUrunler(no: number): string[] {
-  if (no <= 1) return [];
-  return bolumZorlugu(no).urunler.filter((id) => ilkGeldigiBolum(id) === no);
+  const h = bolumHediyesi(no - 1);
+  return h ? [h] : [];
 }
 
 // ---------- Can ve ödül sandığı (Kemal, 5 Kasım 2026) ----------
@@ -403,4 +426,5 @@ export function sandikOdulSec(rastgele: number): SandikOdulu {
 }
 // Bölümler ekranında bir sayfadaki bölüm sayısı (Kemal, 5 Kasım: "Daha küçük sayfalar
 // mesela 20'li veya 12'li gibi"; 20 seçildi: satırda 4, 5 satır telefona sığar).
-export const SAYFADA_BOLUM = 20;
+// 5 Kasım gecesi: 150 bölüm, künyedeki 5 mahalle; Kemal: "bir mahalleye de 30'ar bölüm koyabilirsin".
+export const SAYFADA_BOLUM = 30;

@@ -34,7 +34,7 @@ import {
 } from './ayarlar';
 import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
-import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, type Ayarlar, type Kayit } from './kayit';
+import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
 import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, sandikOdulSec, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
 import {
@@ -290,6 +290,7 @@ export class Oyun {
   // Oyuncu bu bölüme kendi başladı mı (can için: kaybedince ya da yarıda
   // bırakınca 1 can gider). Açılışta arkada hazır duran bölüm sayılmaz.
   private basladi = false;
+  private ipucuEl!: HTMLDivElement;
 
   constructor(kok: HTMLElement) {
     this.kok = kok;
@@ -308,6 +309,39 @@ export class Oyun {
     // Can göstergeleri her saniye yenilenir (dolum süresi, sınırsız can süresi).
     this.canCiz();
     window.setInterval(() => this.canCiz(), 1000);
+    // 0. bölümde ipucu eli: hangi sütuna dokunulacağını gösterir.
+    this.ipucuEl = document.createElement('div');
+    this.ipucuEl.className = 'ipucu-el gizli';
+    this.ipucuEl.innerHTML = EL_SVG;
+    this.sahne.appendChild(this.ipucuEl);
+    window.setInterval(() => this.ipucuGuncelle(), 300);
+  }
+
+  // 0. bölüm (Kemal: "İpuçlu kolay bölüm"): bir müşterinin istediği ürün hangi sütunun
+  // en üstündeyse el işareti o sütunu gösterir. Başka bölümde görünmez.
+  private ipucuGuncelle() {
+    const el = this.ipucuEl;
+    if (!this.bolum || this.bolum.no !== 0 || !this.oynuyor()) {
+      el.classList.add('gizli');
+      return;
+    }
+    const ihtiyac = new Map<number, number>();
+    for (const m of this.musteriYerleri) {
+      if (!m || m.durum !== 'bekliyor') continue;
+      for (const p of m.parcalar) ihtiyac.set(p.cesit, (ihtiyac.get(p.cesit) ?? 0) + p.kalan);
+    }
+    for (const t of this.toplar) {
+      if (t.durum === 'bantta' || t.durum === 'ucuyor') ihtiyac.set(t.cesit, (ihtiyac.get(t.cesit) ?? 0) - 1);
+    }
+    const hedef = this.sutunlar.findIndex((s) => s.length > 0 && (ihtiyac.get(s[s.length - 1]) ?? 0) > 0);
+    if (hedef < 0) {
+      el.classList.add('gizli');
+      return;
+    }
+    const s = this.sutunEller[hedef];
+    el.style.left = `${s.offsetLeft + s.offsetWidth / 2}px`;
+    el.style.top = `${s.offsetTop + 8}px`;
+    el.classList.remove('gizli');
   }
 
   // ---------- kurulum ----------
@@ -517,7 +551,7 @@ export class Oyun {
     // bittiyse bölüm haritası açılır.
     basla.addEventListener('click', () => {
       if (hepsiBitti(this.kayit)) this.listeAc('giris');
-      else this.bolumBaslat(this.kayit.acik);
+      else this.bolumBaslat(ogreticiBittiMi() ? this.kayit.acik : 0);
     });
     const bolumler = document.createElement('button');
     bolumler.className = 'dugme krem';
@@ -626,7 +660,7 @@ export class Oyun {
   // Can: bölüm yarıda bırakılıyorsa 1 can gider; can yoksa bölüm başlamaz,
   // "Can yok" penceresi çıkar (Kemal, 5 Kasım).
   private bolumBaslat(no: number) {
-    if (no < 1 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
+    if (no < 0 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
     if (this.basladi && !this.bitti) {
       canKaybet();
       this.basladi = false;
@@ -639,18 +673,19 @@ export class Oyun {
         this.girisAc();
       }
     }
-    if (!canVar()) {
+    // 0. bölüm can istemez ve can harcatmaz.
+    if (no > 0 && !canVar()) {
       this.canYokGoster();
       return;
     }
     this.yenidenBasla(no);
-    this.basladi = true;
+    this.basladi = no > 0;
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
   // (Tekrar oyna da budur). Kilitli bölüm başlamaz.
   yenidenBasla(no: number) {
-    if (no < 1 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
+    if (no < 0 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
     this.listeKapat();
     this.girisKapat();
     this.duraklatildi = false;
@@ -1440,14 +1475,22 @@ export class Oyun {
     this.sonEl.innerHTML = '';
     const kazandi = sonuc === 'kazandin';
     const no = this.bolum.no;
+    // 0. bölüm kaybedilmez: kaybederse sonuç penceresi çıkmadan sessizce yeniden başlar.
+    if (no === 0 && !kazandi) {
+      this.sonEl.className = 'son gizli';
+      this.yenidenBasla(0);
+      return;
+    }
+    const ogreticiIlkKez = no === 0 && kazandi && !ogreticiBittiMi();
+    if (no === 0 && kazandi) ogreticiBitti();
     const yildiz = kazandi ? this.yildizSayisi() : 0;
     // Kayıt: en iyi yıldız saklanır, sonraki bölüm açılır.
     // Yeni ürün (kazanç, 5 Kasım): bu bölüm ilk kez kazanılıyorsa ve sonraki
     // bölümde ilk kez gelen ürün varsa, fişten önce "Yeni ürün!" penceresi çıkar.
-    const ilkKez = kazandi && this.kayit.acik < no + 1 && no + 1 <= BOLUM_SAYISI;
+    const ilkKez = no === 0 ? ogreticiIlkKez : kazandi && this.kayit.acik < no + 1 && no + 1 <= BOLUM_SAYISI;
     const yeniUrunler = ilkKez ? bolumdeYeniUrunler(no + 1) : [];
     // Sandık (5 Kasım): 10., 20., 30. ... bölüm ilk kez kazanılınca.
-    const ilkKazanma = kazandi && (this.kayit.yildizlar[no - 1] ?? 0) === 0;
+    const ilkKazanma = kazandi && no > 0 && (this.kayit.yildizlar[no - 1] ?? 0) === 0;
     const sandik: SandikOdulu | null =
       ilkKazanma && no % SANDIK_ARALIGI === 0
         ? sandikOdulSec(Math.random())
@@ -1460,7 +1503,7 @@ export class Oyun {
     if (!kazandi && this.basladi) canGitti = canKaybet();
     this.basladi = false;
     this.canCiz();
-    if (kazandi) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
+    if (kazandi && no > 0) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
 
     // Sonuç penceresi (Kemal, 5 Kasım akşamı: fiş "olmamış"; "Sonuç penceresi"):
     // ayarlar gibi krem pencere, üstte mor şeritte bölüm numarası; büyük yıldızlar,
@@ -1917,3 +1960,7 @@ const KALP_BUYUK_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5C5.2 16 2 12.6 2 8.6 2 5.6 4.4 3.3 7.2 3.3c1.9 0 3.6 1 4.8 2.6 1.2-1.6 2.9-2.6 4.8-2.6 2.8 0 5.2 2.3 5.2 5.3 0 4-3.2 7.4-10 12.9Z" fill="#e0483f" stroke="#5a3a22" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.2 6.6c.8-.9 2-1.2 3-.9" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="1.6" stroke-linecap="round"/></svg>';
 const SANDIK_RESMI = 'gorseller/sandik.webp';
 const SANDIK_ACIK_RESMI = 'gorseller/sandik-acik.webp';
+
+// 0. bölümdeki ipucu eli (işaret parmağı aşağıyı gösterir; ekibin basit çizimi).
+const EL_SVG =
+  '<svg viewBox="0 0 48 56" aria-hidden="true"><path d="M20 4c3 0 5 2 5 5v17l2-1c2-1 5 0 6 2l1 1 2-1c2-1 5 0 6 2l1 2c2-1 4 0 5 2 1 4 0 10-2 14-3 6-8 9-14 9h-6c-5 0-8-3-11-7L6 34c-2-2-2-5 0-7 2-1 5-1 7 1l2 3V9c0-3 2-5 5-5Z" fill="#fff" stroke="#5a3a22" stroke-width="3" stroke-linejoin="round" transform="rotate(180 24 28)"/></svg>';
