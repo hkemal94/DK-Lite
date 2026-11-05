@@ -21,7 +21,7 @@ yalnız yazılı tarif kullanıldı.
 | `public/gorseller/bar/` | Bar rafındaki kafe eşyaları: kahve makinesi, bardaklar, şeker kavanozu, külah yığını, iki şurup şişesi, saksı, kâse | https://www.canva.com/M/MAHZYp3Zon8 |
 | `public/gorseller/tezgah/dondurmaci-seviniyor.webp` | Bölüm sonunda sevinen dondurmacı (ilk dondurmacı resmi örnek verilerek çizildi) | https://www.canva.com/M/MAHZYtcIINg |
 | `public/gorseller/sahil-yolu.webp` | Bölüm seçme ekranının sahil manzarası (altta resmin kendisi, üstte aynadaki hâli) | https://www.canva.com/M/MAHZYktAkfQ |
-| `public/gorseller/arka-plan.webp` | Dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları | https://www.canva.com/M/MAHZYh4YtGo |
+| `public/gorseller/arka-plan.webp` | Dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları (5 Kasım 2026'dan beri oyunda görünmüyor; yerine desenli mor zemin) | https://www.canva.com/M/MAHZYh4YtGo |
 
 Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
 işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
@@ -44,6 +44,7 @@ ayrılsın diye biraz daha sarı yapıldı.
 | Dosya | Ne | Kaynak | Lisans |
 |---|---|---|---|
 | `public/gorseller/logo-yazi.webp` | Dükkânın logosu (yazı) | Kemal'in logosu; Dondurmacı Kızlar `public/gorseller/logo-yazi.webp` | Kemal'in (Kems Company) |
+| `public/gorseller/logo-kulahli.webp` | Külahlı logo (5 Kasım 2026; giriş ekranı ve bölüm sonu fişi). Yalnız 600 piksel enine küçültüldü | Kemal'in logosu (14 Ekim'de gönderdi); Dondurmacı Kızlar `public/gorseller/logo-kulahli.webp` | Kemal'in (Kems Company) |
 
 29 Ekim'de Dondurmacı Kızlar'dan alınan geçici 3B resimler (müşteriler, külahlar,
 sundae, krem şanti, yazar kasa, külah figürü, üniformalı çalışan) 7. pakette

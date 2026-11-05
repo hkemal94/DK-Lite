@@ -86,12 +86,13 @@ export function haritaCiz(
   const ust = document.createElement('div');
   ust.className = 'harita-ust';
   const geri = document.createElement('button');
-  geri.className = 'harita-geri';
+  geri.className = 'harita-geri kose-dugme yuvarlak mor';
   geri.id = 'harita-geri';
   geri.setAttribute('aria-label', 'Geri');
   const ok = svgOge('svg', { viewBox: '0 0 24 24', class: 'geri-ok' });
   ok.appendChild(svgOge('path', { d: 'M15 5 L8 12 L15 19' }));
-  geri.append(ok, document.createTextNode('Geri'));
+  // Yuvarlak mor düğmede yalnız ok (arayüz dili, 5 Kasım); "Geri" yazısı ekran okuyucu için.
+  geri.append(ok);
   geri.addEventListener('click', s.geri);
   const baslik = document.createElement('div');
   baslik.className = 'liste-baslik';
