@@ -37,7 +37,7 @@ alttaki "Geçmiş notlar" bölümüne taşındı.
   - 4) Para ve market: para modeli konuşulunca.
 - Geri bildirim ve zorluk (5 Kasım 2026 akşamı, öneri; `ajans/can-sandik` dalında devam): düğmelerde beyaz çizgi kalktı; kapalı bölümde sürpriz ürün "?"; can 15 dakikada dolar; 50 bölüm; araştırma (`docs/arastirma-zorluk-ve-baglilik.md`) ve Kemal'in seçtiği 10'luk dilim zorluk (5. bölüm zor, 6. rahat, 10. çok zor; işaretli); fiş yerine sonuç penceresi. Tasarım belgesi 0.27; ekran görüntüleri `docs/ekran/sonuc-penceresi/`. Telefonda denenmedi.
 - Kemal'in kararları (5 Kasım gecesi; tasarım belgesi 0.28; öneri `ajans/kararlar`): ilk zor bölüm 10. bölüm; sandıkta sınırsız can nadir (%15); sandık Canva'da çizilir; Bölümler ekranı 20'li sayfalar; yıldız puana göre; mevsim şimdilik yaz (sonra aylık temalar, etkinlikler); oyunun yayın adı [Kemal].
-- Müşteri renk çeşitleri (5 Kasım gecesi, öneri; `ajans/musteri-renk`): 10 kişiden 46 görünüş (kıyafetin mavisi kırmızı/mor/yeşil/pembe); sırada parça parça kombinasyon ve Canva'da yeni kişiler (Kemal: "Hepsi"). Tasarım belgesi 0.29.
+- Müşteri renk çeşitleri (5 Kasım gecesi, öneri; `ajans/musteri-renk`): 10 kişiden 46 görünüş (kıyafetin mavisi kırmızı/mor/yeşil/pembe); sırada parça parça kombinasyon (desenler ve renkler) ve Canva'da yeni kişiler (farklı kökenler, saçlar) (Kemal: "Hepsi"; "Desenler ve renkler ayrıca etnik kökenler ve saçlar falan etkili olabilir"). Tasarım belgesi 0.29. Devir raporu: `docs/devir-raporu-05-11-2026.md`.
 - Sırada (Kemal: hepsi uygun): yeni öğeler (buzlu top 11., gizli top 21., aceleci müşteri 31., kilitli sütun 41. bölümde), sonra yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü; her biri ayrı paket.
 - Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.
 

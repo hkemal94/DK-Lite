@@ -38,7 +38,7 @@ Kemal: "Bu arada insanlar çok güzel gerçekten fakat daha da çeşitlenme imka
 - Her müşteri resminde kıyafetin mavi kısımları kırmızı, mor, yeşil ve pembeye çevrildi; yüz, saç, beyaz ve sarı kısımlar aynı. Mavisi olmayan 2. müşterinin çeşidi yok. 10 kişi, 46 görünüş (10 asıl + 36 çeşit). Araç: `araclar/musteri_renk.py`.
 - Gelen müşterinin görünüşü rastgele seçilir; ekranda o an olan kişi (rengi farklı da olsa) ve bir önceki gelen kişi gelmez.
 - Ekran görüntüleri: `docs/ekran/musteri-renk/`.
-Sırada: parça parça kombinasyon (gömlek, pantolon, şapka ayrı renk; kıyafetlerin ayrılması gerekir) ve Canva'da yeni kişiler (aynı tarzda farklı yaş, saç, kıyafet).
+Sırada: parça parça kombinasyon (gömlek, pantolon, şapka ayrı renk; kıyafetlerin ayrılması gerekir) ve Canva'da yeni kişiler (aynı tarzda farklı yaş, saç, kıyafet). Kemal'in notu (5 Kasım gecesi): "Desenler ve renkler, ayrıca etnik kökenler ve saçlar falan etkili olabilir": kıyafet desenleri, renk kombinasyonları, farklı kökenler ve ten renkleri, saç biçimleri ve renkleri.
 
 ### 0.28 Kemal'in kararları (5 Kasım 2026 gecesi; soru turu)
 
