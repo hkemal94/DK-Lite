@@ -653,7 +653,7 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 
 ### 4.1 Sonra (ilk sürümde yok; sırası Kemal'le)
 
-- Can sistemi (Dondurmacı Kızlar deposunda Kemal'in kararı var) ve can bitince ne olacağı (para modeli, yayın dönemi).
+- Can sistemi: geldi (0.26). Para modeli (canın parayla alınması gibi) yayın döneminde.
 - Lig.
 - Festival.
 - Sandık.

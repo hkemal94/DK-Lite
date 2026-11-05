@@ -284,7 +284,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 Not (5 Kasım 2026): sandık, market, altın ve yeni malzeme kazanma artık "Neredeyiz"deki kazanç sırasında (tasarım belgesi 0.25).
 
-- Can sistemi ve can bitince ne olacağı (Kemal'in can kararı Dondurmacı Kızlar deposunda; para modeli yayın döneminde).
+- Can sistemi: geldi (5 Kasım 2026, tasarım belgesi 0.26). Canın parayla alınması gibi para modeli yayın döneminde.
 - Lig.
 - Festival.
 - Sandık.
@@ -320,7 +320,7 @@ Not (5 Kasım 2026): sandık, market, altın ve yeni malzeme kazanma artık "Ner
 
 ## Yayından önce
 
-- Can sistemi ve can bitince ne olacağı (para modeli; yayın döneminde konuşulacak).
+- Can sistemi geldi (0.26). Canın parayla alınması gibi para modeli yayın döneminde konuşulacak.
 - Oyunun son adı ("DK Lite" yayın adı mı, çalışma adı mı: [Kemal]).
 - Denemeye özel kolaylıklar (erime biçimi düğmesi gibi) kalkar.
 - Örnek oyuna benzerlik denetimi: görsel, karakter, ad, ekran düzeni birebir kopya değil.
