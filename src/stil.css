@@ -2076,3 +2076,102 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
   background-size: 160px 160px, 100% 100%;
   background-position: center top, center;
 }
+
+/* ---------- Yeni öğeler (tasarım belgesi 0.33) ---------- */
+/* Buzlu top: üstünde yarı saydam buz kalıbı; bir dokunuşta çatlar, ikincide çözülür. */
+.top.buzlu { overflow: visible; }
+.top.buzlu .buz {
+  position: absolute;
+  inset: -6%;
+  border-radius: 28%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0 12%, rgba(255, 255, 255, 0) 13% 100%),
+    linear-gradient(315deg, rgba(255, 255, 255, 0.45) 0 10%, rgba(255, 255, 255, 0) 11% 100%),
+    rgba(170, 225, 255, 0.55);
+  border: 2.5px solid #5aa9d6;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6), 0 2px 0 rgba(40, 90, 130, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+/* Bir kez dokunulmuş buz: çatlak çizgileri. */
+.top.buzlu[data-buz='1'] .buz {
+  background:
+    linear-gradient(60deg, transparent 46%, rgba(40, 110, 160, 0.9) 47% 50%, transparent 51%),
+    linear-gradient(-35deg, transparent 52%, rgba(40, 110, 160, 0.9) 53% 56%, transparent 57%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0 12%, rgba(255, 255, 255, 0) 13% 100%),
+    rgba(170, 225, 255, 0.4);
+}
+.top.catladi { animation: buz-catla 0.25s ease-out; }
+.top.cozuldu { animation: buz-coz 0.35s ease-out; }
+@keyframes buz-catla { 30% { transform: translateX(-3px) rotate(-4deg); } 60% { transform: translateX(3px) rotate(4deg); } }
+@keyframes buz-coz { 0% { transform: scale(1.15); filter: brightness(1.6); } 100% { transform: scale(1); filter: none; } }
+
+/* Gizli top: mor top, ortasında soru işareti. */
+.top.gizli-top {
+  background: radial-gradient(circle at 34% 28%, #b98be6, #7a3fb8 60%, #5b2a90);
+  border: 2.5px solid var(--hat);
+  color: #fff;
+  font-weight: 800;
+  box-sizing: border-box;
+}
+.top.gizli-top span { font-size: 1em; line-height: 1; text-shadow: 0 2px 0 rgba(40, 14, 60, 0.5); }
+.sutun .top.gizli-top { opacity: 1; }
+
+/* Aceleci müşteri: balonun sol üst köşesinde şimşek. */
+.aceleci-rozet {
+  position: absolute;
+  top: -11px;
+  left: -10px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--hat);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.aceleci-rozet svg { width: 15px; height: 15px; }
+.musteri.aceleci .istek { border-color: #e2a400; }
+.ucan-aceleci svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 1px; }
+
+/* Kilitli sütun: toplar soluk, ortada kilit ve kaç müşteri kaldığı. */
+.sutun.kilitli-sutun .top { opacity: 0.35; filter: grayscale(0.6); }
+.sutun.kilitli-sutun { background-color: rgba(60, 30, 90, 0.18); }
+.sutun-kilit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 4;
+  pointer-events: none;
+}
+.sutun-kilit svg { width: 46px; height: 46px; filter: drop-shadow(0 3px 0 rgba(40, 14, 60, 0.35)); }
+.sutun-kilit span {
+  margin-top: -4px;
+  min-width: 26px;
+  padding: 1px 7px;
+  border-radius: 99px;
+  background: var(--mor);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  border: 2px solid var(--hat);
+  text-align: center;
+}
+.sutun-kilit.acildi { animation: kilit-acil 0.7s ease-in forwards; }
+@keyframes kilit-acil { 30% { transform: translate(-50%, -60%) scale(1.15); } 100% { transform: translate(-50%, -160%) scale(0.6); opacity: 0; } }
+
+/* Tanıtım penceresi */
+.tanitim-sahne { position: relative; height: 120px; display: flex; align-items: center; justify-content: center; margin: 6px 0 10px; }
+.tanitim-sahne .top { position: relative; }
+.tanitim-balon { padding: 8px 14px; }
+.tanitim-balon .istek-satir { display: flex; align-items: center; gap: 6px; font-size: 20px; }
+.tanitim-balon .top { position: relative; }
+.tanitim-kilit { position: relative; left: auto; top: auto; transform: none; }
+.tanitim-kilit svg { width: 70px; height: 70px; }
+.tanitim-not { max-width: 250px; margin: 0 auto 16px; text-align: center; opacity: 0.85; line-height: 1.35; }

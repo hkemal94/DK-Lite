@@ -32,7 +32,16 @@
 // müşteriler iki farklı çeşit ister; istediği toplam adet iki çeşide bölünür.
 
 import {
+  ACELECI_BOLUMU,
+  ACELECI_ORANI,
   AYNI_ANDA_MUSTERI,
+  BUZ_DOKUNUS,
+  BUZLU_TOP_BOLUMU,
+  BUZLU_TOP_ORANI,
+  GIZLI_TOP_BOLUMU,
+  GIZLI_TOP_ORANI,
+  KILIT_ACAN_MUSTERI,
+  KILITLI_SUTUN_BOLUMU,
   BOLUM_SAYISI,
   FAZLA_TOP_ORANI,
   ORTAK_SIRA_ART_ARDA_EN_COK,
@@ -69,7 +78,20 @@ export interface Bolum {
   // Ortak saklı sıra: ilk eleman, bir sütundan top gidince ilk gelecek top.
   sakli: number[];
   deneme: number; // kaçıncı denemede kazanılabilir çıktı (1'den)
+  // Yeni öğeler (tasarım belgesi 0.33). Sütunlar ve saklı sırayla aynı biçimde:
+  // her topun buzu (kalan dokunuş, 0 = buzsuz) ve gizli olup olmadığı.
+  sutunOzel: TopOzel[][];
+  sakliOzel: TopOzel[];
+  aceleci: boolean[]; // müşteriler sırasıyla: sabrı kısa, ek puanlı
+  kilitliSutun: number; // kilitli başlayan sütun (-1: yok)
 }
+
+export interface TopOzel {
+  buz: number;
+  gizli: boolean;
+}
+
+type Taslak = Omit<Bolum, 'deneme' | 'sutunOzel' | 'sakliOzel' | 'aceleci' | 'kilitliSutun'>;
 
 // Tohumlu rastgele sayı üreteci: aynı tohum her zaman aynı sayıları verir.
 type Uretec = () => number; // [0, 1)
@@ -143,7 +165,7 @@ function tekTekKaristir(r: Uretec, sayilar: number[], enCok: number): number[] |
   return dizi;
 }
 
-function bolumTaslagi(no: number, r: Uretec): Omit<Bolum, 'deneme'> | null {
+function bolumTaslagi(no: number, r: Uretec): Taslak | null {
   const z = bolumZorlugu(no);
   const urunler = z.urunler.map(urunSirasi);
   const n = urunler.length;
@@ -216,7 +238,7 @@ const COZUCU_SINIRI = 20000;
 // Kazanma: bütün müşteriler karşılandı (bantta ya da sütunda artan top olabilir).
 // Ekranda müşteri yerleri hep dolu sayılır: erime yokken oyuncu bekleyerek
 // yerlerin dolmasını sağlayabilir, bu yüzden bu varsayım oyuncunun elindedir.
-export function kazanilabilirMi(bolum: Omit<Bolum, 'deneme'>): boolean {
+export function kazanilabilirMi(bolum: Taslak, kilitliSutun = -1): boolean {
   const gorulen = new Set<string>();
   const { musteriler, sakli, bantYeri } = bolum;
   let denenen = 0;
@@ -273,7 +295,10 @@ export function kazanilabilirMi(bolum: Omit<Bolum, 'deneme'>): boolean {
       .filter((x) => x.puan >= 0)
       .sort((a, b) => b.puan - a.puan);
 
+    // Kilitli sütun: KILIT_ACAN_MUSTERI kadar müşteri karşılanana dek dokunulamaz.
+    const kilitAcik = siradaki - gorunen.length >= KILIT_ACAN_MUSTERI;
     for (const { i: s } of sira) {
+      if (s === kilitliSutun && !kilitAcik) continue;
       const sutun = sutunlar[s];
       const giden = Math.min(gidecekTopSayisi(sutun), bos);
       const yeniSutun = sutun.slice(0, sutun.length - giden);
@@ -310,10 +335,30 @@ export function bolumKur(no: number): Bolum {
   const hazir = kurulanlar.get(no);
   if (hazir) return hazir;
   const r = uretecKur(bolumTohumu(no));
+  // Yeni öğeler ayrı bir üreteçten: eski bölümlerin dizilimi değişmesin.
+  const o = uretecKur(bolumTohumu(no) ^ 0x9e3779b9);
+  const sutunSayisi = bolumZorlugu(no).sutun;
+  const kilitliSutun = no >= KILITLI_SUTUN_BOLUMU ? rastgeleTam(o, 0, sutunSayisi - 1) : -1;
   for (let deneme = 1; ; deneme++) {
     const b = bolumTaslagi(no, r);
-    if (b && kazanilabilirMi(b)) {
-      const bolum: Bolum = { ...b, deneme };
+    if (b && kazanilabilirMi(b, kilitliSutun)) {
+      const ozel = (): TopOzel => ({
+        buz: no >= BUZLU_TOP_BOLUMU && o() < BUZLU_TOP_ORANI ? BUZ_DOKUNUS : 0,
+        gizli: no >= GIZLI_TOP_BOLUMU && o() < GIZLI_TOP_ORANI,
+      });
+      const bolum: Bolum = {
+        ...b,
+        deneme,
+        sutunOzel: b.sutunlar.map((s) => s.map(ozel)),
+        sakliOzel: b.sakli.map(ozel),
+        aceleci: b.musteriler.map(() => no >= ACELECI_BOLUMU && o() < ACELECI_ORANI),
+        kilitliSutun,
+      };
+      // Tanıtım bölümünde öğe mutlaka görünsün: en az bir tane (sütunda görünen bir top).
+      // Buzlu: ilk sütunun en üstündeki top (oyuncu hemen dener).
+      if (no === BUZLU_TOP_BOLUMU) bolum.sutunOzel[0][bolum.sutunOzel[0].length - 1].buz = BUZ_DOKUNUS;
+      if (no === GIZLI_TOP_BOLUMU && !bolum.sutunOzel.some((s) => s.slice(0, -1).some((t) => t.gizli))) bolum.sutunOzel[1][0].gizli = true;
+      if (no === ACELECI_BOLUMU && !bolum.aceleci.slice(0, 3).some((a) => a)) bolum.aceleci[1] = true;
       kurulanlar.set(no, bolum);
       return bolum;
     }

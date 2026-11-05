@@ -30,6 +30,17 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.33 Yeni öğeler: her mahallede bir (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: yeni öğeler "Her mahallede bir". Adlar [Kemal]; aşağıdaki adlar yalnız ne olduğunu anlatır. Oranlar DENEME (`src/ayarlar.ts`).
+- Mahallenin ilk bölümünde "Yeni!" penceresi: öğenin küçük resmi ve ne yaptığı (tek satır); oyun pencere kapanınca başlar. Bölüm geçildiyse bir daha çıkmaz. O bölümden sonra öğe bütün bölümlerde gelebilir (birikir).
+- **Buzlu top** (Stadyum, 31. bölüm): topların ~%12'si buz içinde. İlk dokunuş buzu çatlatır, ikincisi çözer, sonra top normal gider. 31. bölümde ilk sütunun en üstündeki top buzlu (hemen denensin).
+- **Gizli top** (Çiftlik, 61. bölüm): topların ~%15'i mor "?" top; sütunun en üstüne gelince ne olduğu görünür.
+- **Aceleci müşteri** (İskele, 91. bölüm): müşterilerin ~%20'si; balonunda şimşek, sabrı normalin %60'ı; karşılanınca istediği topların puanının yarısı kadar ek puan (yıldız hesabına girmez).
+- **Kilitli sütun** (Merkez, 121. bölüm): bir sütun kilitli başlar (soluk, ortada kilit ve "1"); 1 müşteri karşılanınca kilit uçar, sütun açılır. Kilitliyken dokununca sallanır.
+- Bütün bölümler (0–150) bu öğelerle de kazanılabilir kuruluyor; kilitli sütun çözücüde hesaba katıldı. Eski bölümlerin dizilimi değişmedi.
+- Bilgisayarda denendi: dört tanıtım penceresi, buzun iki dokunuşta çözülmesi, kilidin ilk müşteriden sonra açılması, aceleci ek puanı. 121. bölümü otomatik oyuncu kaybetti (zorluk sayıları Kemal oynayınca ayarlanır). Ekran görüntüleri: `docs/ekran/yeni-ogeler/`. Telefonda denenmedi.
+
 ### 0.32 Hediyeler onluk sırada, 150 bölüm, mahalleler, 0. bölüm (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal: "Hediyeleri 1 - 10 - 20 - 30 gibi bölümlerde ver ilk onda başka hediye istemiyorum"; "hediye sandığının içinde neden bir hediye kutusu var sil onu yalnızca ışık kalsın"; "muzlu sütü take away yap pipetli ve üzerine etiket olarak muz koy"; "kaç adet yeni ürünümüz varsa ona göre onluk sistemde yeni bölüm hazırla". Soru turunda: "0. Bölüm yap istersen tutorial gibi onu yenince hediyeyi ver ve 1. Bölüme geç"; "1'er 1'er"; "150 bölüm"; "İpuçlu kolay bölüm"; sandık "Birlikte kalsın"; "Künyedeki yerleri kullan bir mahalleye de 30'ar bölüm koyabilirsin".
