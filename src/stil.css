@@ -379,23 +379,7 @@ html, body {
   gap: 10px;
 }
 
-.dugme.tekrar {
-  background: transparent;
-  border: 2px solid var(--sari);
-  padding: 10px 22px;
-}
-
-.dugme {
-  font: inherit;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--mor);
-  background: var(--sari);
-  border: 0;
-  border-radius: 14px;
-  padding: 12px 24px;
-  cursor: pointer;
-}
+/* Düğmenin yüzü aşağıda, "Ortak düğme" bölümünde (5 Kasım 2026). */
 
 /* 5 müşterili dar ekranda (360 px) istek balonu sığsın diye. */
 .musteri.dar .istek { padding: 4px 5px; gap: 2px; }
@@ -615,13 +599,9 @@ html, body {
   width: min(260px, calc(100% - 48px));
 }
 
-.giris-kutu .dugme {
-  width: 100%;
-  border: 3px solid var(--hat);
-  box-shadow: 0 4px 0 rgba(90, 58, 34, 0.35);
-}
-/* resmin üstünde okunsun diye "Bölümler" de dolu zeminli */
-.giris-kutu .dugme.tekrar { background: #fffaf0; }
+.giris-kutu .dugme { width: 100%; }
+/* Ana düğme ("Başla") daha büyük; "Bölümler" ondan küçük (arayüz dili, 5 Kasım 2026). */
+.giris-kutu #giris-basla { font-size: 24px; padding: 13px 24px 19px; }
 
 /* Oyunun adı (çalışma adı): dükkânın logosu, sağ altında mor "Lite". */
 .giris-ad {
@@ -837,11 +817,6 @@ html, body {
   border: 3px solid var(--hat);
   box-shadow: 0 6px 0 rgba(90, 58, 34, 0.45);
 }
-.son-kutu .dugme {
-  border: 3px solid var(--hat);
-  box-shadow: 0 4px 0 rgba(90, 58, 34, 0.35);
-}
-.son-kutu .dugme.tekrar { background: #fffaf0; }
 
 /* Bölüm sonu: fiş. */
 .son-kutu.fisli {
@@ -1029,22 +1004,124 @@ html, body {
 .liste-yolu {
   transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, filter 0.08s ease-out;
 }
-.dugme:active,
-.son-kutu .dugme:active,
-.giris-kutu .dugme:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 rgba(90, 58, 34, 0.35);
-  filter: brightness(0.95);
-}
 .kose-dugme:active,
 .ayar-secenek:active {
   transform: translateY(2px);
   box-shadow: 0 0 0 rgba(90, 58, 34, 0.35);
   filter: brightness(0.95);
 }
-.ayar-dugme:active { box-shadow: 0 1px 0 rgba(90, 58, 34, 0.35); }
 .harita-geri:active { transform: translateY(calc(-50% + 2px)); filter: brightness(0.95); }
 .harita-nokta:not(.kilitli):active { transform: scale(0.9); }
 .bolum-no:active,
 .erime-dugme:active,
 .liste-yolu:active { transform: scale(0.95); }
+
+/* ---------- Ortak düğme (arayüz dili, 5 Kasım 2026; docs/arayuz-dili.md) ----------
+   Şişkin "hap" düğme: kalın kahverengi hat, altta düğmenin kendi renginin koyu
+   tonunda kalın taban, üstte ince parlaklık. Basınca taban incelir, düğme iner.
+   Renkler: yeşil = oyna / ilerle, krem = ikinci iş, sarı = tamam, mor = küçük
+   yuvarlak düğmeler, kırmızı = kapat / vazgeç (Kemal: "Yeşil ve kırmızı da olsun").
+   Yeşil ve kırmızının tonları taslak. */
+.dugme {
+  --yuz: var(--sari);
+  --taban: #d99400;
+  --yazi: var(--mor);
+  --yazi-golge: rgba(255, 255, 255, 0.45);
+  position: relative;
+  font: inherit;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--yazi);
+  text-shadow: 0 1px 0 var(--yazi-golge);
+  background: var(--yuz);
+  border: 3px solid var(--hat);
+  border-radius: 999px;
+  padding: 11px 24px 16px;
+  box-shadow:
+    inset 0 -6px 0 var(--taban),
+    0 3px 0 rgba(90, 58, 34, 0.35);
+  cursor: pointer;
+  isolation: isolate; /* parlaklık yazının altında kalsın */
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, filter 0.08s ease-out;
+}
+/* Üst yarıdaki parlaklık: ince, açık bir şerit. */
+.dugme::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 18px;
+  right: 18px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+  z-index: -1;
+}
+.dugme:active {
+  transform: translateY(3px);
+  padding-top: 13px;
+  padding-bottom: 14px;
+  box-shadow:
+    inset 0 -2px 0 var(--taban),
+    0 0 0 rgba(90, 58, 34, 0.35);
+  filter: brightness(0.97);
+}
+.dugme.krem { --yuz: #fffaf0; --taban: #e3cfae; }
+.dugme.sari { --yuz: var(--sari); --taban: #d99400; }
+.dugme.yesil {
+  --yuz: #46a83e;
+  --taban: #2d7a28;
+  --yazi: #fff;
+  --yazi-golge: #2d7a28;
+  text-shadow: 0 2px 0 var(--yazi-golge);
+}
+.dugme.kirmizi {
+  --yuz: #e0483f;
+  --taban: #a92e28;
+  --yazi: #fff;
+  --yazi-golge: #a92e28;
+  text-shadow: 0 2px 0 var(--yazi-golge);
+}
+.dugme.mor {
+  --yuz: var(--bant);
+  --taban: var(--mor);
+  --yazi: #fff;
+  --yazi-golge: var(--mor);
+  text-shadow: 0 2px 0 var(--yazi-golge);
+}
+
+/* Küçük yuvarlak düğme (şimdilik giriş ekranındaki ayarlar dişlisi; oyun içi
+   köşe düğmeleri 3. adımda bu yüze geçer). Aynı şişkin yüz, tam daire. */
+.kose-dugme.yuvarlak {
+  --yuz: #fff;
+  --taban: #e3cfae;
+  position: absolute;
+  background: var(--yuz);
+  border: 3px solid var(--hat);
+  box-shadow:
+    inset 0 -5px 0 var(--taban),
+    0 3px 0 rgba(90, 58, 34, 0.35);
+  padding-bottom: 4px;
+  isolation: isolate;
+}
+.kose-dugme.yuvarlak.mor { --yuz: var(--bant); --taban: var(--mor); color: #fff; }
+.kose-dugme.yuvarlak::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  right: 10px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+  pointer-events: none;
+  z-index: -1;
+}
+.kose-dugme.yuvarlak:active {
+  transform: translateY(3px);
+  padding-bottom: 1px;
+  box-shadow:
+    inset 0 -2px 0 var(--taban),
+    0 0 0 rgba(90, 58, 34, 0.35);
+}

@@ -1,7 +1,7 @@
 # DK Lite — Oyun Tasarım Belgesi
 
 **Proje:** DK Lite (Kems Company)
-**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026). Oyun ekranının yeni hâli için soru turu yapıldı (0.14; 29 Ekim 2026). Sonraki kararlar 0.22'ye kadar aşağıda işlendi (3 Kasım 2026 itibarıyla).
+**Aşama:** Tasarım kararları verildi (Kemal, 21 Ekim 2026). 1.–5. paket (çizimsiz deneme oyunu, erime kuralı, sayaçlar ve bölüm sonu, numaralı bölümler, çizimsiz bölüm haritası) ve gece işleri (renk, giriş ekranı, duraklatma, hızlandırma, 10 bölüm ve daha yavaş zorluk; 0.10) bitti, ana dala birleşti. Kemal'in 22 Ekim akşamı harita ve hız cevapları işlendi (0.12; 28 Ekim 2026, öneri). Oyun ekranına Dondurmacı Kızlar görselleri kondu (0.13; 29 Ekim 2026). Oyun ekranının yeni hâli için soru turu yapıldı (0.14; 29 Ekim 2026). Sonraki kararlar 0.23'e kadar aşağıda işlendi (5 Kasım 2026 itibarıyla).
 **Depo:** `hkemal94/DK-Lite`
 **Yazan:** Oyun Şefi (Kems Ajans). Onay Kemal'in.
 **Yol haritası:** `docs/yol-haritasi.md`
@@ -29,6 +29,22 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 ## 0. Kararlar
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
+
+### 0.23 Arayüz dili ve ortak düğme (Kemal, 5 Kasım 2026; öneri)
+
+Kemal'in isteği (CEO iletti): "Pinterest'te DK Lite için menü ve asset görselleri yükledim ... Butonlar falan da var gölgeli böyle. Yan bir konuşmada yeni arayüz hazırlığına gir." Panodaki "DK Lite" bölümünden (9 görsel) bir arayüz dili notu çıkarıldı: `docs/arayuz-dili.md`. Başka oyunların görseli, logosu, adı alınmadı; yalnız üslup.
+
+Kemal'in cevapları (sohbette soru turu): ilk adım "Düğme + giriş (Önerilen)"; düğme renkleri "Yeşil ve kırmızı da olsun"; Poppins "Evet, ilk adımla"; pencerelerde kapatma "Köşede ✕ (Önerilen)".
+
+Ne değişti (1. adım; oynanış, sayılar, yazılar aynı):
+- Bütün büyük düğmeler tek ortak biçimde: iki ucu yuvarlak hap, kalın kahverengi hat, altta düğmenin kendi renginin koyu tonunda kalın taban, üstte ince parlaklık. Basınca taban incelir, düğme aşağı iner.
+- Renk anlamı: yeşil = oyna / ilerle (Başla, Devam et; yazı beyaz), krem = ikinci iş (Bölümler, Tekrar oyna, Baştan başla), sarı = tamam (ayarlardaki Kapat), mor = küçük yuvarlak düğmeler (giriş ekranındaki ayarlar dişlisi), kırmızı = kapat / vazgeç (köşedeki ✕ ile 2. adımda gelecek). Yeşil ve kırmızının tonları taslak.
+- Palet notu: bölüm 6'daki mor-sarıya yeşil ve kırmızı düğme rengi eklendi (yalnız düğmelerde).
+- Giriş ekranında "Başla" büyük ve yeşil, "Bölümler" krem.
+- Yazı tipi Poppins artık gerçekten oyunda (önceden yüklenmiyor, telefonun yazısı görünüyordu).
+- Ekran görüntüleri: `docs/ekran/arayuz-dili/` (önce / sonra).
+
+Sıradaki adımlar (sırası `docs/arayuz-dili.md`): ayarlar ve duraklatma kutuları (mor şerit başlık, köşede kırmızı ✕), oyun içi üst şerit, bölüm sonu düğmeleri, bölüm haritası, geçişler.
 
 ### 0.22 Bölüm sonunda dondurmacı fişin üstünde, 30 bölüm, harita önlemi (öneri; 29 Ekim 2026)
 
@@ -624,7 +640,8 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 - **Kamera:** 2D yandan; dik ekran.
 - **Palet:** dükkânın mor ve sarısı (kanondaki logo renkleri). Tonlar Dondurmacı Kızlar ile aynı (Kemal, 22 Ekim; 0.10): koyu mor `#4e2470`, mor `#7a3fa8`, sarı `#ffc928`.
 - **Harita:** Ege adası; zeytin, kayalık, koylar (bölüm 2.3). Yanardağ ve palmiye yok.
-- **Yazı tipi:** öneri Poppins (marka kiti: her yerde Poppins). Kemal onaylar.
+- **Yazı tipi:** Poppins (marka kiti: her yerde Poppins). Oyuna gömüldü (Kemal, 5 Kasım 2026; 0.23).
+- **Arayüz dili:** `docs/arayuz-dili.md` (düğme, pencere, ikon, sayaç; 0.23). Düğmelerde mor-sarıya ek olarak yeşil (oyna/ilerle) ve kırmızı (kapat/vazgeç).
 - **Örnek oyundan alınmayacaklar:** görseller, karakterler, ad, yerleşimin birebir kopyası. Yalnız "sütun → dönen bant → müşteri" kalıbı alınır.
 - **Müzik:** lo-fi (Kemal). Parçalar Kemal'in seçimi; prototipte geçici sessizlik ya da geçici ezgi.
 - **Seslendirme:** kısmi (Kemal); sonra. Hangi satırların seslendirileceği ve kimin seslendireceği [Kemal].

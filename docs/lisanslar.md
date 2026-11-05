@@ -27,6 +27,14 @@ Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
 işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
 ayrılsın diye biraz daha sarı yapıldı.
 
+## Yazı tipi
+
+| Ne | Kaynak | Lisans |
+|---|---|---|
+| Poppins (normal, yarı kalın, kalın, çok kalın; Latin ve Türkçe harfler) | `@fontsource/poppins` paketi (Google Fonts'taki Poppins), oyunun içine gömülü | SIL Open Font License 1.1 (açık lisans; oyunda kullanılabilir) |
+
+5 Kasım 2026'da eklendi (Kemal: arayüz dili soru turu, "ilk adımla").
+
 ## Ekran görüntüleri
 
 - `docs/ekran-goruntuleri/`: yayındaki oyunun ekran görüntüleri; kendi işimiz.
