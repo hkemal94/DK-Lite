@@ -36,7 +36,7 @@ import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
-import { bolumdeYeniUrunler, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, SANDIK_ODULLERI, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
+import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, SANDIK_ODULLERI, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
 import {
   canDurumu,
   canEkle,
@@ -194,9 +194,6 @@ const OYUN_ADI = 'Dondurmacı Kızlar Lite';
 
 // Son bölüm de kazanılınca görünen basit durum yazısı (kurgu metni değil).
 const HEPSI_BITTI_YAZISI = 'Bütün bölümler bitti';
-
-// Bölüm sonu fişinin altındaki teşekkür satırı: yazı Kemal'in (boş yer tutucu).
-const FIS_TESEKKUR = '[Kemal]';
 
 // Bölüm sonunda görünen basit durum yazısı (kurgu metni değil).
 const SONUC_YAZISI: Record<Sonuc, string> = {
@@ -639,6 +636,15 @@ export class Oyun {
     }
     this.yenidenBasla(no);
     this.basladi = true;
+    // Zor bölüm başlarken kısa bir uyarı afişi (10'luk dilim).
+    const tur = bolumTuru(no);
+    if (tur === 'zor' || tur === 'cok-zor') {
+      const afis = document.createElement('div');
+      afis.className = 'zor-afis ' + tur;
+      afis.textContent = tur === 'zor' ? 'Zor bölüm' : 'Çok zor bölüm';
+      this.sahne.appendChild(afis);
+      window.setTimeout(() => afis.remove(), 2200);
+    }
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
@@ -651,6 +657,7 @@ export class Oyun {
     this.duraklatMenuKapat();
     this.bolum = bolumKur(no);
     this.bolumNoEl.textContent = `Bölüm ${no}`;
+    this.bolumNoEl.dataset.tur = bolumTuru(no);
     this.bolumNoEl.dataset.no = String(no);
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
     this.sakliSira = 0;
@@ -1449,8 +1456,12 @@ export class Oyun {
     this.canCiz();
     if (kazandi) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
 
+    // Sonuç penceresi (Kemal, 5 Kasım akşamı: fiş "olmamış"; "Sonuç penceresi"):
+    // ayarlar gibi krem pencere, üstte mor şeritte bölüm numarası; büyük yıldızlar,
+    // sonuç yazısı, puan, satılan ürünler tek sıra, müşteri sayıları, kazanılanlar.
     const kutu = document.createElement('div');
-    kutu.className = 'son-kutu fisli';
+    kutu.className = 'son-kutu pencere sonuc-kutu' + (kazandi ? ' kazandi' : ' kaybetti');
+    kutu.appendChild(pencereBaslik(`Bölüm ${no}`));
     if (kazandi) {
       const sevinen = document.createElement('img');
       sevinen.className = 'son-dondurmaci';
@@ -1458,93 +1469,99 @@ export class Oyun {
       sevinen.alt = '';
       sevinen.draggable = false;
       kutu.appendChild(sevinen);
-    }
-
-    const fis = document.createElement('div');
-    fis.className = 'fis';
-    const satir = (sol: string | Node, sag: string, sinif = '') => {
-      const d = document.createElement('div');
-      d.className = 'fis-satir ' + sinif;
-      const a = document.createElement('span');
-      a.className = 'fis-sol';
-      a.append(sol);
-      const b = document.createElement('span');
-      b.className = 'fis-sag';
-      b.textContent = sag;
-      d.append(a, b);
-      return d;
-    };
-    const cizgi = () => {
-      const d = document.createElement('div');
-      d.className = 'fis-cizgi';
-      return d;
-    };
-    // Başlık: dükkânın logosu ve bölüm numarası.
-    const logo = document.createElement('img');
-    logo.className = 'fis-logo';
-    logo.src = LOGO_KULAHLI_RESMI;
-    logo.alt = 'Dondurmacı Kızlar';
-    logo.draggable = false;
-    const bolumYazi = document.createElement('div');
-    bolumYazi.className = 'fis-bolum';
-    bolumYazi.textContent = `Bölüm ${no}`;
-    const baslik = document.createElement('div');
-    baslik.className = 'son-baslik';
-    baslik.textContent = SONUC_YAZISI[sonuc];
-    fis.append(logo, bolumYazi, cizgi(), baslik);
-    // Satılan ürünler (bölümde gelen ürünler sırasıyla; satılmayan da 0 ile görünür).
-    const urunler = document.createElement('div');
-    urunler.className = 'fis-urunler';
-    for (const c of this.bolum.urunler) {
-      const ad = document.createElement('span');
-      ad.className = 'fis-urun';
-      const simge = document.createElement('span');
-      simge.className = 'fis-simge';
-      simge.innerHTML = urunSimgesi(c);
-      ad.append(simge, URUNLER[c].ad);
-      urunler.appendChild(satir(ad, `×${this.satilan[c] ?? 0}`));
-    }
-    fis.append(cizgi(), urunler, cizgi());
-    fis.append(
-      satir('Hizmet edilen müşteri', `${this.karsilanan} / ${this.bolum.musteriler.length}`),
-      satir('Giden müşteri', String(this.kacan), this.kacan > 0 ? 'uyari' : ''),
-    );
-    if (!kazandi) {
-      const kalan = canDurumu().can;
-      fis.appendChild(
-        canGitti
-          ? satir('Can', `−1 (kalan ${kalan})`, 'uyari can-satir')
-          : satir('Can', 'gitmedi (sınırsız)', 'can-satir'),
-      );
-    }
-    fis.appendChild(cizgi());
-    const puanSatir = satir('TOPLAM PUAN', String(Math.round(this.puan * 10) / 10), 'toplam');
-    puanSatir.dataset.puan = String(this.puan);
-    puanSatir.dataset.enYuksek = String(this.enYuksekPuan());
-    fis.appendChild(puanSatir);
-    if (kazandi) {
       const yildizlar = document.createElement('div');
-      yildizlar.className = 'yildizlar';
+      yildizlar.className = 'yildizlar sonuc-yildizlar';
       yildizlar.dataset.yildiz = String(yildiz);
       for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) {
         const y = yildizCiz(k < yildiz);
         y.style.animationDelay = `${0.25 + k * 0.35}s`;
         yildizlar.appendChild(y);
       }
-      fis.appendChild(yildizlar);
+      kutu.appendChild(yildizlar);
+    }
+    const baslik = document.createElement('div');
+    baslik.className = 'son-baslik sonuc-yazi';
+    baslik.textContent = SONUC_YAZISI[sonuc];
+    kutu.appendChild(baslik);
+    // Puan: içe gömük kutuda büyük.
+    const puanKutu = document.createElement('div');
+    puanKutu.className = 'sonuc-puan';
+    puanKutu.dataset.puan = String(this.puan);
+    puanKutu.dataset.enYuksek = String(this.enYuksekPuan());
+    const puanEtiket = document.createElement('span');
+    puanEtiket.className = 'sonuc-etiket';
+    puanEtiket.textContent = 'Puan';
+    const puanDeger = document.createElement('span');
+    puanDeger.className = 'sonuc-puan-deger';
+    puanDeger.textContent = String(Math.round(this.puan * 10) / 10);
+    puanKutu.append(puanEtiket, puanDeger);
+    kutu.appendChild(puanKutu);
+    // Satılan ürünler: simge ve adet, tek sıra.
+    const urunler = document.createElement('div');
+    urunler.className = 'sonuc-urunler';
+    for (const c of this.bolum.urunler) {
+      const u = document.createElement('span');
+      u.className = 'sonuc-urun';
+      u.title = URUNLER[c].ad;
+      const simge = document.createElement('span');
+      simge.className = 'sonuc-simge';
+      simge.innerHTML = urunSimgesi(c);
+      const adet = document.createElement('span');
+      adet.textContent = `×${this.satilan[c] ?? 0}`;
+      u.append(simge, adet);
+      urunler.appendChild(u);
+    }
+    kutu.appendChild(urunler);
+    // Müşteri sayıları ve (kaybedince) can.
+    const bilgi = document.createElement('div');
+    bilgi.className = 'sonuc-bilgi';
+    const bilgiSatir = (sol: string, sag: string, sinif = '') => {
+      const d = document.createElement('div');
+      d.className = 'sonuc-satir ' + sinif;
+      const a = document.createElement('span');
+      a.textContent = sol;
+      const b = document.createElement('span');
+      b.className = 'sonuc-sag';
+      b.textContent = sag;
+      d.append(a, b);
+      bilgi.appendChild(d);
+    };
+    bilgiSatir('Hizmet edilen müşteri', `${this.karsilanan} / ${this.bolum.musteriler.length}`);
+    bilgiSatir('Giden müşteri', String(this.kacan), this.kacan > 0 ? 'uyari' : '');
+    if (!kazandi) {
+      const kalan = canDurumu().can;
+      if (canGitti) bilgiSatir('Can', `−1 (kalan ${kalan})`, 'uyari can-satir');
+      else bilgiSatir('Can', 'gitmedi (sınırsız)', 'can-satir');
+    }
+    kutu.appendChild(bilgi);
+    // Kazanılanlar: yeni ürün ve sandık (ayrıca kendi pencereleriyle de gösterilir).
+    if (sandik || yeniUrunler.length > 0) {
+      const kaz = document.createElement('div');
+      kaz.className = 'sonuc-kazanilan';
+      if (sandik) {
+        const k = document.createElement('span');
+        k.className = 'sonuc-kazanc';
+        k.innerHTML = KALP_BUYUK_SVG;
+        k.append(sandik === 'bir-can' ? '+1 can' : sandik === 'canlar-dolu' ? 'Canlar doldu' : `${SINIRSIZ_CAN_DK / 60} saat sınırsız can`);
+        kaz.appendChild(k);
+      }
+      for (const id of yeniUrunler) {
+        const u = URUNLER.find((x) => x.id === id);
+        if (!u) continue;
+        const k = document.createElement('span');
+        k.className = 'sonuc-kazanc';
+        k.innerHTML = `<img src="gorseller/urunler/${u.id}.webp" alt="" draggable="false">`;
+        k.append(`Yeni: ${u.ad}`);
+        kaz.appendChild(k);
+      }
+      kutu.appendChild(kaz);
     }
     if (kazandi && no >= BOLUM_SAYISI) {
       const durum = document.createElement('div');
       durum.className = 'son-durum';
       durum.textContent = HEPSI_BITTI_YAZISI;
-      fis.appendChild(durum);
+      kutu.appendChild(durum);
     }
-    // Teşekkür satırı: yazı Kemal'in (Kemal, 30 Ekim: "Boş kalsın [Kemal]").
-    const tesekkur = document.createElement('div');
-    tesekkur.className = 'fis-tesekkur';
-    tesekkur.textContent = FIS_TESEKKUR;
-    fis.appendChild(tesekkur);
-    kutu.appendChild(fis);
 
     // Düğmeler yazının yanında küçük ikonla: Tekrar oyna ↻, Devam et → (arayüz dili).
     const dugme = (yazi: string, sinif: string, is: () => void, ikon = '') => {

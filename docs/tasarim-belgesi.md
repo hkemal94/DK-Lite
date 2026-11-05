@@ -30,6 +30,23 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.27 Geri bildirim, araştırma, 10'luk dilim zorluk, sonuç penceresi (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal'in geri bildirimi: "Butonlarda yazının üzerindeki beyaz ... line'ı beğenmedim. Kapalı bölümlerdeki sürpriz ürünleri soru işareti olarak göster ... Gün sonundaki o fiş ... tutmuyor ... O olmamış. Ayrıca dakikayı yarım saatten 15 dakikaya düşür. Bölümleri de 50'ye getir şu an için. Ama ... nasıl zorluk olacak bilmiyorum. Bu tarz oyunları araştır ... Dükkan kısmını sevmedim. Onu koymayalım hiç."
+
+Araştırma: `docs/arastirma-zorluk-ve-baglilik.md` (kaynaklarıyla). Soru turundaki cevapları: zorluk "10'luk dilim (Önerilen)"; yeni öğeler "Buzlu top, Gizli top, Aceleci müşteri, Kilitli sütun" (dördü de); bölüm sonu "Sonuç penceresi (Önerilen)"; sıradaki bağlılık özellikleri (yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü): "Hepsi uygun".
+
+Ne değişti:
+- Düğmelerin, yuvarlak düğmelerin ve bölüm kutularının üstündeki beyaz parlaklık çizgisi kalktı.
+- Bölümler ekranında kapalı bölümdeki sürpriz ürün resim yerine mor yuvarlakta "?"; açılmış bölümde ürünün resmi.
+- Can 15 dakikada 1 dolar (önce 30).
+- 50 bölüm (önce 30). Hepsi kazanılabilir dizilimle kuruldu; en yavaşı 38. bölüm (1 saniyenin altında).
+- Zorluk 10'luk dilimlerde testere dişi: her dilimde 5. bölüm "Zor" (2 müşteri fazla, bantta 1 yer az, iki çeşit isteyen biraz fazla), 6. bölüm rahatlatan (sayıları 3 bölüm öncekininki kadar), 10. bölüm "Çok zor" (3 müşteri fazla, bantta 2 yer az; kazanınca sandık). Bant en az 6 yer. Artışlar DENEME. Bölüm 1–4 değişmedi.
+- Zor bölümler Bölümler ekranında kırmızı kutu ve altında "Zor" / "Çok zor" etiketi; bölüm başlarken ekranda kısa "Zor bölüm" afişi; üst şeritte bölüm numarası kırmızımsı.
+- Fiş kalktı; yerine sonuç penceresi: üstte mor şeritte "Bölüm 3", büyük yıldızlar (ortadaki büyük), sonuç yazısı, içe gömük kutuda puan, satılan ürünler tek sırada simge ve adetle, hizmet edilen ve giden müşteri, kaybedince can; kazanılanlar (yeni ürün, sandıktan çıkan) sarı küçük haplar hâlinde. Sevinen dondurmacı pencerenin sol üstünde. Fişteki teşekkür satırı ([Kemal]) fişle birlikte kalktı.
+- Dükkânı süsleme kazanç planından çıktı.
+- Henüz yapılmayanlar (sırada): yeni öğeler (buzlu top 11., gizli top 21., aceleci müşteri 31., kilitli sütun 41. bölümde tanıtılır; öneri), sonra yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü.
+
 ### 0.26 Can ve ödül sandığı (Kemal, 5 Kasım 2026 akşamı; öneri)
 
 Kemal: "Sandıktan hak çıkabilir ama oyunun oynanmasında can barı olması lazım yani bölüm bitmeyince yeniden oyna falan olması lazım". Soru turundaki cevapları: can sayısı "5 can (Önerilen)"; can ne zaman gider "Yalnız kaybedince (Önerilen)"; can bitince "Zamanla dolar, 30 dk (Önerilen)"; sandık "10 bölümde bir sandık açılsın ve bazen bir can versin bazen canı doldursun bazen 1 saat süresiz can versin". Bu, 4.1'deki "can sistemi" maddesini ve 7. bölümdeki "can sistemi sakin oyuncu ile nasıl bağdaşır" sorusunu kapatır.

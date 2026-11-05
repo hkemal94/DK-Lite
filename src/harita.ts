@@ -5,7 +5,7 @@
 // satır dizilir ve yalnız kutular kayar. 1. bölüm en üstte solda. Bölüm sayısı
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
-import { BOLUM_SAYISI, YILDIZ_ESIKLERI, bolumdeYeniUrunler } from './ayarlar';
+import { BOLUM_SAYISI, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru } from './ayarlar';
 import type { Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -73,6 +73,15 @@ export function haritaCiz(
     const siradaki = !kilitli && yildiz === 0;
     const d = document.createElement('button');
     d.className = 'bolum-kutu' + (kilitli ? ' kilitli' : siradaki ? ' siradaki' : ' gecildi');
+    // Zor ve çok zor bölümler kırmızı, altında etiket (10'luk dilim; Kemal, 5 Kasım).
+    const tur = bolumTuru(no);
+    if (tur === 'zor' || tur === 'cok-zor') {
+      d.classList.add(tur);
+      const etiket = document.createElement('span');
+      etiket.className = 'bolum-kutu-etiket';
+      etiket.textContent = tur === 'zor' ? 'Zor' : 'Çok zor';
+      d.appendChild(etiket);
+    }
     d.dataset.no = String(no);
     d.dataset.yildiz = String(yildiz);
     d.setAttribute('aria-label', `Bölüm ${no}` + (kilitli ? ', kilitli' : ''));

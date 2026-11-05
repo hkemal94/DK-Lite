@@ -100,9 +100,57 @@ function kuralUrunler(no: number, cesit: number): string[] {
   return secim;
 }
 
-// Bölüm numarasına (1'den) göre zorluk.
+// ---------- 10'luk dilimlerde testere dişi zorluk (Kemal, 5 Kasım 2026: "10'luk dilim") ----------
+// Araştırma: docs/arastirma-zorluk-ve-baglilik.md. Her 10 bölüm bir dilim:
+// 5. bölüm "Zor", 6. bölüm rahatlatan, 10. bölüm "Çok zor" (kazanınca sandık),
+// öbürleri yavaş artar. Ürünler her bölümün kendi ürünleri kalır; yalnız sayılar değişir.
+// Zor ve çok zor bölümlerdeki artışlar ve rahat bölümün ne kadar kolay olduğu DENEME DEĞERİDİR.
+export type BolumTuru = 'normal' | 'zor' | 'cok-zor' | 'rahat';
+export function bolumTuru(no: number): BolumTuru {
+  const p = ((Math.max(1, Math.floor(no)) - 1) % 10) + 1;
+  return p === 10 ? 'cok-zor' : p === 5 ? 'zor' : p === 6 ? 'rahat' : 'normal';
+}
+// Zor bölüm: 2 müşteri fazla, bantta 1 yer az, iki çeşit isteyen biraz fazla.
+const ZOR_EK = { musteri: 2, bantEksik: 1, ikiCesit: 0.1 };
+// Çok zor bölüm: 3 müşteri fazla, bantta 2 yer az, iki çeşit isteyen daha fazla.
+const COK_ZOR_EK = { musteri: 3, bantEksik: 2, ikiCesit: 0.15 };
+// Rahat bölüm: sayıları 3 bölüm öncekinin sayıları kadar (ürünleri kendi ürünleri).
+const RAHAT_GERI = 3;
+// Bant hiçbir bölümde bundan dar olmaz; iki çeşit oranı bundan fazla olmaz.
+const BANT_EN_AZ = 6;
+const IKI_CESIT_EN_COK = 0.8;
+
+// Bölüm numarasına (1'den) göre zorluk: önce düz artan taban, sonra bölümün türüne göre ayar.
 export function bolumZorlugu(no: number): BolumZorlugu {
   no = Math.max(1, Math.floor(no));
+  const t = tabanZorluk(no);
+  const tur = bolumTuru(no);
+  const yuvarla = (x: number) => Math.round(x * 100) / 100;
+  if (tur === 'zor' || tur === 'cok-zor') {
+    const ek = tur === 'zor' ? ZOR_EK : COK_ZOR_EK;
+    return {
+      ...t,
+      musteri: t.musteri + ek.musteri,
+      bantYeri: Math.max(BANT_EN_AZ, t.bantYeri - ek.bantEksik),
+      ikiCesitOrani: t.ikiCesitOrani > 0 ? yuvarla(Math.min(IKI_CESIT_EN_COK, t.ikiCesitOrani + ek.ikiCesit)) : 0,
+    };
+  }
+  if (tur === 'rahat') {
+    const k = tabanZorluk(Math.max(1, no - RAHAT_GERI));
+    return {
+      ...t,
+      musteri: Math.min(t.musteri, k.musteri),
+      istekEnAz: Math.min(t.istekEnAz, k.istekEnAz),
+      istekEnCok: Math.min(t.istekEnCok, k.istekEnCok),
+      bantYeri: Math.max(t.bantYeri, k.bantYeri),
+      ikiCesitOrani: Math.min(t.ikiCesitOrani, Math.max(k.ikiCesitOrani, t.ikiCesitOrani > 0 ? 0.3 : 0)),
+    };
+  }
+  return t;
+}
+
+// Düz artan taban: 1–10 tablo, sonrası kural (29 Ekim'den beri).
+function tabanZorluk(no: number): BolumZorlugu {
   if (no <= BOLUM_ZORLUKLARI.length) return BOLUM_ZORLUKLARI[no - 1];
   const cesit = kuralCesit(no);
   return {
