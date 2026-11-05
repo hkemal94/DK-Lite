@@ -33,6 +33,19 @@ Ulaşılamayan / eksik:
 - Yazı tipi: "Evet, ilk adımla" (Poppins oyuna eklendi).
 - Pencerelerde kapatma: "Köşede ✕ (Önerilen)" (2. adımda gelecek).
 
+## İkinci tur (5 Kasım 2026, aynı gün)
+
+Kemal, ilk adımı görünce: "Sadece butonlar için değil tüm arayüz için bir
+güncelleme bekliyordum açıkçası. Logoyu da külahlı logo yap, arka planları
+daha uygun bir görsel dille revize et." Sorulan üç soruya cevapları:
+- Külahlı logo nereden: "Dondurmacı Kızlar'daki logo" (Kemal'in 14 Ekim'de
+  ana oyuna gönderdiği `logo-kulahli.webp`; olduğu gibi, yalnız küçültüldü).
+- Arka plan: "Desenli mor zemin (Önerilen)".
+- Kapsam: "Hepsi tek pakette (Önerilen)".
+
+Bu yüzden aşağıdaki plan artık adım adım değil, **tek pakette** yapıldı
+(bkz. "Öneri planı").
+
 ## Kural
 
 Panodaki görseller başka oyunların ve hazır çizim setlerinin ekranları. Onların
@@ -93,6 +106,7 @@ Ayarlar, duraklatma ve (fiş dışında) bütün açılır kutular aynı iskelet
   alttaki "Kapat" düğmesi kalkar (Kemal, 5 Kasım: "Köşede ✕").
 - İçerik bölmeleri: seçenek grupları açık zeminli, hafif içe gömük kutularda.
 - Karartma: arka plan bugünkü gibi karartılır.
+- Duraklatma penceresinin başlığı "Duraklatıldı" (yalnız düğme/başlık yazısı; kurgu metni değil). Kemal başka bir yazı isterse değişir.
 
 ### 3. İkon
 
@@ -166,9 +180,36 @@ Ekran görüntüleri: `docs/ekran/arayuz-dili/once-*-390x844.png`.
 | Bölüm sonu | Fiş; altında sarı ve krem düğmeler, alt satırda "Bölümler" yazısı | Fiş aynı; düğmeler yeni yüzde, ↻ ve → ikonlu |
 | Bölüm haritası | Krem üst şerit, "Geri" hap düğmesi, yuvarlak noktalar | Yuvarlak ← düğmesi, kalın tabanlı taşlar, sıradakinde işaret |
 
-## Öneri planı (sırayla; her adım ayrı küçük PR)
+## Öneri planı
 
-Oynanış, sayılar ve yazılar hiçbir adımda değişmez; yalnız görünüm.
+İlk hâlinde her adım ayrı küçük bir PR olacaktı; Kemal "Hepsi tek pakette"
+dedi, hepsi aynı öneri PR'ında yapıldı (5 Kasım 2026). Oynanış, sayılar ve
+yazılar değişmedi; yalnız görünüm. Ekran görüntüleri:
+`docs/ekran/arayuz-dili/sonra-*` (390x844 ve 360x640).
+
+Ne yapıldı, ekran ekran:
+- **Giriş:** desenli mor zemin (soluk külah, yıldız, nokta deseni; ortada ışık),
+  Kemal'in külahlı logosu (arkasında hafif sarı ışık; açılışta yukarıdan
+  zıplayarak gelir, sonra hafifçe sallanır), sarı eğik "Lite", yeşil "Başla"
+  yavaşça büyüyüp küçülür, krem "Bölümler", mor yuvarlak ayarlar.
+- **Ayarlar:** krem pencere, üstte mor başlık şeridi, köşede kırmızı ✕;
+  seçenekler hap biçiminde, seçili olan mor. Alttaki "Kapat" kalktı.
+- **Duraklatma:** aynı pencere; başlık "Duraklatıldı", köşedeki ✕ "Devam et" ile aynı işi yapar.
+- **Oyun ekranı:** arkada açık lila desenli zemin (eski deniz manzarası yerine;
+  mor bant öne çıksın diye açık). Üst şerit koyu mor; sayaçlar simgeli hap
+  (müşteri, yıldız, külah); 2× ve duraklatma mor yuvarlak düğme. Müşteri
+  balonları krem, kalın hatlı, altta küçük kuyruklu. Sütunlar kalın hatlı.
+- **Bölüm sonu:** fiş kaldı; fişin başında külahlı logo; yıldızlar büyüdü,
+  ortadaki daha büyük ve yukarıda; "Tekrar oyna" ↻ ve "Devam et" → ikonlu;
+  "Bölümler" küçük krem düğme.
+- **Bölüm haritası:** sahil yolu çizimi kaldı (Kemal'in seçtiği harita).
+  Üst şerit koyu mor, başlık beyaz; "Geri" mor yuvarlak ok düğmesi; bölüm
+  taşları kalın tabanlı, sıradaki yavaşça büyüyüp küçülür.
+- **Geçişler:** pencereler zıplayarak açılır, arka plan yavaşça kararır;
+  giriş ve harita yumuşakça belirir.
+- **Yazı tipi:** Poppins.
+
+Aşağıdaki ilk plan kayıt için duruyor.
 
 1. **Ortak düğme yüzü + giriş ekranı.** Bütün düğmeler tek bir ortak biçimden
    gelir (yeşil, kırmızı, sarı, krem, mor; hap ve yuvarlak). İlk görünen yer giriş ekranı.

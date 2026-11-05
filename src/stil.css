@@ -1096,7 +1096,6 @@ html, body {
 .kose-dugme.yuvarlak {
   --yuz: #fff;
   --taban: #e3cfae;
-  position: absolute;
   background: var(--yuz);
   border: 3px solid var(--hat);
   box-shadow:
@@ -1106,6 +1105,8 @@ html, body {
   isolation: isolate;
 }
 .kose-dugme.yuvarlak.mor { --yuz: var(--bant); --taban: var(--mor); color: #fff; }
+.kose-dugme.yuvarlak.kirmizi { --yuz: #e0483f; --taban: #a92e28; color: #fff; }
+.kose-dugme.yuvarlak.sari { --yuz: var(--sari); --taban: #d99400; color: var(--mor); }
 .kose-dugme.yuvarlak::before {
   content: '';
   position: absolute;
@@ -1124,4 +1125,324 @@ html, body {
   box-shadow:
     inset 0 -2px 0 var(--taban),
     0 0 0 rgba(90, 58, 34, 0.35);
+}
+
+
+/* ======================================================================
+   Tüm arayüz güncellemesi (5 Kasım 2026; docs/arayuz-dili.md).
+   Kemal: "Sadece butonlar için değil tüm arayüz için bir güncelleme bekliyordum";
+   "Logoyu da külahlı logo yap arkaplanları daha uygun bir görsel dille revize et";
+   arka plan için "Desenli mor zemin". Yalnız görünüm; oynanış ve sayılar aynı.
+   ====================================================================== */
+
+/* ---------- Desenli mor zemin ----------
+   Soluk külah, yıldız ve nokta deseni; ortada ışık hâlesi. Desen ekibin kendi
+   basit şekilleri. Giriş ekranında koyu, oyun ekranında açık (bant mor olduğu
+   için arkası açık lila, bant öne çıksın). */
+.desenli {
+  background-color: var(--bant);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse 90% 60% at 50% 34%, #b27fe0 0%, #8a4cbc 38%, #5e2b86 78%, #4e2470 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
+.manzara.desenli {
+  opacity: 1;
+  background-color: #dccbef;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%237a3fa8' fill-opacity='0.1'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse 100% 55% at 50% 22%, #f6effc 0%, #e4d4f4 45%, #c9ade6 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
+
+/* ---------- Giriş ekranı ---------- */
+.giris.desenli { background-position: center top, center; }
+.giris-kutu { gap: 14px; }
+.giris-ad {
+  width: min(250px, calc(100vw - 96px), 34vh);
+  margin-bottom: 26px;
+  filter: drop-shadow(0 6px 0 rgba(40, 14, 60, 0.45));
+  animation: logo-gel 0.6s cubic-bezier(0.2, 1.4, 0.4, 1) both, logo-salla 3.2s ease-in-out 0.6s infinite;
+}
+/* Logonun arkasında yumuşak ışık */
+.giris-ad::before {
+  content: '';
+  position: absolute;
+  inset: -18% -22%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 230, 140, 0.55), rgba(255, 230, 140, 0));
+}
+.giris-lite {
+  right: 2%;
+  bottom: 4%;
+  background: var(--sari);
+  color: var(--mor);
+  box-shadow: inset 0 -4px 0 #d99400, 0 3px 0 rgba(40, 14, 60, 0.4);
+  padding: 2px 16px 5px;
+  transform: rotate(-6deg);
+}
+@keyframes logo-gel {
+  0% { transform: translateY(-30px) scale(0.6); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes logo-salla {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg) translateY(-3px); }
+}
+/* "Başla" yavaşça büyüyüp küçülür (Canva önerisi, 0.21) */
+.giris:not(.gizli) #giris-basla { animation: nabiz 1.6s ease-in-out infinite; }
+.giris:not(.gizli) #giris-basla:active { animation: none; }
+@keyframes nabiz {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+.ayar-dugme { top: 16px; right: 16px; }
+
+/* ---------- Oyun içi üst şerit: koyu mor şerit, simgeli sayaç hapları ---------- */
+.ust {
+  background: rgba(78, 36, 112, 0.94);
+  border-bottom: 3px solid var(--hat);
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 4px 0 rgba(40, 14, 60, 0.25);
+  padding: 7px 8px 7px 10px;
+  color: #fff;
+}
+.bolum-no { color: #fff; font-size: 15px; font-weight: 700; padding: 0 2px; }
+.erime-dugme {
+  color: #fff;
+  opacity: 0.85;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  padding: 1px 8px;
+}
+.ust-sag { gap: 5px; }
+.sayaclar { align-items: center; gap: 4px; }
+.sayac {
+  flex-direction: row;
+  align-items: center;
+  height: 24px;
+  margin-left: 10px;
+  padding: 0 8px 0 0;
+  background: #fff7ea;
+  color: var(--mor);
+  border: 2px solid var(--hat);
+  border-radius: 999px;
+  line-height: 1;
+}
+.sayac-simge {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  margin: 0 3px 0 -12px;
+  border-radius: 50%;
+  background: var(--sari);
+  border: 2px solid var(--hat);
+  box-shadow: inset 0 -3px 0 #d99400;
+  color: var(--mor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sayac-simge svg { width: 15px; height: 15px; margin-bottom: 2px; }
+.sayac-deger { font-size: 14px; font-weight: 700; }
+.sayac .cubuk { width: 34px; height: 8px; margin: 0; border-radius: 4px; background: rgba(122, 63, 168, 0.2); }
+.sayac .cubuk-dolu { border-radius: 4px; }
+.ust .kose-dugme { width: 32px; height: 32px; font-size: 12px; font-weight: 800; }
+.ust .kose-dugme.yuvarlak::before { left: 7px; right: 7px; height: 4px; top: 3px; }
+.duraklat-dugme.mor span { background: #fff; height: 12px; width: 4px; }
+.hiz-dugme.yuvarlak.acik { --yuz: var(--sari); --taban: #d99400; color: var(--mor); }
+
+/* ---------- Müşteri istek balonu: krem, kalın hat, altta küçük kuyruk ---------- */
+.istek {
+  position: relative;
+  background: #fffaf0;
+  border: 2px solid var(--hat);
+  border-radius: 14px;
+  box-shadow: 0 3px 0 rgba(90, 58, 34, 0.3);
+}
+.istek::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  background: #fffaf0;
+  border-right: 2px solid var(--hat);
+  border-bottom: 2px solid var(--hat);
+  transform: rotate(45deg);
+}
+.adet { font-weight: 700; color: var(--mor); }
+
+/* ---------- Sütunlar: ahşap raf, kalın hat, altta taban ---------- */
+.sutun {
+  border: 3px solid var(--hat);
+  box-shadow: inset 0 -6px 0 rgba(150, 100, 50, 0.35), 0 4px 0 rgba(78, 36, 112, 0.3);
+}
+
+/* ---------- Pencere: krem kart, kalın taban, üstte mor şerit başlık, köşede ✕ ---------- */
+.son { background: rgba(46, 18, 70, 0.62); }
+.son-kutu.pencere {
+  position: relative;
+  background: #fff7ea;
+  border: 3px solid var(--hat);
+  border-radius: 26px;
+  box-shadow: inset 0 -7px 0 #ecdcc0, 0 6px 0 rgba(40, 14, 60, 0.45);
+  padding: 44px 22px 26px;
+  overflow: visible;
+}
+.pencere-baslik {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  text-shadow: 0 2px 0 var(--mor);
+  background: var(--bant);
+  border: 3px solid var(--hat);
+  border-radius: 999px;
+  padding: 5px 30px 9px;
+  box-shadow: inset 0 -5px 0 var(--mor), 0 3px 0 rgba(40, 14, 60, 0.35);
+}
+.kapat-x {
+  position: absolute;
+  top: -16px;
+  right: -12px;
+  width: 42px;
+  height: 42px;
+}
+.ayar-kutu.pencere { gap: 16px; }
+.ayar-grup {
+  background: #f3e6cf;
+  border-radius: 16px;
+  padding: 10px 10px 12px;
+  box-shadow: inset 0 2px 0 rgba(90, 58, 34, 0.15);
+}
+.ayar-etiket { font-weight: 700; padding-left: 4px; }
+.ayar-secenek {
+  border-radius: 999px;
+  background: #fffaf0;
+  box-shadow: inset 0 -4px 0 #e3cfae, 0 2px 0 rgba(90, 58, 34, 0.3);
+  padding: 7px 4px 10px;
+}
+.ayar-secenek.secili {
+  background: var(--bant);
+  color: #fff;
+  box-shadow: inset 0 -4px 0 var(--mor), 0 2px 0 rgba(90, 58, 34, 0.3);
+}
+.duraklat-kutu.pencere { padding-top: 48px; }
+
+/* Pencere açılırken küçükten büyüyüp yerine oturur (zıplama); arka plan yavaşça kararır. */
+.son:not(.gizli) { animation: karar 0.2s ease-out; }
+.son:not(.gizli) > .son-kutu { animation: pencere-ac 0.32s cubic-bezier(0.2, 1.5, 0.45, 1); }
+@keyframes karar { from { background-color: rgba(46, 18, 70, 0); } }
+@keyframes pencere-ac {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.giris:not(.gizli), .liste:not(.gizli) { animation: belir 0.25s ease-out; }
+@keyframes belir { from { opacity: 0; } }
+
+/* ---------- Bölüm sonu: külahlı logo, ikonlu düğmeler ---------- */
+.fis-logo { width: 40%; max-width: 120px; }
+.dugme.ikonlu { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.dugme.ikonlu svg { flex: none; }
+.dugme.yesil svg, .dugme.kirmizi svg, .dugme.mor svg { filter: drop-shadow(0 2px 0 var(--yazi-golge)); }
+.dugme.kucuk { font-size: 15px; padding: 6px 18px 10px; box-shadow: inset 0 -4px 0 var(--taban), 0 2px 0 rgba(40, 14, 60, 0.35); }
+.dugme.kucuk::before { height: 4px; top: 3px; left: 12px; right: 12px; }
+.dugme.kucuk:active { padding-top: 8px; padding-bottom: 8px; box-shadow: inset 0 -1px 0 var(--taban); }
+.son-kutu.fisli .liste-yolu { color: var(--mor); text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45); text-decoration: none; opacity: 1; font-weight: 700; }
+.fis .yildiz { width: 48px; height: 48px; }
+.fis .yildizlar .yildiz:nth-child(2) { transform: translateY(-8px); width: 56px; height: 56px; }
+.fis .yildizlar { align-items: flex-end; }
+.yildiz.kazanildi polygon { stroke: var(--hat); stroke-width: 1.6; }
+
+/* ---------- Bölüm haritası: mor şerit başlık, yuvarlak geri, kalın tabanlı taşlar ---------- */
+.harita-kutu.sahil .harita-ust {
+  background: rgba(78, 36, 112, 0.95);
+  border-bottom: 3px solid var(--hat);
+  box-shadow: 0 4px 0 rgba(40, 14, 60, 0.25);
+  min-height: 58px;
+}
+.harita-kutu.sahil .liste-baslik { color: #fff; font-size: 22px; font-weight: 800; text-shadow: 0 2px 0 var(--mor); }
+.harita-kutu.sahil .liste-durum { background: rgba(78, 36, 112, 0.9); color: #fff; }
+.harita-geri.kose-dugme {
+  left: 12px;
+  width: 40px;
+  height: 40px;
+  padding: 0 0 4px;
+}
+.harita-geri.kose-dugme:active { transform: translateY(calc(-50% + 3px)); }
+.harita-geri .geri-ok { width: 20px; height: 20px; }
+.harita-geri .geri-ok path { stroke: #fff; stroke-width: 3.4; }
+.harita-kutu.sahil .harita-nokta {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  padding-bottom: 4px;
+  box-shadow: inset 0 -6px 0 var(--mor), 0 4px 0 rgba(40, 14, 60, 0.45);
+}
+.harita-kutu.sahil .harita-nokta.siradaki {
+  box-shadow: inset 0 -6px 0 #d99400, 0 0 0 6px rgba(255, 201, 40, 0.5), 0 4px 0 rgba(40, 14, 60, 0.45);
+  animation: nabiz 1.4s ease-in-out infinite;
+}
+.harita-kutu.sahil .harita-nokta.kilitli { box-shadow: inset 0 -5px 0 #cfc3b2, 0 3px 0 rgba(40, 14, 60, 0.3); }
+.harita-kutu.sahil .harita-sayi { font-size: 19px; font-weight: 800; }
+.harita-kutu.sahil .harita-nokta.gecildi .harita-sayi { text-shadow: 0 2px 0 var(--mor); }
+.harita-yildizlar { background: rgba(255, 247, 234, 0.95); border: 2px solid var(--hat); border-radius: 999px; padding: 1px 4px; transform: translate(-50%, 2px); }
+.sahil-dukkan { box-shadow: inset 0 -3px 0 var(--mor); padding: 3px 12px 5px; }
+
+/* ---------- İnce ayarlar (ekran görüntülerinden sonra) ---------- */
+.giris-ad { width: min(280px, calc(100vw - 80px), 40vh); }
+.ayar-secenekler { flex-wrap: nowrap; }
+.ayar-secenek { min-width: 0; font-size: 12.5px; padding-left: 2px; padding-right: 2px; }
+.son-dugmeler { flex-wrap: nowrap; gap: 8px; }
+.son-dugmeler .dugme { font-size: 17px; padding: 10px 16px 15px; }
+.son-dugmeler .dugme:active { padding-top: 12px; padding-bottom: 13px; }
+.fis-logo { width: min(40%, 13vh); }
+/* Üst şerit: sol taraf daralabilir; erime yazısı sığmazsa sonu üç noktayla kısalır. */
+.ust-sol { flex: 1 1 auto; }
+.ust-sag { flex: none; }
+.erime-dugme { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 380px) {
+  .sayac { margin-left: 8px; padding-right: 6px; height: 22px; }
+  .sayac-simge { width: 22px; height: 22px; margin-left: -9px; }
+  .sayac-simge svg { width: 13px; height: 13px; }
+  .sayac-deger { font-size: 13px; }
+  .sayac .cubuk { width: 26px; }
+  .ust .kose-dugme { width: 30px; height: 30px; }
+  .ust-sag { gap: 3px; }
+  .son-dugmeler .dugme { font-size: 16px; padding: 9px 13px 14px; }
+  /* Küçük telefonda erime yazısı kısalmasın diye biraz küçük. */
+  .erime-dugme { font-size: 10px; padding: 1px 6px; letter-spacing: -0.1px; }
+  .bolum-no { font-size: 14px; }
+  .sayac .cubuk { width: 22px; }
+}
+/* Sayaç hapları biraz daha küçük: erime düğmesinin yazısı büyük telefonda tam sığsın. */
+.sayac { margin-left: 8px; padding-right: 6px; height: 22px; }
+.sayac-simge { width: 22px; height: 22px; margin-left: -9px; }
+.sayac-simge svg { width: 13px; height: 13px; }
+.sayac-deger { font-size: 13px; }
+.sayac .cubuk { width: 28px; }
+.ust-sag { gap: 4px; }
+/* Kısa ekranda fişteki logo küçülür, yıldızlara yer kalsın. */
+@media (max-height: 700px) {
+  .fis-logo { width: min(40%, 9vh); }
+  .fis { padding-top: 14px; }
+  .fis-satir { line-height: 1.6; }
+  .fis .yildiz { width: 36px; height: 36px; }
+  .fis .yildizlar .yildiz:nth-child(2) { width: 42px; height: 42px; transform: translateY(-5px); }
+}
+/* Küçük telefon (en sonda dursun ki yukarıdakileri ezsin). */
+@media (max-width: 380px) {
+  .sayac .cubuk { width: 20px; }
+  .sayac { margin-left: 7px; padding-right: 5px; }
+  .ust { padding-left: 8px; padding-right: 6px; }
 }

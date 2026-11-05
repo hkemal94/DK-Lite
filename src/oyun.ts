@@ -56,8 +56,11 @@ const RAF_ALT = {
 const DONDURMACI_RESMI = 'gorseller/tezgah/dondurmaci.webp';
 const SEVINEN_DONDURMACI_RESMI = 'gorseller/tezgah/dondurmaci-seviniyor.webp';
 const LOGO_RESMI = 'gorseller/logo-yazi.webp';
-// Arkada dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları (Canva, parlak çizgi film).
-const ARKA_PLAN_RESMI = 'gorseller/arka-plan.webp';
+// Külahlı logo (Kemal'in logosu; Dondurmacı Kızlar deposundan, 14 Ekim). Kemal, 5 Kasım:
+// "Logoyu da külahlı logo yap". Giriş ekranında ve bölüm sonu fişinde.
+const LOGO_KULAHLI_RESMI = 'gorseller/logo-kulahli.webp';
+// Arka planlar artık resim değil, desenli mor zemin (Kemal, 5 Kasım: "Desenli mor zemin");
+// desen stil.css'te (.desenli).
 // Bantta dondurma topunun altındaki külah (Canva, parlak çizgi film).
 const KULAH_RESMI = 'gorseller/kulah.webp';
 // Müşteri kartındaki kişi resminin boyu (px). Kemal, 30 Ekim: "Musteriler boyunlarindan
@@ -95,6 +98,20 @@ const UCAN_MS = 900;
 // Ayarlar düğmesindeki dişli.
 const DISLI_SVG =
   '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.3 4.7.1-1.2-.1-1.2 2-1.6-2-3.4-2.4 1a8 8 0 0 0-2-1.2L15.5 3h-4l-.4 2.6a8 8 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6-.1 1.2.1 1.2-2 1.6 2 3.4 2.4-1c.6.5 1.3.9 2 1.2l.4 2.6h4l.4-2.6c.7-.3 1.4-.7 2-1.2l2.4 1 2-3.4-2-1.6Z" fill="currentColor"/></svg>';
+// Üst şeritteki sayaçların simgeleri (yuvarlak, dolu, kalın; arayüz dili 5 Kasım).
+const MUSTERI_SIMGE_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M4.5 21c0-4.4 3.4-7.5 7.5-7.5s7.5 3.1 7.5 7.5Z" fill="currentColor"/></svg>';
+const PUAN_SIMGE_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8Z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+const BANT_SIMGE_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="5" fill="currentColor"/><path d="M7.2 11.5h9.6L12 22Z" fill="currentColor" opacity="0.75"/></svg>';
+// Pencere köşesindeki kapat işareti ve düğmelerdeki küçük ikonlar.
+const KAPAT_SVG =
+  '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/></svg>';
+const TEKRAR_SVG =
+  '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.1-5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M19.5 3.5v5h-5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+const ILERI_SVG =
+  '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h12M12 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const KALP_SVG =
   '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 21 C5 15 2 12 2 8 C2 5 4.5 3 7 3 C9 3 11 4.5 12 6 C13 4.5 15 3 17 3 C19.5 3 22 5 22 8 C22 12 19 15 12 21 Z" fill="#e2475b" stroke="#5a3a22" stroke-width="2" stroke-linejoin="round"/></svg>';
 const UZGUN_SVG =
@@ -283,24 +300,29 @@ export class Oyun {
     this.sahne.appendChild(this.ustEl);
     const sayaclar = document.createElement('div');
     sayaclar.className = 'sayaclar';
-    const sayac = (etiket: string, id: string) => {
+    // Her sayaç bir hap: solda dışa taşan yuvarlak simge, sağda değer (arayüz dili,
+    // 5 Kasım). Eski küçük yazı etiketi ("Müşteri", "Puan", "Bant") ekranda değil,
+    // yalnız ekran okuyucu için.
+    const sayac = (etiket: string, id: string, simge: string) => {
       const k = document.createElement('div');
       k.className = 'sayac';
       k.id = id;
-      const e = document.createElement('span');
-      e.className = 'sayac-etiket';
-      e.textContent = etiket;
-      k.appendChild(e);
+      k.setAttribute('aria-label', etiket);
+      k.title = etiket;
+      const s = document.createElement('span');
+      s.className = 'sayac-simge';
+      s.innerHTML = simge;
+      k.appendChild(s);
       sayaclar.appendChild(k);
       return k;
     };
     this.karsilananEl = document.createElement('span');
     this.karsilananEl.className = 'sayac-deger';
-    sayac('Müşteri', 'sayac-musteri').appendChild(this.karsilananEl);
+    sayac('Müşteri', 'sayac-musteri', MUSTERI_SIMGE_SVG).appendChild(this.karsilananEl);
     this.puanEl = document.createElement('span');
     this.puanEl.className = 'sayac-deger';
-    sayac('Puan', 'sayac-puan').appendChild(this.puanEl);
-    this.doluKutuEl = sayac('Bant', 'sayac-bant') as HTMLDivElement;
+    sayac('Puan', 'sayac-puan', PUAN_SIMGE_SVG).appendChild(this.puanEl);
+    this.doluKutuEl = sayac('Bant', 'sayac-bant', BANT_SIMGE_SVG) as HTMLDivElement;
     const cubuk = document.createElement('div');
     cubuk.className = 'cubuk';
     this.doluEl = document.createElement('div');
@@ -310,8 +332,7 @@ export class Oyun {
 
     // Arkada dükkândan dışarısı (gök ve deniz), en üstte mor-sarı tente.
     this.manzaraEl = document.createElement('div');
-    this.manzaraEl.className = 'manzara';
-    this.manzaraEl.style.backgroundImage = `url('${ARKA_PLAN_RESMI}')`;
+    this.manzaraEl.className = 'manzara desenli';
     this.sahne.prepend(this.manzaraEl);
     const tente = document.createElement('div');
     tente.className = 'tente';
@@ -383,14 +404,14 @@ export class Oyun {
     sol.append(this.bolumNoEl, this.erimeEl);
     // Sağ köşede duraklatma düğmesi (iki dik çizgi). Basınca oyun durur, seçenekler çıkar.
     this.duraklatEl = document.createElement('button');
-    this.duraklatEl.className = 'kose-dugme duraklat-dugme';
+    this.duraklatEl.className = 'kose-dugme duraklat-dugme yuvarlak mor';
     this.duraklatEl.id = 'duraklat';
     this.duraklatEl.setAttribute('aria-label', 'Duraklat');
     this.duraklatEl.append(document.createElement('span'), document.createElement('span'));
     this.duraklatEl.addEventListener('click', () => this.duraklat());
     // Hızlandırma düğmesi: basınca oyun HIZ_KATI kat hızlanır, tekrar basınca normale döner.
     this.hizEl = document.createElement('button');
-    this.hizEl.className = 'kose-dugme hiz-dugme';
+    this.hizEl.className = 'kose-dugme hiz-dugme yuvarlak mor';
     this.hizEl.id = 'hiz';
     this.hizEl.setAttribute('aria-label', 'Hızlandır');
     this.hizEl.textContent = `${HIZ_KATI}×`;
@@ -420,7 +441,11 @@ export class Oyun {
     this.duraklatMenuEl.className = 'son gizli';
     this.duraklatMenuEl.id = 'duraklat-menu';
     const menuKutu = document.createElement('div');
-    menuKutu.className = 'son-kutu duraklat-kutu';
+    menuKutu.className = 'son-kutu duraklat-kutu pencere';
+    menuKutu.append(
+      pencereBaslik('Duraklatıldı'),
+      kapatDugme('menu-kapat', () => this.devamEt()),
+    );
     const menuDugme = (yazi: string, sinif: string, id: string, is: () => void) => {
       const d = document.createElement('button');
       d.className = 'dugme ' + sinif;
@@ -442,16 +467,15 @@ export class Oyun {
 
     // Giriş ekranı: oyunun adı yerine yer tutucu (ad Kemal'in), "Başla" ve "Bölümler".
     this.girisEl = document.createElement('div');
-    this.girisEl.className = 'giris gizli';
+    this.girisEl.className = 'giris desenli gizli';
     this.girisEl.id = 'giris';
     const girisKutu = document.createElement('div');
     girisKutu.className = 'giris-kutu';
-    this.girisEl.style.backgroundImage = `url('${ARKA_PLAN_RESMI}')`;
     const ad = document.createElement('div');
     ad.className = 'giris-ad';
     ad.setAttribute('aria-label', OYUN_ADI);
     const adLogo = document.createElement('img');
-    adLogo.src = LOGO_RESMI;
+    adLogo.src = LOGO_KULAHLI_RESMI;
     adLogo.alt = '';
     adLogo.draggable = false;
     const lite = document.createElement('span');
@@ -496,11 +520,13 @@ export class Oyun {
     this.ayarlarEl.className = 'son ayarlar';
     this.ayarlarEl.innerHTML = '';
     const kutu = document.createElement('div');
-    kutu.className = 'son-kutu ayar-kutu';
-    const baslik = document.createElement('div');
-    baslik.className = 'son-baslik';
-    baslik.textContent = 'Ayarlar';
-    kutu.appendChild(baslik);
+    kutu.className = 'son-kutu ayar-kutu pencere';
+    const kapat = () => {
+      this.ayarlarEl.className = 'son ayarlar gizli';
+      this.ayarlarEl.innerHTML = '';
+    };
+    // Başlık şeridi ve köşede kırmızı ✕ (Kemal, 5 Kasım: "Köşede ✕"); alttaki "Kapat" kalktı.
+    kutu.append(pencereBaslik('Ayarlar'), kapatDugme('ayarlar-kapat', kapat));
     const grup = (ad: string, secenekler: string[], secili: number, sec: (i: number) => void) => {
       const g = document.createElement('div');
       g.className = 'ayar-grup';
@@ -529,15 +555,6 @@ export class Oyun {
         ayarYaz(this.ayarlar);
       }),
     );
-    const kapat = document.createElement('button');
-    kapat.className = 'dugme';
-    kapat.id = 'ayarlar-kapat';
-    kapat.textContent = 'Kapat';
-    kapat.addEventListener('click', () => {
-      this.ayarlarEl.className = 'son ayarlar gizli';
-      this.ayarlarEl.innerHTML = '';
-    });
-    kutu.appendChild(kapat);
     this.ayarlarEl.appendChild(kutu);
   }
 
@@ -566,12 +583,12 @@ export class Oyun {
 
   private girisAc() {
     this.girisAcik = true;
-    this.girisEl.className = 'giris';
+    this.girisEl.className = 'giris desenli';
   }
 
   private girisKapat() {
     this.girisAcik = false;
-    this.girisEl.className = 'giris gizli';
+    this.girisEl.className = 'giris desenli gizli';
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
@@ -1397,7 +1414,7 @@ export class Oyun {
     // Başlık: dükkânın logosu ve bölüm numarası.
     const logo = document.createElement('img');
     logo.className = 'fis-logo';
-    logo.src = LOGO_RESMI;
+    logo.src = LOGO_KULAHLI_RESMI;
     logo.alt = 'Dondurmacı Kızlar';
     logo.draggable = false;
     const bolumYazi = document.createElement('div');
@@ -1453,10 +1470,12 @@ export class Oyun {
     fis.appendChild(tesekkur);
     kutu.appendChild(fis);
 
-    const dugme = (yazi: string, sinif: string, is: () => void) => {
+    // Düğmeler yazının yanında küçük ikonla: Tekrar oyna ↻, Devam et → (arayüz dili).
+    const dugme = (yazi: string, sinif: string, is: () => void, ikon = '') => {
       const d = document.createElement('button');
-      d.className = 'dugme ' + sinif;
-      d.textContent = yazi;
+      d.className = 'dugme ikonlu ' + sinif;
+      d.innerHTML = ikon;
+      d.append(yazi);
       d.addEventListener('click', is);
       return d;
     };
@@ -1465,17 +1484,17 @@ export class Oyun {
     if (kazandi) {
       const sonBolum = no >= BOLUM_SAYISI;
       dugmeler.append(
-        dugme('Tekrar oyna', 'krem', () => this.yenidenBasla(no)),
+        dugme('Tekrar oyna', 'krem', () => this.yenidenBasla(no), TEKRAR_SVG),
         // Sonraki bölüm; son bölümdeyse bölüm haritası.
-        dugme('Devam et', 'yesil', () => (sonBolum ? this.listeAc('yerinde') : this.yenidenBasla(no + 1))),
+        dugme('Devam et', 'yesil', () => (sonBolum ? this.listeAc('yerinde') : this.yenidenBasla(no + 1)), ILERI_SVG),
       );
     } else {
-      dugmeler.append(dugme('Tekrar oyna', 'krem', () => this.yenidenBasla(no)));
+      dugmeler.append(dugme('Tekrar oyna', 'yesil', () => this.yenidenBasla(no), TEKRAR_SVG));
     }
     kutu.appendChild(dugmeler);
     // Bölüm haritasına dönüş için küçük bir yol.
     const listeYolu = document.createElement('button');
-    listeYolu.className = 'liste-yolu';
+    listeYolu.className = 'dugme krem kucuk liste-yolu';
     listeYolu.textContent = 'Bölümler';
     listeYolu.addEventListener('click', () => this.listeAc('yerinde'));
     kutu.appendChild(listeYolu);
@@ -1592,4 +1611,23 @@ function yildizCiz(dolu: boolean): SVGSVGElement {
   p.setAttribute('points', noktalar.join(' '));
   svg.appendChild(p);
   return svg;
+}
+
+// Pencerenin üst kenarına binen mor başlık şeridi (arayüz dili, 5 Kasım 2026).
+function pencereBaslik(yazi: string): HTMLDivElement {
+  const b = document.createElement('div');
+  b.className = 'pencere-baslik';
+  b.textContent = yazi;
+  return b;
+}
+
+// Pencerenin sağ üst köşesinde kırmızı yuvarlak ✕ (Kemal, 5 Kasım: "Köşede ✕").
+function kapatDugme(id: string, is: () => void): HTMLButtonElement {
+  const d = document.createElement('button');
+  d.className = 'kose-dugme yuvarlak kirmizi kapat-x';
+  d.id = id;
+  d.setAttribute('aria-label', 'Kapat');
+  d.innerHTML = KAPAT_SVG;
+  d.addEventListener('click', is);
+  return d;
 }

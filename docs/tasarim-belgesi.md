@@ -30,7 +30,7 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
-### 0.23 Arayüz dili ve ortak düğme (Kemal, 5 Kasım 2026; öneri)
+### 0.23 Arayüz dili: bütün arayüz, külahlı logo, desenli mor zemin (Kemal, 5 Kasım 2026; öneri)
 
 Kemal'in isteği (CEO iletti): "Pinterest'te DK Lite için menü ve asset görselleri yükledim ... Butonlar falan da var gölgeli böyle. Yan bir konuşmada yeni arayüz hazırlığına gir." Panodaki "DK Lite" bölümünden (9 görsel) bir arayüz dili notu çıkarıldı: `docs/arayuz-dili.md`. Başka oyunların görseli, logosu, adı alınmadı; yalnız üslup.
 
@@ -44,7 +44,15 @@ Ne değişti (1. adım; oynanış, sayılar, yazılar aynı):
 - Yazı tipi Poppins artık gerçekten oyunda (önceden yüklenmiyor, telefonun yazısı görünüyordu).
 - Ekran görüntüleri: `docs/ekran/arayuz-dili/` (önce / sonra).
 
-Sıradaki adımlar (sırası `docs/arayuz-dili.md`): ayarlar ve duraklatma kutuları (mor şerit başlık, köşede kırmızı ✕), oyun içi üst şerit, bölüm sonu düğmeleri, bölüm haritası, geçişler.
+İkinci tur (aynı gün). Kemal: "Sadece butonlar için değil tüm arayüz için bir güncelleme bekliyordum açıkçası. Logoyu da külahlı logo yap, arka planları daha uygun bir görsel dille revize et." Cevapları: logo "Dondurmacı Kızlar'daki logo"; arka plan "Desenli mor zemin (Önerilen)"; kapsam "Hepsi tek pakette (Önerilen)". Ne değişti:
+- Logo: giriş ekranında ve bölüm sonu fişinde Kemal'in külahlı logosu (Dondurmacı Kızlar deposundaki `logo-kulahli.webp`, 14 Ekim; yalnız küçültüldü). Tezgâh önünde yazı logo kaldı (yer dar).
+- Arka planlar: giriş ekranı koyu mor, oyun ekranı açık lila; ikisinde de soluk külah-yıldız-nokta deseni ve ortada ışık. Giriş ve oyun ekranındaki deniz manzarası resmi (`arka-plan.webp`) artık görünmüyor; dosya depoda duruyor. Bölüm haritasının sahil yolu çizimi kaldı.
+- Pencereler (ayarlar, duraklatma): üstte mor başlık şeridi, köşede kırmızı ✕; ayarlardaki "Kapat" kalktı. Duraklatma penceresinin başlığı "Duraklatıldı".
+- Oyun içi: üst şerit koyu mor; sayaçlar simgeli hap; 2× ve duraklatma mor yuvarlak. Müşteri balonları kalın hatlı ve kuyruklu; sütunlar kalın hatlı.
+- Bölüm sonu: ikonlu düğmeler, büyük yıldızlar, "Bölümler" küçük düğme. Kaybedince "Tekrar oyna" yeşil (tek ileri yol).
+- Bölüm haritası: mor üst şerit, yuvarlak geri, kalın tabanlı bölüm taşları.
+- Geçişler: pencere zıplayarak açılır, giriş ve harita yumuşak belirir; logo ve "Başla" hafif hareketli.
+- Ayrıntı ve ekran ekran liste: `docs/arayuz-dili.md`.
 
 ### 0.22 Bölüm sonunda dondurmacı fişin üstünde, 30 bölüm, harita önlemi (öneri; 29 Ekim 2026)
 
