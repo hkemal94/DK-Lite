@@ -297,7 +297,19 @@ html, body {
 .sutun .top.ustte { opacity: 1; }
 .sutun.basili { background: rgba(255, 201, 40, 0.35); }
 
-.sutun.sars { animation: sars 0.3s; }
+/* Sütuna dokununca kısa bir sarı parıltı: dokunuşun alındığı görünür (4 Kasım 2026). */
+.sutun.dokunuldu { animation: sutun-dokun 0.35s ease-out; }
+@keyframes sutun-dokun {
+  0%, 40% {
+    transform: scale(0.97);
+    box-shadow: inset 0 0 0 3px rgba(90, 58, 34, 0.45), inset 0 0 0 8px rgba(255, 201, 40, 0.95), inset 0 0 26px rgba(255, 201, 40, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: inset 0 0 0 3px rgba(90, 58, 34, 0.45), inset 0 0 0 8px rgba(255, 201, 40, 0), inset 0 0 26px rgba(255, 201, 40, 0);
+  }
+}
+.sutun.sars, .sutun.dokunuldu.sars { animation: sars 0.3s; }
 @keyframes sars {
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
@@ -645,7 +657,9 @@ html, body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid rgba(78, 36, 112, 0.25);
+  /* öbür düğmeler gibi kalın kahverengi hat ve alt gölge (4 Kasım 2026) */
+  border: 2px solid var(--hat);
+  box-shadow: 0 2px 0 rgba(90, 58, 34, 0.35);
   background: #fff;
   color: var(--mor);
   font: inherit;
@@ -678,7 +692,6 @@ html, body {
 /* Hızlandırma açıkken düğme sarı dolu. */
 .hiz-dugme.acik {
   background: var(--sari);
-  border-color: var(--sari);
 }
 
 /* ---------- Bar (30 Ekim: "Ahşap kafe barı") ---------- */
@@ -904,7 +917,13 @@ html, body {
   from { transform: rotate(-3deg); }
   to { transform: translateY(-3px) rotate(3deg); }
 }
-.son-kutu.fisli .liste-yolu { color: #fff; }
+/* Fişin altındaki "Bölümler": karartılmış oyunun üstünde okunsun (4 Kasım 2026). */
+.son-kutu.fisli .liste-yolu {
+  color: #fff;
+  opacity: 1;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(40, 20, 10, 0.8), 0 0 6px rgba(40, 20, 10, 0.5);
+}
 
 /* Konfeti: kazanınca yukarıdan dökülen renkli kâğıtlar. */
 .konfeti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 11; }
@@ -942,14 +961,19 @@ html, body {
   flex: 1 1 0;
   font: inherit;
   font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
   color: var(--mor);
   background: #fff;
   border: 2px solid var(--hat);
   border-radius: 12px;
-  padding: 8px 6px;
+  padding: 8px 4px;
+  box-shadow: 0 2px 0 rgba(90, 58, 34, 0.35);
   cursor: pointer;
 }
-.ayar-secenek.secili { background: var(--sari); font-weight: 700; }
+/* Seçili seçenek yalnız sarı dolar; yazı kalınlaşıp iki satıra kaymasın (4 Kasım 2026). */
+.ayar-secenek.secili { background: var(--sari); }
+.ayar-kutu.son-kutu { padding: 24px 20px; }
 
 /* ---------- Bölüm seçme ekranı: sahil yolu (30 Ekim) ---------- */
 .liste.harita-ekran { background: #7cc4e4; overflow: hidden; }
@@ -991,3 +1015,36 @@ html, body {
 .harita-kutu.sahil .harita-nokta.siradaki { box-shadow: 0 0 0 6px rgba(255, 201, 40, 0.5), 0 4px 0 rgba(90, 58, 34, 0.4); }
 .harita-kutu.sahil .harita-nokta.kilitli { background: #e9e1d6; color: rgba(90, 58, 34, 0.45); border-color: rgba(90, 58, 34, 0.45); }
 .harita-kutu.sahil .harita-sayi { font-size: 18px; font-weight: 700; }
+
+/* ---------- Dokunma geri bildirimi (4 Kasım 2026) ----------
+   Basılan düğme hafifçe aşağı iner, gölgesi kısalır; parmak kalkınca geri çıkar.
+   Yalnız görünüm; düğmelerin işi değişmedi. */
+.dugme,
+.kose-dugme,
+.ayar-secenek,
+.harita-geri,
+.harita-nokta,
+.bolum-no,
+.erime-dugme,
+.liste-yolu {
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, filter 0.08s ease-out;
+}
+.dugme:active,
+.son-kutu .dugme:active,
+.giris-kutu .dugme:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(90, 58, 34, 0.35);
+  filter: brightness(0.95);
+}
+.kose-dugme:active,
+.ayar-secenek:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 rgba(90, 58, 34, 0.35);
+  filter: brightness(0.95);
+}
+.ayar-dugme:active { box-shadow: 0 1px 0 rgba(90, 58, 34, 0.35); }
+.harita-geri:active { transform: translateY(calc(-50% + 2px)); filter: brightness(0.95); }
+.harita-nokta:not(.kilitli):active { transform: scale(0.9); }
+.bolum-no:active,
+.erime-dugme:active,
+.liste-yolu:active { transform: scale(0.95); }
