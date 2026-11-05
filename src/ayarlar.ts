@@ -85,7 +85,10 @@ function kuralIkiCesit(no: number): number {
 // Hediye ürünler: her 10 bölümde bir, çok zor bölümün (10, 20, 30 ...) hediyesi. O bölüm
 // ilk kez kazanılınca açılır ("?" kutusu), sonraki bölümde ilk kez gelir, sonra dönüşüme girer.
 // Çay ve Türk kahvesi önce 8. ve 9. bölümde geliyordu; Kemal: "Evet, taşınsın". Sıra DENEME.
-export const HEDIYE_URUNLER: Record<string, number> = { cay: 10, kahve: 20, sakizli: 30, baklava: 40, ayran: 50 };
+// Yeni tatlılarla (5 Kasım gecesi) her zorlu bölüm (10'dan sonra 5. ve 10.) bir hediye verir.
+export const HEDIYE_URUNLER: Record<string, number> = {
+  cay: 10, sutlac: 15, kahve: 20, lokma: 25, sakizli: 30, profiterol: 35, baklava: 40, 'muzlu-sut': 45,
+};
 function urunIzinli(id: string, no: number): boolean {
   const h = HEDIYE_URUNLER[id];
   return h === undefined || no > h;
@@ -341,7 +344,10 @@ export const URUNLER: Urun[] = [
   // Soğuk içecekler"). Çizimler Canva; kaynak docs/lisanslar.md.
   { id: 'sakizli', ad: 'Sakızlı', tur: 'dondurma', renk: '#f3f5ea' },
   { id: 'baklava', ad: 'Baklava', tur: 'tatli', renk: '#d9a24a' },
-  { id: 'ayran', ad: 'Ayran', tur: 'icecek', renk: '#f4f7f2' },
+  { id: 'muzlu-sut', ad: 'Muzlu süt', tur: 'icecek', renk: '#f6e7b8' }, // Kemal: ayran yerine, "biraz krem rengi"
+  { id: 'sutlac', ad: 'Sütlaç', tur: 'tatli', renk: '#f3e3c2' }, // Kemal: "Biraz daha tatlı çizebilirsin"
+  { id: 'lokma', ad: 'Lokma', tur: 'tatli', renk: '#d9953f' },
+  { id: 'profiterol', ad: 'Profiterol', tur: 'tatli', renk: '#5a3420' },
 ];
 
 // Ürünün URUNLER içindeki sırası (oyun içinde ürünler bu sırayla tutulur).
