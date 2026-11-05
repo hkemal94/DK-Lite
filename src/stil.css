@@ -1862,3 +1862,22 @@ html, body {
 .sayfa-ok .geri-ok path { fill: none; stroke: #fff; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
 .sayfa-ok:disabled { opacity: 0.35; cursor: default; }
 .sayfa-yazi { min-width: 70px; text-align: center; color: #fff; font-size: 18px; font-weight: 800; text-shadow: 0 2px 0 var(--mor); }
+
+/* Sandık: Canva resmi (5 Kasım 2026). Önce sallanır, sonra içinden kalp yükselir. */
+img.sandik {
+  position: relative;
+  width: 150px;
+  height: auto;
+  filter: drop-shadow(0 5px 0 rgba(90, 58, 34, 0.35));
+  animation: sandik-salla 0.6s ease-in-out 0.15s both;
+}
+.odul-ortu.gecikmeli img.sandik { animation-delay: 1.45s; }
+@keyframes sandik-salla {
+  0%, 100% { transform: rotate(0) scale(1); }
+  20% { transform: rotate(-7deg) scale(1.04); }
+  40% { transform: rotate(6deg) scale(1.06); }
+  60% { transform: rotate(-4deg) scale(1.04); }
+  80% { transform: rotate(2deg) scale(1.02); }
+}
+.sandik-sahne { height: 170px; }
+.sandik-sahne .sandik-kalp { bottom: 96px; z-index: 1; }

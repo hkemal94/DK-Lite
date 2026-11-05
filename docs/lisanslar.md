@@ -27,6 +27,14 @@ Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
 işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
 ayrılsın diye biraz daha sarı yapıldı.
 
+## Ödül sandığı (5 Kasım 2026)
+
+| Dosya | Ne | Kaynak |
+|---|---|---|
+| `public/gorseller/sandik.webp` | Ödül sandığı (mor-sarı, saydam zemin; kırpılıp 360 piksele küçültüldü) | Canva'nın resim üretme aracıyla çizildi, arka planı Canva'da silindi; Kemal'in Canva hesabında "DK Lite çalışma (7. paket görselleri)" tasarımının 13. sayfası ("Sandık (5 Kasım 2026)"), Kemal'in izniyle ("Canva'da çizilsin"). Resim: https://www.canva.com/M/MAHaFdZ3cJg |
+
+İlk deneme sandığın üstüne kendiliğinden "DK LITE" yazısı ve tanınmış bir oyunun logosunu andıran bir amblem koyduğu için kullanılmadı; ikinci deneme yazısız istendi. Kullanım koşulları Canva'nın yapay zekâ ile üretilen içerik koşulları.
+
 ## Yazı tipi
 
 | Ne | Kaynak | Lisans |

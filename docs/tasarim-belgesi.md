@@ -36,7 +36,7 @@ Kemal: "Vermem gereken kararları bana çoktan seçmeli sor". Cevapları:
 - İlk zor bölüm: "10. bölüm (Önerilen)". İlk dilimde (1–10) 5. bölüm artık normal, 6. bölüm rahat değil normal; ilk zor bölüm 10. bölüm (çok zor, sandık). 11. bölümden sonra düzen aynı (5. zor, 6. rahat, 10. çok zor).
 - Zor bölümler ne kadar zor: "Şimdiki gibi, oynayıp söylerim".
 - Sandık şansı: "Sınırsız can nadir". +1 can %50, canlar dolar %35, 1 saat sınırsız can %15 (oranlar ekibin DENEME değeri).
-- Sandık çizimi: "Canva'da çizilsin" (Canva hesabına "DK Lite çalışma" tasarımı kaydetme izniyle).
+- Sandık çizimi: "Canva'da çizilsin" (Canva hesabına "DK Lite çalışma" tasarımı kaydetme izniyle). Yapıldı: mor-sarı, yazısız sandık (`public/gorseller/sandik.webp`; kaynak `docs/lisanslar.md`). Sandık penceresinde önce sallanır, sonra üstünden kalp yükselir. Ekran görüntüleri: `docs/ekran/kararlar/`.
 - Duraklatma başlığı: "Duraklatıldı" kalır.
 - Oyunun adı: "Yurt dışından indirmek isteyen biri için çok zor bir isim, o yüzden DK ile ilgili bir şey düşünmüştüm"; sonra: "Dondurmacı Kızlar oyunu zaten bir keyif meselesi benim için, bu lite oyundan para kazanma ihtimalim var ama o yüzden düşünmedim şu anda". Ad henüz yok; [Kemal]. Şimdilik giriş ekranı aynı.
 - Yıldız: "Puana göre kalsın". Bu soru kapandı.
