@@ -30,6 +30,19 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.24 Bölüm seçme: kutulu bölümler, sabit zemin (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal (telefondan bölüm seçme ekranının görüntüsüyle): "Bu yolu beğenmediğimden bahsediyordum, kutulu olarak bölümleri koy, sabit arka zeminde". 0.19'daki sahil yolu çizimi kalktı.
+
+- Bölümler numaralı kutular hâlinde, satır satır dizilir (satırda 4 kutu); 1. bölüm en üstte solda.
+- Arkada desenli mor zemin (0.23) yerinde durur, kaymaz; yalnız kutular kayar. Açılınca kaldığın bölüm ortaya gelir.
+- Geçilmiş bölüm mor kutu, beyaz numara, altında kazanılan yıldızlar; sıradaki sarı ve yavaşça büyüyüp küçülür; kilitli bölüm soluk krem, numaranın altında küçük kilit, dokununca başlamaz.
+- Üstte mor şerit, "Bölümler" başlığı ve mor yuvarlak geri düğmesi (0.23 gibi).
+- Bölüm sayısı artınca kutular kendiliğinden çoğalır (`BOLUM_SAYISI`).
+- Sahil yolu resmi (`sahil-yolu.webp`) artık görünmüyor; dosya depoda duruyor.
+- Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`.
+- Açık soru (0.22'deki "500 bölüme giderken harita" sorusu) bununla daralır: harita yok, kutular uzar. Çok bölümde sayfalara mı bölünsün: [Kemal].
+
 ### 0.23 Arayüz dili: bütün arayüz, külahlı logo, desenli mor zemin (Kemal, 5 Kasım 2026; öneri)
 
 Kemal'in isteği (CEO iletti): "Pinterest'te DK Lite için menü ve asset görselleri yükledim ... Butonlar falan da var gölgeli böyle. Yan bir konuşmada yeni arayüz hazırlığına gir." Panodaki "DK Lite" bölümünden (9 görsel) bir arayüz dili notu çıkarıldı: `docs/arayuz-dili.md`. Başka oyunların görseli, logosu, adı alınmadı; yalnız üslup.

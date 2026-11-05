@@ -432,7 +432,7 @@ export class Oyun {
     this.kok.appendChild(this.sonEl);
 
     this.listeEl = document.createElement('div');
-    this.listeEl.className = 'liste harita-ekran gizli';
+    this.listeEl.className = 'liste harita-ekran desenli gizli';
     this.listeEl.id = 'liste';
     this.kok.appendChild(this.listeEl);
 
@@ -1528,7 +1528,7 @@ export class Oyun {
   listeAc(donus: HaritaDonus) {
     this.haritaDonus = donus;
     this.listeAcik = true;
-    this.listeEl.className = 'liste harita-ekran';
+    this.listeEl.className = 'liste harita-ekran desenli';
     this.listeEl.innerHTML = '';
     this.listeEl.appendChild(
       haritaCiz(this.kayit, yildizCiz, {
@@ -1549,7 +1549,7 @@ export class Oyun {
 
   private listeKapat() {
     this.listeAcik = false;
-    this.listeEl.className = 'liste harita-ekran gizli';
+    this.listeEl.className = 'liste harita-ekran desenli gizli';
     this.listeEl.innerHTML = '';
   }
 

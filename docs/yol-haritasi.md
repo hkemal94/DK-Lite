@@ -29,6 +29,7 @@ alttaki "Geçmiş notlar" bölümüne taşındı.
   oynar, her grup için "kolay / zor / tamam" der: önce 1–10, sonra 11–20,
   sonra 21–30. Bir grup oturmadan sonrakinin sayıları değiştirilmez.
   Ardından 31. bölümden sonrası için Kemal'in kararı (aşağıda).
+- Bölüm seçme ekranı (5 Kasım 2026 akşamı, öneri; `ajans/kutulu-bolumler`): sahil yolu kalktı; bölümler sabit desenli mor zeminin üstünde numaralı kutular (satırda 4), geçilen mor ve yıldızlı, sıradaki sarı, kilitli soluk ve kilitli. Kemal: "kutulu olarak bölümleri koy sabit arka zeminde". Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`. Telefonda denenmedi.
 - Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.
 
 ## Bölüm bölüm
@@ -114,8 +115,8 @@ koddan okundu; elle yazılmadı.
 - Kural hazır: bölüm sayısı yalnız `BOLUM_SAYISI` ile artar; harita, kayıt
   ve zorluk kendiliğinden uyar. Kuralın sınırları (deneme): müşteri en çok
   22, çeşit en çok 6, bant yeri en az 7, iki çeşit oranı en çok 0,7.
-- Kemal'in kararı gereken: kaç bölüme çıkılacak ve ne zaman; harita hep aynı
-  sahil manzarasında mı uzasın; zorluk bir yerde dursun mu, dalgalı mı gitsin;
+- Kemal'in kararı gereken: kaç bölüme çıkılacak ve ne zaman; bölüm seçme
+  ekranı kutulu (5 Kasım), çok bölümde sayfalara bölünsün mü; zorluk bir yerde dursun mu, dalgalı mı gitsin;
   elle yapılmış bölümler bitince ne olur ("sonu yok" sorusu).
 
 ## Nasıl ilerler (tek kişilik ekip için)

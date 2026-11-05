@@ -202,7 +202,8 @@ Ne yapıldı, ekran ekran:
 - **Bölüm sonu:** fiş kaldı; fişin başında külahlı logo; yıldızlar büyüdü,
   ortadaki daha büyük ve yukarıda; "Tekrar oyna" ↻ ve "Devam et" → ikonlu;
   "Bölümler" küçük krem düğme.
-- **Bölüm haritası:** sahil yolu çizimi kaldı (Kemal'in seçtiği harita).
+- **Bölüm haritası:** (5 Kasım akşamı değişti) sahil yolu kalktı; Kemal: "kutulu olarak bölümleri koy sabit arka zeminde". Bölümler desenli mor zeminde numaralı kutular; tasarım belgesi 0.24.
+  İlk hâli: sahil yolu çizimi kaldı (Kemal'in seçtiği harita).
   Üst şerit koyu mor, başlık beyaz; "Geri" mor yuvarlak ok düğmesi; bölüm
   taşları kalın tabanlı, sıradaki yavaşça büyüyüp küçülür.
 - **Geçişler:** pencereler zıplayarak açılır, arka plan yavaşça kararır;
