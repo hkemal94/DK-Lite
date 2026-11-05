@@ -30,6 +30,15 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.35 Müşteri çeşitliliği: desenler ve 10 yeni kişi (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Desenler ve renkler ayrıca etnik kökenler ve saçlar falan etkili olabilir"; desenler "çizgili, puantiyeli, çiçekli, ekose"; "10 yeni kişi".
+- Parça parça renk ve desen: 8 kişinin kıyafetinde üst ve alt ayrı boyanır, bazı parçalara desen giydirilir (gölge ve çizgiler korunur). 32 yeni görünüş (`araclar/musteri_desen.py`; renkler ve hangi kişiye hangi desen ekibin seçimi).
+- 10 yeni kişi Canva'da aynı tarzda çizildi: kıvırcık saçlı genç kadın, başörtülü kadın, Doğu Asyalı genç adam, kızıl saçlı çilli kız çocuk, bastonlu yaşlı adam, sarı örgülü genç kadın, örgü saçlı genç adam, gözlüklü yaşlı kadın, mor saçlı genç kadın, yağmurluklu erkek çocuk. Adları yok ([Kemal]).
+- Toplam 20 kişi, 88 görünüş. Ekranda aynı kişi iki kez görünmez.
+- Yeni oyuncuda günlük ödül 0. bölüm bittikten sonra başlar (Başla'nın önüne çıkmasın diye).
+- Ekran görüntüleri: `docs/ekran/musteri-desen/`, `docs/ekran/yeni-kisiler/`. Telefonda denenmedi.
+
 ### 0.34 Yardımcılar, galibiyet serisi, günlük ödül, albüm (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal'in seçimleri: yardımcılar "Bandı boşalt, Sütunları karıştır, Sabrı durdur, Fazla bant yeri, +1 sütun"; kazanım "Sandıktan, Günlük ödülden, Başlangıçta her birinden 1, Galibiyet serisinden"; seri "3 kazançta yardım"; günlük "7 günlük takvim"; albüm "Şimdilik yalnızca ürünler". Sayılar DENEME (`src/ayarlar.ts`).

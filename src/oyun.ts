@@ -74,8 +74,11 @@ import {
 // Gelen müşterinin görünüşü bunlardan rastgele seçilir; ekranda olan kişi bir daha gelmez.
 const MUSTERI_RENKLERI = ['', 'kirmizi', 'mor', 'yesil', 'pembe'];
 const RENKSIZ_MUSTERILER = [2];
+// Yeni 10 kişi (11–20; Kemal: "etnik kökenler ve saçlar"; Canva) renk çeşitsiz, kendi hâliyle gelir.
+const KISI_SAYISI = 20;
+const RENKLI_KISI_SAYISI = 10;
 const MUSTERI_RESIMLERI = MUSTERI_RENKLERI.flatMap((renk) =>
-  Array.from({ length: 10 }, (_, i) => i + 1)
+  Array.from({ length: renk === '' ? KISI_SAYISI : RENKLI_KISI_SAYISI }, (_, i) => i + 1)
     .filter((no) => renk === '' || !RENKSIZ_MUSTERILER.includes(no))
     .map((no) => `gorseller/musteriler/musteri-${String(no).padStart(2, '0')}${renk ? '-' + renk : ''}.webp`),
 );
@@ -2088,6 +2091,8 @@ export class Oyun {
 
   // Günlük ödül (Kemal: "7 günlük takvim"): giriş ekranında, bugün alınmadıysa açılır.
   private gunlukBak() {
+    // Yeni oyuncu önce 0. bölümü oynar; günlük ödül ondan sonra başlar.
+    if (!ogreticiBittiMi()) return;
     const sira = gunlukBugun();
     if (sira === null || this.kok.querySelector('#gunluk')) return;
     const ort = odulOrtusu('gunluk', 'Günlük ödül');
