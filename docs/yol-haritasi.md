@@ -36,6 +36,7 @@ alttaki "Geçmiş notlar" bölümüne taşındı.
   - 3) Dükkânı süsleme: **çıkarıldı** (Kemal, 5 Kasım: "Dükkan kısmını sevmedim. Onu koymayalım hiç").
   - 4) Para ve market: para modeli konuşulunca.
 - Geri bildirim ve zorluk (5 Kasım 2026 akşamı, öneri; `ajans/can-sandik` dalında devam): düğmelerde beyaz çizgi kalktı; kapalı bölümde sürpriz ürün "?"; can 15 dakikada dolar; 50 bölüm; araştırma (`docs/arastirma-zorluk-ve-baglilik.md`) ve Kemal'in seçtiği 10'luk dilim zorluk (5. bölüm zor, 6. rahat, 10. çok zor; işaretli); fiş yerine sonuç penceresi. Tasarım belgesi 0.27; ekran görüntüleri `docs/ekran/sonuc-penceresi/`. Telefonda denenmedi.
+- Kemal'in kararları (5 Kasım gecesi; tasarım belgesi 0.28; öneri `ajans/kararlar`): ilk zor bölüm 10. bölüm; sandıkta sınırsız can nadir (%15); sandık Canva'da çizilir; Bölümler ekranı 20'li sayfalar; yıldız puana göre; mevsim şimdilik yaz (sonra aylık temalar, etkinlikler); oyunun yayın adı [Kemal].
 - Sırada (Kemal: hepsi uygun): yeni öğeler (buzlu top 11., gizli top 21., aceleci müşteri 31., kilitli sütun 41. bölümde), sonra yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü; her biri ayrı paket.
 - Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.
 
@@ -306,6 +307,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Kimde: Asset Hazırlayıcı.
 
 ## Sonra (ilk sürümde yok; sırası Kemal'le)
+
+- Aylık temalar ve etkinlikler (Kemal, 5 Kasım: "ondan sonra aylık temalar falan yaparız etkinlikler olur").
 
 Not (5 Kasım 2026): sandık, market, altın ve yeni malzeme kazanma artık "Neredeyiz"deki kazanç sırasında (tasarım belgesi 0.25).
 

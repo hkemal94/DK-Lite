@@ -36,7 +36,7 @@ import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
-import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, SANDIK_ODULLERI, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
+import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, sandikOdulSec, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
 import {
   canDurumu,
   canEkle,
@@ -1444,7 +1444,7 @@ export class Oyun {
     const ilkKazanma = kazandi && (this.kayit.yildizlar[no - 1] ?? 0) === 0;
     const sandik: SandikOdulu | null =
       ilkKazanma && no % SANDIK_ARALIGI === 0
-        ? SANDIK_ODULLERI[Math.floor(Math.random() * SANDIK_ODULLERI.length)]
+        ? sandikOdulSec(Math.random())
         : null;
     if (sandik === 'bir-can') canEkle(1);
     else if (sandik === 'canlar-dolu') canlariDoldur();

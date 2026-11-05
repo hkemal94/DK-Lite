@@ -1845,3 +1845,20 @@ html, body {
 @media (max-width: 380px) {
   .sonuc-kutu .son-dugmeler .dugme { font-size: 15px; padding: 8px 11px 13px; }
 }
+
+/* Bölümler sayfaları (5 Kasım 2026: "Daha küçük sayfalar"; 20'li) */
+.sayfa-alt {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 10px 12px 14px;
+  background: rgba(78, 36, 112, 0.95);
+  border-top: 3px solid var(--hat);
+}
+.sayfa-ok { width: 44px; height: 44px; padding: 0 0 4px; }
+.sayfa-ok .geri-ok { width: 22px; height: 22px; }
+.sayfa-ok .geri-ok path { fill: none; stroke: #fff; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+.sayfa-ok:disabled { opacity: 0.35; cursor: default; }
+.sayfa-yazi { min-width: 70px; text-align: center; color: #fff; font-size: 18px; font-weight: 800; text-shadow: 0 2px 0 var(--mor); }
