@@ -134,15 +134,16 @@ export function haritaCiz(
       for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) yildizlar.appendChild(yildizCiz(k < yildiz));
       d.appendChild(yildizlar);
     }
-    // Yeni ürünün ilk geldiği bölümün köşesinde o ürünün küçük resmi (kazanç, 5 Kasım):
-    // oyuncu ileride ne kazanacağını görür.
-    const yeni = bolumdeYeniUrunler(no);
+    // Hediye: bu bölüm kazanılınca açılacak ürün kutunun köşesinde (kapalıyken "?").
+    // Kemal (5 Kasım gecesi): zor bölüme "verilecek hediyeyi koyarız. O soru işaretini koyarız".
+    // Çok zor bölümler (10, 20, 30, 40) çay, Türk kahvesi, sakızlı, baklava verir.
+    const yeni = no < BOLUM_SAYISI ? bolumdeYeniUrunler(no + 1) : [];
     if (yeni.length > 0) {
       const rozet = document.createElement('span');
       rozet.className = 'bolum-kutu-rozet';
       rozet.dataset.urun = yeni[0];
-      if (kilitli) {
-        // Kapalı bölümde ürün sürpriz: yalnız soru işareti (Kemal, 5 Kasım akşamı).
+      if (kilitli || yildiz === 0) {
+        // Henüz kazanılmamış bölümde ürün sürpriz: yalnız soru işareti (Kemal, 5 Kasım akşamı).
         rozet.classList.add('surpriz');
         rozet.textContent = '?';
       } else {
