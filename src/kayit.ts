@@ -100,3 +100,25 @@ export function ayarYaz(a: Ayarlar): void {
     // Saklanamadı; ayar bu açılış boyunca bellekte kalır.
   }
 }
+
+// ---------- 0. bölüm (ipuçlu başlangıç; Kemal, 5 Kasım 2026 gecesi) ----------
+// Oynanıp kazanıldı mı; telefonda saklanır. Kazanılınca ilk hediye verilir.
+const OGRETICI_ANAHTAR = 'dk-lite-ogretici';
+let ogreticiBellek: boolean | null = null;
+export function ogreticiBittiMi(): boolean {
+  if (ogreticiBellek !== null) return ogreticiBellek;
+  try {
+    ogreticiBellek = window.localStorage.getItem(OGRETICI_ANAHTAR) === '1';
+  } catch {
+    ogreticiBellek = false;
+  }
+  return ogreticiBellek;
+}
+export function ogreticiBitti(): void {
+  ogreticiBellek = true;
+  try {
+    window.localStorage.setItem(OGRETICI_ANAHTAR, '1');
+  } catch {
+    // Saklanamadı; bu açılış boyunca bellekte kalır.
+  }
+}

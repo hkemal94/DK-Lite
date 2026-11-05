@@ -6,7 +6,7 @@
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
 import { BOLUM_SAYISI, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru } from './ayarlar';
-import type { Kayit } from './kayit';
+import { ogreticiBittiMi, type Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
 
@@ -16,7 +16,8 @@ const NS = 'http://www.w3.org/2000/svg';
 // Yolu'nun sırası (tasarım belgesi 2.3, 0.11): Liman → Stadyum → Çiftlik → İskele.
 // Yer adları yalnız künyeden (KKM docs/03-duzada-kunyesi.md). Sayfa sayısı durak
 // sayısını geçerse duraklar baştan tekrar eder.
-const DURAKLAR = [{ ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }];
+// 150 bölüm = 5 mahalle × 30 (Kemal: "Künyedeki yerleri kullan, bir mahalleye de 30'ar bölüm").
+const DURAKLAR = [{ ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }, { ad: 'İskele' }, { ad: 'Merkez' }];
 // Kaldığın bölümün üstünde dondurmacının başı.
 const DONDURMACI_BAS = 'gorseller/dondurmaci-bas.webp';
 
@@ -127,6 +128,35 @@ export function haritaCiz(
   onceki.disabled = sayfa === 0;
   sonraki.disabled = sayfa >= sayfaSayisi - 1;
   alt.dataset.sayfa = String(sayfa + 1);
+  // Liman'ın başında 0. bölüm (ipuçlu başlangıç): hep açık, tekrar oynanabilir.
+  if (sayfa === 0) {
+    const d = document.createElement('button');
+    const bitti = ogreticiBittiMi();
+    d.className = 'bolum-kutu ogretici ' + (bitti ? 'gecildi' : 'siradaki');
+    d.dataset.no = '0';
+    d.setAttribute('aria-label', 'Bölüm 0');
+    const sayi = document.createElement('span');
+    sayi.className = 'bolum-kutu-sayi';
+    sayi.textContent = '0';
+    d.appendChild(sayi);
+    const hediye = bolumdeYeniUrunler(1)[0];
+    if (hediye) {
+      const rozet = document.createElement('span');
+      rozet.className = 'bolum-kutu-rozet';
+      if (bitti) {
+        const r = document.createElement('img');
+        r.src = `gorseller/urunler/${hediye}.webp`;
+        r.alt = '';
+        rozet.appendChild(r);
+      } else {
+        rozet.classList.add('surpriz');
+        rozet.textContent = '?';
+      }
+      d.appendChild(rozet);
+    }
+    d.addEventListener('click', () => s.bolumSec(0));
+    izgara.appendChild(d);
+  }
   for (let no = ilk; no <= son; no++) {
     const kilitli = no > kayit.acik;
     const yildiz = kayit.yildizlar[no - 1] ?? 0;
@@ -159,7 +189,7 @@ export function haritaCiz(
     }
     // Hediye: bu bölüm kazanılınca açılacak ürün kutunun köşesinde (kapalıyken "?").
     // Kemal (5 Kasım gecesi): zor bölüme "verilecek hediyeyi koyarız. O soru işaretini koyarız".
-    // Zorlu bölümler (10, 15, 20, ... 45) birer ürün verir (HEDIYE_URUNLER).
+    // 0, 10, 20 ... 140. bölümler birer ürün verir (HEDIYE_SIRASI).
     const yeni = no < BOLUM_SAYISI ? bolumdeYeniUrunler(no + 1) : [];
     if (yeni.length > 0) {
       const rozet = document.createElement('span');

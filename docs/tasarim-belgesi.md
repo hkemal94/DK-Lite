@@ -30,6 +30,19 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.32 Hediyeler onluk sırada, 150 bölüm, mahalleler, 0. bölüm (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Hediyeleri 1 - 10 - 20 - 30 gibi bölümlerde ver ilk onda başka hediye istemiyorum"; "hediye sandığının içinde neden bir hediye kutusu var sil onu yalnızca ışık kalsın"; "muzlu sütü take away yap pipetli ve üzerine etiket olarak muz koy"; "kaç adet yeni ürünümüz varsa ona göre onluk sistemde yeni bölüm hazırla". Soru turunda: "0. Bölüm yap istersen tutorial gibi onu yenince hediyeyi ver ve 1. Bölüme geç"; "1'er 1'er"; "150 bölüm"; "İpuçlu kolay bölüm"; sandık "Birlikte kalsın"; "Künyedeki yerleri kullan bir mahalleye de 30'ar bölüm koyabilirsin".
+
+- Oyun 3 dondurmayla başlar (çikolata, çilek, limon). 15 hediye birer birer gelir: 0. bölüm kazanılınca limonata, 10. bölümde fıstık, sonra her 10 bölümde bir: pasta, gazoz, vanilya, kek, çay, sakızlı, meyve, Türk kahvesi, sütlaç, muzlu süt, lokma, profiterol, baklava (140. bölüm). "Yeni ürün!" penceresi yalnız bunlarda çıkar. Sıra (dondurma, içecek, tatlı karışık) ekibin önerisi; değiştirilebilir.
+- Her bölüm, o ana kadar açılmış ürünlerden seçer; yeni gelen ürün hediyeden sonraki bölümde mutlaka vardır.
+- Sandık her 10 bölümde hediyeyle birlikte kalır. Açık sandık yalnız ışık (içinde kutu yok; Canva'da yeniden çizildi).
+- Muzlu süt: pipetli, kapaklı karton bardak, üstünde muz etiketi (Canva).
+- 150 bölüm; 5 mahalle × 30 bölüm, her biri kendi renginde: Liman 1–30 (mor), Stadyum 31–60 (deniz mavisi), Çiftlik 61–90 (zeytin yeşili), İskele 91–120 (şeftali), Merkez 121–150 (gül pembesi). Yer adları künyeden.
+- 0. bölüm (öğretici): Liman sayfasının ilk kutusu; Başla'ya ilk kez basınca açılır. Kolay (3 müşteri, 3 dondurma), bir el işareti dokunulacak sütunu gösterir, kaybedilmez (kaybederse sessizce yeniden başlar), can harcatmaz. Kazanınca limonata hediyesi, "Devam et" ile 1. bölüm.
+- 0–150 bütün bölümler kazanılabilir kuruluyor (bilgisayarda denendi). Sayılar deneme.
+- Ekran görüntüleri: `docs/ekran/ogretici-ve-mahalleler/`. Telefonda denenmedi.
+
 ### 0.31 Düzada durakları, yeni tatlılar, sade Türk kahvesi, muzlu süt (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Bölümler ekranı (araştırma ve soru turu; Kemal: "Düzada durakları (Önerilen)"):

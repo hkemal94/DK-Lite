@@ -18,7 +18,8 @@ düzenlendi ("Yol haritasını değiştir, onu bölüm bölüm ilerlet"; sohbett
 "Oyunun bölümlerine göre"). Eski uzun "Neredeyiz" notları silinmedi, en
 alttaki "Geçmiş notlar" bölümüne taşındı.
 
-- Oyunda **50 bölüm** var (5 Kasım'da 30'dan 50'ye), hepsi oynanabilir. Bölüm 1–10 elle yazılmış bir
+- 5 Kasım gecesi (öneri; tasarım belgesi 0.32): **150 bölüm** ve 0. bölüm (öğretici, el işaretli, kaybedilmez). 5 mahalle × 30 bölüm: Liman, Stadyum, Çiftlik, İskele, Merkez; her biri kendi renginde. 15 hediye ürün birer birer: 0. bölümden sonra limonata, sonra her 10 bölümde bir (son: 140. bölümde baklava); sandık hediyeyle birlikte. Sırada: yeni öğeler (31 buzlu top, 61 gizli top, 91 aceleci müşteri, 121 kilitli sütun), yardımcılar, galibiyet serisi, günlük ödül, albüm, müşteri desenleri, 10 yeni kişi.
+- (Eski not) Oyunda **50 bölüm** var (5 Kasım'da 30'dan 50'ye), hepsi oynanabilir. Bölüm 1–10 elle yazılmış bir
   tabloyla, 11–30 bir kuralla kuruluyor. Bölümlerdeki bütün sayılar **deneme
   değeri**; Kemal oynayıp söyleyince kesinleşir.
 - Şimdi: yeni arayüz. İlk adım (düğmeler, giriş, Poppins) PR #27 ile ana
