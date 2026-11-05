@@ -110,15 +110,11 @@ export function haritaCiz(
     const siradaki = !kilitli && yildiz === 0;
     const d = document.createElement('button');
     d.className = 'bolum-kutu' + (kilitli ? ' kilitli' : siradaki ? ' siradaki' : ' gecildi');
-    // Zor ve çok zor bölümler kırmızı, altında etiket (10'luk dilim; Kemal, 5 Kasım).
+    // Zor ve çok zor bölümler: yalnız yumuşak bir kırmızımsı ton; yazı, etiket yok,
+    // ikisi aynı görünür (Kemal, 5 Kasım gecesi: "çok daha soft ... bir ton kırmızıya
+    // yakınını zorluk ayırt etmeksizin hiçbir bilgi vermeden koyabilirsin").
     const tur = bolumTuru(no);
-    if (tur === 'zor' || tur === 'cok-zor') {
-      d.classList.add(tur);
-      const etiket = document.createElement('span');
-      etiket.className = 'bolum-kutu-etiket';
-      etiket.textContent = tur === 'zor' ? 'Zor' : 'Çok zor';
-      d.appendChild(etiket);
-    }
+    if (tur === 'zor' || tur === 'cok-zor') d.classList.add('zorlu');
     d.dataset.no = String(no);
     d.dataset.yildiz = String(yildiz);
     d.setAttribute('aria-label', `Bölüm ${no}` + (kilitli ? ', kilitli' : ''));

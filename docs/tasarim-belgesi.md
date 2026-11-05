@@ -30,6 +30,15 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.30 Sandık açılır, zor bölümler yazısız (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Sandık işini sevmedim. Çünkü açılmıyor, duruyor, durduğu yerden üzerine bir kalp geliyor. Onu ... ışıklar içinde geldiği gibi yapalım, hediye gibi. Zor bölümlerin renklenmesini sevmedim. ... çok daha soft ... bir ton kırmızıya yakınını zorluk ayırt etmeksizin hiçbir bilgi vermeden koyabilirsin. ... gidecek olan kişi onun biraz daha zorlu olduğunu bilir."
+
+- Sandık: Canva'da açık hâli de çizildi (içinden ışık ve hediye kutusu). Penceredeki sıra: sandık yukarıdan düşerek gelir, sallanır, beyaz bir parlamayla açık hâline geçer, arkasında dönen sarı ışık açılır, parıltılar saçılır, ödülün kalbi içinden yükselir, sonra ödülün yazısı belirir.
+- Zor bölümler: kırmızı kutular, "Zor" / "Çok zor" etiketleri, bölüm başındaki "Zor bölüm" afişi ve üst şeritteki kırmızımsı numara kalktı. Bölümler ekranında zor ve çok zor bölümler aynı, yumuşak bir kırmızımsı mor tonda (kilitliyken soluk pembemsi krem); hiçbir yazı yok.
+- Sırada (Kemal): zorlu bölümlerin kutusunda "?" ile bir hediye; kazanınca yeni ürün açılır ("çay açılır, Türk kahvesi açılır").
+- Ekran görüntüleri: `docs/ekran/sandik-acilis/`.
+
 ### 0.29 Müşteri renk çeşitleri (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal: "Bu arada insanlar çok güzel gerçekten fakat daha da çeşitlenme imkanı var mı? Özellikle renkler falan kombinasyonlu renkler yaparsak işimize yarayabilir çeşitte". Üç yol soruldu (renk çevirme, parça parça kombinasyon, yeni kişiler); cevabı: "Hepsi".
