@@ -52,6 +52,7 @@ import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum, type TopOzel } from
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
+import { DESENLI_MUSTERILER } from './musteriCesitleri';
 import { gunlukAlindi, gunlukBugun, rastgeleYardimci, seriGuncelle, seriOku, yardimciAdet, yardimciEkle, yardimciHarca } from './yardim';
 import { BASLANGIC_URUNLERI, HEDIYE_SIRASI, hediyeBolumu, urunSirasi } from './ayarlar';
 import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, sandikOdulSec, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
@@ -78,6 +79,8 @@ const MUSTERI_RESIMLERI = MUSTERI_RENKLERI.flatMap((renk) =>
     .filter((no) => renk === '' || !RENKSIZ_MUSTERILER.includes(no))
     .map((no) => `gorseller/musteriler/musteri-${String(no).padStart(2, '0')}${renk ? '-' + renk : ''}.webp`),
 );
+// Parça parça renk ve desenler (Kemal: "Desenler ve renkler"; araclar/musteri_desen.py üretir).
+MUSTERI_RESIMLERI.push(...DESENLI_MUSTERILER.map((d) => `gorseller/musteriler/${d}`));
 // Tezgâhın üstü: ortada dondurmacı (dükkân renkleri: sarı tişört, mor önlük, mor kasket),
 // iki yanında tezgâhta duran ürünler.
 // Bar (Kemal, 30 Ekim: "bantın ortasını bir bar gibi tasarla"; "Ahşap kafe barı";
