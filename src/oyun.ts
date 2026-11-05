@@ -7,6 +7,11 @@
 // Tente, bant ve tezgâh aynı tarzda: canlı renkler, koyu kahverengi kalın hat.
 
 import {
+  ACELECI_EK_PUAN_ORANI,
+  ACELECI_SABIR_ORANI,
+  KILIT_ACAN_MUSTERI,
+  bolumdeTanitilanOge,
+  type YeniOge,
   AYNI_ANDA_MUSTERI,
   BANT_TUR_SANIYE,
   BASTA_MUSTERI,
@@ -32,7 +37,7 @@ import {
   TUTMA_MS,
   YILDIZ_ESIKLERI,
 } from './ayarlar';
-import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
+import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum, type TopOzel } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
@@ -132,6 +137,18 @@ const TEKRAR_SVG =
   '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.1-5" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><path d="M19.5 3.5v5h-5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 const ILERI_SVG =
   '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h12M12 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// Aceleci müşterinin şimşeği ve kilitli sütunun kilidi (ekibin basit çizimleri).
+const SIMSEK_SVG =
+  '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M13.5 2 4.5 13.5h6L9.5 22l9-11.5h-6z" fill="#ffd23f" stroke="#4a2a12" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+const KILIT_SVG =
+  '<svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3" fill="none" stroke="#4a2a12" stroke-width="2.6"/><rect x="4.5" y="10.5" width="15" height="11" rx="3" fill="#ffc83d" stroke="#4a2a12" stroke-width="1.8"/><circle cx="12" cy="15.5" r="1.8" fill="#4a2a12"/></svg>';
+// Yeni öğe pencerelerinde ne yaptığını anlatan tek satır (ad değil; adlar [Kemal]).
+const TANITIM_YAZISI: Record<YeniOge, string> = {
+  buzlu: 'Buzlu topa iki kez dokun: buz çözülür, sonra gönderebilirsin.',
+  gizli: 'Bu topun ne olduğu sütunun en üstüne gelince görünür.',
+  aceleci: 'Şimşekli müşterinin acelesi var: sabrı kısa, ama ek puan verir.',
+  kilitli: `Kilitli sütun ${KILIT_ACAN_MUSTERI} müşteri karşılanınca açılır.`,
+};
 const KALP_SVG =
   '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 21 C5 15 2 12 2 8 C2 5 4.5 3 7 3 C9 3 11 4.5 12 6 C13 4.5 15 3 17 3 C19.5 3 22 5 22 8 C22 12 19 15 12 21 Z" fill="#e2475b" stroke="#5a3a22" stroke-width="2" stroke-linejoin="round"/></svg>';
 const UZGUN_SVG =
@@ -164,11 +181,12 @@ interface Top {
 }
 
 interface MusteriYeri {
-  parcalar: { cesit: number; kalan: number }[]; // bir ya da iki çeşit; her birinden kalan adet
+  parcalar: { cesit: number; kalan: number; ilk: number }[]; // bir ya da iki çeşit; her birinden kalan adet (ilk: istediği adet)
   durum: 'bekliyor' | 'bitti' | 'gitti'; // gitti: sabrı bitti, istediğini alamadan gitti
   bittigiAn: number;
   gelisAn: number; // geldiği an (oyunun saatiyle); sabır buradan sayılır
   resim: string; // müşterinin görünüşü (kişi resmi)
+  aceleci: boolean; // sabrı kısa, karşılanınca ek puan (91. bölümden)
 }
 
 interface Yerlesim {
@@ -261,6 +279,8 @@ export class Oyun {
   private sutunlar: number[][] = [];
   // Ortak saklı sıradan bir sonraki gelecek topun yeri (sıra bölüm verisinde, sabit).
   private sakliSira = 0;
+  // Sütunlardaki topların buzu ve gizliliği (sutunlar ile aynı biçimde).
+  private ozel: TopOzel[][] = [];
   private musteriYerleri: (MusteriYeri | null)[] = [];
   private manzaraEl!: HTMLDivElement;
   private onuEl!: HTMLDivElement;
@@ -680,6 +700,62 @@ export class Oyun {
     }
     this.yenidenBasla(no);
     this.basladi = no > 0;
+    // Mahallenin ilk bölümü: yeni öğe "Yeni!" penceresiyle tanıtılır (bölüm henüz geçilmediyse).
+    const oge = bolumdeTanitilanOge(no);
+    if (oge && (this.kayit.yildizlar[no - 1] ?? 0) === 0) this.tanitimGoster(oge);
+  }
+
+  // Yeni öğe tanıtımı: oyun durur, öğenin küçük resmi ve ne yaptığı; "Tamam" ile sürer.
+  // Öğelerin adı [Kemal]; pencerede ad yok, yalnız ne yaptığı yazar.
+  private tanitimGoster(oge: YeniOge) {
+    this.duraklatildi = true;
+    const ort = odulOrtusu('tanitim', 'Yeni!');
+    ort.dataset.oge = oge;
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const sahne = document.createElement('div');
+    sahne.className = 'tanitim-sahne';
+    const boy = 84;
+    const ilk = this.bolum.urunler[0];
+    if (oge === 'buzlu') {
+      const t = this.topElKur(ilk, boy);
+      t.classList.add('buzlu');
+      const buz = document.createElement('span');
+      buz.className = 'buz';
+      t.appendChild(buz);
+      sahne.appendChild(t);
+    } else if (oge === 'gizli') {
+      sahne.appendChild(this.gizliTopElKur(boy));
+    } else if (oge === 'aceleci') {
+      const balon = document.createElement('div');
+      balon.className = 'istek tanitim-balon';
+      const satir = document.createElement('div');
+      satir.className = 'istek-satir';
+      satir.appendChild(this.topElKur(ilk, 40));
+      const adet = document.createElement('span');
+      adet.className = 'adet';
+      adet.textContent = '×3';
+      satir.appendChild(adet);
+      const rozet = document.createElement('span');
+      rozet.className = 'aceleci-rozet';
+      rozet.innerHTML = SIMSEK_SVG;
+      balon.append(satir, rozet);
+      sahne.appendChild(balon);
+    } else {
+      const k = document.createElement('div');
+      k.className = 'sutun-kilit tanitim-kilit';
+      k.innerHTML = `${KILIT_SVG}<span>${KILIT_ACAN_MUSTERI}</span>`;
+      sahne.appendChild(k);
+    }
+    const not = document.createElement('div');
+    not.className = 'odul-not tanitim-not';
+    not.textContent = TANITIM_YAZISI[oge];
+    const tamam = odulTamam();
+    tamam.addEventListener('click', () => {
+      ort.remove();
+      this.duraklatildi = false;
+    });
+    kutu.append(sahne, not, tamam);
+    this.kok.appendChild(ort);
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
@@ -694,6 +770,7 @@ export class Oyun {
     this.bolumNoEl.textContent = `Bölüm ${no}`;
     this.bolumNoEl.dataset.no = String(no);
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
+    this.ozel = this.bolum.sutunOzel.map((s) => s.map((t) => ({ ...t })));
     this.sakliSira = 0;
     this.siradaki = 0;
     this.karsilanan = 0;
@@ -742,6 +819,7 @@ export class Oyun {
 
     for (const el of this.sutunEller) el.remove();
     this.sutunEller = this.sutunlar.map((_, i) => this.sutunElKur(i));
+    this.kilitGuncelle();
 
     this.yerlesimHesapla();
     this.sabitleriCiz();
@@ -778,6 +856,7 @@ export class Oyun {
 
   private siradakiMusteri(): MusteriYeri | null {
     if (this.siradaki >= this.bolum.musteriler.length) return null;
+    const aceleci = this.bolum.aceleci[this.siradaki] ?? false;
     const m = this.bolum.musteriler[this.siradaki++];
     // Rastgele bir görünüş; ekranda şu an olan kişiler (rengi ne olursa olsun) gelmez.
     const kisi = (yol: string) => yol.match(/musteri-(\d+)/)?.[1] ?? yol;
@@ -787,8 +866,8 @@ export class Oyun {
     const havuz = adaylar.length > 0 ? adaylar : MUSTERI_RESIMLERI;
     const resim = havuz[Math.floor(Math.random() * havuz.length)];
     this.sonResim = resim;
-    const parcalar = m.parcalar.map((p) => ({ cesit: p.cesit, kalan: p.adet }));
-    return { parcalar, durum: 'bekliyor', bittigiAn: 0, gelisAn: this.oyunAn, resim };
+    const parcalar = m.parcalar.map((p) => ({ cesit: p.cesit, kalan: p.adet, ilk: p.adet }));
+    return { parcalar, durum: 'bekliyor', bittigiAn: 0, gelisAn: this.oyunAn, resim, aceleci };
   }
 
   private erimeTuru(): number {
@@ -1049,7 +1128,7 @@ export class Oyun {
         delete el.dataset.istek;
         return;
       }
-      el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : m.durum === 'gitti' ? ' gitti' : '');
+      el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : m.durum === 'gitti' ? ' gitti' : '') + (m.aceleci ? ' aceleci' : '');
       el.dataset.istek = m.parcalar.map((p) => `${URUNLER[p.cesit].id}:${p.kalan}`).join(',');
       // İstek balonu: her çeşit bir satır (simge ve kalan adet; biten çeşitte ✓).
       const istek = document.createElement('div');
@@ -1082,6 +1161,13 @@ export class Oyun {
       sabir.appendChild(dolu);
       if (m.durum === 'bekliyor') this.sabirEller[i] = dolu;
       else sabir.style.visibility = 'hidden';
+      if (m.aceleci) {
+        // Aceleci müşteri: balonun köşesinde küçük şimşek.
+        const rozet = document.createElement('span');
+        rozet.className = 'aceleci-rozet';
+        rozet.innerHTML = SIMSEK_SVG;
+        istek.appendChild(rozet);
+      }
       el.append(istek, sabir, kisi);
     });
   }
@@ -1101,10 +1187,21 @@ export class Oyun {
       el.style.width = `${y.sutunGenislik - 8}px`;
       el.style.height = `${y.sutunlarAlt - y.sutunlarUst}px`;
       el.innerHTML = '';
-      const ustBoy = gidecekTopSayisi(sutun); // yalnız gidecek top öne çıkar
+      const ustBoy = Math.max(Math.min(1, sutun.length), this.gidecek(i)); // yalnız gidecek top öne çıkar
       const gorunen = Math.min(sutun.length, SUTUNDA_GORUNEN_TOP);
+      const ozel = this.ozel[i];
       for (let k = 0; k < gorunen; k++) {
-        const t = this.topElKur(sutun[sutun.length - 1 - k], boy);
+        const o = ozel[ozel.length - 1 - k];
+        // Gizli top en üste gelince açılır; buzlu top buzuyla çizilir.
+        const gizli = o.gizli && k > 0;
+        const t = gizli ? this.gizliTopElKur(boy) : this.topElKur(sutun[sutun.length - 1 - k], boy);
+        if (o.buz > 0 && !gizli) {
+          t.classList.add('buzlu');
+          t.dataset.buz = String(o.buz);
+          const buz = document.createElement('span');
+          buz.className = 'buz';
+          t.appendChild(buz);
+        }
         const p = this.sutunTopNoktasi(i, k);
         t.style.left = `${p.x - solX - boy / 2}px`;
         t.style.top = `${p.y - y.sutunlarUst - boy / 2}px`;
@@ -1113,6 +1210,7 @@ export class Oyun {
         if (i === kayanSutun && giden > 0) this.kaydir(t, k, giden, oncekiUst);
       }
     });
+    this.kilitGuncelle();
   }
 
   // Top gidince kalanların bir önceki yerlerinden yukarı kayması (kısa, sakin).
@@ -1138,12 +1236,77 @@ export class Oyun {
     );
   }
 
+  // Bir dokunuşta bu sütundan gidecek top sayısı: üstteki aynı çeşitler, ama
+  // buzlu topa gelince durur (buzlu top önce çözülmeli).
+  private gidecek(sutunNo: number): number {
+    const sutun = this.sutunlar[sutunNo];
+    const ozel = this.ozel[sutunNo];
+    let acik = 0;
+    for (let k = ozel.length - 1; k >= 0 && ozel[k].buz === 0; k--) acik++;
+    return Math.min(gidecekTopSayisi(sutun), acik);
+  }
+
+  private kilitliMi(sutunNo: number): boolean {
+    return sutunNo === this.bolum.kilitliSutun && this.karsilanan < KILIT_ACAN_MUSTERI;
+  }
+
+  // Kilitli sütunun görünüşü: kilit ve kaç müşteri kaldığı; açılınca kilit uçar.
+  private kilitGuncelle() {
+    this.sutunEller.forEach((el, i) => {
+      const kilitli = this.kilitliMi(i);
+      const vardi = el.classList.contains('kilitli-sutun');
+      if (kilitli) {
+        el.classList.add('kilitli-sutun');
+        let k = el.querySelector<HTMLDivElement>('.sutun-kilit');
+        if (!k) {
+          k = document.createElement('div');
+          k.className = 'sutun-kilit';
+          el.appendChild(k);
+        }
+        k.innerHTML = `${KILIT_SVG}<span>${KILIT_ACAN_MUSTERI - this.karsilanan}</span>`;
+      } else if (vardi) {
+        el.classList.remove('kilitli-sutun');
+        const k = el.querySelector('.sutun-kilit');
+        k?.classList.add('acildi');
+        window.setTimeout(() => k?.remove(), 700);
+      }
+    });
+  }
+
+  private gizliTopElKur(boy: number): HTMLDivElement {
+    const el = document.createElement('div');
+    el.className = 'top gizli-top';
+    el.style.width = el.style.height = `${boy}px`;
+    el.style.fontSize = `${Math.round(boy * 0.55)}px`;
+    el.innerHTML = '<span>?</span>';
+    return el;
+  }
+
   // ---------- oynanış ----------
 
   private gonder(sutunNo: number) {
     if (!this.oynuyor()) return;
     const sutun = this.sutunlar[sutunNo];
-    const obek = gidecekTopSayisi(sutun);
+    const ozel = this.ozel[sutunNo];
+    if (sutun.length === 0) return;
+    // Kilitli sütun: açılana dek sallanır.
+    if (this.kilitliMi(sutunNo)) {
+      this.sutunEller[sutunNo].classList.remove('sars');
+      void this.sutunEller[sutunNo].offsetWidth;
+      this.sutunEller[sutunNo].classList.add('sars');
+      return;
+    }
+    // En üstteki top buzluysa dokunuş buzu kırar (BUZ_DOKUNUS dokunuşta çözülür).
+    const ust = ozel[ozel.length - 1];
+    if (ust.buz > 0) {
+      ust.buz--;
+      ust.gizli = false;
+      this.sutunlariCiz(sutunNo);
+      const t = this.sutunEller[sutunNo].querySelector('.top');
+      t?.classList.add(ust.buz > 0 ? 'catladi' : 'cozuldu');
+      return;
+    }
+    const obek = this.gidecek(sutunNo);
     if (obek === 0) return;
     const bosYuvalar: number[] = [];
     this.yuvalar.forEach((t, i) => {
@@ -1204,6 +1367,7 @@ export class Oyun {
     }
     for (let k = 0; k < giden; k++) {
       const cesit = sutun.pop()!;
+      ozel.pop();
       const nereden = this.sutunTopNoktasi(sutunNo, k); // sütundaki yerinden kalkar
       const el = this.topElKur(cesit, this.y.topBoyu);
       el.classList.add('bantta');
@@ -1236,6 +1400,7 @@ export class Oyun {
     // Giden her topun yerine ortak saklı sıradan sıradaki top bu sütunun en altına gelir.
     // Sıra bittiyse sütun kısalır.
     for (let k = 0; k < giden && this.sakliSira < this.bolum.sakli.length; k++) {
+      ozel.unshift({ ...this.bolum.sakliOzel[this.sakliSira] });
       sutun.unshift(this.bolum.sakli[this.sakliSira++]);
     }
     this.sutunlariCiz(sutunNo, giden, obek);
@@ -1338,6 +1503,15 @@ export class Oyun {
               this.karsilanan++;
               // İsteği tamam: başının üstünde kalp.
               this.ucanYazi(mp.x, mp.y + 24, KALP_SVG, 'ucan-kalp');
+              // Aceleci müşteri ek puan getirir (yıldız hesabına girmez, seri ek puanı gibi).
+              if (my.aceleci) {
+                const adet = my.parcalar.reduce((a, p) => a + p.ilk, 0);
+                const ek = Math.round(adet * TOP_PUANI * ACELECI_EK_PUAN_ORANI);
+                this.puan += ek;
+                this.seriPuani += ek;
+                this.ucanYazi(mp.x, mp.y - 30, `${SIMSEK_SVG}+${ek}`, 'ucan-seri ucan-aceleci');
+              }
+              this.kilitGuncelle();
             }
             this.yuvalar[i] = null;
             t.durum = 'aliniyor';
@@ -1372,7 +1546,8 @@ export class Oyun {
     for (let m = 0; m < this.musteriYerleri.length; m++) {
       const my = this.musteriYerleri[m];
       if (!my || my.durum !== 'bekliyor') continue;
-      const oran = 1 - (an - my.gelisAn) / (SABIR_SN * 1000);
+      const sabir = SABIR_SN * (my.aceleci ? ACELECI_SABIR_ORANI : 1);
+      const oran = 1 - (an - my.gelisAn) / (sabir * 1000);
       const cubuk = this.sabirEller[m];
       if (cubuk) {
         cubuk.style.width = `${Math.max(0, oran) * 100}%`;

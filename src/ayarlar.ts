@@ -428,3 +428,38 @@ export function sandikOdulSec(rastgele: number): SandikOdulu {
 // mesela 20'li veya 12'li gibi"; 20 seçildi: satırda 4, 5 satır telefona sığar).
 // 5 Kasım gecesi: 150 bölüm, künyedeki 5 mahalle; Kemal: "bir mahalleye de 30'ar bölüm koyabilirsin".
 export const SAYFADA_BOLUM = 30;
+
+// ---------- Yeni öğeler (Kemal, 5 Kasım 2026 gecesi: "Her mahallede bir") ----------
+// Her mahallenin ilk bölümünde bir yeni öğe tanıtılır; o bölümden sonra bütün
+// bölümlerde gelebilir. Adları [Kemal]; koddaki adlar yalnız ne olduğunu anlatır.
+// Oranlar ve süreler DENEME.
+
+// Buzlu top (Stadyum, 31. bölümden): buz içindeki top iki dokunuşta çözülür, sonra gider.
+export const BUZLU_TOP_BOLUMU = 31;
+export const BUZLU_TOP_ORANI = 0.12; // DENEME: topların kabaca bu kadarı buzlu
+export const BUZ_DOKUNUS = 2;
+
+// Gizli top (Çiftlik, 61. bölümden): rengi görünmez ("?"); sütunun en üstüne gelince açılır.
+export const GIZLI_TOP_BOLUMU = 61;
+export const GIZLI_TOP_ORANI = 0.15; // DENEME
+
+// Aceleci müşteri (İskele, 91. bölümden): sabrı kısa; karşılanınca ek puan.
+export const ACELECI_BOLUMU = 91;
+export const ACELECI_ORANI = 0.2; // DENEME: müşterilerin kabaca bu kadarı
+export const ACELECI_SABIR_ORANI = 0.6; // DENEME: sabrı normalin bu kadarı
+export const ACELECI_EK_PUAN_ORANI = 0.5; // DENEME: istediği topların puanının bu kadarı ek
+
+// Kilitli sütun (Merkez, 121. bölümden): bir sütun kilitli başlar; bu kadar müşteri
+// karşılanınca açılır.
+export const KILITLI_SUTUN_BOLUMU = 121;
+export const KILIT_ACAN_MUSTERI = 1;
+
+// Mahallenin ilk bölümünde "Yeni!" penceresiyle tanıtılan öğe.
+export type YeniOge = 'buzlu' | 'gizli' | 'aceleci' | 'kilitli';
+export function bolumdeTanitilanOge(no: number): YeniOge | null {
+  if (no === BUZLU_TOP_BOLUMU) return 'buzlu';
+  if (no === GIZLI_TOP_BOLUMU) return 'gizli';
+  if (no === ACELECI_BOLUMU) return 'aceleci';
+  if (no === KILITLI_SUTUN_BOLUMU) return 'kilitli';
+  return null;
+}
