@@ -1,34 +1,14 @@
-// Bölüm seçme ekranı: sahil yolu (Kemal, 30 Ekim: "Sahil yolu çizimi";
-// bölüm sayısı için "Uzayabilir yol"). Ada haritasının (5. paket) yerine geldi.
-// Arkada çizilmiş sahil manzarası (deniz solda, zeytinlik ve evler sağda);
-// üstünde aşağıdan yukarı kıvrılan bir yol ve numaralı bölüm noktaları.
-// 1. bölüm en altta, dükkânın önünde; yol yukarı kaydırıldıkça uzar. Bölüm
-// sayısı artınca yalnız BOLUM_SAYISI değişir, yol kendiliğinden uzar.
+// Bölüm seçme ekranı: kutulu bölümler, sabit arka zemin (Kemal, 5 Kasım 2026:
+// "Bu yolu beğenmediğimden bahsediyordum, kutulu olarak bölümleri koy, sabit arka
+// zeminde"). Sahil yolu çiziminin (30 Ekim) yerine geldi.
+// Arkada desenli mor zemin durur, kaymaz; üstünde numaralı bölüm kutuları satır
+// satır dizilir ve yalnız kutular kayar. 1. bölüm en üstte solda. Bölüm sayısı
+// artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
-import { BOLUM_SAYISI, YILDIZ_ESIKLERI } from './ayarlar';
+import { BOLUM_SAYISI, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru } from './ayarlar';
 import type { Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
-
-// Yolun mantıksal genişliği ve iki bölüm noktası arasındaki dikey aralık
-// (ekranın enine göre ölçeklenir; birim yalnız yerleşim için).
-const GENISLIK = 400;
-const ADIM = 120;
-const UST_BOSLUK = 110; // son noktanın üstünde kalan yol
-const ALT_BOSLUK = 120; // ilk noktanın altında dükkân yazısına yer
-// Arka plan resminin en/boy oranı (public/gorseller/sahil-yolu.webp: Canva'daki
-// 896x1776'lık manzara (altta) ve üstünde onun aynadaki hâli; böylece alt alta tekrar
-// ederken dikiş görünmez).
-const ARKA_PLAN_ORAN = 896 / (1776 * 2);
-const ARKA_PLAN_RESMI = 'gorseller/sahil-yolu.webp';
-// Resim yokken görünen yedek zemin: solda deniz, ortada kum, sağda çimen.
-const YEDEK_ZEMIN = 'linear-gradient(90deg, #7cc4e4 0%, #9fd4e6 22%, #f3e2b8 34%, #b9dc8c 46%, #8fcf8a 100%)';
-
-// Oyun açılırken harita resmi önceden indirilir; "Bölümler"e basıldığında hazır olsun.
-export function haritaResminiOnYukle(): void {
-  const r = new Image();
-  r.src = ARKA_PLAN_RESMI;
-}
 
 function svgOge<K extends keyof SVGElementTagNameMap>(ad: K, nitelik: Record<string, string | number>) {
   const o = document.createElementNS(NS, ad);
@@ -36,37 +16,9 @@ function svgOge<K extends keyof SVGElementTagNameMap>(ad: K, nitelik: Record<str
   return o;
 }
 
-// Bölüm noktalarının yeri: aşağıdan yukarı, sağa sola yumuşak kıvrılarak.
-// Deniz solda olduğu için yol ortanın biraz sağında salınır.
-function noktalar(adet: number, yukseklik: number): [number, number][] {
-  const n: [number, number][] = [];
-  for (let k = 0; k < adet; k++) {
-    const x = GENISLIK * (0.56 + 0.2 * Math.sin(k * 1.15));
-    const y = yukseklik - ALT_BOSLUK - k * ADIM;
-    n.push([x, y]);
-  }
-  return n;
-}
-
-// Noktalardan geçen yumuşak yol (her iki nokta arası dikey teğetli bir eğri).
-function yolYazisi(n: [number, number][], uzat: boolean): string {
-  if (n.length === 0) return '';
-  const p = n.slice();
-  if (uzat) {
-    // Yolun başı dükkânın önünden, sonu ekranın üstüne doğru biraz uzar.
-    p.unshift([p[0][0], p[0][1] + ALT_BOSLUK * 0.6]);
-    const son = p[p.length - 1];
-    p.push([GENISLIK * 0.5, son[1] - UST_BOSLUK * 0.9]);
-  }
-  let d = `M${p[0][0]} ${p[0][1]}`;
-  for (let i = 1; i < p.length; i++) {
-    const [x0, y0] = p[i - 1];
-    const [x1, y1] = p[i];
-    const orta = (y0 + y1) / 2;
-    d += ` C${x0} ${orta} ${x1} ${orta} ${x1} ${y1}`;
-  }
-  return d;
-}
+// Kilitli kutudaki küçük kilit (yuvarlak, kalın; arayüz dili).
+const KILIT_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><rect x="5" y="10" width="14" height="11" rx="3" fill="currentColor"/></svg>';
 
 export interface HaritaSecenekleri {
   bolumSec: (no: number) => void;
@@ -80,7 +32,7 @@ export function haritaCiz(
   s: HaritaSecenekleri,
 ): HTMLDivElement {
   const kutu = document.createElement('div');
-  kutu.className = 'harita-kutu sahil';
+  kutu.className = 'harita-kutu kutulu';
 
   // Üstte: geri düğmesi ve başlık (kaydırınca yerinde kalır).
   const ust = document.createElement('div');
@@ -91,7 +43,6 @@ export function haritaCiz(
   geri.setAttribute('aria-label', 'Geri');
   const ok = svgOge('svg', { viewBox: '0 0 24 24', class: 'geri-ok' });
   ok.appendChild(svgOge('path', { d: 'M15 5 L8 12 L15 19' }));
-  // Yuvarlak mor düğmede yalnız ok (arayüz dili, 5 Kasım); "Geri" yazısı ekran okuyucu için.
   geri.append(ok);
   geri.addEventListener('click', s.geri);
   const baslik = document.createElement('div');
@@ -108,79 +59,82 @@ export function haritaCiz(
     kutu.appendChild(durum);
   }
 
-  // Kaydırılan alan: yol aşağıdan yukarı; uzunluğu bölüm sayısına göre.
+  // Yalnız kutular kayar; arka zemin yerinde durur.
   const kaydir = document.createElement('div');
-  kaydir.className = 'sahil-kaydir';
-  const yukseklik = ALT_BOSLUK + (BOLUM_SAYISI - 1) * ADIM + UST_BOSLUK;
-  const alan = document.createElement('div');
-  alan.className = 'sahil-alan';
-  alan.style.aspectRatio = `${GENISLIK} / ${yukseklik}`;
-  // Manzara resmi alt alta tekrar eder; enine sığar. Altında denizden kuma ve
-  // çimene yumuşak bir geçiş var: resim geç gelirse (yavaş bağlantı) ya da hiç
-  // gelmezse düz mavi yerine o görünür (29 Ekim 2026, "mavi düz ekran" önlemi).
-  alan.style.backgroundImage = `url('${ARKA_PLAN_RESMI}'), ${YEDEK_ZEMIN}`;
-  alan.style.backgroundSize = `100% ${((GENISLIK / ARKA_PLAN_ORAN) / yukseklik) * 100}%, 100% 100%`;
-  alan.style.backgroundRepeat = 'repeat-y, no-repeat';
-  alan.style.backgroundPosition = 'center bottom, center';
+  kaydir.className = 'bolum-kaydir';
+  const izgara = document.createElement('div');
+  izgara.className = 'bolum-izgara';
 
-  const n = noktalar(BOLUM_SAYISI, yukseklik);
-  const svg = svgOge('svg', { viewBox: `0 0 ${GENISLIK} ${yukseklik}`, class: 'sahil-svg', 'aria-hidden': 'true' });
-  // Yol: koyu kenar, açık kum rengi yol, ortada kesik çizgi; açılan bölüme kadarki kısmı sarı.
-  const tumYol = yolYazisi(n, true);
-  svg.appendChild(svgOge('path', { d: tumYol, class: 'sahil-yol-kenar' }));
-  svg.appendChild(svgOge('path', { d: tumYol, class: 'sahil-yol' }));
-  svg.appendChild(svgOge('path', { d: tumYol, class: 'sahil-yol-cizgi' }));
   const acik = Math.min(kayit.acik, BOLUM_SAYISI);
-  if (acik > 1) svg.appendChild(svgOge('path', { d: yolYazisi(n.slice(0, acik), false), class: 'sahil-yol-gecilen' }));
-  alan.appendChild(svg);
-
-  // Yolun başında dükkânın adı (künyedeki gibi).
-  const dukkan = document.createElement('div');
-  dukkan.className = 'sahil-dukkan';
-  dukkan.textContent = 'Dondurmacı Kızlar';
-  dukkan.style.left = `${(n[0][0] / GENISLIK) * 100}%`;
-  dukkan.style.top = `${((n[0][1] + 56) / yukseklik) * 100}%`;
-  alan.appendChild(dukkan);
-
-  // Bölüm noktaları: dokunulabilir düğmeler.
   let simdiki: HTMLButtonElement | null = null;
   for (let no = 1; no <= BOLUM_SAYISI; no++) {
-    const [x, y] = n[no - 1];
     const kilitli = no > kayit.acik;
     const yildiz = kayit.yildizlar[no - 1] ?? 0;
     const siradaki = !kilitli && yildiz === 0;
     const d = document.createElement('button');
-    d.className = 'harita-nokta' + (kilitli ? ' kilitli' : siradaki ? ' siradaki' : ' gecildi');
+    d.className = 'bolum-kutu' + (kilitli ? ' kilitli' : siradaki ? ' siradaki' : ' gecildi');
+    // Zor ve çok zor bölümler kırmızı, altında etiket (10'luk dilim; Kemal, 5 Kasım).
+    const tur = bolumTuru(no);
+    if (tur === 'zor' || tur === 'cok-zor') {
+      d.classList.add(tur);
+      const etiket = document.createElement('span');
+      etiket.className = 'bolum-kutu-etiket';
+      etiket.textContent = tur === 'zor' ? 'Zor' : 'Çok zor';
+      d.appendChild(etiket);
+    }
     d.dataset.no = String(no);
     d.dataset.yildiz = String(yildiz);
-    d.style.left = `${(x / GENISLIK) * 100}%`;
-    d.style.top = `${(y / yukseklik) * 100}%`;
     d.setAttribute('aria-label', `Bölüm ${no}` + (kilitli ? ', kilitli' : ''));
     if (kilitli) d.setAttribute('aria-disabled', 'true');
     const sayi = document.createElement('span');
-    sayi.className = 'harita-sayi';
+    sayi.className = 'bolum-kutu-sayi';
     sayi.textContent = String(no);
     d.appendChild(sayi);
-    if (!kilitli) {
+    if (kilitli) {
+      const kilit = document.createElement('span');
+      kilit.className = 'bolum-kutu-kilit';
+      kilit.innerHTML = KILIT_SVG;
+      d.appendChild(kilit);
+    } else {
       const yildizlar = document.createElement('span');
-      yildizlar.className = 'kucuk-yildizlar harita-yildizlar';
+      yildizlar.className = 'kucuk-yildizlar bolum-kutu-yildizlar';
       for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) yildizlar.appendChild(yildizCiz(k < yildiz));
       d.appendChild(yildizlar);
+    }
+    // Yeni ürünün ilk geldiği bölümün köşesinde o ürünün küçük resmi (kazanç, 5 Kasım):
+    // oyuncu ileride ne kazanacağını görür.
+    const yeni = bolumdeYeniUrunler(no);
+    if (yeni.length > 0) {
+      const rozet = document.createElement('span');
+      rozet.className = 'bolum-kutu-rozet';
+      rozet.dataset.urun = yeni[0];
+      if (kilitli) {
+        // Kapalı bölümde ürün sürpriz: yalnız soru işareti (Kemal, 5 Kasım akşamı).
+        rozet.classList.add('surpriz');
+        rozet.textContent = '?';
+      } else {
+        const r = document.createElement('img');
+        r.src = `gorseller/urunler/${yeni[0]}.webp`;
+        r.alt = '';
+        r.draggable = false;
+        rozet.appendChild(r);
+      }
+      d.appendChild(rozet);
     }
     d.addEventListener('click', () => {
       if (no > kayit.acik) return; // kilitli: başlamaz
       s.bolumSec(no);
     });
     if (no === acik) simdiki = d;
-    alan.appendChild(d);
+    izgara.appendChild(d);
   }
-  kaydir.appendChild(alan);
+  kaydir.appendChild(izgara);
   kutu.appendChild(kaydir);
 
   // Açılınca kaldığı bölüm ekranın ortasına gelsin (ekrana eklendikten sonra).
   requestAnimationFrame(() => {
     if (!simdiki) return;
-    const hedef = simdiki.offsetTop - kaydir.clientHeight / 2;
+    const hedef = simdiki.offsetTop - kaydir.clientHeight / 2 + simdiki.offsetHeight / 2;
     kaydir.scrollTop = Math.max(0, hedef);
   });
   return kutu;

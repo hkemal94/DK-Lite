@@ -18,7 +18,7 @@ düzenlendi ("Yol haritasını değiştir, onu bölüm bölüm ilerlet"; sohbett
 "Oyunun bölümlerine göre"). Eski uzun "Neredeyiz" notları silinmedi, en
 alttaki "Geçmiş notlar" bölümüne taşındı.
 
-- Oyunda **30 bölüm** var, hepsi oynanabilir. Bölüm 1–10 elle yazılmış bir
+- Oyunda **50 bölüm** var (5 Kasım'da 30'dan 50'ye), hepsi oynanabilir. Bölüm 1–10 elle yazılmış bir
   tabloyla, 11–30 bir kuralla kuruluyor. Bölümlerdeki bütün sayılar **deneme
   değeri**; Kemal oynayıp söyleyince kesinleşir.
 - Şimdi: yeni arayüz. İlk adım (düğmeler, giriş, Poppins) PR #27 ile ana
@@ -29,6 +29,14 @@ alttaki "Geçmiş notlar" bölümüne taşındı.
   oynar, her grup için "kolay / zor / tamam" der: önce 1–10, sonra 11–20,
   sonra 21–30. Bir grup oturmadan sonrakinin sayıları değiştirilmez.
   Ardından 31. bölümden sonrası için Kemal'in kararı (aşağıda).
+- Bölüm seçme ekranı (5 Kasım 2026 akşamı, öneri; `ajans/kutulu-bolumler`): sahil yolu kalktı; bölümler sabit desenli mor zeminin üstünde numaralı kutular (satırda 4), geçilen mor ve yıldızlı, sıradaki sarı, kilitli soluk ve kilitli. Kemal: "kutulu olarak bölümleri koy sabit arka zeminde". Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`. Telefonda denenmedi.
+- Kazanç (5 Kasım 2026 akşamı; Kemal: "bölümleri geçtikçe bir kazancı yok", dört türe "Hepsi güzel", sıra "Bu sırayla"). Sıra: 1) yeni ürün açılır, 2) ödül sandığı, 3) dükkânı süsleme, 4) para ve market; her biri ayrı küçük paket.
+  - 1) Yeni ürün açılır: yapıldı, öneri (`ajans/yeni-urun`; kutulu bölümler dalının üstünde). Bölüm ilk kez kazanılınca, sonraki bölümde ilk gelen ürün için "Yeni ürün!" penceresi; Bölümler ekranında ürünün geleceği kutunun köşesinde küçük resmi. Ürünler 9. bölüme kadar bitiyor; 10–30 için kazanç sandık ve süsle gelecek. Ekran görüntüleri: `docs/ekran/yeni-urun/`. Telefonda denenmedi.
+  - 2) Can ve ödül sandığı: yapıldı, öneri (`ajans/can-sandik`; yeni ürün dalının üstünde). Kemal: "can barı olması lazım"; 5 can, yalnız kaybedince (ya da yarıda bırakınca) gider, 30 dakikada 1 can dolar; 10 bölümde bir sandık: +1 can, canlar dolar ya da 1 saat sınırsız can (eşit şans, deneme). Tasarım belgesi 0.26; ekran görüntüleri: `docs/ekran/can-sandik/`. Telefonda denenmedi.
+  - 3) Dükkânı süsleme: **çıkarıldı** (Kemal, 5 Kasım: "Dükkan kısmını sevmedim. Onu koymayalım hiç").
+  - 4) Para ve market: para modeli konuşulunca.
+- Geri bildirim ve zorluk (5 Kasım 2026 akşamı, öneri; `ajans/can-sandik` dalında devam): düğmelerde beyaz çizgi kalktı; kapalı bölümde sürpriz ürün "?"; can 15 dakikada dolar; 50 bölüm; araştırma (`docs/arastirma-zorluk-ve-baglilik.md`) ve Kemal'in seçtiği 10'luk dilim zorluk (5. bölüm zor, 6. rahat, 10. çok zor; işaretli); fiş yerine sonuç penceresi. Tasarım belgesi 0.27; ekran görüntüleri `docs/ekran/sonuc-penceresi/`. Telefonda denenmedi.
+- Sırada (Kemal: hepsi uygun): yeni öğeler (buzlu top 11., gizli top 21., aceleci müşteri 31., kilitli sütun 41. bölümde), sonra yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü; her biri ayrı paket.
 - Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.
 
 ## Bölüm bölüm
@@ -38,85 +46,108 @@ sütunda görünen 4 top, ekranda aynı anda en çok 5 müşteri, müşteri sabr
 90 saniye, bant bir turu 12 saniyede döner, fazla top oranı 0,5. Tablolar
 koddan okundu; elle yazılmadı.
 
+Zorluk 10'luk dilimlerde testere dişi (Kemal, 5 Kasım 2026: "10'luk dilim";
+araştırma `docs/arastirma-zorluk-ve-baglilik.md`): her dilimde 5. bölüm
+**Zor**, 6. bölüm **Rahat**, 10. bölüm **Çok zor** (kazanınca sandık);
+öbürleri yavaş artar. Zor bölümler Bölümler ekranında kırmızı ve etiketli.
+Tablolardaki "İlk gelen": o bölümde ilk kez gelen ürün (bir önceki bölüm ilk
+kez kazanılınca "Yeni ürün!" olarak açılır).
+
 ### Bölüm 1–10
 
-- Durum: oynanabilir. Zorluk elle yazılmış tabloyla. Kemal'in denemesi bekleniyor.
-- Yeni gelen şeyler: 1. bölümde 3 dondurma çeşidi; 3. bölümde ilk tatlı
-  (dilim pasta), istek en az 3; 6. bölümde 4. çeşit, ilk içecek ve iki çeşit
-  isteyen müşteriler; 7. bölümde bant yeri 11; 9. bölümde bant yeri 10 ve
-  istek en çok 5.
+- Durum: oynanabilir. Bölüm 1–4 elle yazılmış tablodan; 5, 6 ve 10 dilim kuralıyla ayarlandı.
+- Kemal oynayınca söyleyecekleri: 5. bölümün zorluğu ilk zor bölüm için uygun mu (araştırmada ilk zor bölüm çoğu oyunda 10. bölüm civarında; [Kemal]); bölümler uzun mu kısa mı; sabır ve seri ek puanı nasıl.
 
-| Bölüm | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit isteyen oranı | Ürünler |
-|---|---|---|---|---|---|---|
-| 1 | 10 | 2–4 | 3 | 12 | 0 | Çikolata, Çilek, Limon |
-| 2 | 11 | 2–4 | 3 | 12 | 0 | Çikolata, Çilek, Fıstık |
-| 3 | 11 | 3–4 | 3 | 12 | 0 | Limon, Vanilya, Dilim pasta |
-| 4 | 13 | 3–4 | 3 | 12 | 0 | Çilek, Fıstık, Küçük kek |
-| 5 | 14 | 3–4 | 3 | 12 | 0 | Çikolata, Vanilya, Kâsede meyve |
-| 6 | 14 | 3–4 | 4 | 12 | 0,3 | Çilek, Limon, Dilim pasta, Limonata |
-| 7 | 14 | 3–4 | 4 | 11 | 0,3 | Çikolata, Fıstık, Küçük kek, Gazoz |
-| 8 | 15 | 3–4 | 4 | 11 | 0,4 | Vanilya, Çilek, Kâsede meyve, Kahve |
-| 9 | 15 | 3–5 | 4 | 10 | 0,4 | Limon, Çikolata, Dilim pasta, Çay |
-| 10 | 15 | 3–5 | 4 | 10 | 0,5 | Fıstık, Vanilya, Küçük kek, Limonata |
-
-- Kemal oynayınca söyleyecekleri: çok kolay ya da çok zor gelen bölüm var
-  mı; bölümler uzun mu kısa mı; tatlının (3.) ve içeceğin (6.) geldiği
-  bölüm uygun mu; sabır süresi (90 saniye) ve seri ek puanı nasıl.
+| Bölüm | Tür | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit oranı | Ürünler | İlk gelen |
+|---|---|---|---|---|---|---|---|---|
+| 1 |  | 10 | 2–4 | 3 | 12 | 0 | Çikolata, Çilek, Limon |  |
+| 2 |  | 11 | 2–4 | 3 | 12 | 0 | Çikolata, Çilek, Fıstık | Fıstık |
+| 3 |  | 11 | 3–4 | 3 | 12 | 0 | Limon, Vanilya, Dilim pasta | Vanilya, Dilim pasta |
+| 4 |  | 13 | 3–4 | 3 | 12 | 0 | Çilek, Fıstık, Küçük kek | Küçük kek |
+| 5 | Zor | 16 | 3–4 | 3 | 11 | 0 | Çikolata, Vanilya, Kâsede meyve | Kâsede meyve |
+| 6 | Rahat | 11 | 3–4 | 4 | 12 | 0,3 | Çilek, Limon, Dilim pasta, Limonata | Limonata |
+| 7 |  | 14 | 3–4 | 4 | 11 | 0,3 | Çikolata, Fıstık, Küçük kek, Gazoz | Gazoz |
+| 8 |  | 15 | 3–4 | 4 | 11 | 0,4 | Vanilya, Çilek, Kâsede meyve, Kahve | Kahve |
+| 9 |  | 15 | 3–5 | 4 | 10 | 0,4 | Limon, Çikolata, Dilim pasta, Çay | Çay |
+| 10 | Çok zor | 18 | 3–5 | 4 | 8 | 0,65 | Fıstık, Vanilya, Küçük kek, Limonata |  |
 
 ### Bölüm 11–20
 
-- Durum: oynanabilir. Tablo yok, kural var (29 Ekim; tasarım belgesi 0.22).
-  İlke (Kemal, 22 Ekim): her adımda yalnız bir şey biraz zorlaşır.
-- Yeni gelen şeyler: 11. bölümde müşteri 16 (sonra her 4 bölümde bir
-  artar); 14. bölümde bant yeri 9; 16. bölümde 5. çeşit; 18. bölümde iki
-  çeşit isteyenlerin oranı 0,6.
+- Durum: oynanabilir; taban kural (29 Ekim) üstüne dilim ayarı. 16. bölümde 5. çeşit.
+- Sırada: 11. bölümde yeni öğe "buzlu top" tanıtılacak (öneri, henüz yok).
 
-| Bölüm | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit isteyen oranı | Ürünler |
-|---|---|---|---|---|---|---|
-| 11 | 16 | 3–5 | 4 | 10 | 0,5 | Çilek, Fıstık, Çay, Kâsede meyve |
-| 12 | 16 | 3–5 | 4 | 10 | 0,5 | Limon, Vanilya, Dilim pasta, Limonata |
-| 13 | 16 | 3–5 | 4 | 10 | 0,5 | Fıstık, Çikolata, Gazoz, Küçük kek |
-| 14 | 16 | 3–5 | 4 | 9 | 0,5 | Vanilya, Çilek, Kâsede meyve, Kahve |
-| 15 | 17 | 3–5 | 4 | 9 | 0,5 | Çikolata, Limon, Çay, Dilim pasta |
-| 16 | 17 | 3–5 | 5 | 9 | 0,5 | Çilek, Fıstık, Küçük kek, Limonata, Kâsede meyve |
-| 17 | 17 | 3–5 | 5 | 9 | 0,5 | Limon, Vanilya, Gazoz, Kâsede meyve, Kahve |
-| 18 | 17 | 3–5 | 5 | 9 | 0,6 | Fıstık, Çikolata, Dilim pasta, Kahve, Küçük kek |
-| 19 | 18 | 3–5 | 5 | 9 | 0,6 | Vanilya, Çilek, Çay, Küçük kek, Limonata |
-| 20 | 18 | 3–5 | 5 | 9 | 0,6 | Çikolata, Limon, Kâsede meyve, Limonata, Dilim pasta |
-
-- Kemal oynayınca söyleyecekleri: 1–10'dan sonra geçiş yumuşak mı; 5 çeşit
-  (16.) sütunları tıkıyor mu.
+| Bölüm | Tür | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit oranı | Ürünler | İlk gelen |
+|---|---|---|---|---|---|---|---|---|
+| 11 |  | 16 | 3–5 | 4 | 10 | 0,5 | Çilek, Fıstık, Çay, Kâsede meyve |  |
+| 12 |  | 16 | 3–5 | 4 | 10 | 0,5 | Limon, Vanilya, Dilim pasta, Limonata |  |
+| 13 |  | 16 | 3–5 | 4 | 10 | 0,5 | Fıstık, Çikolata, Gazoz, Küçük kek |  |
+| 14 |  | 16 | 3–5 | 4 | 9 | 0,5 | Vanilya, Çilek, Kâsede meyve, Kahve |  |
+| 15 | Zor | 19 | 3–5 | 4 | 8 | 0,6 | Çikolata, Limon, Çay, Dilim pasta |  |
+| 16 | Rahat | 16 | 3–5 | 5 | 10 | 0,5 | Çilek, Fıstık, Küçük kek, Limonata, Kâsede meyve |  |
+| 17 |  | 17 | 3–5 | 5 | 9 | 0,5 | Limon, Vanilya, Gazoz, Kâsede meyve, Kahve |  |
+| 18 |  | 17 | 3–5 | 5 | 9 | 0,6 | Fıstık, Çikolata, Dilim pasta, Kahve, Küçük kek |  |
+| 19 |  | 18 | 3–5 | 5 | 9 | 0,6 | Vanilya, Çilek, Çay, Küçük kek, Limonata |  |
+| 20 | Çok zor | 21 | 3–5 | 5 | 7 | 0,75 | Çikolata, Limon, Kâsede meyve, Limonata, Dilim pasta |  |
 
 ### Bölüm 21–30
 
-- Durum: oynanabilir, kuralla. 30. bölüm kazanılınca "Bütün bölümler bitti" yazar.
-- Yeni gelen şeyler: 22. bölümde bant yeri 8; 25. bölümde 6. çeşit; 26.
-  bölümde iki çeşit isteyenlerin oranı 0,7.
+- Durum: oynanabilir. 25. bölümde 6. çeşit. 20. ve 30. bölüm çok zor (sandık).
+- Sırada: 21. bölümde yeni öğe "gizli top" (öneri, henüz yok).
 
-| Bölüm | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit isteyen oranı | Ürünler |
-|---|---|---|---|---|---|---|
-| 21 | 18 | 3–5 | 5 | 9 | 0,6 | Çilek, Fıstık, Gazoz, Dilim pasta, Kahve |
-| 22 | 18 | 3–5 | 5 | 8 | 0,6 | Limon, Vanilya, Küçük kek, Kahve, Kâsede meyve |
-| 23 | 19 | 3–5 | 5 | 8 | 0,6 | Fıstık, Çikolata, Çay, Kâsede meyve, Limonata |
-| 24 | 19 | 3–5 | 5 | 8 | 0,6 | Vanilya, Çilek, Dilim pasta, Limonata, Küçük kek |
-| 25 | 19 | 3–5 | 6 | 8 | 0,6 | Çikolata, Limon, Gazoz, Küçük kek, Kahve, Kâsede meyve |
-| 26 | 19 | 3–5 | 6 | 8 | 0,7 | Çilek, Fıstık, Kâsede meyve, Kahve, Dilim pasta, Çay |
-| 27 | 20 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Çay, Dilim pasta, Limonata, Küçük kek |
-| 28 | 20 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Küçük kek, Limonata, Kâsede meyve, Gazoz |
-| 29 | 20 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Gazoz, Kâsede meyve, Kahve, Dilim pasta |
-| 30 | 20 | 3–5 | 6 | 8 | 0,7 | Çikolata, Limon, Dilim pasta, Kahve, Küçük kek, Çay |
+| Bölüm | Tür | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit oranı | Ürünler | İlk gelen |
+|---|---|---|---|---|---|---|---|---|
+| 21 |  | 18 | 3–5 | 5 | 9 | 0,6 | Çilek, Fıstık, Gazoz, Dilim pasta, Kahve |  |
+| 22 |  | 18 | 3–5 | 5 | 8 | 0,6 | Limon, Vanilya, Küçük kek, Kahve, Kâsede meyve |  |
+| 23 |  | 19 | 3–5 | 5 | 8 | 0,6 | Fıstık, Çikolata, Çay, Kâsede meyve, Limonata |  |
+| 24 |  | 19 | 3–5 | 5 | 8 | 0,6 | Vanilya, Çilek, Dilim pasta, Limonata, Küçük kek |  |
+| 25 | Zor | 21 | 3–5 | 6 | 7 | 0,7 | Çikolata, Limon, Gazoz, Küçük kek, Kahve, Kâsede meyve |  |
+| 26 | Rahat | 19 | 3–5 | 6 | 8 | 0,6 | Çilek, Fıstık, Kâsede meyve, Kahve, Dilim pasta, Çay |  |
+| 27 |  | 20 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Çay, Dilim pasta, Limonata, Küçük kek |  |
+| 28 |  | 20 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Küçük kek, Limonata, Kâsede meyve, Gazoz |  |
+| 29 |  | 20 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Gazoz, Kâsede meyve, Kahve, Dilim pasta |  |
+| 30 | Çok zor | 23 | 3–5 | 6 | 6 | 0,8 | Çikolata, Limon, Dilim pasta, Kahve, Küçük kek, Çay |  |
 
-- Kemal oynayınca söyleyecekleri: son bölümler çok mu zor; 6 çeşit fazla mı.
+### Bölüm 31–40
 
-### Bölüm 31 ve sonrası
+- Durum: oynanabilir (5 Kasım'da eklendi). Sayılar burada tavana yakın; zorluk farkı yalnız zor ve çok zor bölümlerde. Bu yüzden yeni öğeler gerekli.
+- Sırada: 31. bölümde yeni öğe "aceleci müşteri" (öneri, henüz yok).
 
-- Durum: yok. Kemal (29 Ekim): ileride yaklaşık 500 bölüm.
-- Kural hazır: bölüm sayısı yalnız `BOLUM_SAYISI` ile artar; harita, kayıt
-  ve zorluk kendiliğinden uyar. Kuralın sınırları (deneme): müşteri en çok
-  22, çeşit en çok 6, bant yeri en az 7, iki çeşit oranı en çok 0,7.
-- Kemal'in kararı gereken: kaç bölüme çıkılacak ve ne zaman; harita hep aynı
-  sahil manzarasında mı uzasın; zorluk bir yerde dursun mu, dalgalı mı gitsin;
-  elle yapılmış bölümler bitince ne olur ("sonu yok" sorusu).
+| Bölüm | Tür | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit oranı | Ürünler | İlk gelen |
+|---|---|---|---|---|---|---|---|---|
+| 31 |  | 21 | 3–5 | 6 | 8 | 0,7 | Çilek, Fıstık, Çay, Küçük kek, Limonata, Kâsede meyve |  |
+| 32 |  | 21 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Kâsede meyve, Limonata, Dilim pasta, Gazoz |  |
+| 33 |  | 21 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Gazoz, Dilim pasta, Kahve, Küçük kek |  |
+| 34 |  | 21 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Küçük kek, Kahve, Kâsede meyve, Çay |  |
+| 35 | Zor | 24 | 3–5 | 6 | 7 | 0,8 | Çikolata, Limon, Çay, Kâsede meyve, Limonata, Dilim pasta |  |
+| 36 | Rahat | 21 | 3–5 | 6 | 8 | 0,7 | Çilek, Fıstık, Dilim pasta, Limonata, Küçük kek, Gazoz |  |
+| 37 |  | 22 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Gazoz, Küçük kek, Kahve, Kâsede meyve |  |
+| 38 |  | 22 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Kâsede meyve, Kahve, Dilim pasta, Çay |  |
+| 39 |  | 22 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Çay, Dilim pasta, Limonata, Küçük kek |  |
+| 40 | Çok zor | 25 | 3–5 | 6 | 6 | 0,8 | Çikolata, Limon, Küçük kek, Limonata, Kâsede meyve, Gazoz |  |
+
+### Bölüm 41–50
+
+- Durum: oynanabilir (5 Kasım'da eklendi). 50. bölüm kazanılınca "Bütün bölümler bitti".
+- Sırada: 41. bölümde yeni öğe "kilitli sütun" (öneri, henüz yok).
+
+| Bölüm | Tür | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit oranı | Ürünler | İlk gelen |
+|---|---|---|---|---|---|---|---|---|
+| 41 |  | 22 | 3–5 | 6 | 8 | 0,7 | Çilek, Fıstık, Gazoz, Kâsede meyve, Kahve, Dilim pasta |  |
+| 42 |  | 22 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Dilim pasta, Kahve, Küçük kek, Çay |  |
+| 43 |  | 22 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Çay, Küçük kek, Limonata, Kâsede meyve |  |
+| 44 |  | 22 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Kâsede meyve, Limonata, Dilim pasta, Gazoz |  |
+| 45 | Zor | 24 | 3–5 | 6 | 7 | 0,8 | Çikolata, Limon, Gazoz, Dilim pasta, Kahve, Küçük kek |  |
+| 46 | Rahat | 22 | 3–5 | 6 | 8 | 0,7 | Çilek, Fıstık, Küçük kek, Kahve, Kâsede meyve, Çay |  |
+| 47 |  | 22 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Çay, Kâsede meyve, Limonata, Dilim pasta |  |
+| 48 |  | 22 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Dilim pasta, Limonata, Küçük kek, Gazoz |  |
+| 49 |  | 22 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Gazoz, Küçük kek, Kahve, Kâsede meyve |  |
+| 50 | Çok zor | 25 | 3–5 | 6 | 6 | 0,8 | Çikolata, Limon, Kâsede meyve, Kahve, Dilim pasta, Çay |  |
+
+### Bölüm 51 ve sonrası
+
+- Durum: yok. Kemal (29 Ekim): ileride yaklaşık 500 bölüm; 5 Kasım: "şu an için" 50.
+- Bölüm sayısı yalnız `BOLUM_SAYISI` ile artar; Bölümler ekranı, kayıt ve zorluk kendiliğinden uyar.
+- Kemal'in kararı gereken: kaç bölüme çıkılacak; çok bölümde Bölümler ekranı sayfalara bölünsün mü (Kemal, 5 Kasım: "Bilmem, şu an oyun güzel"; bekliyor); elle yapılmış bölümler bitince ne olur.
 
 ## Nasıl ilerler (tek kişilik ekip için)
 
@@ -276,7 +307,9 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ## Sonra (ilk sürümde yok; sırası Kemal'le)
 
-- Can sistemi ve can bitince ne olacağı (Kemal'in can kararı Dondurmacı Kızlar deposunda; para modeli yayın döneminde).
+Not (5 Kasım 2026): sandık, market, altın ve yeni malzeme kazanma artık "Neredeyiz"deki kazanç sırasında (tasarım belgesi 0.25).
+
+- Can sistemi: geldi (5 Kasım 2026, tasarım belgesi 0.26). Canın parayla alınması gibi para modeli yayın döneminde.
 - Lig.
 - Festival.
 - Sandık.
@@ -312,7 +345,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 
 ## Yayından önce
 
-- Can sistemi ve can bitince ne olacağı (para modeli; yayın döneminde konuşulacak).
+- Can sistemi geldi (0.26). Canın parayla alınması gibi para modeli yayın döneminde konuşulacak.
 - Oyunun son adı ("DK Lite" yayın adı mı, çalışma adı mı: [Kemal]).
 - Denemeye özel kolaylıklar (erime biçimi düğmesi gibi) kalkar.
 - Örnek oyuna benzerlik denetimi: görsel, karakter, ad, ekran düzeni birebir kopya değil.

@@ -30,6 +30,64 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.27 Geri bildirim, araştırma, 10'luk dilim zorluk, sonuç penceresi (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal'in geri bildirimi: "Butonlarda yazının üzerindeki beyaz ... line'ı beğenmedim. Kapalı bölümlerdeki sürpriz ürünleri soru işareti olarak göster ... Gün sonundaki o fiş ... tutmuyor ... O olmamış. Ayrıca dakikayı yarım saatten 15 dakikaya düşür. Bölümleri de 50'ye getir şu an için. Ama ... nasıl zorluk olacak bilmiyorum. Bu tarz oyunları araştır ... Dükkan kısmını sevmedim. Onu koymayalım hiç."
+
+Araştırma: `docs/arastirma-zorluk-ve-baglilik.md` (kaynaklarıyla). Soru turundaki cevapları: zorluk "10'luk dilim (Önerilen)"; yeni öğeler "Buzlu top, Gizli top, Aceleci müşteri, Kilitli sütun" (dördü de); bölüm sonu "Sonuç penceresi (Önerilen)"; sıradaki bağlılık özellikleri (yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü): "Hepsi uygun".
+
+Ne değişti:
+- Düğmelerin, yuvarlak düğmelerin ve bölüm kutularının üstündeki beyaz parlaklık çizgisi kalktı.
+- Bölümler ekranında kapalı bölümdeki sürpriz ürün resim yerine mor yuvarlakta "?"; açılmış bölümde ürünün resmi.
+- Can 15 dakikada 1 dolar (önce 30).
+- 50 bölüm (önce 30). Hepsi kazanılabilir dizilimle kuruldu; en yavaşı 38. bölüm (1 saniyenin altında).
+- Zorluk 10'luk dilimlerde testere dişi: her dilimde 5. bölüm "Zor" (2 müşteri fazla, bantta 1 yer az, iki çeşit isteyen biraz fazla), 6. bölüm rahatlatan (sayıları 3 bölüm öncekininki kadar), 10. bölüm "Çok zor" (3 müşteri fazla, bantta 2 yer az; kazanınca sandık). Bant en az 6 yer. Artışlar DENEME. Bölüm 1–4 değişmedi.
+- Zor bölümler Bölümler ekranında kırmızı kutu ve altında "Zor" / "Çok zor" etiketi; bölüm başlarken ekranda kısa "Zor bölüm" afişi; üst şeritte bölüm numarası kırmızımsı.
+- Fiş kalktı; yerine sonuç penceresi: üstte mor şeritte "Bölüm 3", büyük yıldızlar (ortadaki büyük), sonuç yazısı, içe gömük kutuda puan, satılan ürünler tek sırada simge ve adetle, hizmet edilen ve giden müşteri, kaybedince can; kazanılanlar (yeni ürün, sandıktan çıkan) sarı küçük haplar hâlinde. Sevinen dondurmacı pencerenin sol üstünde. Fişteki teşekkür satırı ([Kemal]) fişle birlikte kalktı.
+- Dükkânı süsleme kazanç planından çıktı.
+- Henüz yapılmayanlar (sırada): yeni öğeler (buzlu top 11., gizli top 21., aceleci müşteri 31., kilitli sütun 41. bölümde tanıtılır; öneri), sonra yardımcılar, galibiyet serisi, günlük ödül, koleksiyon albümü.
+
+### 0.26 Can ve ödül sandığı (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal: "Sandıktan hak çıkabilir ama oyunun oynanmasında can barı olması lazım yani bölüm bitmeyince yeniden oyna falan olması lazım". Soru turundaki cevapları: can sayısı "5 can (Önerilen)"; can ne zaman gider "Yalnız kaybedince (Önerilen)"; can bitince "Zamanla dolar, 30 dk (Önerilen)"; sandık "10 bölümde bir sandık açılsın ve bazen bir can versin bazen canı doldursun bazen 1 saat süresiz can versin". Bu, 4.1'deki "can sistemi" maddesini ve 7. bölümdeki "can sistemi sakin oyuncu ile nasıl bağdaşır" sorusunu kapatır.
+
+Ne yapıldı (öneri; `ajans/can-sandik`):
+- En çok 5 can. Bölüm kaybedilince (bant doldu, top kalmadı, müşteriler gitti) ya da yarıda bırakılınca (duraklatmadan "Baştan başla", ya da oyun sürerken Bölümler'den bir bölüm seçmek) 1 can gider. Kazanınca can gitmez. Uygulama kapatılınca giden can yok (yarıda bırakma sayılmaz).
+- Can 5'ten azsa her 30 dakikada 1 can kendiliğinden dolar, oyun kapalıyken de. Can yokken bölüm başlamaz; "Can yok" penceresinde sonraki canın süresi ve "Her 30 dakikada 1 can dolar" yazar.
+- Can göstergesi (kalbin içinde sayı): giriş ekranında sol üstte ve Bölümler ekranında sağ üstte, yanında sonraki canın süresi ya da "Dolu"; oyunda üst şeritte "Bölüm 3"ün yanında küçük kalp. Kaybedince fişte "Can −1 (kalan 4)".
+- Sandık: 10., 20., 30. ... bölüm ilk kez kazanılınca "Sandık!" penceresi çıkar; sandığın kapağı açılır, içinden kalp yükselir. Üç ödülden biri: +1 can (5'i geçebilir), canlar dolar (5'e), 1 saat sınırsız can (bu sürede can gitmez; kalpte ∞ ve kalan süre). Üçü eşit şansla: bu oran ekibin DENEME değeri (Kemal "bazen" dedi).
+- Aynı bölüm sonunda hem sandık hem yeni ürün varsa önce sandık, "Tamam" deyince yeni ürün gelir.
+- Sandığın çizimi ekibin basit şekli, geçici; Canva'da çizilirse yerine geçer.
+- Dondurmacı Kızlar'ın can ayarları buraya taşınmadı; sayılar Kemal'in bu soru turundaki seçimleri.
+- Ekran görüntüleri: `docs/ekran/can-sandik/`.
+
+### 0.25 Kazanç: dört tür, ilk paket "yeni ürün açılır" (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal: "Oyun sadece başarı üzerine kurulu ve bölümleri geçtikçe bir kazancı yok". Sorulan dört kazanç türüne (yeni ürün açılır, ödül sandığı, dükkânı süsleme, para ve market) cevabı: "Hepsi güzel". Önerilen sıra soruldu: "Bu sırayla (Önerilen)": 1) yeni ürün açılır, 2) ödül sandığı, 3) dükkânı süsleme, 4) para ve market. Her biri ayrı küçük paket; Kemal görüp onaylar. 0.4'teki "ilk sürümde yalnız bölümler, yıldız ve harita" kararı bu cevapla genişledi.
+
+1. paket, yeni ürün açılır (yapıldı, öneri):
+- Bir ürün, ilk geldiği bölümden bir önceki bölüm **ilk kez** kazanılınca açılır. Bölüm sonunda, yıldızlar geldikten sonra fişin üstünde "Yeni ürün!" penceresi çıkar: arkasında dönen sarı ışık, ürünün resmi ve adı, "Sonraki bölümde gelir", yeşil "Tamam". Aynı bölüm tekrar kazanılınca çıkmaz.
+- Bölümler ekranında, bir ürünün ilk geldiği bölümün kutusunun köşesinde o ürünün küçük resmi durur (kilitli kutuda sarı zeminde): oyuncu ileride ne açılacağını görür.
+- Hangi ürünün hangi bölümde geldiği zorluk tablosundan çıkar (DENEME, değişmedi): 2. bölüm fıstık; 3. vanilya ve dilim pasta; 4. küçük kek; 5. kâsede meyve; 6. limonata; 7. gazoz; 8. kahve; 9. çay. 1. bölümün ürünleri (çikolata, çilek, limon) başlangıçta açık.
+- Kayıt değişmedi: açılan ürünler açılan bölümden çıkar.
+- Not: 12 ürünün hepsi 9. bölüme kadar açılıyor; 10–30. bölümlerde yeni ürün yok. Oralardaki kazanç sıradaki paketlerden (sandık, süs) gelecek. Yeni ürün çizilmedi.
+- Ekran görüntüleri: `docs/ekran/yeni-urun/`.
+
+Kemal'in kararını bekleyenler: sandığın kaç bölümde bir açılacağı ve içinden ne çıkacağı; süs eşyalarının neler olacağı; para modeli.
+
+### 0.24 Bölüm seçme: kutulu bölümler, sabit zemin (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal (telefondan bölüm seçme ekranının görüntüsüyle): "Bu yolu beğenmediğimden bahsediyordum, kutulu olarak bölümleri koy, sabit arka zeminde". 0.19'daki sahil yolu çizimi kalktı.
+
+- Bölümler numaralı kutular hâlinde, satır satır dizilir (satırda 4 kutu); 1. bölüm en üstte solda.
+- Arkada desenli mor zemin (0.23) yerinde durur, kaymaz; yalnız kutular kayar. Açılınca kaldığın bölüm ortaya gelir.
+- Geçilmiş bölüm mor kutu, beyaz numara, altında kazanılan yıldızlar; sıradaki sarı ve yavaşça büyüyüp küçülür; kilitli bölüm soluk krem, numaranın altında küçük kilit, dokununca başlamaz.
+- Üstte mor şerit, "Bölümler" başlığı ve mor yuvarlak geri düğmesi (0.23 gibi).
+- Bölüm sayısı artınca kutular kendiliğinden çoğalır (`BOLUM_SAYISI`).
+- Sahil yolu resmi (`sahil-yolu.webp`) artık görünmüyor; dosya depoda duruyor.
+- Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`.
+- Açık soru (0.22'deki "500 bölüme giderken harita" sorusu) bununla daralır: harita yok, kutular uzar. Çok bölümde sayfalara mı bölünsün: [Kemal].
+
 ### 0.23 Arayüz dili: bütün arayüz, külahlı logo, desenli mor zemin (Kemal, 5 Kasım 2026; öneri)
 
 Kemal'in isteği (CEO iletti): "Pinterest'te DK Lite için menü ve asset görselleri yükledim ... Butonlar falan da var gölgeli böyle. Yan bir konuşmada yeni arayüz hazırlığına gir." Panodaki "DK Lite" bölümünden (9 görsel) bir arayüz dili notu çıkarıldı: `docs/arayuz-dili.md`. Başka oyunların görseli, logosu, adı alınmadı; yalnız üslup.
@@ -612,7 +670,7 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 
 ### 4.1 Sonra (ilk sürümde yok; sırası Kemal'le)
 
-- Can sistemi (Dondurmacı Kızlar deposunda Kemal'in kararı var) ve can bitince ne olacağı (para modeli, yayın dönemi).
+- Can sistemi: geldi (0.26). Para modeli (canın parayla alınması gibi) yayın döneminde.
 - Lig.
 - Festival.
 - Sandık.
@@ -670,7 +728,7 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 
 Sonrası için:
 - Sonu yok: elle yapılmış bölümler bitince ne olur (kendiliğinden üretilen bölümler, günlük bölüm, ya da bekleme)?
-- Can sistemi "sakin oyuncu" ile nasıl bağdaşır; can bitince ne olur (para modeli, yayın dönemi)?
+- Can sistemi: kapandı (0.26; 5 can, kaybedince gider, 30 dakikada dolar). Para modeli (canın parayla alınması gibi) yayın döneminde.
 - Hikâye bölümleri kaç bölümde bir açılır; metinleri ne zaman gelir?
 - Koleksiyon ne toplar; başarımlar neler?
 - Seslendirme hangi satırlarda?
