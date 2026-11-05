@@ -1420,6 +1420,10 @@ html, body {
   .ust .kose-dugme { width: 30px; height: 30px; }
   .ust-sag { gap: 3px; }
   .son-dugmeler .dugme { font-size: 16px; padding: 9px 13px 14px; }
+  /* Küçük telefonda erime yazısı kısalmasın diye biraz küçük. */
+  .erime-dugme { font-size: 10px; padding: 1px 6px; letter-spacing: -0.1px; }
+  .bolum-no { font-size: 14px; }
+  .sayac .cubuk { width: 22px; }
 }
 /* Sayaç hapları biraz daha küçük: erime düğmesinin yazısı büyük telefonda tam sığsın. */
 .sayac { margin-left: 8px; padding-right: 6px; height: 22px; }
@@ -1435,4 +1439,10 @@ html, body {
   .fis-satir { line-height: 1.6; }
   .fis .yildiz { width: 36px; height: 36px; }
   .fis .yildizlar .yildiz:nth-child(2) { width: 42px; height: 42px; transform: translateY(-5px); }
+}
+/* Küçük telefon (en sonda dursun ki yukarıdakileri ezsin). */
+@media (max-width: 380px) {
+  .sayac .cubuk { width: 20px; }
+  .sayac { margin-left: 7px; padding-right: 5px; }
+  .ust { padding-left: 8px; padding-right: 6px; }
 }
