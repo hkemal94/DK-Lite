@@ -30,6 +30,11 @@ alttaki "Geçmiş notlar" bölümüne taşındı.
   sonra 21–30. Bir grup oturmadan sonrakinin sayıları değiştirilmez.
   Ardından 31. bölümden sonrası için Kemal'in kararı (aşağıda).
 - Bölüm seçme ekranı (5 Kasım 2026 akşamı, öneri; `ajans/kutulu-bolumler`): sahil yolu kalktı; bölümler sabit desenli mor zeminin üstünde numaralı kutular (satırda 4), geçilen mor ve yıldızlı, sıradaki sarı, kilitli soluk ve kilitli. Kemal: "kutulu olarak bölümleri koy sabit arka zeminde". Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`. Telefonda denenmedi.
+- Kazanç (5 Kasım 2026 akşamı; Kemal: "bölümleri geçtikçe bir kazancı yok", dört türe "Hepsi güzel", sıra "Bu sırayla"). Sıra: 1) yeni ürün açılır, 2) ödül sandığı, 3) dükkânı süsleme, 4) para ve market; her biri ayrı küçük paket.
+  - 1) Yeni ürün açılır: yapıldı, öneri (`ajans/yeni-urun`; kutulu bölümler dalının üstünde). Bölüm ilk kez kazanılınca, sonraki bölümde ilk gelen ürün için "Yeni ürün!" penceresi; Bölümler ekranında ürünün geleceği kutunun köşesinde küçük resmi. Ürünler 9. bölüme kadar bitiyor; 10–30 için kazanç sandık ve süsle gelecek. Ekran görüntüleri: `docs/ekran/yeni-urun/`. Telefonda denenmedi.
+  - 2) Ödül sandığı: sırada. Kemal'in kararı: kaç bölümde bir, içinden ne çıkar.
+  - 3) Dükkânı süsleme: sonra (yeni çizimler gerekir).
+  - 4) Para ve market: para modeli konuşulunca.
 - Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.
 
 ## Bölüm bölüm
@@ -276,6 +281,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Kimde: Asset Hazırlayıcı.
 
 ## Sonra (ilk sürümde yok; sırası Kemal'le)
+
+Not (5 Kasım 2026): sandık, market, altın ve yeni malzeme kazanma artık "Neredeyiz"deki kazanç sırasında (tasarım belgesi 0.25).
 
 - Can sistemi ve can bitince ne olacağı (Kemal'in can kararı Dondurmacı Kızlar deposunda; para modeli yayın döneminde).
 - Lig.

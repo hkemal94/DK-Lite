@@ -5,7 +5,7 @@
 // satır dizilir ve yalnız kutular kayar. 1. bölüm en üstte solda. Bölüm sayısı
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
-import { BOLUM_SAYISI, YILDIZ_ESIKLERI } from './ayarlar';
+import { BOLUM_SAYISI, YILDIZ_ESIKLERI, bolumdeYeniUrunler } from './ayarlar';
 import type { Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -91,6 +91,20 @@ export function haritaCiz(
       yildizlar.className = 'kucuk-yildizlar bolum-kutu-yildizlar';
       for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) yildizlar.appendChild(yildizCiz(k < yildiz));
       d.appendChild(yildizlar);
+    }
+    // Yeni ürünün ilk geldiği bölümün köşesinde o ürünün küçük resmi (kazanç, 5 Kasım):
+    // oyuncu ileride ne kazanacağını görür.
+    const yeni = bolumdeYeniUrunler(no);
+    if (yeni.length > 0) {
+      const rozet = document.createElement('span');
+      rozet.className = 'bolum-kutu-rozet';
+      rozet.dataset.urun = yeni[0];
+      const r = document.createElement('img');
+      r.src = `gorseller/urunler/${yeni[0]}.webp`;
+      r.alt = '';
+      r.draggable = false;
+      rozet.appendChild(r);
+      d.appendChild(rozet);
     }
     d.addEventListener('click', () => {
       if (no > kayit.acik) return; // kilitli: başlamaz

@@ -36,6 +36,7 @@ import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, type Ayarlar, type Kayit } from './kayit';
 import { haritaCiz } from './harita';
+import { bolumdeYeniUrunler } from './ayarlar';
 
 // Müşteriler: 10 farklı kişi, belden yukarısı (Canva, parlak çizgi film). Kaynak: docs/lisanslar.md.
 const MUSTERI_RESIMLERI = Array.from({ length: 10 }, (_, i) =>
@@ -1379,6 +1380,10 @@ export class Oyun {
     const no = this.bolum.no;
     const yildiz = kazandi ? this.yildizSayisi() : 0;
     // Kayıt: en iyi yıldız saklanır, sonraki bölüm açılır.
+    // Yeni ürün (kazanç, 5 Kasım): bu bölüm ilk kez kazanılıyorsa ve sonraki
+    // bölümde ilk kez gelen ürün varsa, fişten önce "Yeni ürün!" penceresi çıkar.
+    const ilkKez = kazandi && this.kayit.acik < no + 1 && no + 1 <= BOLUM_SAYISI;
+    const yeniUrunler = ilkKez ? bolumdeYeniUrunler(no + 1) : [];
     if (kazandi) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
 
     const kutu = document.createElement('div');
@@ -1500,6 +1505,49 @@ export class Oyun {
     kutu.appendChild(listeYolu);
     this.sonEl.appendChild(kutu);
     if (kazandi) this.konfeti();
+    if (yeniUrunler.length > 0) this.yeniUrunGoster(yeniUrunler);
+  }
+
+  // "Yeni ürün!" penceresi: fişin üstünde, yıldızlar geldikten sonra açılır.
+  // Arkasında dönen ışık, ortada ürün(ler), "Sonraki bölümde gelir", "Tamam".
+  private yeniUrunGoster(idler: string[]) {
+    const ort = document.createElement('div');
+    ort.className = 'odul-ortu';
+    ort.id = 'yeni-urun';
+    ort.dataset.urunler = idler.join(',');
+    const kutu = document.createElement('div');
+    kutu.className = 'son-kutu pencere odul-kutu';
+    kutu.appendChild(pencereBaslik('Yeni ürün!'));
+    const liste = document.createElement('div');
+    liste.className = 'odul-liste';
+    for (const id of idler) {
+      const u = URUNLER.find((x) => x.id === id);
+      if (!u) continue;
+      const kalem = document.createElement('div');
+      kalem.className = 'odul-urun';
+      const isik = document.createElement('span');
+      isik.className = 'odul-isik';
+      const resim = document.createElement('img');
+      resim.src = `gorseller/urunler/${u.id}.webp`;
+      resim.alt = '';
+      resim.draggable = false;
+      const ad = document.createElement('span');
+      ad.className = 'odul-ad';
+      ad.textContent = u.ad;
+      kalem.append(isik, resim, ad);
+      liste.appendChild(kalem);
+    }
+    const not = document.createElement('div');
+    not.className = 'odul-not';
+    not.textContent = 'Sonraki bölümde gelir';
+    const tamam = document.createElement('button');
+    tamam.className = 'dugme yesil';
+    tamam.id = 'yeni-urun-tamam';
+    tamam.textContent = 'Tamam';
+    tamam.addEventListener('click', () => ort.remove());
+    kutu.append(liste, not, tamam);
+    ort.appendChild(kutu);
+    this.sonEl.appendChild(ort);
   }
 
   // Kazanınca kısa bir renkli konfeti (yalnız görüntü).

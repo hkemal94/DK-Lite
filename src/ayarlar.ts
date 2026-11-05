@@ -272,3 +272,22 @@ export function urunSirasi(id: string): number {
   if (i < 0) throw new Error(`Bilinmeyen ürün: ${id}`);
   return i;
 }
+
+// ---------- Kazanç: yeni ürün açılır (Kemal, 5 Kasım 2026) ----------
+// Kemal: "Oyun sadece başarı üzerine kurulu ve bölümleri geçtikçe bir kazancı yok";
+// dört kazanç türü de istendi, ilk paket "Yeni ürün açılır".
+// Bir ürün, ilk geldiği bölümden bir önceki bölüm ilk kez kazanılınca "açılır".
+// Hangi ürünün hangi bölümde ilk geldiği zorluk tablosundan çıkar (DENEME).
+// 1. bölümün ürünleri başlangıçta açık sayılır.
+export function ilkGeldigiBolum(id: string): number {
+  for (let no = 1; no <= BOLUM_SAYISI; no++) {
+    if (bolumZorlugu(no).urunler.includes(id)) return no;
+  }
+  return Infinity;
+}
+
+// Bu bölümde ilk kez gelen ürünler (URUNLER'deki id). 1. bölümde boş.
+export function bolumdeYeniUrunler(no: number): string[] {
+  if (no <= 1) return [];
+  return bolumZorlugu(no).urunler.filter((id) => ilkGeldigiBolum(id) === no);
+}

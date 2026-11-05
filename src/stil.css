@@ -1532,3 +1532,74 @@ html, body {
   .bolum-izgara { gap: 12px 10px; padding: 18px 12px 28px; }
   .bolum-kutu-sayi { font-size: 21px; }
 }
+
+/* ---------- Kazanç: yeni ürün açılır (5 Kasım 2026) ---------- */
+/* Bölüm sonunda, fişin üstünde "Yeni ürün!" penceresi (yıldızlar geldikten sonra). */
+.odul-ortu {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(46, 18, 70, 0.55);
+  animation: belir 0.3s ease-out 1.3s backwards;
+}
+.odul-ortu > .odul-kutu {
+  width: min(300px, calc(100vw - 48px));
+  gap: 14px;
+  animation: pencere-ac 0.4s cubic-bezier(0.2, 1.5, 0.45, 1) 1.3s backwards;
+}
+.odul-liste { display: flex; justify-content: center; gap: 18px; }
+.odul-urun { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.odul-urun img {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 0 rgba(90, 58, 34, 0.35));
+  animation: odul-zipla 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 1.55s backwards;
+}
+.odul-liste .odul-urun:only-child img { width: 116px; height: 116px; }
+/* Ürünün arkasında yavaşça dönen sarı ışık */
+.odul-isik {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  height: 170px;
+  margin: -100px 0 0 -85px;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, rgba(255, 247, 234, 1) 30%, rgba(255, 247, 234, 0) 100%),
+    repeating-conic-gradient(rgba(255, 201, 40, 0.55) 0 12deg, rgba(255, 201, 40, 0) 12deg 30deg);
+  animation: odul-don 9s linear infinite;
+  pointer-events: none;
+}
+.odul-ad { position: relative; font-size: 19px; font-weight: 800; color: var(--mor); }
+.odul-not { font-size: 14px; font-weight: 600; opacity: 0.7; }
+.odul-kutu .dugme { min-width: 160px; }
+@keyframes odul-don { to { transform: rotate(360deg); } }
+@keyframes odul-zipla {
+  0% { transform: scale(0) rotate(-20deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* Bölüm kutusunun köşesinde, o bölümde ilk gelen ürünün küçük resmi. */
+.bolum-kutu-rozet {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff7ea;
+  border: 2px solid var(--hat);
+  box-shadow: 0 2px 0 rgba(40, 14, 60, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.bolum-kutu-rozet img { width: 22px; height: 22px; object-fit: contain; }
+.bolum-kutu.kilitli .bolum-kutu-rozet { background: var(--sari); }

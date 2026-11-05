@@ -30,6 +30,20 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.25 Kazanç: dört tür, ilk paket "yeni ürün açılır" (Kemal, 5 Kasım 2026 akşamı; öneri)
+
+Kemal: "Oyun sadece başarı üzerine kurulu ve bölümleri geçtikçe bir kazancı yok". Sorulan dört kazanç türüne (yeni ürün açılır, ödül sandığı, dükkânı süsleme, para ve market) cevabı: "Hepsi güzel". Önerilen sıra soruldu: "Bu sırayla (Önerilen)": 1) yeni ürün açılır, 2) ödül sandığı, 3) dükkânı süsleme, 4) para ve market. Her biri ayrı küçük paket; Kemal görüp onaylar. 0.4'teki "ilk sürümde yalnız bölümler, yıldız ve harita" kararı bu cevapla genişledi.
+
+1. paket, yeni ürün açılır (yapıldı, öneri):
+- Bir ürün, ilk geldiği bölümden bir önceki bölüm **ilk kez** kazanılınca açılır. Bölüm sonunda, yıldızlar geldikten sonra fişin üstünde "Yeni ürün!" penceresi çıkar: arkasında dönen sarı ışık, ürünün resmi ve adı, "Sonraki bölümde gelir", yeşil "Tamam". Aynı bölüm tekrar kazanılınca çıkmaz.
+- Bölümler ekranında, bir ürünün ilk geldiği bölümün kutusunun köşesinde o ürünün küçük resmi durur (kilitli kutuda sarı zeminde): oyuncu ileride ne açılacağını görür.
+- Hangi ürünün hangi bölümde geldiği zorluk tablosundan çıkar (DENEME, değişmedi): 2. bölüm fıstık; 3. vanilya ve dilim pasta; 4. küçük kek; 5. kâsede meyve; 6. limonata; 7. gazoz; 8. kahve; 9. çay. 1. bölümün ürünleri (çikolata, çilek, limon) başlangıçta açık.
+- Kayıt değişmedi: açılan ürünler açılan bölümden çıkar.
+- Not: 12 ürünün hepsi 9. bölüme kadar açılıyor; 10–30. bölümlerde yeni ürün yok. Oralardaki kazanç sıradaki paketlerden (sandık, süs) gelecek. Yeni ürün çizilmedi.
+- Ekran görüntüleri: `docs/ekran/yeni-urun/`.
+
+Kemal'in kararını bekleyenler: sandığın kaç bölümde bir açılacağı ve içinden ne çıkacağı; süs eşyalarının neler olacağı; para modeli.
+
 ### 0.24 Bölüm seçme: kutulu bölümler, sabit zemin (Kemal, 5 Kasım 2026 akşamı; öneri)
 
 Kemal (telefondan bölüm seçme ekranının görüntüsüyle): "Bu yolu beğenmediğimden bahsediyordum, kutulu olarak bölümleri koy, sabit arka zeminde". 0.19'daki sahil yolu çizimi kalktı.
