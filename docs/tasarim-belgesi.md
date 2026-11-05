@@ -30,6 +30,17 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.30 Sandık açılır, zor bölümler yazısız (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Sandık işini sevmedim. Çünkü açılmıyor, duruyor, durduğu yerden üzerine bir kalp geliyor. Onu ... ışıklar içinde geldiği gibi yapalım, hediye gibi. Zor bölümlerin renklenmesini sevmedim. ... çok daha soft ... bir ton kırmızıya yakınını zorluk ayırt etmeksizin hiçbir bilgi vermeden koyabilirsin. ... gidecek olan kişi onun biraz daha zorlu olduğunu bilir."
+
+- Sandık: Canva'da açık hâli de çizildi (içinden ışık ve hediye kutusu). Penceredeki sıra: sandık yukarıdan düşerek gelir, sallanır, beyaz bir parlamayla açık hâline geçer, arkasında dönen sarı ışık açılır, parıltılar saçılır, ödülün kalbi içinden yükselir, sonra ödülün yazısı belirir.
+- Zor bölümler: kırmızı kutular, "Zor" / "Çok zor" etiketleri, bölüm başındaki "Zor bölüm" afişi ve üst şeritteki kırmızımsı numara kalktı. Bölümler ekranında zor ve çok zor bölümler aynı, yumuşak bir kırmızımsı mor tonda (kilitliyken soluk pembemsi krem); hiçbir yazı yok.
+- Hediye ürünler (Kemal: türler "Türk kahvesi, Yeni dondurma çeşitleri, Ege tatlıları, Soğuk içecekler"; "On bölümde bir yeni ürün gelirse kurtarıyor aslında"; çay "Evet, taşınsın"): her çok zor bölüm (10, 20, 30, 40, 50) bir ürün hediye eder; ilk kez kazanınca "Yeni ürün!" penceresi çıkar, ürün sonraki bölümde ilk kez gelir. Sıra (DENEME): 10 çay, 20 Türk kahvesi, 30 sakızlı dondurma, 40 baklava, 50 ayran (51. bölüm gelince). Çay ve kahve artık ilk 9 bölümde yok (8. bölümde gazoz, 9.'da limonata). Kahve resmi Türk kahvesi olarak yeniden çizildi; sakızlı, baklava, ayran yeni (Canva; kaynak `docs/lisanslar.md`).
+- Bölümler ekranında hediye, onu veren bölümün kutusunun köşesinde: kazanılmamışsa "?", kazanılmışsa ürünün resmi. İlk bölümlerdeki ürün resimleri de aynı mantıkla bir kutu öne kaydı (ör. fıstık 1. bölümün köşesinde: 1'i kazanınca açılır). Ekran görüntüsü: `docs/ekran/hediye-urunler/`.
+- 50 bölümün hepsi kazanılabilir kuruldu (en yavaşı 35. bölüm, 1 saniyenin altında).
+- Ekran görüntüleri: `docs/ekran/sandik-acilis/`.
+
 ### 0.29 Müşteri renk çeşitleri (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal: "Bu arada insanlar çok güzel gerçekten fakat daha da çeşitlenme imkanı var mı? Özellikle renkler falan kombinasyonlu renkler yaparsak işimize yarayabilir çeşitte". Üç yol soruldu (renk çevirme, parça parça kombinasyon, yeni kişiler); cevabı: "Hepsi".

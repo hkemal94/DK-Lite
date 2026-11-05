@@ -645,15 +645,6 @@ export class Oyun {
     }
     this.yenidenBasla(no);
     this.basladi = true;
-    // Zor bölüm başlarken kısa bir uyarı afişi (10'luk dilim).
-    const tur = bolumTuru(no);
-    if (tur === 'zor' || tur === 'cok-zor') {
-      const afis = document.createElement('div');
-      afis.className = 'zor-afis ' + tur;
-      afis.textContent = tur === 'zor' ? 'Zor bölüm' : 'Çok zor bölüm';
-      this.sahne.appendChild(afis);
-      window.setTimeout(() => afis.remove(), 2200);
-    }
   }
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
@@ -666,7 +657,6 @@ export class Oyun {
     this.duraklatMenuKapat();
     this.bolum = bolumKur(no);
     this.bolumNoEl.textContent = `Bölüm ${no}`;
-    this.bolumNoEl.dataset.tur = bolumTuru(no);
     this.bolumNoEl.dataset.no = String(no);
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
     this.sakliSira = 0;
@@ -1639,13 +1629,31 @@ export class Oyun {
     const kutu = ort.firstElementChild as HTMLDivElement;
     const sahne = document.createElement('div');
     sahne.className = 'sandik-sahne';
-    // Sandık resmi: Canva ile çizildi (Kemal, 5 Kasım: "Canva'da çizilsin"); kaynak docs/lisanslar.md.
-    const sandikResim = document.createElement('img');
-    sandikResim.className = 'sandik';
-    sandikResim.src = SANDIK_RESMI;
-    sandikResim.alt = '';
-    sandikResim.draggable = false;
-    sahne.appendChild(sandikResim);
+    // Sandık "ışıklar içinde, hediye gibi" gelir ve açılır (Kemal, 5 Kasım gecesi: "açılmıyor,
+    // duruyor"): düşerek gelir, sallanır, ışık patlamasıyla açık hâline geçer, ödül içinden
+    // yükselir. Kapalı ve açık resim Canva ile çizildi; kaynak docs/lisanslar.md.
+    const isik = document.createElement('div');
+    isik.className = 'sandik-isik';
+    const kapali = document.createElement('img');
+    kapali.className = 'sandik sandik-kapali';
+    kapali.src = SANDIK_RESMI;
+    const acik = document.createElement('img');
+    acik.className = 'sandik sandik-acik';
+    acik.src = SANDIK_ACIK_RESMI;
+    for (const r of [kapali, acik]) {
+      r.alt = '';
+      r.draggable = false;
+    }
+    const parlama = document.createElement('div');
+    parlama.className = 'sandik-parlama';
+    const parilti = document.createElement('div');
+    parilti.className = 'sandik-parilti';
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('i');
+      p.style.setProperty('--a', `${i * 36}deg`);
+      parilti.appendChild(p);
+    }
+    sahne.append(isik, kapali, acik, parlama, parilti);
     const kalp = document.createElement('div');
     kalp.className = 'sandik-kalp';
     kalp.innerHTML = KALP_BUYUK_SVG;
@@ -1908,3 +1916,4 @@ function canGostergesi(kucuk: boolean): HTMLDivElement {
 const KALP_BUYUK_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5C5.2 16 2 12.6 2 8.6 2 5.6 4.4 3.3 7.2 3.3c1.9 0 3.6 1 4.8 2.6 1.2-1.6 2.9-2.6 4.8-2.6 2.8 0 5.2 2.3 5.2 5.3 0 4-3.2 7.4-10 12.9Z" fill="#e0483f" stroke="#5a3a22" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.2 6.6c.8-.9 2-1.2 3-.9" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="1.6" stroke-linecap="round"/></svg>';
 const SANDIK_RESMI = 'gorseller/sandik.webp';
+const SANDIK_ACIK_RESMI = 'gorseller/sandik-acik.webp';

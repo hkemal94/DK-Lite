@@ -110,15 +110,11 @@ export function haritaCiz(
     const siradaki = !kilitli && yildiz === 0;
     const d = document.createElement('button');
     d.className = 'bolum-kutu' + (kilitli ? ' kilitli' : siradaki ? ' siradaki' : ' gecildi');
-    // Zor ve çok zor bölümler kırmızı, altında etiket (10'luk dilim; Kemal, 5 Kasım).
+    // Zor ve çok zor bölümler: yalnız yumuşak bir kırmızımsı ton; yazı, etiket yok,
+    // ikisi aynı görünür (Kemal, 5 Kasım gecesi: "çok daha soft ... bir ton kırmızıya
+    // yakınını zorluk ayırt etmeksizin hiçbir bilgi vermeden koyabilirsin").
     const tur = bolumTuru(no);
-    if (tur === 'zor' || tur === 'cok-zor') {
-      d.classList.add(tur);
-      const etiket = document.createElement('span');
-      etiket.className = 'bolum-kutu-etiket';
-      etiket.textContent = tur === 'zor' ? 'Zor' : 'Çok zor';
-      d.appendChild(etiket);
-    }
+    if (tur === 'zor' || tur === 'cok-zor') d.classList.add('zorlu');
     d.dataset.no = String(no);
     d.dataset.yildiz = String(yildiz);
     d.setAttribute('aria-label', `Bölüm ${no}` + (kilitli ? ', kilitli' : ''));
@@ -138,15 +134,16 @@ export function haritaCiz(
       for (let k = 0; k < YILDIZ_ESIKLERI.length; k++) yildizlar.appendChild(yildizCiz(k < yildiz));
       d.appendChild(yildizlar);
     }
-    // Yeni ürünün ilk geldiği bölümün köşesinde o ürünün küçük resmi (kazanç, 5 Kasım):
-    // oyuncu ileride ne kazanacağını görür.
-    const yeni = bolumdeYeniUrunler(no);
+    // Hediye: bu bölüm kazanılınca açılacak ürün kutunun köşesinde (kapalıyken "?").
+    // Kemal (5 Kasım gecesi): zor bölüme "verilecek hediyeyi koyarız. O soru işaretini koyarız".
+    // Çok zor bölümler (10, 20, 30, 40) çay, Türk kahvesi, sakızlı, baklava verir.
+    const yeni = no < BOLUM_SAYISI ? bolumdeYeniUrunler(no + 1) : [];
     if (yeni.length > 0) {
       const rozet = document.createElement('span');
       rozet.className = 'bolum-kutu-rozet';
       rozet.dataset.urun = yeni[0];
-      if (kilitli) {
-        // Kapalı bölümde ürün sürpriz: yalnız soru işareti (Kemal, 5 Kasım akşamı).
+      if (kilitli || yildiz === 0) {
+        // Henüz kazanılmamış bölümde ürün sürpriz: yalnız soru işareti (Kemal, 5 Kasım akşamı).
         rozet.classList.add('surpriz');
         rozet.textContent = '?';
       } else {

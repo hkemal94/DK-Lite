@@ -47,8 +47,8 @@ export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
   { sutun: 4, urunler: ['cikolata', 'vanilya', 'meyve'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 5: müşteri +1
   { sutun: 4, urunler: ['cilek', 'limon', 'pasta', 'limonata'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0.3 }, // 6: 4. çeşit; ilk içecek; iki çeşit isteyenler
   { sutun: 4, urunler: ['cikolata', 'fistik', 'kek', 'gazoz'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.3 }, // 7: bant yeri −1
-  { sutun: 4, urunler: ['vanilya', 'cilek', 'meyve', 'kahve'], musteri: 15, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.4 }, // 8: müşteri +1
-  { sutun: 4, urunler: ['limon', 'cikolata', 'pasta', 'cay'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.4 }, // 9: bant yeri −1; istek en çok 5
+  { sutun: 4, urunler: ['vanilya', 'cilek', 'meyve', 'gazoz'], musteri: 15, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.4 }, // 8: müşteri +1
+  { sutun: 4, urunler: ['limon', 'cikolata', 'pasta', 'limonata'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.4 }, // 9: bant yeri −1; istek en çok 5
   { sutun: 4, urunler: ['fistik', 'vanilya', 'kek', 'limonata'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.5 }, // 10
 ];
 
@@ -82,8 +82,17 @@ function kuralIkiCesit(no: number): number {
 // Ürünler: yalnız URUNLER'deki mevcut ürünler. Her bölümde iki dondurma çeşidi;
 // kalan yerler tatlı ve içecekten dönüşümlü. Seçim bölüm numarasından çıkar,
 // aynı bölüm her açılışta aynı ürünleri verir. Hangi bölümde hangi ürün: DENEME.
+// Hediye ürünler: her 10 bölümde bir, çok zor bölümün (10, 20, 30 ...) hediyesi. O bölüm
+// ilk kez kazanılınca açılır ("?" kutusu), sonraki bölümde ilk kez gelir, sonra dönüşüme girer.
+// Çay ve Türk kahvesi önce 8. ve 9. bölümde geliyordu; Kemal: "Evet, taşınsın". Sıra DENEME.
+export const HEDIYE_URUNLER: Record<string, number> = { cay: 10, kahve: 20, sakizli: 30, baklava: 40, ayran: 50 };
+function urunIzinli(id: string, no: number): boolean {
+  const h = HEDIYE_URUNLER[id];
+  return h === undefined || no > h;
+}
+
 function kuralUrunler(no: number, cesit: number): string[] {
-  const tur = (t: UrunTuru) => URUNLER.filter((u) => u.tur === t).map((u) => u.id);
+  const tur = (t: UrunTuru) => URUNLER.filter((u) => u.tur === t && urunIzinli(u.id, no)).map((u) => u.id);
   const dondurma = tur('dondurma');
   const tatli = tur('tatli');
   const icecek = tur('icecek');
@@ -97,7 +106,17 @@ function kuralUrunler(no: number, cesit: number): string[] {
     else if (c < icecek.length) secim.push(icecek[(no + c++) % icecek.length]);
     else secim.push(tatli[(no + t++) % tatli.length]);
   }
-  return secim;
+  // Hediye ürün, açıldığı bölümden sonraki bölümde mutlaka gelir ("Sonraki bölümde gelir").
+  for (const [id, h] of Object.entries(HEDIYE_URUNLER)) {
+    if (no !== h + 1 || secim.includes(id)) continue;
+    const u = URUNLER.find((x) => x.id === id);
+    let yer = secim.length - 1;
+    for (let k = secim.length - 1; k >= 0; k--) {
+      if (URUNLER.find((x) => x.id === secim[k])?.tur === u?.tur) { yer = k; break; }
+    }
+    secim[yer] = id;
+  }
+  return [...new Set(secim)];
 }
 
 // ---------- 10'luk dilimlerde testere dişi zorluk (Kemal, 5 Kasım 2026: "10'luk dilim") ----------
@@ -315,8 +334,14 @@ export const URUNLER: Urun[] = [
   { id: 'meyve', ad: 'Kâsede meyve', tur: 'tatli', renk: '#e2475b' },
   { id: 'limonata', ad: 'Limonata', tur: 'icecek', renk: '#ffe680' },
   { id: 'gazoz', ad: 'Gazoz', tur: 'icecek', renk: '#9fd8c4' },
-  { id: 'kahve', ad: 'Kahve', tur: 'icecek', renk: '#5b3a24' },
+  { id: 'kahve', ad: 'Türk kahvesi', tur: 'icecek', renk: '#5b3a24' },
   { id: 'cay', ad: 'Çay', tur: 'icecek', renk: '#b8401f' },
+  // Hediye ürünler (Kemal, 5 Kasım gecesi: zor bölümlerde "?" hediye; "On bölümde bir yeni
+  // ürün gelirse kurtarıyor"; türler "Türk kahvesi, Yeni dondurma çeşitleri, Ege tatlıları,
+  // Soğuk içecekler"). Çizimler Canva; kaynak docs/lisanslar.md.
+  { id: 'sakizli', ad: 'Sakızlı', tur: 'dondurma', renk: '#f3f5ea' },
+  { id: 'baklava', ad: 'Baklava', tur: 'tatli', renk: '#d9a24a' },
+  { id: 'ayran', ad: 'Ayran', tur: 'icecek', renk: '#f4f7f2' },
 ];
 
 // Ürünün URUNLER içindeki sırası (oyun içinde ürünler bu sırayla tutulur).

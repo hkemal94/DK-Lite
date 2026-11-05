@@ -35,6 +35,8 @@ ayrılsın diye biraz daha sarı yapıldı.
 
 | Dosya | Ne | Kaynak |
 |---|---|---|
+| `public/gorseller/urunler/kahve.webp` (Türk kahvesi), `sakizli.webp`, `baklava.webp`, `ayran.webp` | Hediye ürünler (5 Kasım 2026); eski kahve resminin yerine Türk kahvesi | Canva, 7. paketteki ürün çizimi (MAHZYrTnF6w) örnek verilerek; aynı tasarımın 15. sayfası ("Hediye ürünler (5 Kasım 2026)"). Resimler: https://www.canva.com/M/MAHaFWP1cNI, https://www.canva.com/M/MAHaFd82pXs, https://www.canva.com/M/MAHaFeEKP50, https://www.canva.com/M/MAHaFfeQJow (ayranın ilk çiziminde bardakta yazı vardı, sakızlının ilkinde pembe şeker; ikisi yeniden çizildi) |
+| `public/gorseller/sandik-acik.webp` | Ödül sandığının açık hâli (içinden ışık ve hediye kutusu; kapalı hâliyle aynı kalıpta kesildi) | Canva, kapalı sandık örnek verilerek çizildi; aynı tasarımın 14. sayfası ("Sandık açık (5 Kasım 2026)"). Resim: https://www.canva.com/M/MAHaFV1NF60 |
 | `public/gorseller/sandik.webp` | Ödül sandığı (mor-sarı, saydam zemin; kırpılıp 360 piksele küçültüldü) | Canva'nın resim üretme aracıyla çizildi, arka planı Canva'da silindi; Kemal'in Canva hesabında "DK Lite çalışma (7. paket görselleri)" tasarımının 13. sayfası ("Sandık (5 Kasım 2026)"), Kemal'in izniyle ("Canva'da çizilsin"). Resim: https://www.canva.com/M/MAHaFdZ3cJg |
 
 İlk deneme sandığın üstüne kendiliğinden "DK LITE" yazısı ve tanınmış bir oyunun logosunu andıran bir amblem koyduğu için kullanılmadı; ikinci deneme yazısız istendi. Kullanım koşulları Canva'nın yapay zekâ ile üretilen içerik koşulları.
