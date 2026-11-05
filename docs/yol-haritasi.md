@@ -13,15 +13,108 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- Arayüz dili: bütün arayüz (5 Kasım 2026, öneri; PR #27). Kemal Pinterest'teki DK Lite görselleriyle "yeni arayüz hazırlığına gir" dedi; ilk adımda yalnız düğmeler değişince "tüm arayüz için bir güncelleme bekliyordum", "logoyu da külahlı logo yap", arka planlar için "Desenli mor zemin" ve "Hepsi tek pakette" dedi. Ne değişti (oynanış, sayılar değişmedi): giriş ekranında Kemal'in külahlı logosu ve koyu mor desenli zemin; oyun ekranının arkası açık lila desenli zemin (deniz manzarası yerine); bütün düğmeler şişkin hap düğme (yeşil ilerle, krem ikinci iş, mor yuvarlak, kırmızı ✕); ayarlar ve duraklatma pencerelerinde mor başlık şeridi ve köşede kırmızı ✕; üst şeritte simgeli sayaçlar; kalın hatlı müşteri balonları ve sütunlar; bölüm sonu fişinde külahlı logo, büyük yıldızlar, ikonlu düğmeler; bölüm haritasında mor üst şerit ve kalın taşlar; pencereler zıplayarak açılır; Poppins yazı tipi oyunda. Not ve ekran ekran liste: `docs/arayuz-dili.md`; ekran görüntüleri: `docs/ekran/arayuz-dili/`. Telefonda denenmedi.
-- Görsel iyileştirme, 1. küçük paket (4 Kasım 2026, öneri; Kemal: "sıradaki adım görsel iyileştirme"). Oynanış, sayılar ve yazılar değişmedi; yalnız görünüm. Ne değişti: bütün düğmeler (Başla, Bölümler, Devam et, Tekrar oyna, duraklatma menüsü, ayarlar seçenekleri, 2× ve duraklatma, Geri, haritadaki bölüm noktaları) basınca hafifçe aşağı iner, parmak kalkınca geri çıkar (önceden basınca hiçbir şey değişmiyordu); sütuna dokununca sütun kısa bir an sarı parlar ve hafifçe içe basılır (önceden yalnız ortadaki dondurmacı zıplıyordu); üst şeritteki 2× ve duraklatma düğmeleri öbür düğmeler gibi kalın kahverengi hatlı oldu; Ayarlar'da seçili seçenek artık kalınlaşıp iki satıra kaymıyor ("2 tur sonra" tek satır, üç seçenek aynı boyda); bölüm sonunda fişin altındaki "Bölümler" yazısı karartılmış zeminde daha okunur; telefonun üst çubuğu (Android) lila yerine tentedeki mor. Ekran görüntüleri: `docs/ekran-goruntuleri/gorsel-iyilestirme-04-11/`. Giriş ekranına dokunulmadı (Kemal Canva'da çizecek).
-- Belge tutarlılığı (3 Kasım 2026, öneri): README ve tasarım belgesindeki eski bölüm sayıları düzeltildi; oyunda değişen yok (ürün resimlerine ad eklendi).
-- Ekran görüntüleri (3 Kasım 2026, öneri): yayındaki oyundan gerçek ekran görüntüleri `docs/ekran-goruntuleri/` altında (telefon ve masaüstü; açılış, oynanış, bölüm sonu, bölüm haritası); liste `docs/ekran-goruntuleri/liste.json`. KKM'nin oyun sayfası bunları gösterecek. Oyunda değişen bir şey yok.
-- Aşama: bölüm sonunda sevinen dondurmacı artık fişin üst kenarında duruyor, hiçbir ekran boyunda ekrandan taşmıyor ve logoyu kapatmıyor; bölüm sayısı 10'dan 30'a çıktı (Kemal: "bölümleri 30'a çıkarabilirsin"; 11–30. bölümlerin zorluğu DENEME); 10 bölümü bitirmiş eski kayıtlarda 11. bölüm açılıyor; bölüm haritası resmi önceden yükleniyor, resim gelmezse düz mavi yerine denizden çimene geçiş görünüyor (29 Ekim 2026, öneri; tasarım belgesi 0.22). Önceki: müşteriler tam boy çizildi, bacakları barın arkasında; müşteri sabrı 90 saniye (deneme); giriş ekranı için Kemal'in fikirlerini çizeceği Canva sayfası hazırlandı (https://canva.link/09dz2aegf2mlsc9) (30 Ekim, öneri; tasarım belgesi 0.21). Önceki: müşteriler belden yukarı görünüyor, barın arkası dikdörtgen (30 Ekim, PR #21 birleşti; tasarım belgesi 0.20). Önceki: müşteriler barın arkasına sığdı, bant ve bar üç boyutlu, arka plan bütün sayfaya yayıldı (30 Ekim, PR #20 birleşti; tasarım belgesi 0.20). Önceki: büyük paket öneri olarak geldi (30 Ekim; tasarım belgesi 0.18 cevaplar, 0.19 nasıl yapıldı): bandın içi ahşap kafe barı ve ortada hareketli dondurmacı; bölümler 1,5 kat uzun; müşteri sabrı (60 sn, 3 giden kaybettirir); kalp, uçan puan, seri ek puanı; fiş gibi bölüm sonu, konfeti, sevinen dondurmacı; çizgi film kutular; ayarlar (erime, titreşim); sahil yolu bölüm ekranı. Önceki: 7. paket öneri olarak geldi (30 Ekim; tasarım belgesi 0.17): ürünler, müşteriler, dondurmacı ve arka plan parlak çizgi film tarzında el çizimi; giriş ekranında logo ve "Lite". Önceki: görsel tarzı seçildi (Kemal, 30 Ekim: "Parlak çizgi film iyi"; tasarım belgesi 0.16): 6. paketteki Canva denemelerinden parlak çizgi film. Önceki: yeni diziliş ve yeni kurallar (29 Ekim gecesi, PR #15 birleşti; tasarım belgesi 0.15): tente, dükkândan dışarısı, müşteriler tezgâhın arkasında, ortada dondurmacı, tezgâh önünde logo; harflerin yerine dondurma çeşitleri, tatlılar ve içecekler; 6. bölümden iki çeşit isteyen müşteriler. Önceki: Kemal'le oyun ekranının yeni hâli için uzun soru turu yapıldı (29 Ekim; tasarım belgesi 0.14): örnek ekrandaki gibi diziliş, gerçek çeşitler, tatlılar ve içecekler, Dondurmacı Kızlar teması. Önceki: oyun ekranına Dondurmacı Kızlar görselleri kondu (29 Ekim, PR #13 birleşti; tasarım belgesi 0.13): müşteriler karakter resmi, bandın ortası tezgâh (külahlar, sundae, kasa), toplar dondurma topu gibi. Geçici; el çizimi görseller gelince değişir. Önceki: Kemal'in 22 Ekim akşamı harita ve hız cevapları belgelere işlendi (28 Ekim gecesi, öneri; oyunda ekran değişmedi): hızlandırma 2 kat kesin; yolun yönü, Merkez ve haritanın duruşu şimdiki gibi kalır. Önceki: 5. paket (çizimsiz bölüm haritası) ve gece işleri ana dala birleşti (PR #10, #11). Gece işleri (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler; PR #9 birleşti, 22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
-- Son biten: 5. paket (çizimsiz bölüm haritası) ve gece işleri (PR #10, #11 birleşti).
-- Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
-- Sıradaki: Kemal giriş ekranı fikirlerini Canva sayfasına çizer; ekip ona göre giriş ekranını yapar. Kemal büyük paketi oynayıp söyler (bölüm uzunluğu, sabır, seri sayıları deneme). Sonra: ses ve nasıl oynanır gösterimi yayına yakın. İlk sürüm 10 bölüm (Kemal, 22 Ekim); 30'a çıkarıldı (29 Ekim 2026, tasarım belgesi 0.22). Kemal 11–30. bölümleri oynayıp zorluğu söyler. Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
-- Yayın: tarih yok, acele yok.
+5 Kasım 2026'da Kemal'in isteğiyle yol haritası oyunun bölümlerine göre
+düzenlendi ("Yol haritasını değiştir, onu bölüm bölüm ilerlet"; sohbette
+"Oyunun bölümlerine göre"). Eski uzun "Neredeyiz" notları silinmedi, en
+alttaki "Geçmiş notlar" bölümüne taşındı.
+
+- Oyunda **30 bölüm** var, hepsi oynanabilir. Bölüm 1–10 elle yazılmış bir
+  tabloyla, 11–30 bir kuralla kuruluyor. Bölümlerdeki bütün sayılar **deneme
+  değeri**; Kemal oynayıp söyleyince kesinleşir.
+- Şimdi: yeni arayüz (öneri PR #27; bütün ekranlar, külahlı logo, desenli mor
+  zemin). Bölümlere ve sayılara dokunmuyor. Kemal'in bakması bekleniyor.
+- Sıradaki (sıra Oyun Şefi'nin önerisi): Kemal bölümleri **gruba göre**
+  oynar, her grup için "kolay / zor / tamam" der: önce 1–10, sonra 11–20,
+  sonra 21–30. Bir grup oturmadan sonrakinin sayıları değiştirilmez.
+  Ardından 31. bölümden sonrası için Kemal'in kararı (aşağıda).
+- Yayın: tarih yok, acele yok. Ses ve nasıl oynanır gösterimi yayına yakın.
+
+## Bölüm bölüm
+
+Her bölümde aynı olanlar (deneme değerleri, `src/ayarlar.ts`): 4 sütun,
+sütunda görünen 4 top, ekranda aynı anda en çok 5 müşteri, müşteri sabrı
+90 saniye, bant bir turu 12 saniyede döner, fazla top oranı 0,5. Tablolar
+koddan okundu; elle yazılmadı.
+
+### Bölüm 1–10
+
+- Durum: oynanabilir. Zorluk elle yazılmış tabloyla. Kemal'in denemesi bekleniyor.
+- Yeni gelen şeyler: 1. bölümde 3 dondurma çeşidi; 3. bölümde ilk tatlı
+  (dilim pasta), istek en az 3; 6. bölümde 4. çeşit, ilk içecek ve iki çeşit
+  isteyen müşteriler; 7. bölümde bant yeri 11; 9. bölümde bant yeri 10 ve
+  istek en çok 5.
+
+| Bölüm | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit isteyen oranı | Ürünler |
+|---|---|---|---|---|---|---|
+| 1 | 10 | 2–4 | 3 | 12 | 0 | Çikolata, Çilek, Limon |
+| 2 | 11 | 2–4 | 3 | 12 | 0 | Çikolata, Çilek, Fıstık |
+| 3 | 11 | 3–4 | 3 | 12 | 0 | Limon, Vanilya, Dilim pasta |
+| 4 | 13 | 3–4 | 3 | 12 | 0 | Çilek, Fıstık, Küçük kek |
+| 5 | 14 | 3–4 | 3 | 12 | 0 | Çikolata, Vanilya, Kâsede meyve |
+| 6 | 14 | 3–4 | 4 | 12 | 0,3 | Çilek, Limon, Dilim pasta, Limonata |
+| 7 | 14 | 3–4 | 4 | 11 | 0,3 | Çikolata, Fıstık, Küçük kek, Gazoz |
+| 8 | 15 | 3–4 | 4 | 11 | 0,4 | Vanilya, Çilek, Kâsede meyve, Kahve |
+| 9 | 15 | 3–5 | 4 | 10 | 0,4 | Limon, Çikolata, Dilim pasta, Çay |
+| 10 | 15 | 3–5 | 4 | 10 | 0,5 | Fıstık, Vanilya, Küçük kek, Limonata |
+
+- Kemal oynayınca söyleyecekleri: çok kolay ya da çok zor gelen bölüm var
+  mı; bölümler uzun mu kısa mı; tatlının (3.) ve içeceğin (6.) geldiği
+  bölüm uygun mu; sabır süresi (90 saniye) ve seri ek puanı nasıl.
+
+### Bölüm 11–20
+
+- Durum: oynanabilir. Tablo yok, kural var (29 Ekim; tasarım belgesi 0.22).
+  İlke (Kemal, 22 Ekim): her adımda yalnız bir şey biraz zorlaşır.
+- Yeni gelen şeyler: 11. bölümde müşteri 16 (sonra her 4 bölümde bir
+  artar); 14. bölümde bant yeri 9; 16. bölümde 5. çeşit; 18. bölümde iki
+  çeşit isteyenlerin oranı 0,6.
+
+| Bölüm | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit isteyen oranı | Ürünler |
+|---|---|---|---|---|---|---|
+| 11 | 16 | 3–5 | 4 | 10 | 0,5 | Çilek, Fıstık, Çay, Kâsede meyve |
+| 12 | 16 | 3–5 | 4 | 10 | 0,5 | Limon, Vanilya, Dilim pasta, Limonata |
+| 13 | 16 | 3–5 | 4 | 10 | 0,5 | Fıstık, Çikolata, Gazoz, Küçük kek |
+| 14 | 16 | 3–5 | 4 | 9 | 0,5 | Vanilya, Çilek, Kâsede meyve, Kahve |
+| 15 | 17 | 3–5 | 4 | 9 | 0,5 | Çikolata, Limon, Çay, Dilim pasta |
+| 16 | 17 | 3–5 | 5 | 9 | 0,5 | Çilek, Fıstık, Küçük kek, Limonata, Kâsede meyve |
+| 17 | 17 | 3–5 | 5 | 9 | 0,5 | Limon, Vanilya, Gazoz, Kâsede meyve, Kahve |
+| 18 | 17 | 3–5 | 5 | 9 | 0,6 | Fıstık, Çikolata, Dilim pasta, Kahve, Küçük kek |
+| 19 | 18 | 3–5 | 5 | 9 | 0,6 | Vanilya, Çilek, Çay, Küçük kek, Limonata |
+| 20 | 18 | 3–5 | 5 | 9 | 0,6 | Çikolata, Limon, Kâsede meyve, Limonata, Dilim pasta |
+
+- Kemal oynayınca söyleyecekleri: 1–10'dan sonra geçiş yumuşak mı; 5 çeşit
+  (16.) sütunları tıkıyor mu.
+
+### Bölüm 21–30
+
+- Durum: oynanabilir, kuralla. 30. bölüm kazanılınca "Bütün bölümler bitti" yazar.
+- Yeni gelen şeyler: 22. bölümde bant yeri 8; 25. bölümde 6. çeşit; 26.
+  bölümde iki çeşit isteyenlerin oranı 0,7.
+
+| Bölüm | Müşteri | İstek (adet) | Çeşit | Bant yeri | İki çeşit isteyen oranı | Ürünler |
+|---|---|---|---|---|---|---|
+| 21 | 18 | 3–5 | 5 | 9 | 0,6 | Çilek, Fıstık, Gazoz, Dilim pasta, Kahve |
+| 22 | 18 | 3–5 | 5 | 8 | 0,6 | Limon, Vanilya, Küçük kek, Kahve, Kâsede meyve |
+| 23 | 19 | 3–5 | 5 | 8 | 0,6 | Fıstık, Çikolata, Çay, Kâsede meyve, Limonata |
+| 24 | 19 | 3–5 | 5 | 8 | 0,6 | Vanilya, Çilek, Dilim pasta, Limonata, Küçük kek |
+| 25 | 19 | 3–5 | 6 | 8 | 0,6 | Çikolata, Limon, Gazoz, Küçük kek, Kahve, Kâsede meyve |
+| 26 | 19 | 3–5 | 6 | 8 | 0,7 | Çilek, Fıstık, Kâsede meyve, Kahve, Dilim pasta, Çay |
+| 27 | 20 | 3–5 | 6 | 8 | 0,7 | Limon, Vanilya, Çay, Dilim pasta, Limonata, Küçük kek |
+| 28 | 20 | 3–5 | 6 | 8 | 0,7 | Fıstık, Çikolata, Küçük kek, Limonata, Kâsede meyve, Gazoz |
+| 29 | 20 | 3–5 | 6 | 8 | 0,7 | Vanilya, Çilek, Gazoz, Kâsede meyve, Kahve, Dilim pasta |
+| 30 | 20 | 3–5 | 6 | 8 | 0,7 | Çikolata, Limon, Dilim pasta, Kahve, Küçük kek, Çay |
+
+- Kemal oynayınca söyleyecekleri: son bölümler çok mu zor; 6 çeşit fazla mı.
+
+### Bölüm 31 ve sonrası
+
+- Durum: yok. Kemal (29 Ekim): ileride yaklaşık 500 bölüm.
+- Kural hazır: bölüm sayısı yalnız `BOLUM_SAYISI` ile artar; harita, kayıt
+  ve zorluk kendiliğinden uyar. Kuralın sınırları (deneme): müşteri en çok
+  22, çeşit en çok 6, bant yeri en az 7, iki çeşit oranı en çok 0,7.
+- Kemal'in kararı gereken: kaç bölüme çıkılacak ve ne zaman; harita hep aynı
+  sahil manzarasında mı uzasın; zorluk bir yerde dursun mu, dalgalı mı gitsin;
+  elle yapılmış bölümler bitince ne olur ("sonu yok" sorusu).
 
 ## Nasıl ilerler (tek kişilik ekip için)
 
@@ -242,3 +335,17 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 Açık soru yok. Yol yönü, Merkez, haritanın duruşu ve hızlandırma katı soruları kapandı (Kemal, 22 Ekim akşamı; tasarım belgesi 0.12).
 
 Yıldız sorusu ertelendi (Kemal, 22 Ekim: "Sonra bakariz simdiki kalsin"); "Kemal'in kararını bekleyenler"de duruyor.
+
+## Geçmiş notlar (eski "Neredeyiz")
+
+5 Kasım 2026'ya kadar "Neredeyiz" bölümünde duran notlar, olduğu gibi.
+
+- Arayüz dili: bütün arayüz (5 Kasım 2026, öneri; PR #27). Kemal Pinterest'teki DK Lite görselleriyle "yeni arayüz hazırlığına gir" dedi; ilk adımda yalnız düğmeler değişince "tüm arayüz için bir güncelleme bekliyordum", "logoyu da külahlı logo yap", arka planlar için "Desenli mor zemin" ve "Hepsi tek pakette" dedi. Ne değişti (oynanış, sayılar değişmedi): giriş ekranında Kemal'in külahlı logosu ve koyu mor desenli zemin; oyun ekranının arkası açık lila desenli zemin (deniz manzarası yerine); bütün düğmeler şişkin hap düğme (yeşil ilerle, krem ikinci iş, mor yuvarlak, kırmızı ✕); ayarlar ve duraklatma pencerelerinde mor başlık şeridi ve köşede kırmızı ✕; üst şeritte simgeli sayaçlar; kalın hatlı müşteri balonları ve sütunlar; bölüm sonu fişinde külahlı logo, büyük yıldızlar, ikonlu düğmeler; bölüm haritasında mor üst şerit ve kalın taşlar; pencereler zıplayarak açılır; Poppins yazı tipi oyunda. Not ve ekran ekran liste: `docs/arayuz-dili.md`; ekran görüntüleri: `docs/ekran/arayuz-dili/`. Telefonda denenmedi.
+- Görsel iyileştirme, 1. küçük paket (4 Kasım 2026, öneri; Kemal: "sıradaki adım görsel iyileştirme"). Oynanış, sayılar ve yazılar değişmedi; yalnız görünüm. Ne değişti: bütün düğmeler (Başla, Bölümler, Devam et, Tekrar oyna, duraklatma menüsü, ayarlar seçenekleri, 2× ve duraklatma, Geri, haritadaki bölüm noktaları) basınca hafifçe aşağı iner, parmak kalkınca geri çıkar (önceden basınca hiçbir şey değişmiyordu); sütuna dokununca sütun kısa bir an sarı parlar ve hafifçe içe basılır (önceden yalnız ortadaki dondurmacı zıplıyordu); üst şeritteki 2× ve duraklatma düğmeleri öbür düğmeler gibi kalın kahverengi hatlı oldu; Ayarlar'da seçili seçenek artık kalınlaşıp iki satıra kaymıyor ("2 tur sonra" tek satır, üç seçenek aynı boyda); bölüm sonunda fişin altındaki "Bölümler" yazısı karartılmış zeminde daha okunur; telefonun üst çubuğu (Android) lila yerine tentedeki mor. Ekran görüntüleri: `docs/ekran-goruntuleri/gorsel-iyilestirme-04-11/`. Giriş ekranına dokunulmadı (Kemal Canva'da çizecek).
+- Belge tutarlılığı (3 Kasım 2026, öneri): README ve tasarım belgesindeki eski bölüm sayıları düzeltildi; oyunda değişen yok (ürün resimlerine ad eklendi).
+- Ekran görüntüleri (3 Kasım 2026, öneri): yayındaki oyundan gerçek ekran görüntüleri `docs/ekran-goruntuleri/` altında (telefon ve masaüstü; açılış, oynanış, bölüm sonu, bölüm haritası); liste `docs/ekran-goruntuleri/liste.json`. KKM'nin oyun sayfası bunları gösterecek. Oyunda değişen bir şey yok.
+- Aşama: bölüm sonunda sevinen dondurmacı artık fişin üst kenarında duruyor, hiçbir ekran boyunda ekrandan taşmıyor ve logoyu kapatmıyor; bölüm sayısı 10'dan 30'a çıktı (Kemal: "bölümleri 30'a çıkarabilirsin"; 11–30. bölümlerin zorluğu DENEME); 10 bölümü bitirmiş eski kayıtlarda 11. bölüm açılıyor; bölüm haritası resmi önceden yükleniyor, resim gelmezse düz mavi yerine denizden çimene geçiş görünüyor (29 Ekim 2026, öneri; tasarım belgesi 0.22). Önceki: müşteriler tam boy çizildi, bacakları barın arkasında; müşteri sabrı 90 saniye (deneme); giriş ekranı için Kemal'in fikirlerini çizeceği Canva sayfası hazırlandı (https://canva.link/09dz2aegf2mlsc9) (30 Ekim, öneri; tasarım belgesi 0.21). Önceki: müşteriler belden yukarı görünüyor, barın arkası dikdörtgen (30 Ekim, PR #21 birleşti; tasarım belgesi 0.20). Önceki: müşteriler barın arkasına sığdı, bant ve bar üç boyutlu, arka plan bütün sayfaya yayıldı (30 Ekim, PR #20 birleşti; tasarım belgesi 0.20). Önceki: büyük paket öneri olarak geldi (30 Ekim; tasarım belgesi 0.18 cevaplar, 0.19 nasıl yapıldı): bandın içi ahşap kafe barı ve ortada hareketli dondurmacı; bölümler 1,5 kat uzun; müşteri sabrı (60 sn, 3 giden kaybettirir); kalp, uçan puan, seri ek puanı; fiş gibi bölüm sonu, konfeti, sevinen dondurmacı; çizgi film kutular; ayarlar (erime, titreşim); sahil yolu bölüm ekranı. Önceki: 7. paket öneri olarak geldi (30 Ekim; tasarım belgesi 0.17): ürünler, müşteriler, dondurmacı ve arka plan parlak çizgi film tarzında el çizimi; giriş ekranında logo ve "Lite". Önceki: görsel tarzı seçildi (Kemal, 30 Ekim: "Parlak çizgi film iyi"; tasarım belgesi 0.16): 6. paketteki Canva denemelerinden parlak çizgi film. Önceki: yeni diziliş ve yeni kurallar (29 Ekim gecesi, PR #15 birleşti; tasarım belgesi 0.15): tente, dükkândan dışarısı, müşteriler tezgâhın arkasında, ortada dondurmacı, tezgâh önünde logo; harflerin yerine dondurma çeşitleri, tatlılar ve içecekler; 6. bölümden iki çeşit isteyen müşteriler. Önceki: Kemal'le oyun ekranının yeni hâli için uzun soru turu yapıldı (29 Ekim; tasarım belgesi 0.14): örnek ekrandaki gibi diziliş, gerçek çeşitler, tatlılar ve içecekler, Dondurmacı Kızlar teması. Önceki: oyun ekranına Dondurmacı Kızlar görselleri kondu (29 Ekim, PR #13 birleşti; tasarım belgesi 0.13): müşteriler karakter resmi, bandın ortası tezgâh (külahlar, sundae, kasa), toplar dondurma topu gibi. Geçici; el çizimi görseller gelince değişir. Önceki: Kemal'in 22 Ekim akşamı harita ve hız cevapları belgelere işlendi (28 Ekim gecesi, öneri; oyunda ekran değişmedi): hızlandırma 2 kat kesin; yolun yönü, Merkez ve haritanın duruşu şimdiki gibi kalır. Önceki: 5. paket (çizimsiz bölüm haritası) ve gece işleri ana dala birleşti (PR #10, #11). Gece işleri (22 Ekim gecesi): Dondurmacı Kızlar ile aynı mor-sarı tonlar, giriş ekranı, duraklatma, 2 kat hızlandırma, ilk sürüm 10 bölüm ve daha yavaş artan zorluk. Önceki: 4. paket (numaralı bölümler; PR #9 birleşti, 22 Ekim). Deneme olarak 10 bölüm, her biri biraz daha zor; kaldığı bölüm ve yıldızlar telefonda saklanıyor; sade bir "Bölümler" listesi var. Ortak saklı sıra artık top top karışık; aynı çeşit art arda en çok 2 kez geliyor.
+- Son biten: 5. paket (çizimsiz bölüm haritası) ve gece işleri (PR #10, #11 birleşti).
+- Kararlar: DK Lite, Dondurmacı Kızlar'ın hafif sürümü; el çizimi 2D; mor-sarı; oynanış dönen bant ve sütunlar; bölüm haritası Düzada; ilk sürümde yalnız bölümler, yıldız ve harita.
+- Sıradaki: Kemal giriş ekranı fikirlerini Canva sayfasına çizer; ekip ona göre giriş ekranını yapar. Kemal büyük paketi oynayıp söyler (bölüm uzunluğu, sabır, seri sayıları deneme). Sonra: ses ve nasıl oynanır gösterimi yayına yakın. İlk sürüm 10 bölüm (Kemal, 22 Ekim); 30'a çıkarıldı (29 Ekim 2026, tasarım belgesi 0.22). Kemal 11–30. bölümleri oynayıp zorluğu söyler. Yıldız ölçüsü şimdilik böyle kalıyor (Kemal: "Sonra bakariz simdiki kalsin").
+- Yayın: tarih yok, acele yok.
