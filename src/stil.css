@@ -1697,3 +1697,25 @@ html, body {
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 .fis-satir.can-satir .fis-sag { font-weight: 700; }
+
+
+/* ---------- Kemal'in geri bildirimi (5 Kasım 2026 akşamı) ----------
+   "Butonlarda yazının üzerindeki beyaz, üst tarafındaki beyaz line'ı beğenmedim":
+   düğmelerin, yuvarlak düğmelerin ve bölüm kutularının üstündeki parlaklık çizgisi kalktı. */
+.dugme::before,
+.kose-dugme.yuvarlak::before,
+.dugme.kucuk::before,
+.ust .kose-dugme.yuvarlak::before,
+.bolum-kutu::before { display: none; }
+
+/* Kilitli bölümlerdeki sürpriz ürün: resim yerine soru işareti ("sürpriz ürünleri soru
+   işareti olarak göster"). */
+.bolum-kutu-rozet.surpriz {
+  background: var(--bant);
+  color: #fff;
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1;
+  text-shadow: 0 1.5px 0 var(--mor);
+}
+.bolum-kutu.kilitli .bolum-kutu-rozet.surpriz { background: var(--bant); }

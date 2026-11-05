@@ -99,11 +99,17 @@ export function haritaCiz(
       const rozet = document.createElement('span');
       rozet.className = 'bolum-kutu-rozet';
       rozet.dataset.urun = yeni[0];
-      const r = document.createElement('img');
-      r.src = `gorseller/urunler/${yeni[0]}.webp`;
-      r.alt = '';
-      r.draggable = false;
-      rozet.appendChild(r);
+      if (kilitli) {
+        // Kapalı bölümde ürün sürpriz: yalnız soru işareti (Kemal, 5 Kasım akşamı).
+        rozet.classList.add('surpriz');
+        rozet.textContent = '?';
+      } else {
+        const r = document.createElement('img');
+        r.src = `gorseller/urunler/${yeni[0]}.webp`;
+        r.alt = '';
+        r.draggable = false;
+        rozet.appendChild(r);
+      }
       d.appendChild(rozet);
     }
     d.addEventListener('click', () => {

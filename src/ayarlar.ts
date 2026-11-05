@@ -7,7 +7,7 @@
 // Kaç bölüm var. Kemal'in kararı (22 Ekim): ilk sürüm 10 bölüm.
 // Kemal, 29 Ekim 2026: "bölümleri 30'a çıkarabilirsin" (ileride yaklaşık 500 bölüm).
 // Sayı yalnız burada değişir; harita, kayıt ve zorluk kendiliğinden uyar.
-export const BOLUM_SAYISI = 30;
+export const BOLUM_SAYISI = 50; // Kemal, 5 Kasım 2026: "Bölümleri de 50'ye getir şu an için"
 
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
@@ -293,9 +293,10 @@ export function bolumdeYeniUrunler(no: number): string[] {
 }
 
 // ---------- Can ve ödül sandığı (Kemal, 5 Kasım 2026) ----------
-// Kemal'in seçimleri: "5 can"; can "Yalnız kaybedince" gider; "Zamanla dolar, 30 dk".
+// Kemal'in seçimleri: "5 can"; can "Yalnız kaybedince" gider; "Zamanla dolar, 30 dk";
+// sonra (5 Kasım akşamı): "dakikayı yarım saatten 15 dakikaya düşür".
 export const CAN_EN_COK = 5;
-export const CAN_DOLUM_DK = 30;
+export const CAN_DOLUM_DK = 15;
 // Sandık: "10 bölümde bir sandık açılsın ve bazen bir can versin bazen canı doldursun
 // bazen 1 saat süresiz can versin". 10., 20., 30. ... bölüm ilk kez kazanılınca açılır.
 export const SANDIK_ARALIGI = 10;
