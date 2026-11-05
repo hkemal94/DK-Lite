@@ -30,6 +30,16 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.29 Müşteri renk çeşitleri (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Bu arada insanlar çok güzel gerçekten fakat daha da çeşitlenme imkanı var mı? Özellikle renkler falan kombinasyonlu renkler yaparsak işimize yarayabilir çeşitte". Üç yol soruldu (renk çevirme, parça parça kombinasyon, yeni kişiler); cevabı: "Hepsi".
+
+1. adım, renk çevirme (yapıldı, öneri; `ajans/musteri-renk`):
+- Her müşteri resminde kıyafetin mavi kısımları kırmızı, mor, yeşil ve pembeye çevrildi; yüz, saç, beyaz ve sarı kısımlar aynı. Mavisi olmayan 2. müşterinin çeşidi yok. 10 kişi, 46 görünüş (10 asıl + 36 çeşit). Araç: `araclar/musteri_renk.py`.
+- Gelen müşterinin görünüşü rastgele seçilir; ekranda o an olan kişi (rengi farklı da olsa) ve bir önceki gelen kişi gelmez.
+- Ekran görüntüleri: `docs/ekran/musteri-renk/`.
+Sırada: parça parça kombinasyon (gömlek, pantolon, şapka ayrı renk; kıyafetlerin ayrılması gerekir) ve Canva'da yeni kişiler (aynı tarzda farklı yaş, saç, kıyafet).
+
 ### 0.28 Kemal'in kararları (5 Kasım 2026 gecesi; soru turu)
 
 Kemal: "Vermem gereken kararları bana çoktan seçmeli sor". Cevapları:

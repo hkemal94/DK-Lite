@@ -49,8 +49,17 @@ import {
 } from './can';
 
 // Müşteriler: 10 farklı kişi, belden yukarısı (Canva, parlak çizgi film). Kaynak: docs/lisanslar.md.
-const MUSTERI_RESIMLERI = Array.from({ length: 10 }, (_, i) =>
-  `gorseller/musteriler/musteri-${String(i + 1).padStart(2, '0')}.webp`);
+// Renk çeşitleri (Kemal, 5 Kasım 2026: "daha da çeşitlenme imkanı var mı? ... renkler"):
+// her kişinin kıyafetinin mavi kısımları kırmızı, mor, yeşil ve pembe olan hâlleri
+// (araclar/musteri_renk.py üretir). 2. müşteride mavi yok, onun çeşidi yok.
+// Gelen müşterinin görünüşü bunlardan rastgele seçilir; ekranda olan kişi bir daha gelmez.
+const MUSTERI_RENKLERI = ['', 'kirmizi', 'mor', 'yesil', 'pembe'];
+const RENKSIZ_MUSTERILER = [2];
+const MUSTERI_RESIMLERI = MUSTERI_RENKLERI.flatMap((renk) =>
+  Array.from({ length: 10 }, (_, i) => i + 1)
+    .filter((no) => renk === '' || !RENKSIZ_MUSTERILER.includes(no))
+    .map((no) => `gorseller/musteriler/musteri-${String(no).padStart(2, '0')}${renk ? '-' + renk : ''}.webp`),
+);
 // Tezgâhın üstü: ortada dondurmacı (dükkân renkleri: sarı tişört, mor önlük, mor kasket),
 // iki yanında tezgâhta duran ürünler.
 // Bar (Kemal, 30 Ekim: "bantın ortasını bir bar gibi tasarla"; "Ahşap kafe barı";
@@ -255,7 +264,7 @@ export class Oyun {
   private musteriYerleri: (MusteriYeri | null)[] = [];
   private manzaraEl!: HTMLDivElement;
   private onuEl!: HTMLDivElement;
-  private resimSirasi = 0; // art arda gelen müşteriler farklı görünsün
+  private sonResim = ''; // en son gelen müşterinin görünüşü (art arda aynı kişi gelmesin)
   // Boş müşteri yerine yenisinin geleceği an (dolu yerde kullanılmaz).
   private gelisAnlari: number[] = [];
   // Seçili erime biçiminin sırası; bölüm değişince de kalır.
@@ -745,7 +754,14 @@ export class Oyun {
   private siradakiMusteri(): MusteriYeri | null {
     if (this.siradaki >= this.bolum.musteriler.length) return null;
     const m = this.bolum.musteriler[this.siradaki++];
-    const resim = MUSTERI_RESIMLERI[this.resimSirasi++ % MUSTERI_RESIMLERI.length];
+    // Rastgele bir görünüş; ekranda şu an olan kişiler (rengi ne olursa olsun) gelmez.
+    const kisi = (yol: string) => yol.match(/musteri-(\d+)/)?.[1] ?? yol;
+    const ekranda = new Set(this.musteriYerleri.filter((y) => y !== null).map((y) => kisi(y!.resim)));
+    if (this.sonResim) ekranda.add(kisi(this.sonResim));
+    const adaylar = MUSTERI_RESIMLERI.filter((r) => !ekranda.has(kisi(r)));
+    const havuz = adaylar.length > 0 ? adaylar : MUSTERI_RESIMLERI;
+    const resim = havuz[Math.floor(Math.random() * havuz.length)];
+    this.sonResim = resim;
     const parcalar = m.parcalar.map((p) => ({ cesit: p.cesit, kalan: p.adet }));
     return { parcalar, durum: 'bekliyor', bittigiAn: 0, gelisAn: this.oyunAn, resim };
   }

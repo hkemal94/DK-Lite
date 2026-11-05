@@ -27,6 +27,10 @@ Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
 işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
 ayrılsın diye biraz daha sarı yapıldı.
 
+## Müşteri renk çeşitleri (5 Kasım 2026)
+
+`public/gorseller/musteriler/musteri-NN-<renk>.webp`: yukarıdaki müşteri çizimlerinden ekibin aracıyla (`araclar/musteri_renk.py`) yalnız kıyafetin mavi tonları çevrilerek üretildi; kaynak ve koşullar asıl çizimlerle aynı.
+
 ## Ödül sandığı (5 Kasım 2026)
 
 | Dosya | Ne | Kaynak |
