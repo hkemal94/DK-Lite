@@ -430,9 +430,9 @@ export class Oyun {
       return d;
     };
     menuKutu.append(
-      menuDugme('Devam et', 'devam', 'menu-devam', () => this.devamEt()),
-      menuDugme('Baştan başla', 'tekrar', 'menu-bastan', () => this.yenidenBasla(this.bolum.no)),
-      menuDugme('Bölümler', 'tekrar', 'menu-bolumler', () => {
+      menuDugme('Devam et', 'yesil', 'menu-devam', () => this.devamEt()),
+      menuDugme('Baştan başla', 'krem', 'menu-bastan', () => this.yenidenBasla(this.bolum.no)),
+      menuDugme('Bölümler', 'krem', 'menu-bolumler', () => {
         this.duraklatMenuKapat();
         this.listeAc('duraklat');
       }),
@@ -459,7 +459,7 @@ export class Oyun {
     lite.textContent = 'Lite';
     ad.append(adLogo, lite);
     const basla = document.createElement('button');
-    basla.className = 'dugme';
+    basla.className = 'dugme yesil';
     basla.id = 'giris-basla';
     basla.textContent = 'Başla';
     // Kaldığı bölüm (açılan en ileri bölüm) baştan başlar; bütün bölümler
@@ -469,7 +469,7 @@ export class Oyun {
       else this.yenidenBasla(this.kayit.acik);
     });
     const bolumler = document.createElement('button');
-    bolumler.className = 'dugme tekrar';
+    bolumler.className = 'dugme krem';
     bolumler.id = 'giris-bolumler';
     bolumler.textContent = 'Bölümler';
     bolumler.addEventListener('click', () => this.listeAc('giris'));
@@ -477,7 +477,7 @@ export class Oyun {
     this.girisEl.appendChild(girisKutu);
     // Sağ üstte ayarlar dişlisi (Kemal, 30 Ekim: ayarlar "Şimdi, basit").
     const disli = document.createElement('button');
-    disli.className = 'kose-dugme ayar-dugme';
+    disli.className = 'kose-dugme ayar-dugme yuvarlak mor';
     disli.id = 'ayarlar-ac';
     disli.setAttribute('aria-label', 'Ayarlar');
     disli.innerHTML = DISLI_SVG;
@@ -1465,12 +1465,12 @@ export class Oyun {
     if (kazandi) {
       const sonBolum = no >= BOLUM_SAYISI;
       dugmeler.append(
-        dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)),
+        dugme('Tekrar oyna', 'krem', () => this.yenidenBasla(no)),
         // Sonraki bölüm; son bölümdeyse bölüm haritası.
-        dugme('Devam et', 'devam', () => (sonBolum ? this.listeAc('yerinde') : this.yenidenBasla(no + 1))),
+        dugme('Devam et', 'yesil', () => (sonBolum ? this.listeAc('yerinde') : this.yenidenBasla(no + 1))),
       );
     } else {
-      dugmeler.append(dugme('Tekrar oyna', 'tekrar', () => this.yenidenBasla(no)));
+      dugmeler.append(dugme('Tekrar oyna', 'krem', () => this.yenidenBasla(no)));
     }
     kutu.appendChild(dugmeler);
     // Bölüm haritasına dönüş için küçük bir yol.
