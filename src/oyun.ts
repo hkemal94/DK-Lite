@@ -145,7 +145,9 @@ function bantCevresi(bg: number, bh: number): number {
 // Müşterinin balonunun altındaki sabır çubuğunun kalınlığı (px).
 const SABIR_BOY = 6;
 // Alttaki yardımcı şeridinin yüksekliği (sütunlar bu kadar yukarıda biter).
-const YARDIM_SERIDI = 58;
+// Kemal, 6 Kasım: "ince şerit". Düğmeler 26 px, dokunma alanı 44 px (stil.css);
+// şerit 58'den 32'ye indi, kazanılan yer sütunlara gitti.
+const YARDIM_SERIDI = 32;
 // Uçan yazıların (puan, seri, kalp) ekranda kalma süresi (ms).
 const UCAN_MS = 900;
 // İsteği tamamlanan müşterinin başında çıkan kalp ve sabrı biten müşterinin
@@ -1264,12 +1266,13 @@ export class Oyun {
     const kartG = Math.min(110, (bantG + kalinlik) / AYNI_ANDA_MUSTERI - 4);
     const dar = kartG < 72;
     const istekBoy = Math.max(20, Math.min(30, Math.floor(kartG - 46)));
-    // Kart: istek balonu (bir ya da iki satır: top + iç boşluk) + aralık + kişi resmi.
-    // İki çeşit isteyen müşterisi olan bölümde balona iki satırlık yer ayrılır.
-    const satir = this.bolum.musteriler.some((m) => m.parcalar.length > 1) ? 2 : 1;
+    // Kart: istek balonu (tek satır: top + iç boşluk) + aralık + kişi resmi.
+    // Kemal, 6 Kasım: "siparişler yan yana". Birden çok çeşit isteyen müşterinin
+    // siparişleri balonda yan yana durur; balonun yüksekliği herkeste aynı, böylece
+    // bütün müşteriler aynı boyda görünür.
     // Balonun altında sabır çubuğu (SABIR_BOY + aralık).
     const kisiBoy = kisiBoyu(h);
-    const kartYuk = satir * istekBoy + (satir - 1) * 2 + (dar ? 8 : 12) + 4 + SABIR_BOY + 3 + kisiBoy;
+    const kartYuk = istekBoy + (dar ? 8 : 12) + 4 + SABIR_BOY + 3 + kisiBoy;
     const kartUst = ustAlt + 4;
     const kartAlt = kartUst + kartYuk;
 
@@ -1298,9 +1301,10 @@ export class Oyun {
     const sutunlarAlt = h - 16 - YARDIM_SERIDI;
     const sutunGenislik = (g - 24) / this.sutunlar.length;
     // Top boyu sütunun boyuna değil, sütunda görünen top sayısına göre.
+    // Üst sınır 54'ten 68'e çıktı (Kemal, 6 Kasım: sütunlardaki dondurmalar büyüsün).
     const sutunTopBoyu = Math.min(
       sutunGenislik * 0.7,
-      54,
+      68,
       (sutunlarAlt - sutunlarUst - 12) / Math.max(1, SUTUNDA_GORUNEN_TOP),
     );
 
@@ -1454,15 +1458,24 @@ export class Oyun {
       }
       el.className = 'musteri' + dar + (m.durum === 'bitti' ? ' bitti' : m.durum === 'gitti' ? ' gitti' : '') + (m.aceleci ? ' aceleci' : '');
       el.dataset.istek = m.parcalar.map((p) => `${URUNLER[p.cesit].id}:${p.kalan}`).join(',');
-      // İstek balonu: her çeşit bir satır (simge ve kalan adet; biten çeşitte ✓).
+      // İstek balonu, hep tek satır ve aynı yükseklikte (Kemal, 6 Kasım: "siparişler yan yana").
+      // Tek çeşit: simge ve yanında kalan adet. Birden çok çeşit: simgeler yan yana,
+      // kalan adet simgenin köşesinde küçük rozet; simge balona sığacak kadar küçülür.
+      // Biten çeşitte ✓.
       const istek = document.createElement('div');
-      istek.className = 'istek';
+      const coklu = m.parcalar.length > 1;
+      istek.className = 'istek' + (coklu ? ' coklu' : '') + (m.parcalar.length > 2 ? ' kalabalik' : '');
+      istek.style.height = `${istekBoy + (dar ? 8 : 12) + 4}px`;
+      const n = m.parcalar.length;
+      // Balonun iç eni: kart eni - iç boşluk (2 x 5 ya da 2 x 8) - çerçeve (2 x 2); aralık 3 px.
+      const icEn = kartG - (dar ? 10 : 16) - 4;
+      const cokluBoy = Math.max(12, Math.min(istekBoy, Math.floor((icEn - 3 * (n - 1)) / n)));
       for (const p of m.parcalar) {
         const satir = document.createElement('div');
         satir.className = 'istek-satir' + (p.kalan === 0 ? ' tamam' : '');
-        satir.appendChild(this.topElKur(p.cesit, istekBoy));
+        satir.appendChild(this.topElKur(p.cesit, coklu ? cokluBoy : istekBoy));
         const adet = document.createElement('span');
-        adet.className = 'adet';
+        adet.className = coklu ? 'adet rozet' : 'adet';
         adet.textContent = p.kalan === 0 ? '✓' : `×${p.kalan}`;
         satir.appendChild(adet);
         istek.appendChild(satir);

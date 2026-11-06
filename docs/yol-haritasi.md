@@ -13,6 +13,8 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 6 Kasım akşamı (öneri; `ajans/ton-dugme-balon`; tasarım belgesi 0.37): Kemal'in telefonda gördüğü üç düzeltme. Müşteri tonları eşitlendi (çizimler aynı; beyazlar, çizgiler, parlaklık ve canlılık ortak hedefe; `araclar/musteri_ton.py`). Alttaki yardımcı düğmeleri ince tek şerit (yarı boy, dokunma alanı 44 px); kazanılan yerle sütunlardaki dondurmalar büyüdü. İki siparişli müşterinin siparişleri balonda yan yana; balon herkeste aynı boy, müşteriler aynı boyda. Kemal'in görmesi bekleniyor; gerçek telefonda denenmedi.
+
 5 Kasım 2026'da Kemal'in isteğiyle yol haritası oyunun bölümlerine göre
 düzenlendi ("Yol haritasını değiştir, onu bölüm bölüm ilerlet"; sohbette
 "Oyunun bölümlerine göre"). Eski uzun "Neredeyiz" notları silinmedi, en

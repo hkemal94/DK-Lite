@@ -271,6 +271,28 @@ html, body {
 .istek .top { position: static; }
 .istek-satir { display: flex; align-items: center; gap: 3px; }
 .istek-satir.tamam { opacity: 0.5; }
+/* Balon hep aynı yükseklikte (boyu kodda verilir); içerik dikeyde ortada. */
+.istek { justify-content: center; }
+/* Birden çok çeşit: simgeler yan yana, kalan adet köşede rozet (Kemal, 6 Kasım: "siparişler yan yana"). */
+.istek.coklu { flex-direction: row; align-items: center; gap: 3px; }
+.istek.coklu .istek-satir { position: relative; gap: 0; }
+.istek.coklu .adet.rozet {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  min-width: 17px;
+  padding: 0 3px;
+  border-radius: 99px;
+  background: var(--mor);
+  color: #fff;
+  border: 1.5px solid #fffaf0;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+}
+/* Üç ve daha çok çeşit (oyunda şimdilik yok): simgeler küçülür, rozet de küçülür. */
+.istek.kalabalik { gap: 2px; }
+.istek.kalabalik .adet.rozet { right: -3px; bottom: -6px; min-width: 13px; padding: 0 2px; font-size: 9px; line-height: 11px; border-width: 1px; }
 
 .adet {
   font-weight: 600;
@@ -2177,12 +2199,14 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .tanitim-not { max-width: 250px; margin: 0 auto 16px; text-align: center; opacity: 0.85; line-height: 1.35; }
 
 /* ---------- Yardımcılar (tasarım belgesi 0.34) ---------- */
+/* İnce şerit (Kemal, 6 Kasım: "ince şerit"): düğmeler eskisinin yaklaşık yarı boyu (26 px);
+   dokunma alanı görünmez kenarla 44 px. Kazanılan yer sütunlara gider (oyun.ts YARDIM_SERIDI). */
 .yardim-serit {
   position: absolute;
   left: 12px;
   right: 12px;
-  bottom: 8px;
-  height: 50px;
+  bottom: 9px;
+  height: 26px;
   display: flex;
   justify-content: space-between;
   gap: 8px;
@@ -2192,12 +2216,13 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .yardim-dugme {
   position: relative;
   flex: 1;
+  min-width: 48px;
   max-width: 64px;
-  height: 46px;
-  border-radius: 16px;
-  border: 2.5px solid var(--hat);
+  height: 26px;
+  border-radius: 11px;
+  border: 2px solid var(--hat);
   background: linear-gradient(#fff7ea, #f3e2c4);
-  box-shadow: 0 4px 0 #b88f5c;
+  box-shadow: 0 3px 0 #b88f5c;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2205,23 +2230,26 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
   cursor: pointer;
   touch-action: manipulation;
 }
-.yardim-dugme svg { width: 32px; height: 32px; }
-.yardim-dugme:active { transform: translateY(3px); box-shadow: 0 1px 0 #b88f5c; }
+/* Görünmez dokunma alanı: düğmenin dışına üstten ve alttan 9 px (26 + 18 = 44 px);
+   konum çerçevenin içinden ölçülür, 2 px çerçeve için 11. */
+.yardim-dugme::after { content: ''; position: absolute; left: -6px; right: -6px; top: -11px; bottom: -11px; }
+.yardim-dugme svg { width: 20px; height: 20px; }
+.yardim-dugme:active { transform: translateY(2px); box-shadow: 0 1px 0 #b88f5c; }
 .yardim-dugme.kapali { filter: grayscale(0.9); opacity: 0.5; }
 .yardim-adet {
   position: absolute;
-  top: -9px;
+  top: -8px;
   right: -8px;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
   box-sizing: border-box;
   border-radius: 99px;
   background: var(--mor);
   color: #fff;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  line-height: 16px;
+  line-height: 14px;
   border: 2px solid var(--hat);
   text-align: center;
 }
