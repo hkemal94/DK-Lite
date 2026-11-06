@@ -13,7 +13,11 @@ import './stil.css';
 import { Oyun } from './oyun';
 
 const kok = document.getElementById('kok');
-if (kok) new Oyun(kok);
+if (kok) {
+  const oyun = new Oyun(kok);
+  // Ekran denetimi (araclar/ekran-denetimi.cjs) yalnız "?denetim" adresinde oyuna erişir.
+  if (location.search.includes('denetim')) (window as unknown as { dkLite: Oyun }).dkLite = oyun;
+}
 // iPhone'da düğmenin basılı görünümü (:active) ancak sayfada bir dokunma dinleyicisi
 // varsa çalışır; bu boş dinleyici yalnız onu açar, hiçbir şey yapmaz.
 document.addEventListener('touchstart', () => {}, { passive: true });

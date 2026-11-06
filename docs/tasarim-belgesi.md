@@ -30,6 +30,20 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.36 Kemal'in 6 Kasım listesi (öneri)
+
+Kemal (6 Kasım): "Yazdıklarımı direkt yapma, ben sana tamam dediğimde toplu halledersin." Liste soru turlarıyla netleşti; "Bunları bir hazırla bakalım" ile yapıldı.
+- **Ana sayfaya dönüş:** ev simgeli yuvarlak düğme: bölüm sonu penceresinin sol üst köşesi, duraklat menüsü ("Ana sayfa"), Bölümler ekranında geri okunun yanı. Duraklat menüsünden dönmek bölümü yarıda bırakmaktır: önce sorar ("Bölümü bırak?"), 1 can gider, galibiyet serisi sıfırlanır.
+- **"Erime" yerine "Bozulma":** ayarlarda "Bozulma" (Yok / 1 tur sonra / 2 tur sonra), üst şeritte "Bozulma: 2 tur" ya da "Bozulma yok". Ürünlerin solması aynı.
+- **Mahalle kilidi:** sonraki mahalle, bulunulan mahallede 75 yıldızla açılır (en çok 90; 0. bölüm sayılmaz). Bölümler ekranında sağ alttaki ok kilitli, yanında "★ 60/75". Oka basınca "Mahalle kilitli" penceresi: "Sonraki mahalle: ?", yıldız çubuğu, yıldızı az olan en çok 8 bölüm (dokununca başlar). Kilit oynamayı da kapatır: yıldız yetmezse 31. bölüm başlamaz, aynı pencere çıkar.
+- **Buzlu top:** çay ve Türk kahvesi buzlu gelmez; öbür ürünler gelebilir.
+- **Yaşa göre istekler:** istekler aynı; isteğe göre gelen kişinin yaşı değişir. Dondurmada herkes eşit. Öbür ürünlerde yaş grubunun sevdiği bir ürün istekteyse o gruptan biri 2 kat (DENEME) daha sık gelir; herkes her şeyi isteyebilir. Gruplar (Kemal onayladı): çocuk 3, 7, 14, 20 (muzlu süt, pasta, kek, profiterol); genç 1, 10, 11, 13, 16, 17, 19 (gazoz, limonata); yetişkin 4, 5, 8, 9, 12 (çay, Türk kahvesi, baklava); yaşlı 2, 6, 15, 18, 21 (çay, Türk kahvesi, sütlaç, lokma).
+- **Görünüm denetimi:** ışık haleleri artık sahnesinin içinde kalır ve kenarlara doğru silinir; pencere başlığı hep üstte. `araclar/ekran-denetimi.cjs` bütün ekranları ve pencereleri 360x640 ve 390x844'te açıp yana taşma, ekrandan taşma, kesilen yazı, bölünen düğme yazısı, üst üste binme ve halenin başlığa binmesine bakar. Değişiklikten önceki oyunda 10 sorun buldu (dört pencerede hale başlığa biniyordu; "Duraklatıldı" başlığı ✕'e değiyordu); şimdi 0. Her değişiklikten sonra çalıştırılır.
+- **Hazır ürün etiketi:** gazoz şişesinde Birlik Zeytin etiketinden (KKM) esinli etiket: üstü kavisli pano, krem zemin, lacivert çerçeve, üstte kiremit alan, birkaç kabarcık; yazı, ağaç, ay yıldız yok. İleride gelecek şişe/kutu ürünler aynı etiket ailesinden.
+- **Can sınırı:** zamanla dolan can en çok 5. Hediyeler (günlük ödül, sandıktaki +1) 6'ya kadar çıkarır; 6'dayken gelen +1 boşa gider. "Canlar doldu" 5 yapar (6 varsa 6 kalır). 6. can altın kalp.
+- **Müşteriler:** 12. kişi yeniden çizildi: orta yaşlı, başı fular gibi şehirli eşarpla kapalı, hardal ceket, krem tişört, bol zeytin yeşili pantolon (Kemal: "ferace sevmiyorum"). 21. kişi: gevşek bağlı oyalı yazmalı nene. Toplam 21 kişi.
+- Bilgisayarda telefon boyutunda denendi; gerçek telefonda denenmedi. Ekran görüntüleri: `docs/ekran/yeni-liste/`, `docs/ekran/denetim/`.
+
 ### 0.35 Müşteri çeşitliliği: desenler ve 10 yeni kişi (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Kemal: "Desenler ve renkler ayrıca etnik kökenler ve saçlar falan etkili olabilir"; desenler "çizgili, puantiyeli, çiçekli, ekose"; "10 yeni kişi".

@@ -10,6 +10,14 @@ import {
   ACELECI_EK_PUAN_ORANI,
   ACELECI_SABIR_ORANI,
   KILIT_ACAN_MUSTERI,
+  KISI_YAS,
+  MAHALLE_ACMA_YILDIZ,
+  bolumMahallesi,
+  mahalleAcikMi,
+  mahalleYildizi,
+  SAYFADA_BOLUM,
+  YAS_EGILIM_KATI,
+  YAS_SEVDIKLERI,
   BOLUMDE_YARDIMCI_EN_COK,
   FAZLA_BANT_YERI,
   GUNLUK_ODULLER,
@@ -51,7 +59,7 @@ import {
 import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum, type TopOzel } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, type Ayarlar, type Kayit } from './kayit';
-import { haritaCiz } from './harita';
+import { EV_SVG, haritaCiz } from './harita';
 import { DESENLI_MUSTERILER } from './musteriCesitleri';
 import { gunlukAlindi, gunlukBugun, rastgeleYardimci, seriGuncelle, seriOku, yardimciAdet, yardimciEkle, yardimciHarca } from './yardim';
 import { BASLANGIC_URUNLERI, HEDIYE_SIRASI, hediyeBolumu, urunSirasi } from './ayarlar';
@@ -62,6 +70,7 @@ import {
   canKaybet,
   canlariDoldur,
   canVar,
+  sinirsizMi,
   sinirsizVer,
   sonrakiCanaKalan,
   sureYazisi,
@@ -75,7 +84,7 @@ import {
 const MUSTERI_RENKLERI = ['', 'kirmizi', 'mor', 'yesil', 'pembe'];
 const RENKSIZ_MUSTERILER = [2];
 // Yeni 10 kişi (11–20; Kemal: "etnik kökenler ve saçlar"; Canva) renk çeşitsiz, kendi hâliyle gelir.
-const KISI_SAYISI = 20;
+const KISI_SAYISI = 21; // 21: yazmalı nene (6 Kasım)
 const RENKLI_KISI_SAYISI = 10;
 const MUSTERI_RESIMLERI = MUSTERI_RENKLERI.flatMap((renk) =>
   Array.from({ length: renk === '' ? KISI_SAYISI : RENKLI_KISI_SAYISI }, (_, i) => i + 1)
@@ -194,6 +203,8 @@ const GUNLUK_YAZISI: Record<GunlukOdul, string> = {
   sinirsiz: `${GUNLUK_SINIRSIZ_DK} dk ∞`,
   sandik: 'Sandık',
 };
+// Mahalle adları (künyedeki yerler; harita.ts'deki sırayla).
+const MAHALLE_ADLARI = ['Liman', 'Stadyum', 'Çiftlik', 'İskele', 'Merkez'];
 const KALP_SVG =
   '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 21 C5 15 2 12 2 8 C2 5 4.5 3 7 3 C9 3 11 4.5 12 6 C13 4.5 15 3 17 3 C19.5 3 22 5 22 8 C22 12 19 15 12 21 Z" fill="#e2475b" stroke="#5a3a22" stroke-width="2" stroke-linejoin="round"/></svg>';
 const UZGUN_SVG =
@@ -601,6 +612,10 @@ export class Oyun {
         this.listeAc('duraklat');
       }),
     );
+    // Ana sayfa (Kemal, 6 Kasım): bölüm yarıda kalır; 1 can gider, seri bozulur (önce sorar).
+    const evDugme = menuDugme('Ana sayfa', 'krem ikonlu', 'menu-ana-sayfa', () => this.anaSayfayaDonSor());
+    evDugme.insertAdjacentHTML('afterbegin', EV_SVG);
+    menuKutu.appendChild(evDugme);
     this.duraklatMenuEl.appendChild(menuKutu);
     this.kok.appendChild(this.duraklatMenuEl);
 
@@ -697,7 +712,7 @@ export class Oyun {
       return g;
     };
     kutu.append(
-      grup('Erime', ERIME_BICIMLERI.map((b) => b.yazi), this.erimeSirasi, (i) => this.erimeSec(i)),
+      grup('Bozulma', ERIME_BICIMLERI.map((b) => b.yazi), this.erimeSirasi, (i) => this.erimeSec(i)),
       grup('Titreşim', ['Açık', 'Kapalı'], this.ayarlar.titresim ? 0 : 1, (i) => {
         this.ayarlar.titresim = i === 0;
         ayarYaz(this.ayarlar);
@@ -740,11 +755,115 @@ export class Oyun {
     this.girisEl.className = 'giris desenli gizli';
   }
 
+  // Kilitli mahalle penceresi (Kemal, 6 Kasım): adı "?"; kaç yıldız kaldığı ve yıldızı
+  // düşük bölümler (dokununca o bölüm başlar; "geri dönsün yeniden oynasın").
+  private mahalleKilitPenceresi(m: number) {
+    this.kok.querySelector('#mahalle-kilit')?.remove();
+    const onceki = m - 1;
+    const yildiz = mahalleYildizi(this.kayit.yildizlar, onceki);
+    const ort = odulOrtusu('mahalle-kilit', 'Mahalle kilitli');
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    kutu.classList.add('mahalle-kilit-kutu');
+    kutu.appendChild(kapatDugme('mahalle-kilit-kapat', () => ort.remove()));
+    const simge = document.createElement('div');
+    simge.className = 'mahalle-kilit-simge';
+    simge.innerHTML = KILIT_SVG;
+    const sonraki = document.createElement('div');
+    sonraki.className = 'odul-ad mahalle-sonraki';
+    sonraki.textContent = 'Sonraki mahalle: ?';
+    const cubuk = document.createElement('div');
+    cubuk.className = 'mahalle-cubuk';
+    const dolu = document.createElement('div');
+    dolu.className = 'mahalle-cubuk-dolu';
+    dolu.style.width = `${Math.min(100, (100 * yildiz) / MAHALLE_ACMA_YILDIZ)}%`;
+    const yazi = document.createElement('span');
+    yazi.textContent = `★ ${yildiz} / ${MAHALLE_ACMA_YILDIZ}`;
+    cubuk.append(dolu, yazi);
+    const not = document.createElement('div');
+    not.className = 'odul-not mahalle-not';
+    const kalan = Math.max(0, MAHALLE_ACMA_YILDIZ - yildiz);
+    not.textContent = `${MAHALLE_ADLARI[onceki] ?? ''} mahallesinde ${kalan} yıldız daha topla. Yıldızı az olan bölümleri yeniden oyna:`;
+    const liste = document.createElement('div');
+    liste.className = 'mahalle-bolumler';
+    const ilk = onceki * SAYFADA_BOLUM + 1;
+    const adaylar: { no: number; y: number }[] = [];
+    for (let no = ilk; no < ilk + SAYFADA_BOLUM && no <= Math.min(this.kayit.acik, BOLUM_SAYISI); no++) {
+      const y = this.kayit.yildizlar[no - 1] ?? 0;
+      if (y < YILDIZ_ESIKLERI.length) adaylar.push({ no, y });
+    }
+    adaylar.sort((a, b) => a.y - b.y || a.no - b.no);
+    for (const { no, y } of adaylar.slice(0, 8)) {
+      const d = document.createElement('button');
+      d.className = 'mahalle-bolum';
+      d.dataset.no = String(no);
+      d.innerHTML = `<b>${no}</b><span>${'★'.repeat(y)}${'☆'.repeat(YILDIZ_ESIKLERI.length - y)}</span>`;
+      d.addEventListener('click', () => {
+        ort.remove();
+        this.bolumBaslat(no);
+      });
+      liste.appendChild(d);
+    }
+    kutu.append(simge, sonraki, cubuk, not, liste);
+    this.kok.appendChild(ort);
+  }
+
+  // Ana sayfaya dönüş. Bölüm sürüyorsa (yarıda bırakma) önce sorar: 1 can gider, seri bozulur.
+  private anaSayfayaDonSor() {
+    const suruyor = this.basladi && !this.bitti;
+    if (!suruyor) {
+      this.anaSayfayaDon();
+      return;
+    }
+    const ort = odulOrtusu('birak-onay', 'Bölümü bırak?');
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const not = document.createElement('div');
+    not.className = 'odul-not birak-not';
+    not.textContent = sinirsizMi()
+      ? 'Bölüm yarıda kalır. Sınırsız canın var, can gitmez; galibiyet serisi sıfırlanır.'
+      : 'Bölüm yarıda kalır: 1 can gider ve galibiyet serisi sıfırlanır.';
+    const sira = document.createElement('div');
+    sira.className = 'son-dugmeler';
+    const vazgec = document.createElement('button');
+    vazgec.className = 'dugme krem';
+    vazgec.textContent = 'Vazgeç';
+    vazgec.addEventListener('click', () => ort.remove());
+    const git = document.createElement('button');
+    git.className = 'dugme kirmizi';
+    git.id = 'birak-evet';
+    git.textContent = 'Ana sayfa';
+    git.addEventListener('click', () => {
+      ort.remove();
+      this.anaSayfayaDon();
+    });
+    sira.append(vazgec, git);
+    kutu.append(not, sira);
+    this.kok.appendChild(ort);
+  }
+
+  private anaSayfayaDon() {
+    if (this.basladi && !this.bitti) {
+      canKaybet();
+      seriGuncelle(false);
+    }
+    this.basladi = false;
+    for (const o of this.kok.querySelectorAll('#tanitim, #birak-onay')) o.remove();
+    // Arkada kaldığı bölüm hazır durur (açılıştaki gibi); giriş ekranı açılır.
+    this.yenidenBasla(Math.min(this.kayit.acik, BOLUM_SAYISI));
+    this.canCiz();
+    this.girisAc();
+  }
+
   // Oyuncunun başlattığı bölüm (Başla, Bölümler, Tekrar oyna, Devam et, Baştan başla).
   // Can: bölüm yarıda bırakılıyorsa 1 can gider; can yoksa bölüm başlamaz,
   // "Can yok" penceresi çıkar (Kemal, 5 Kasım).
   private bolumBaslat(no: number) {
     if (no < 0 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
+    // Mahalle kilidi: önceki mahallede yeterli yıldız yoksa bölüm başlamaz.
+    const mahalle = bolumMahallesi(no);
+    if (!mahalleAcikMi(this.kayit.yildizlar, mahalle)) {
+      this.mahalleKilitPenceresi(mahalle);
+      return;
+    }
     if (this.basladi && !this.bitti) {
       canKaybet();
       seriGuncelle(false); // yarıda bırakmak seriyi bozar
@@ -1054,7 +1173,22 @@ export class Oyun {
     if (this.sonResim) ekranda.add(kisi(this.sonResim));
     const adaylar = MUSTERI_RESIMLERI.filter((r) => !ekranda.has(kisi(r)));
     const havuz = adaylar.length > 0 ? adaylar : MUSTERI_RESIMLERI;
-    const resim = havuz[Math.floor(Math.random() * havuz.length)];
+    // Yaşa göre eğilim: istekte bu kişinin yaş grubunun sevdiği ürün varsa daha sık gelir.
+    const istenen = m.parcalar.map((p) => URUNLER[p.cesit].id);
+    const agirlik = (r: string) => {
+      const yas = KISI_YAS[Number(kisi(r))];
+      return yas && istenen.some((id) => YAS_SEVDIKLERI[yas].includes(id)) ? YAS_EGILIM_KATI : 1;
+    };
+    const toplam = havuz.reduce((a, r) => a + agirlik(r), 0);
+    let zar = Math.random() * toplam;
+    let resim = havuz[havuz.length - 1];
+    for (const r of havuz) {
+      zar -= agirlik(r);
+      if (zar < 0) {
+        resim = r;
+        break;
+      }
+    }
     this.sonResim = resim;
     const parcalar = m.parcalar.map((p) => ({ cesit: p.cesit, kalan: p.adet, ilk: p.adet }));
     return { parcalar, durum: 'bekliyor', bittigiAn: 0, gelisAn: this.oyunAn, resim, aceleci };
@@ -1073,7 +1207,7 @@ export class Oyun {
   }
 
   private erimeYazisi() {
-    this.erimeEl.textContent = `Erime: ${ERIME_BICIMLERI[this.erimeSirasi].yazi}`;
+    this.erimeEl.textContent = ERIME_BICIMLERI[this.erimeSirasi].kisa;
     this.erimeEl.dataset.tur = String(this.erimeTuru());
   }
 
@@ -1894,6 +2028,14 @@ export class Oyun {
     const kutu = document.createElement('div');
     kutu.className = 'son-kutu pencere sonuc-kutu' + (kazandi ? ' kazandi' : ' kaybetti');
     kutu.appendChild(pencereBaslik(`Bölüm ${no}`));
+    // Sol üst köşede ana sayfa (ev) düğmesi.
+    const ev = document.createElement('button');
+    ev.className = 'kose-dugme yuvarlak mor ev-dugme sonuc-ev';
+    ev.id = 'sonuc-ana-sayfa';
+    ev.setAttribute('aria-label', 'Ana sayfa');
+    ev.innerHTML = EV_SVG;
+    ev.addEventListener('click', () => this.anaSayfayaDon());
+    kutu.appendChild(ev);
     if (kazandi) {
       const sevinen = document.createElement('img');
       sevinen.className = 'son-dondurmaci';
@@ -2062,7 +2204,7 @@ export class Oyun {
     sahne.append(isik, simge);
     const ad = document.createElement('div');
     ad.className = 'odul-ad';
-    ad.textContent = `+1 ${YARDIMCI_ADLARI[y]}`;
+    ad.textContent = `Yardımcı: ${YARDIMCI_ADLARI[y]}`;
     kutu.append(sahne, ad, odulTamam());
     return ort;
   }
@@ -2250,7 +2392,7 @@ export class Oyun {
     if (yardimci) {
       const ek = document.createElement('div');
       ek.className = 'sandik-yardimci';
-      ek.innerHTML = `${YARDIMCI_SVG[yardimci]}<span>+1 ${YARDIMCI_ADLARI[yardimci]}</span>`;
+      ek.innerHTML = `${YARDIMCI_SVG[yardimci]}<span>Yardımcı: ${YARDIMCI_ADLARI[yardimci]}</span>`;
       kutu.appendChild(ek);
     }
     kutu.appendChild(odulTamam());
@@ -2288,6 +2430,8 @@ export class Oyun {
       el.dataset.can = String(d.can);
       el.classList.toggle('sinirsiz', sinirsiz);
       el.classList.toggle('bos', !sinirsiz && d.can === 0);
+      // Hediyeyle gelen 6. can: kalp altın rengi.
+      el.classList.toggle('hediye', !sinirsiz && d.can > CAN_EN_COK);
     }
   }
 
@@ -2354,6 +2498,8 @@ export class Oyun {
       haritaCiz(this.kayit, yildizCiz, {
         bolumSec: (no) => this.bolumBaslat(no),
         geri: () => this.haritaGeri(),
+        anaSayfa: () => this.anaSayfayaDonSor(),
+        kilitliMahalle: (m) => this.mahalleKilitPenceresi(m),
         bittiYazisi: hepsiBitti(this.kayit) ? HEPSI_BITTI_YAZISI : null,
       }),
     );

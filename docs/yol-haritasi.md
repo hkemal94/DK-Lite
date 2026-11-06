@@ -18,7 +18,7 @@ düzenlendi ("Yol haritasını değiştir, onu bölüm bölüm ilerlet"; sohbett
 "Oyunun bölümlerine göre"). Eski uzun "Neredeyiz" notları silinmedi, en
 alttaki "Geçmiş notlar" bölümüne taşındı.
 
-- 5 Kasım gecesi (öneri; tasarım belgesi 0.32): **150 bölüm** ve 0. bölüm (öğretici, el işaretli, kaybedilmez). 5 mahalle × 30 bölüm: Liman, Stadyum, Çiftlik, İskele, Merkez; her biri kendi renginde. 15 hediye ürün birer birer: 0. bölümden sonra limonata, sonra her 10 bölümde bir (son: 140. bölümde baklava); sandık hediyeyle birlikte. Yeni öğeler yapıldı (öneri; tasarım belgesi 0.33): 31 buzlu top, 61 gizli top, 91 aceleci müşteri, 121 kilitli sütun; adları [Kemal]. Yardımcılar, galibiyet serisi, günlük ödül ve albüm yapıldı (öneri; tasarım belgesi 0.34). Müşteri desenleri ve 10 yeni kişi yapıldı (tasarım belgesi 0.35). Bu turdaki işlerin hepsi bitti; Kemal'in telefonda denemesi bekleniyor.
+- 5 Kasım gecesi (öneri; tasarım belgesi 0.32): **150 bölüm** ve 0. bölüm (öğretici, el işaretli, kaybedilmez). 5 mahalle × 30 bölüm: Liman, Stadyum, Çiftlik, İskele, Merkez; her biri kendi renginde. 15 hediye ürün birer birer: 0. bölümden sonra limonata, sonra her 10 bölümde bir (son: 140. bölümde baklava); sandık hediyeyle birlikte. Yeni öğeler yapıldı (öneri; tasarım belgesi 0.33): 31 buzlu top, 61 gizli top, 91 aceleci müşteri, 121 kilitli sütun; adları [Kemal]. Yardımcılar, galibiyet serisi, günlük ödül ve albüm yapıldı (öneri; tasarım belgesi 0.34). Müşteri desenleri ve 10 yeni kişi yapıldı (tasarım belgesi 0.35). Bu turdaki işlerin hepsi bitti. 6 Kasım listesi yapıldı (öneri; tasarım belgesi 0.36): ana sayfa düğmesi, "Bozulma", mahalle kilidi (75 yıldız), sıcak içecekte buz yok, yaşa göre istekler, görünüm denetimi aracı, etiketli gazoz, hediye can 6, fularlı kadın ve nene. Kemal'in telefonda denemesi bekleniyor.
 - (Eski not) Oyunda **50 bölüm** var (5 Kasım'da 30'dan 50'ye), hepsi oynanabilir. Bölüm 1–10 elle yazılmış bir
   tabloyla, 11–30 bir kuralla kuruluyor. Bölümlerdeki bütün sayılar **deneme
   değeri**; Kemal oynayıp söyleyince kesinleşir.
@@ -160,6 +160,8 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 - Bir paket bitmeden öbürüne geçilmez; yarım iş birikmez.
 - Bir paket beğenilmezse geri dönmek kolaydır, çünkü küçüktür.
 - Önce "eğlenceli mi?", sonra "güzel mi?": çizim ve ses oynanış oturduktan sonra gelir.
+- Kemal'in isteği (6 Kasım): istekler önce listeye yazılır, soru turuyla netleşir; Kemal "tamam" deyince toplu yapılır.
+- Her değişiklikten sonra `node araclar/ekran-denetimi.cjs` çalıştırılır (bütün ekranlar iki telefon boyutunda; sorun 0 olmalı).
 
 ## İlk sürüm: paketler (sırayla)
 

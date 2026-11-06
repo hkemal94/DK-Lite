@@ -36,6 +36,7 @@ import {
   ACELECI_ORANI,
   AYNI_ANDA_MUSTERI,
   BUZ_DOKUNUS,
+  BUZSUZ_URUNLER,
   BUZLU_TOP_BOLUMU,
   BUZLU_TOP_ORANI,
   GIZLI_TOP_BOLUMU,
@@ -342,21 +343,25 @@ export function bolumKur(no: number): Bolum {
   for (let deneme = 1; ; deneme++) {
     const b = bolumTaslagi(no, r);
     if (b && kazanilabilirMi(b, kilitliSutun)) {
-      const ozel = (): TopOzel => ({
-        buz: no >= BUZLU_TOP_BOLUMU && o() < BUZLU_TOP_ORANI ? BUZ_DOKUNUS : 0,
+      const buzOlur = (c: number) => !BUZSUZ_URUNLER.includes(URUNLER[c].id);
+      const ozel = (c: number): TopOzel => ({
+        buz: no >= BUZLU_TOP_BOLUMU && o() < BUZLU_TOP_ORANI && buzOlur(c) ? BUZ_DOKUNUS : 0,
         gizli: no >= GIZLI_TOP_BOLUMU && o() < GIZLI_TOP_ORANI,
       });
       const bolum: Bolum = {
         ...b,
         deneme,
-        sutunOzel: b.sutunlar.map((s) => s.map(ozel)),
-        sakliOzel: b.sakli.map(ozel),
+        sutunOzel: b.sutunlar.map((s) => s.map((c) => ozel(c))),
+        sakliOzel: b.sakli.map((c) => ozel(c)),
         aceleci: b.musteriler.map(() => no >= ACELECI_BOLUMU && o() < ACELECI_ORANI),
         kilitliSutun,
       };
       // Tanıtım bölümünde öğe mutlaka görünsün: en az bir tane (sütunda görünen bir top).
       // Buzlu: ilk sütunun en üstündeki top (oyuncu hemen dener).
-      if (no === BUZLU_TOP_BOLUMU) bolum.sutunOzel[0][bolum.sutunOzel[0].length - 1].buz = BUZ_DOKUNUS;
+      if (no === BUZLU_TOP_BOLUMU) {
+        const s = bolum.sutunlar.findIndex((sut) => sut.length > 0 && buzOlur(sut[sut.length - 1]));
+        if (s >= 0) bolum.sutunOzel[s][bolum.sutunOzel[s].length - 1].buz = BUZ_DOKUNUS;
+      }
       if (no === GIZLI_TOP_BOLUMU && !bolum.sutunOzel.some((s) => s.slice(0, -1).some((t) => t.gizli))) bolum.sutunOzel[1][0].gizli = true;
       if (no === ACELECI_BOLUMU && !bolum.aceleci.slice(0, 3).some((a) => a)) bolum.aceleci[1] = true;
       kurulanlar.set(no, bolum);

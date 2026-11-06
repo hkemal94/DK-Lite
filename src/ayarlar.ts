@@ -311,9 +311,9 @@ export const SUTUNDA_GORUNEN_TOP = 4;
 // Oyun içindeki küçük düğmeyle biçimler arasında geçilir; Kemal oynayıp seçer.
 // Seçilen biçim bölüm değişince de kalır; sayfa yenilenince varsayılana döner.
 export const ERIME_BICIMLERI = [
-  { tur: 0, yazi: 'Erime yok' },
-  { tur: 1, yazi: '1 tur sonra' },
-  { tur: 2, yazi: '2 tur sonra' },
+  { tur: 0, yazi: 'Yok', kisa: 'Bozulma yok' },
+  { tur: 1, yazi: '1 tur sonra', kisa: 'Bozulma: 1 tur' },
+  { tur: 2, yazi: '2 tur sonra', kisa: 'Bozulma: 2 tur' },
 ];
 // Varsayılan biçimin sırası (2: "2 tur sonra").
 // Kemal, 22 Ekim: "2 tur olsun ama 1. turun sonunda kazanacağın puan %50'ye düşsün".
@@ -403,6 +403,8 @@ export function bolumdeYeniUrunler(no: number): string[] {
 // Kemal'in seçimleri: "5 can"; can "Yalnız kaybedince" gider; "Zamanla dolar, 30 dk";
 // sonra (5 Kasım akşamı): "dakikayı yarım saatten 15 dakikaya düşür".
 export const CAN_EN_COK = 5;
+// Hediyeyle (günlük ödül, sandık) çıkılabilecek en çok can; zamanla dolan can CAN_EN_COK'ta durur.
+export const HEDIYE_CAN_EN_COK = 6;
 export const CAN_DOLUM_DK = 15;
 // Sandık: "10 bölümde bir sandık açılsın ve bazen bir can versin bazen canı doldursun
 // bazen 1 saat süresiz can versin". 10., 20., 30. ... bölüm ilk kez kazanılınca açılır.
@@ -438,6 +440,8 @@ export const SAYFADA_BOLUM = 30;
 export const BUZLU_TOP_BOLUMU = 31;
 export const BUZLU_TOP_ORANI = 0.12; // DENEME: topların kabaca bu kadarı buzlu
 export const BUZ_DOKUNUS = 2;
+// Sıcak içilenler buzlu gelmez (Kemal, 6 Kasım: "sıcak içilen içeceklere buz olmasın çay gibi kahve gibi").
+export const BUZSUZ_URUNLER = ['cay', 'kahve'];
 
 // Gizli top (Çiftlik, 61. bölümden): rengi görünmez ("?"); sütunun en üstüne gelince açılır.
 export const GIZLI_TOP_BOLUMU = 61;
@@ -498,3 +502,44 @@ export const SERI_YARDIMCI_ARALIGI = 5; // DENEME: her 5 art arda kazançta 1 ya
 export type GunlukOdul = 'bir-can' | 'yardimci' | 'sinirsiz' | 'sandik';
 export const GUNLUK_ODULLER: GunlukOdul[] = ['bir-can', 'yardimci', 'bir-can', 'yardimci', 'sinirsiz', 'yardimci', 'sandik'];
 export const GUNLUK_SINIRSIZ_DK = 30; // DENEME
+
+// ---------- Yaşa göre istekler (Kemal, 6 Kasım 2026) ----------
+// "Basit bir ihtimaller oyunu ... Herkes dondurma isteyebilir ... yaşlara göre bazı
+// ürünler daha çok talep edilir ... herkes her şeyi isteme özgürlüğüne sahip."
+// İstekler bölümde aynı kalır; isteğe göre gelen kişinin yaşı değişir: istekte
+// yaş grubunun sevdiği bir ürün varsa o gruptan biri YAS_EGILIM_KATI kat daha sık gelir.
+// Gruplar Kemal'in onayıyla (6 Kasım). Kat DENEME.
+export type YasGrubu = 'cocuk' | 'genc' | 'yetiskin' | 'yasli';
+export const KISI_YAS: Record<number, YasGrubu> = {
+  3: 'cocuk', 7: 'cocuk', 14: 'cocuk', 20: 'cocuk',
+  1: 'genc', 10: 'genc', 11: 'genc', 13: 'genc', 16: 'genc', 17: 'genc', 19: 'genc',
+  4: 'yetiskin', 5: 'yetiskin', 8: 'yetiskin', 9: 'yetiskin', 12: 'yetiskin',
+  2: 'yasli', 6: 'yasli', 15: 'yasli', 18: 'yasli', 21: 'yasli',
+};
+export const YAS_SEVDIKLERI: Record<YasGrubu, string[]> = {
+  cocuk: ['muzlu-sut', 'pasta', 'kek', 'profiterol'],
+  genc: ['gazoz', 'limonata'],
+  yetiskin: ['cay', 'kahve', 'baklava'],
+  yasli: ['cay', 'kahve', 'sutlac', 'lokma'],
+};
+export const YAS_EGILIM_KATI = 2; // DENEME
+
+// ---------- Mahalle kilidi (Kemal, 6 Kasım 2026) ----------
+// "Diğer mahalleye gitme butonuna kilit koy, toplam bir yıldız sayısını geçmeden
+// açılmasın." Seçim: o mahallede 75 yıldız (en çok 90); 0. bölüm sayılmaz.
+export const MAHALLE_ACMA_YILDIZ = 75;
+// Bölümün mahallesi (0: Liman; 0. bölüm de Liman).
+export function bolumMahallesi(no: number): number {
+  return no <= 0 ? 0 : Math.floor((no - 1) / SAYFADA_BOLUM);
+}
+// Mahallede toplanan yıldız.
+export function mahalleYildizi(yildizlar: number[], m: number): number {
+  let t = 0;
+  for (let no = m * SAYFADA_BOLUM + 1; no <= Math.min(BOLUM_SAYISI, (m + 1) * SAYFADA_BOLUM); no++) t += yildizlar[no - 1] ?? 0;
+  return t;
+}
+// Mahalle açık mı: Liman hep açık; ötekiler bir öncekinde MAHALLE_ACMA_YILDIZ yıldızla.
+export function mahalleAcikMi(yildizlar: number[], m: number): boolean {
+  for (let k = 1; k <= m; k++) if (mahalleYildizi(yildizlar, k - 1) < MAHALLE_ACMA_YILDIZ) return false;
+  return true;
+}
