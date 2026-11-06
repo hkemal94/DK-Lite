@@ -79,7 +79,7 @@
   "musteri-10-yesil.webp": "8fc194469de6fc7ccea4940d942a5d1edc354a05",
   "musteri-10.webp": "6ff6478fae0207b6a42a219476e2fd93344a064e",
   "musteri-11.webp": "fb2c450f7683de0bfb0a762480aac7a6159574e0",
-  "musteri-12.webp": "d626e143183880c940c5ec7f10edd53988e6bcba",
+  "musteri-12.webp": "8f1c454fb5930478c8b47410d745a0e292529578",
   "musteri-13.webp": "b9f90c6610169b26e29fc5ecdecaac09ce0334ef",
   "musteri-14.webp": "5912fdc1527eda218f2422e7a8e209e7922d0831",
   "musteri-15.webp": "6e97d69b17834b187e54bd3d938edb2dd5a6d146",
@@ -180,12 +180,12 @@
    3.9401
   ],
   "12": [
-   0.9947,
-   1.0366,
-   -1.2179,
-   -8.0,
-   0.9979,
-   20.4756
+   0.9882,
+   1.0374,
+   -0.9277,
+   -6.4744,
+   1.0098,
+   13.514
   ],
   "13": [
    1.08,
