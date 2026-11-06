@@ -30,6 +30,55 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.35 Müşteri çeşitliliği: desenler ve 10 yeni kişi (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Desenler ve renkler ayrıca etnik kökenler ve saçlar falan etkili olabilir"; desenler "çizgili, puantiyeli, çiçekli, ekose"; "10 yeni kişi".
+- Parça parça renk ve desen: 8 kişinin kıyafetinde üst ve alt ayrı boyanır, bazı parçalara desen giydirilir (gölge ve çizgiler korunur). 32 yeni görünüş (`araclar/musteri_desen.py`; renkler ve hangi kişiye hangi desen ekibin seçimi).
+- 10 yeni kişi Canva'da aynı tarzda çizildi: kıvırcık saçlı genç kadın, başörtülü kadın, Doğu Asyalı genç adam, kızıl saçlı çilli kız çocuk, bastonlu yaşlı adam, sarı örgülü genç kadın, örgü saçlı genç adam, gözlüklü yaşlı kadın, mor saçlı genç kadın, yağmurluklu erkek çocuk. Adları yok ([Kemal]).
+- Toplam 20 kişi, 88 görünüş. Ekranda aynı kişi iki kez görünmez.
+- Yeni oyuncuda günlük ödül 0. bölüm bittikten sonra başlar (Başla'nın önüne çıkmasın diye).
+- Ekran görüntüleri: `docs/ekran/musteri-desen/`, `docs/ekran/yeni-kisiler/`. Telefonda denenmedi.
+
+### 0.34 Yardımcılar, galibiyet serisi, günlük ödül, albüm (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal'in seçimleri: yardımcılar "Bandı boşalt, Sütunları karıştır, Sabrı durdur, Fazla bant yeri, +1 sütun"; kazanım "Sandıktan, Günlük ödülden, Başlangıçta her birinden 1, Galibiyet serisinden"; seri "3 kazançta yardım"; günlük "7 günlük takvim"; albüm "Şimdilik yalnızca ürünler". Sayılar DENEME (`src/ayarlar.ts`).
+
+- **Yardımcılar:** oyun ekranının altında beş düğme, köşesinde elde kaç tane olduğu. Başlangıçta her birinden 1. Bir bölümde her birinden en çok 1 kullanılır; bitince ya da kullanılınca düğme soluklaşır. 0. bölümde yok.
+  - Bandı boşalt: banttaki toplar kalkar ve sıranın başına döner (kaybolmaz; sonra sütunlara geri gelir).
+  - Sütunları karıştır: sütunlardaki toplar (buzları ve gizlilikleriyle) karışır.
+  - Sabrı durdur: 30 saniye müşterilerin sabrı azalmaz; sabır çubukları maviye döner.
+  - Fazla bant yeri: o bölüm için banda 2 yer eklenir.
+  - +1 sütun: sıradaki toplardan dolan bir sütun eklenir (sıra bittiyse kullanılamaz).
+- **Galibiyet serisi:** art arda kazanılan bölümler (0. bölüm sayılmaz). Sonraki bölümde: 1 kazanç +1 bant yeri; 2 kazanç +1 bant yeri ve bölüm başında sabır 30 saniye durur; 3 ve üstü +2 bant yeri ve sabır durur. Bölüm başında üstte kısa bir afiş söyler. Kaybedince ya da yarıda bırakınca sıfırlanır. Her 5 art arda kazançta 1 yardımcı ("Seri ödülü!"). Sonuç penceresinde "Galibiyet serisi" satırı.
+- **Sandık:** can ödülüne ek olarak 1 yardımcı da verir (rastgele).
+- **Günlük ödül:** giriş ekranında, o gün alınmadıysa 7 günlük takvim açılır: 1. gün +1 can, 2. yardımcı, 3. +1 can, 4. yardımcı, 5. 30 dakika sınırsız can, 6. yardımcı, 7. sandık. "Al" deyince ödül penceresi. Bir gün atlanırsa 1. güne dönülür; 7. günden sonra yeniden 1. gün. Gün telefonun saatine göre.
+- **Albüm:** giriş ekranında "Albüm" düğmesi. 18 ürün (3 başlangıç + 15 hediye): açılanlar resmi ve adıyla, açılmayanlar "?" ve hangi bölümden sonra geleceği; üstte "6 / 18" gibi sayaç.
+- Simgeler ekibin basit çizimleri. Bilgisayarda telefon boyutunda denendi: beş yardımcının hepsi, seri afişi, seri ödülü, sandıktan yardımcı, günlük takvim ve ödülü, albüm. Ekran görüntüleri: `docs/ekran/yardimcilar/`. Telefonda denenmedi.
+
+### 0.33 Yeni öğeler: her mahallede bir (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: yeni öğeler "Her mahallede bir". Adlar [Kemal]; aşağıdaki adlar yalnız ne olduğunu anlatır. Oranlar DENEME (`src/ayarlar.ts`).
+- Mahallenin ilk bölümünde "Yeni!" penceresi: öğenin küçük resmi ve ne yaptığı (tek satır); oyun pencere kapanınca başlar. Bölüm geçildiyse bir daha çıkmaz. O bölümden sonra öğe bütün bölümlerde gelebilir (birikir).
+- **Buzlu top** (Stadyum, 31. bölüm): topların ~%12'si buz içinde. İlk dokunuş buzu çatlatır, ikincisi çözer, sonra top normal gider. 31. bölümde ilk sütunun en üstündeki top buzlu (hemen denensin).
+- **Gizli top** (Çiftlik, 61. bölüm): topların ~%15'i mor "?" top; sütunun en üstüne gelince ne olduğu görünür.
+- **Aceleci müşteri** (İskele, 91. bölüm): müşterilerin ~%20'si; balonunda şimşek, sabrı normalin %60'ı; karşılanınca istediği topların puanının yarısı kadar ek puan (yıldız hesabına girmez).
+- **Kilitli sütun** (Merkez, 121. bölüm): bir sütun kilitli başlar (soluk, ortada kilit ve "1"); 1 müşteri karşılanınca kilit uçar, sütun açılır. Kilitliyken dokununca sallanır.
+- Bütün bölümler (0–150) bu öğelerle de kazanılabilir kuruluyor; kilitli sütun çözücüde hesaba katıldı. Eski bölümlerin dizilimi değişmedi.
+- Bilgisayarda denendi: dört tanıtım penceresi, buzun iki dokunuşta çözülmesi, kilidin ilk müşteriden sonra açılması, aceleci ek puanı. 121. bölümü otomatik oyuncu kaybetti (zorluk sayıları Kemal oynayınca ayarlanır). Ekran görüntüleri: `docs/ekran/yeni-ogeler/`. Telefonda denenmedi.
+
+### 0.32 Hediyeler onluk sırada, 150 bölüm, mahalleler, 0. bölüm (Kemal, 5 Kasım 2026 gecesi; öneri)
+
+Kemal: "Hediyeleri 1 - 10 - 20 - 30 gibi bölümlerde ver ilk onda başka hediye istemiyorum"; "hediye sandığının içinde neden bir hediye kutusu var sil onu yalnızca ışık kalsın"; "muzlu sütü take away yap pipetli ve üzerine etiket olarak muz koy"; "kaç adet yeni ürünümüz varsa ona göre onluk sistemde yeni bölüm hazırla". Soru turunda: "0. Bölüm yap istersen tutorial gibi onu yenince hediyeyi ver ve 1. Bölüme geç"; "1'er 1'er"; "150 bölüm"; "İpuçlu kolay bölüm"; sandık "Birlikte kalsın"; "Künyedeki yerleri kullan bir mahalleye de 30'ar bölüm koyabilirsin".
+
+- Oyun 3 dondurmayla başlar (çikolata, çilek, limon). 15 hediye birer birer gelir: 0. bölüm kazanılınca limonata, 10. bölümde fıstık, sonra her 10 bölümde bir: pasta, gazoz, vanilya, kek, çay, sakızlı, meyve, Türk kahvesi, sütlaç, muzlu süt, lokma, profiterol, baklava (140. bölüm). "Yeni ürün!" penceresi yalnız bunlarda çıkar. Sıra (dondurma, içecek, tatlı karışık) ekibin önerisi; değiştirilebilir.
+- Her bölüm, o ana kadar açılmış ürünlerden seçer; yeni gelen ürün hediyeden sonraki bölümde mutlaka vardır.
+- Sandık her 10 bölümde hediyeyle birlikte kalır. Açık sandık yalnız ışık (içinde kutu yok; Canva'da yeniden çizildi).
+- Muzlu süt: pipetli, kapaklı karton bardak, üstünde muz etiketi (Canva).
+- 150 bölüm; 5 mahalle × 30 bölüm, her biri kendi renginde: Liman 1–30 (mor), Stadyum 31–60 (deniz mavisi), Çiftlik 61–90 (zeytin yeşili), İskele 91–120 (şeftali), Merkez 121–150 (gül pembesi). Yer adları künyeden.
+- 0. bölüm (öğretici): Liman sayfasının ilk kutusu; Başla'ya ilk kez basınca açılır. Kolay (3 müşteri, 3 dondurma), bir el işareti dokunulacak sütunu gösterir, kaybedilmez (kaybederse sessizce yeniden başlar), can harcatmaz. Kazanınca limonata hediyesi, "Devam et" ile 1. bölüm.
+- 0–150 bütün bölümler kazanılabilir kuruluyor (bilgisayarda denendi). Sayılar deneme.
+- Ekran görüntüleri: `docs/ekran/ogretici-ve-mahalleler/`. Telefonda denenmedi.
+
 ### 0.31 Düzada durakları, yeni tatlılar, sade Türk kahvesi, muzlu süt (Kemal, 5 Kasım 2026 gecesi; öneri)
 
 Bölümler ekranı (araştırma ve soru turu; Kemal: "Düzada durakları (Önerilen)"):
