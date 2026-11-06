@@ -5,7 +5,7 @@
 // satır dizilir ve yalnız kutular kayar. 1. bölüm en üstte solda. Bölüm sayısı
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
-import { BOLUM_SAYISI, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru } from './ayarlar';
+import { BOLUM_SAYISI, MAHALLE_ACMA_YILDIZ, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleYildizi } from './ayarlar';
 import { ogreticiBittiMi, type Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -32,9 +32,15 @@ function svgOge<K extends keyof SVGElementTagNameMap>(ad: K, nitelik: Record<str
 const KILIT_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><rect x="5" y="10" width="14" height="11" rx="3" fill="currentColor"/></svg>';
 
+// Ana sayfa (ev) simgesi; oyun.ts de kullanır.
+export const EV_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10.5V19a1 1 0 0 0 1 1h3.5v-5h3v5H17a1 1 0 0 0 1-1v-8.5" fill="currentColor"/></svg>';
+
 export interface HaritaSecenekleri {
   bolumSec: (no: number) => void;
   geri: () => void;
+  anaSayfa: () => void;
+  kilitliMahalle: (m: number) => void; // kilitli sonraki mahalle okuna basınca
   bittiYazisi: string | null; // bütün bölümler bittiyse gösterilen yazı
 }
 
@@ -66,7 +72,14 @@ export function haritaCiz(
   const baslikKutu = document.createElement('div');
   baslikKutu.className = 'durak-baslik';
   baslikKutu.append(baslik, ilerleme);
-  ust.append(geri, baslikKutu);
+  // Geri okunun yanında ev: doğrudan giriş ekranına (Kemal, 6 Kasım).
+  const ev = document.createElement('button');
+  ev.className = 'harita-ev kose-dugme yuvarlak mor ev-dugme';
+  ev.id = 'harita-ev';
+  ev.setAttribute('aria-label', 'Ana sayfa');
+  ev.innerHTML = EV_SVG;
+  ev.addEventListener('click', s.anaSayfa);
+  ust.append(geri, ev, baslikKutu);
   kutu.appendChild(ust);
 
   if (s.bittiYazisi) {
@@ -88,6 +101,8 @@ export function haritaCiz(
   // açılınca kaldığın bölümün sayfası gelir. Altta önceki / sonraki sayfa düğmeleri.
   const sayfaSayisi = Math.ceil(BOLUM_SAYISI / SAYFADA_BOLUM);
   let sayfa = Math.floor((acik - 1) / SAYFADA_BOLUM);
+  // Kaldığın bölümün mahallesi kilitliyse (yıldız yetmedi) açık son mahalleden açılır.
+  while (sayfa > 0 && !mahalleAcikMi(kayit.yildizlar, sayfa)) sayfa--;
   const alt = document.createElement('div');
   alt.className = 'sayfa-alt';
   const okDugme = (yon: -1 | 1) => {
@@ -100,6 +115,10 @@ export function haritaCiz(
     d.addEventListener('click', () => {
       const yeni = sayfa + yon;
       if (yeni < 0 || yeni >= sayfaSayisi) return;
+      if (yon > 0 && !mahalleAcikMi(kayit.yildizlar, yeni)) {
+        s.kilitliMahalle(yeni);
+        return;
+      }
       sayfa = yeni;
       ciz();
       kaydir.scrollTop = 0;
@@ -110,7 +129,17 @@ export function haritaCiz(
   const sonraki = okDugme(1);
   const sayfaYazi = document.createElement('span');
   sayfaYazi.className = 'sayfa-yazi';
-  alt.append(onceki, sayfaYazi, sonraki);
+  // Kilitli okun kilidi ve altındaki yıldız sayacı.
+  const kilit = document.createElement('span');
+  kilit.className = 'ok-kilit';
+  kilit.innerHTML = KILIT_SVG;
+  sonraki.appendChild(kilit);
+  const sonrakiSayac = document.createElement('span');
+  sonrakiSayac.className = 'ok-sayac';
+  const sonrakiKutu = document.createElement('span');
+  sonrakiKutu.className = 'sonraki-kutu';
+  sonrakiKutu.append(sonraki, sonrakiSayac);
+  alt.append(onceki, sayfaYazi, sonrakiKutu);
 
   let simdiki: HTMLButtonElement | null = null;
   const ciz = () => {
@@ -127,6 +156,11 @@ export function haritaCiz(
   ilerleme.textContent = `${gecilen}/${son - ilk + 1}`;
   onceki.disabled = sayfa === 0;
   sonraki.disabled = sayfa >= sayfaSayisi - 1;
+  // Sonraki mahalle kilitliyse: okta kilit ve altında yıldız sayacı (Kemal, 6 Kasım).
+  const sonrakiKilitli = sayfa < sayfaSayisi - 1 && !mahalleAcikMi(kayit.yildizlar, sayfa + 1);
+  sonraki.classList.toggle('kilitli-ok', sonrakiKilitli);
+  sonrakiSayac.hidden = !sonrakiKilitli;
+  sonrakiSayac.textContent = `★ ${mahalleYildizi(kayit.yildizlar, sayfa)}/${MAHALLE_ACMA_YILDIZ}`;
   alt.dataset.sayfa = String(sayfa + 1);
   // Liman'ın başında 0. bölüm (ipuçlu başlangıç): hep açık, tekrar oynanabilir.
   if (sayfa === 0) {

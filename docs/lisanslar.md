@@ -14,9 +14,10 @@ yalnız yazılı tarif kullanıldı.
 | Klasör / dosya | Ne | Canva'daki resim |
 |---|---|---|
 | `public/gorseller/urunler/` (gazoz hariç) | 12 ürün: 5 dondurma topu, dilim pasta, küçük kek, kâsede meyve, limonata, kahve, çay | https://www.canva.com/M/MAHZYrTnF6w |
-| `public/gorseller/urunler/gazoz.webp` | Gazoz şişesi (ilk çizim kolaya benzediği için yeniden çizildi) | https://www.canva.com/M/MAHZYpAngJY |
+| `public/gorseller/urunler/gazoz.webp` | Gazoz şişesi. 6 Kasım 2026'da Birlik Zeytin etiketinden (KKM, Kemal'in markası) renk ve şekil esinli, yazısız etiketle yeniden çizildi; "DK Lite çalışma" tasarımının 20. sayfası. İlk çizim: https://www.canva.com/M/MAHZYpAngJY | https://www.canva.com/M/MAHaJJ059oU (saydam: MAHaJJwDGiQ) |
 | `public/gorseller/musteriler/` | 10 müşteri, tam boy (baştan ayağa; 30 Ekim, belden yukarı çizimler örnek verilerek yeniden çizildi) | https://www.canva.com/M/MAHZZvKWZio (1–5), https://www.canva.com/M/MAHZZnt6WHU (6–10) |
 | `public/gorseller/musteriler/musteri-11.webp` … `musteri-20.webp` | 10 yeni müşteri (5 Kasım 2026 gecesi; farklı kökenler, ten renkleri, saçlar, yaşlar). Canva'nın resim üretme aracıyla yazıyla tarif edilerek çizildi, arka planı Canva'da silindi; "DK Lite çalışma (7. paket görselleri)" tasarımının 19. sayfası ("Yeni müşteriler"), Kemal'in izniyle | https://www.canva.com/M/MAHaFkfZWuE (11–15), https://www.canva.com/M/MAHaFuiDZGA (16–20); saydam hâlleri MAHaFg-nUxk, MAHaFoQyQAo |
+| `public/gorseller/musteriler/musteri-12.webp` (6 Kasım'da yeniden), `musteri-21.webp` | 12: fularlı orta yaşlı kadın (eski uzun elbiseli çizimin yerine; Kemal: "ferace sevmiyorum"); 21: yazmalı nene. Canva, yazıyla tarif edilerek; arka planı Canva'da silindi; "DK Lite çalışma" tasarımının 20. sayfası | https://www.canva.com/M/MAHaJBK4npc (12; saydam MAHaJGeJ300), https://www.canva.com/M/MAHaJEeUGBY (21; saydam MAHaJM-2C6g) |
 | `public/gorseller/tezgah/dondurmaci.webp` | Tezgâhtaki dondurmacı (sarı tişört, mor önlük, mor kasket) | https://www.canva.com/M/MAHZYsbgjPQ |
 | `public/gorseller/kulah.webp` | Bantta dondurma topunun altındaki külah | https://www.canva.com/M/MAHZYtoyWcc |
 | `public/gorseller/bar/` | Bar rafındaki kafe eşyaları: kahve makinesi, bardaklar, şeker kavanozu, külah yığını, iki şurup şişesi, saksı, kâse | https://www.canva.com/M/MAHZYp3Zon8 |

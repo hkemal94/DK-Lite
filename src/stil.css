@@ -2260,7 +2260,7 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 
 /* Yardımcı ödül penceresi */
 .odul-sahne { position: relative; height: 130px; display: flex; align-items: center; justify-content: center; }
-.odul-sahne .odul-isik { margin-top: -85px; }
+.odul-sahne .odul-isik { width: 140px; height: 140px; margin: -70px 0 0 -70px; }
 .yardim-buyuk {
   position: relative;
   width: 92px;
@@ -2333,3 +2333,96 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .album-urun.kapali .album-ad { color: #8b7a66; }
 /* Giriş ekranının üstünde açılan pencereler (günlük ödül, albüm, ödülleri). */
 #kok > .odul-ortu { z-index: 44; }
+/* Hediye can (5'in üstü): altın kalp */
+.can-gosterge.hediye .can-kalp svg path:first-child { fill: #f2b616; }
+
+/* Ana sayfa (ev) düğmeleri */
+.ev-dugme svg { width: 22px; height: 22px; color: #fff; }
+.harita-ev { position: absolute; left: 62px; top: 50%; transform: translateY(-50%); border: 2px solid var(--hat); }
+.sonuc-ev { position: absolute; top: -16px; left: -12px; width: 42px; height: 42px; z-index: 3; }
+#menu-ana-sayfa svg { width: 20px; height: 20px; margin-right: 6px; vertical-align: -3px; color: var(--mor); }
+#birak-evet svg { width: 20px; height: 20px; margin-right: 6px; vertical-align: -3px; color: #fff; }
+.birak-not { text-align: center; line-height: 1.4; opacity: 0.85; }
+#birak-onay .son-dugmeler .dugme { min-width: 0; flex: 1; }
+
+/* ---------- Mahalle kilidi (Kemal, 6 Kasım) ---------- */
+.sonraki-kutu { position: relative; display: inline-flex; flex-direction: column; align-items: center; }
+.sayfa-ok { position: relative; }
+.ok-kilit { display: none; }
+.sayfa-ok.kilitli-ok { background: #8a7a9c; }
+.sayfa-ok.kilitli-ok .geri-ok { opacity: 0.45; }
+.sayfa-ok.kilitli-ok .ok-kilit {
+  display: flex;
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffc83d;
+  border: 2px solid var(--hat);
+  align-items: center;
+  justify-content: center;
+  color: var(--hat);
+}
+.ok-kilit svg { width: 13px; height: 13px; }
+.ok-sayac {
+  position: absolute;
+  top: 100%;
+  margin-top: 2px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffd23f;
+  text-shadow: 0 1px 0 var(--mor);
+}
+.ok-sayac[hidden] { display: none; }
+.mahalle-kilit-simge { display: flex; justify-content: center; }
+.mahalle-kilit-simge svg { width: 64px; height: 64px; filter: drop-shadow(0 3px 0 rgba(40, 14, 60, 0.35)); }
+.mahalle-cubuk { position: relative; height: 26px; border-radius: 99px; background: #eadcc4; border: 2px solid var(--hat); overflow: hidden; }
+.mahalle-cubuk-dolu { position: absolute; inset: 0 auto 0 0; background: linear-gradient(#ffd96a, #f2b616); }
+.mahalle-cubuk span { position: relative; display: block; text-align: center; line-height: 22px; font-weight: 800; color: var(--mor); }
+.mahalle-not { text-align: center; line-height: 1.35; font-size: 13px; }
+.mahalle-bolumler { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.mahalle-bolum {
+  border-radius: 12px;
+  border: 2px solid var(--hat);
+  background: #fff;
+  box-shadow: 0 3px 0 #d8c39f;
+  padding: 4px 0 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font: inherit;
+}
+.mahalle-bolum b { font-size: 17px; color: var(--mor); }
+.mahalle-bolum span { font-size: 10px; color: #e2a400; letter-spacing: -1px; }
+
+/* Işık haleleri pencerenin başlığına taşmaz (Kemal, 6 Kasım: "Sarı hale üstteki yazıya geliyor"):
+   hale kenarlara doğru tamamen silinir, sahnesinin içinde kalacak boyda; başlık her zaman üstte. */
+.odul-isik, .sandik-isik, .sandik-sahne::before {
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 55%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 55%, transparent 100%);
+  z-index: 0;
+}
+.odul-urun .odul-isik { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
+.sandik-isik { width: 200px; height: 200px; margin: -100px 0 0 -100px; }
+.sandik-sahne::before { width: 170px; height: 170px; margin: -85px 0 0 -85px; }
+.pencere-baslik { z-index: 10; }
+.odul-kutu > *:not(.pencere-baslik):not(.kapat-x):not(.sonuc-ev) { position: relative; }
+/* Ekran denetiminin bulduğu sorunlar (6 Kasım) */
+.sonraki-kutu { flex-direction: row; gap: 6px; }
+.ok-sayac { position: static; margin: 0; }
+.sayfa-alt { gap: 14px; }
+.mahalle-sonraki { text-align: center; font-size: 17px; margin-top: -6px; }
+@media (max-width: 400px) {
+  .pencere-baslik { padding-left: 20px; padding-right: 20px; font-size: 20px; }
+}
+.odul-sahne { margin-top: 10px; }
+.odul-sahne .odul-isik { width: 124px; height: 124px; margin: -62px 0 0 -62px; }
+#birak-onay .son-dugmeler .dugme { white-space: nowrap; font-size: 16px; padding-left: 8px; padding-right: 8px; }
+#birak-onay .son-dugmeler { gap: 10px; }
+#birak-evet svg { margin-right: 4px; }
+.odul-ortu > .odul-kutu#x, #birak-onay > .odul-kutu { width: min(320px, calc(100vw - 32px)); }
+#birak-onay .son-dugmeler { align-self: stretch; }

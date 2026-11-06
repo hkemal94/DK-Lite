@@ -9,7 +9,7 @@
 // Canlar telefonda saklanır (kayıttan ayrı). Saklama çalışmazsa canlar bu açılış
 // boyunca bellekte durur.
 
-import { CAN_DOLUM_DK, CAN_EN_COK } from './ayarlar';
+import { CAN_DOLUM_DK, CAN_EN_COK, HEDIYE_CAN_EN_COK } from './ayarlar';
 
 const ANAHTAR = 'dk-lite-can';
 const DOLUM_MS = CAN_DOLUM_DK * 60 * 1000;
@@ -91,10 +91,12 @@ export function sonrakiCanaKalan(simdi = Date.now()): number {
   return Math.max(0, d.sonDolum + DOLUM_MS - simdi);
 }
 
-// Sandık ödülleri.
+// Hediye can (günlük ödül, sandık): dolu canın üstüne de verilir, ama en çok
+// HEDIYE_CAN_EN_COK'a kadar (Kemal, 6 Kasım: "En çok 6'ya çıksın ... dolan can
+// maksimum 5 olsun"). Sınırdayken gelen can boşa gider.
 export function canEkle(adet: number, simdi = Date.now()): void {
   const d = canDurumu(simdi);
-  d.can += adet;
+  d.can = Math.min(Math.max(d.can, d.can + adet), Math.max(d.can, HEDIYE_CAN_EN_COK));
   if (d.can >= CAN_EN_COK) d.sonDolum = simdi;
   yaz(d);
 }
