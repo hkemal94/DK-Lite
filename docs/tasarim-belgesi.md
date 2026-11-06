@@ -30,6 +30,15 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.37 Müşteri tonları, ince yardımcı şeridi, siparişler yan yana (Kemal, 6 Kasım 2026; öneri)
+
+Kemal telefonda (yaklaşık 450x1000, Bölüm 14) üç şey gördü ve çözümleri seçti.
+- **Müşteri tonları** ("önce eşitle"): çizimler aynı kaldı, yalnız tonlar eşitlendi. Her kişinin beyaz bölgelerinin rengi (krem ile kar beyazı arası kırık beyaz), çizgilerinin koyuluğu, genel parlaklığı ve renk canlılığı ölçüldü ve ortak bir hedefe çekildi; saydam kenarlar aynı. Bir kişinin düzeltmesi onun bütün renk ve desen çeşitlerine de uygulandı (89 resim). Parlaklık ve canlılık kıyafete ve tene de bağlı olduğu için (siyah tişört, açık mavi elbise) bu ikisi sınırlı çekildi; tam eşitleme çizimi bozardı. Araç: `araclar/musteri_ton.py` (`olc` yalnız ölçer, `esitle` düzeltir; eşitlenen dosyaya ikinci kez dokunmaz, kayıt `araclar/musteri_ton_kayit.json`). Orijinaller git geçmişinde.
+- **Yardımcı düğmeleri** ("ince şerit"): alttaki 5 düğme eskisinin yaklaşık yarı boyu (46 px'ten 26 px'e), tek ince sıra; sayı rozetleri duruyor; dokunma alanı görünmez kenarla 44 px. Şerit 26 px kısaldı, yer sütunlara gitti; sütundaki dondurmaların üst sınırı 54 px'ten 68 px'e çıktı (450x1000'de 50 px'ten 64 px'e büyüdü).
+- **Siparişler yan yana** ("siparişler yan yana"): iki çeşit isteyen müşterinin siparişleri balonda yan yana; kalan adet simgenin köşesinde küçük mor rozet. Balon herkeste aynı yükseklikte, bütün müşteriler aynı boyda görünür (önceden iki siparişli müşteri 32 px aşağıda kalıyordu). Tek siparişli balon eskisi gibi (simge ve yanında "×4").
+- Üç ve dört çeşit oyunda şimdilik yok (bölümler en çok iki çeşit kuruyor). Elle denendi: üç çeşit 450 genişlikte okunuyor ama simgeler küçük (17 px), 360 genişlikte rozetler sıkışık; dört çeşit okunmuyor. İleride üç çeşit gelirse balonun genişlemesi gerekir ([Kemal] kararı).
+- Bilgisayarda telefon boyutunda (450x1000, 390x844, 360x640) denendi; gerçek telefonda denenmedi. Ekran görüntüleri: `docs/ekran/ton-dugme-balon/`.
+
 ### 0.36 Kemal'in 6 Kasım listesi (öneri)
 
 Kemal (6 Kasım): "Yazdıklarımı direkt yapma, ben sana tamam dediğimde toplu halledersin." Liste soru turlarıyla netleşti; "Bunları bir hazırla bakalım" ile yapıldı.
