@@ -42,6 +42,7 @@ Kemal (6 Kasım): "Yazdıklarımı direkt yapma, ben sana tamam dediğimde toplu
 - **Hazır ürün etiketi:** gazoz şişesinde Birlik Zeytin etiketinden (KKM) esinli etiket: üstü kavisli pano, krem zemin, lacivert çerçeve, üstte kiremit alan, birkaç kabarcık; yazı, ağaç, ay yıldız yok. İleride gelecek şişe/kutu ürünler aynı etiket ailesinden.
 - **Can sınırı:** zamanla dolan can en çok 5. Hediyeler (günlük ödül, sandıktaki +1) 6'ya kadar çıkarır; 6'dayken gelen +1 boşa gider. "Canlar doldu" 5 yapar (6 varsa 6 kalır). 6. can altın kalp.
 - **Müşteriler:** 12. kişi yeniden çizildi: orta yaşlı, başı fular gibi şehirli eşarpla kapalı, hardal ceket, krem tişört, bol zeytin yeşili pantolon (Kemal: "ferace sevmiyorum"). 21. kişi: gevşek bağlı oyalı yazmalı nene. Toplam 21 kişi.
+- 12. kişi, sonra (Kemal: "Boyun göğüs arasının kapalı olması lazım. Fuları aşağı indir biraz, yanda bağlı olmasın, atkı gibi sağa sola atsın"): fular yanda düğümsüz, uçları atkı gibi iki omzun üstüne atılı; boyun ve göğüs arası kapalı. Önce/sonra: `docs/ekran/yeni-liste/fular-boyun-once-sonra.png`.
 - Bilgisayarda telefon boyutunda denendi; gerçek telefonda denenmedi. Ekran görüntüleri: `docs/ekran/yeni-liste/`, `docs/ekran/denetim/`.
 
 ### 0.35 Müşteri çeşitliliği: desenler ve 10 yeni kişi (Kemal, 5 Kasım 2026 gecesi; öneri)
