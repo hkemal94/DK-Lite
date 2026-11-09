@@ -30,6 +30,15 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.40 Sipariş balonu, mağaza sekmeleri (Kemal, 9 Kasım 2026; öneri)
+
+- **Sipariş balonundaki koyu yuvarlaklar** (Kemal: "bunları kaldır"): iki çeşit isteyen müşterinin balonundaki küçük adet işareti, yeni rozetlerin görünüşünü almıştı (aynı adı taşıyordu); düzeldi, balonda yine küçük "×2" işareti var.
+- **Mağaza ve albümde sekme değişince** pencere yeniden açılır gibi olmuyor; yalnız içi değişir.
+- **"Yakında" sekmesi kaldırıldı** (Kemal: "onu yalnızca biz bilelim"): ürün kaplamaları, müşteri kaplamaları, oyun temaları sonraki iş olarak burada durur; oyuncu görmez. Mağazada üç sekme kaldı (Temalar, Kostüm, Yardım), yazıyla sığıyor; simgeye gerek olmadı.
+- **Eski yıldızların parası** (Kemal: "Bir kerelik ver"): para gelmeden önce toplanan her yıldız için oyun açılınca bir kez 10 para (DENEME) verilir. 0.39 ile 0.40 arasında oynanan bölümlerin yıldızları iki kez sayılabilir (birkaç yıldız).
+- **Temalar daha belirgin** (Kemal: "Tente ve tezgâh da değişsin"; "barın içindeki duvar rengi değişebilir"): tema; bant, barın içindeki duvar, üst şerit ve sütunların rengini de değiştirir. Tente ve tezgâhın önündeki mor-sarı çizgiler marka rengi, hiçbir temada değişmez (Kemal: "Tentelerin mor sarı çizgisi değişmesin onlar marka rengi"). Pencereler ve düğmeler aynı kalır. Renkleri ekip seçti. Görüntü: `docs/ekran/koleksiyon/temalar-oyunda.png`.
+- Gerçek telefonda denenmedi.
+
 ### 0.39 Para, mağaza, rozetler, kartpostallar, İngilizce, kostümler (Kemal, 9 Kasım 2026; öneri)
 
 - **3 yıldız kolaylaştı** (Kemal: "Hedef %15 büyüse yeter gibi"): hamle hedefi %15 büyüdü.

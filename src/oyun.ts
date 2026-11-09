@@ -424,6 +424,13 @@ export class Oyun {
     // 0. bölüm eklenmeden önce oynamaya başlayanlarda "0. bölüm bitti" kaydı yok; ilerisi
     // açıksa bitmiş sayılır (Kemal, 9 Kasım: "devam et diyince 0. bölümden başlıyor").
     if (!ogreticiBittiMi() && (this.kayit.acik > 1 || this.kayit.yildizlar.some((y) => y > 0))) ogreticiBitti();
+    // Para gelmeden önce toplanan yıldızlar için bir kerelik para (Kemal, 9 Kasım: "Bir kerelik ver").
+    const kol = koleksiyon();
+    if (!kol.eskiYildizParasi) {
+      kol.eskiYildizParasi = true;
+      kol.para += this.kayit.yildizlar.reduce((a, y) => a + (y > 0 ? y : 0), 0) * YILDIZ_PARASI;
+      koleksiyonKaydet();
+    }
     this.iskeletKur();
     // Oyun açılınca önce giriş ekranı gelir (Kemal, 22 Ekim). Arkada kaldığı
     // bölüm hazır durur ama başlamaz; "Başla" ile başlar.
@@ -1632,7 +1639,7 @@ export class Oyun {
         satir.className = 'istek-satir' + (p.kalan === 0 ? ' tamam' : '');
         satir.appendChild(this.topElKur(p.cesit, coklu ? cokluBoy : istekBoy));
         const adet = document.createElement('span');
-        adet.className = coklu ? 'adet rozet' : 'adet';
+        adet.className = coklu ? 'adet adet-kose' : 'adet';
         adet.textContent = p.kalan === 0 ? '✓' : `×${p.kalan}`;
         satir.appendChild(adet);
         istek.appendChild(satir);
@@ -2587,7 +2594,7 @@ export class Oyun {
   // Albüm (Kemal, 9 Kasım): sekmeler Ürünler · Rozetler · Kartpostallar. Açılmamış ürünler
   // yalnız "?" (Kemal: "kaçıncı bölümde açılacakları yazmasın, sürpriz olsun").
   private albumAc(sekme: 'urun' | 'rozet' | 'kart' = 'urun') {
-    this.kok.querySelector('#album')?.remove();
+    const eskiAlbum = this.kok.querySelector('#album');
     const ort = odulOrtusu('album', t('Albüm'));
     ort.classList.add('album-ortu');
     const kutu = ort.firstElementChild as HTMLDivElement;
@@ -2684,12 +2691,13 @@ export class Oyun {
     }
     sayac.textContent = `${acikSayi} / ${toplam}`;
     kutu.append(sekmeler, sayac, izgara);
-    this.kok.appendChild(ort);
+    pencereYerlestir(this.kok, ort, eskiAlbum);
   }
 
-  // Mağaza (Kemal, 9 Kasım): arka plan temaları, yardımcılar, can; kaplamalar "Yakında".
-  private magazaAc(sekme: 'tema' | 'kostum' | 'yardim' | 'yakinda' = 'tema') {
-    this.kok.querySelector('#magaza')?.remove();
+  // Mağaza (Kemal, 9 Kasım): arka plan temaları, kızın kostümleri, yardımcılar, can.
+  // Kaplamalar (ürün, müşteri, oyun teması) sonraya; oyuncu görmez (Kemal: "yalnızca biz bilelim").
+  private magazaAc(sekme: 'tema' | 'kostum' | 'yardim' = 'tema') {
+    const eskiMagaza = this.kok.querySelector('#magaza');
     const ort = odulOrtusu('magaza', t('Mağaza'));
     ort.classList.add('album-ortu');
     const kutu = ort.firstElementChild as HTMLDivElement;
@@ -2697,7 +2705,7 @@ export class Oyun {
     kutu.appendChild(kapatDugme('magaza-kapat', () => ort.remove()));
     const sekmeler = document.createElement('div');
     sekmeler.className = 'album-sekmeler';
-    const sekmeDugme = (ad: string, s2: 'tema' | 'kostum' | 'yardim' | 'yakinda') => {
+    const sekmeDugme = (ad: string, s2: 'tema' | 'kostum' | 'yardim') => {
       const d = document.createElement('button');
       d.className = 'album-sekme' + (s2 === sekme ? ' secili' : '');
       d.dataset.sekme = s2;
@@ -2705,7 +2713,7 @@ export class Oyun {
       d.addEventListener('click', () => this.magazaAc(s2));
       return d;
     };
-    sekmeler.append(sekmeDugme(t('Temalar'), 'tema'), sekmeDugme(t('Kostüm'), 'kostum'), sekmeDugme(t('Yardım'), 'yardim'), sekmeDugme(t('Yakında'), 'yakinda'));
+    sekmeler.append(sekmeDugme(t('Temalar'), 'tema'), sekmeDugme(t('Kostüm'), 'kostum'), sekmeDugme(t('Yardım'), 'yardim'));
     const para = paraGostergesi();
     para.classList.add('magaza-para');
     const izgara = document.createElement('div');
@@ -2790,17 +2798,9 @@ export class Oyun {
             yenile();
           }
         : null);
-    } else {
-      // Yolu açık, içerik sonra (Kemal: "bunlar ekstra işler şu an için sadece yolu açılsın").
-      for (const ad of [t('Ürün kaplamaları'), t('Müşteri kaplamaları'), t('Oyun temaları')]) {
-        const g = document.createElement('div');
-        g.className = 'yakinda-simge';
-        g.textContent = '?';
-        urunKart('yakinda', g, ad, t('Yakında'), null, null);
-      }
     }
     kutu.append(sekmeler, para, izgara);
-    this.kok.appendChild(ort);
+    pencereYerlestir(this.kok, ort, eskiMagaza);
     this.canCiz();
   }
 
@@ -3088,6 +3088,15 @@ function kapatDugme(id: string, is: () => void): HTMLButtonElement {
 const CAN_DOLUM_DK_YAZI = String(CAN_DOLUM_DK);
 
 // Ödül penceresinin örtüsü ve kutusu (başlık şeridiyle).
+// Sekme değişince pencere yeniden açılır gibi olmasın (Kemal, 9 Kasım): eski pencere varsa
+// yenisi onun yerine, açılış hareketi olmadan konur.
+function pencereYerlestir(kok: HTMLElement, ort: HTMLDivElement, eski: Element | null) {
+  if (eski) {
+    ort.classList.add('hareketsiz');
+    eski.replaceWith(ort);
+  } else kok.appendChild(ort);
+}
+
 function odulOrtusu(id: string, baslik: string): HTMLDivElement {
   const ort = document.createElement('div');
   ort.className = 'odul-ortu';

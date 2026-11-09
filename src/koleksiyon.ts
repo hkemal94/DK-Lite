@@ -13,13 +13,14 @@ interface KoleksiyonKaydi {
   musteri: number; // toplam hizmet edilen müşteri
   enUzunSeri: number;
   gunlukSeri: number; // art arda alınan günlük ödül (en çok)
+  eskiYildizParasi: boolean; // para gelmeden önce toplanan yıldızların parası verildi mi
 }
 
 let bellek: KoleksiyonKaydi | null = null;
 
 export function koleksiyon(): KoleksiyonKaydi {
   if (bellek) return bellek;
-  const k: KoleksiyonKaydi = { para: 0, temalar: ['mor'], tema: 'mor', kostumler: ['klasik'], kostum: 'klasik', rozetler: [], musteri: 0, enUzunSeri: 0, gunlukSeri: 0 };
+  const k: KoleksiyonKaydi = { para: 0, temalar: ['mor'], tema: 'mor', kostumler: ['klasik'], kostum: 'klasik', rozetler: [], musteri: 0, enUzunSeri: 0, gunlukSeri: 0, eskiYildizParasi: false };
   try {
     const h = JSON.parse(window.localStorage.getItem(ANAHTAR) ?? 'null') as Partial<KoleksiyonKaydi> | null;
     if (h) {
@@ -33,6 +34,7 @@ export function koleksiyon(): KoleksiyonKaydi {
       if (Array.isArray(h.rozetler)) k.rozetler = h.rozetler.filter((r) => typeof r === 'string');
       if (Number.isFinite(h.musteri)) k.musteri = Math.max(0, Math.floor(h.musteri!));
       if (Number.isFinite(h.enUzunSeri)) k.enUzunSeri = Math.max(0, Math.floor(h.enUzunSeri!));
+      if (h.eskiYildizParasi === true) k.eskiYildizParasi = true;
       if (Number.isFinite(h.gunlukSeri)) k.gunlukSeri = Math.max(0, Math.floor(h.gunlukSeri!));
     }
   } catch {

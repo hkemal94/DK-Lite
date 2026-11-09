@@ -55,6 +55,7 @@ const DURUMLAR = [
   ['bolumler-liman', kayitKur({ acik: 31, yildiz: 2, kadar: 30 }), "o.listeAc('giris')", 600],
   ['mahalle-kilit', kayitKur({ acik: 31, yildiz: 2, kadar: 30 }), 'o.mahalleKilitPenceresi(1)', 500],
   ['oyun-1', kayitKur(), 'o.bolumBaslat(1)', 2500],
+  ['oyun-23-coklu-istek', kayitKur({ acik: 23, kadar: 22 }), 'o.bolumBaslat(23)', 2500],
   ['oyun-91-aceleci', kayitKur({ acik: 91, kadar: 90 }), "o.bolumBaslat(91); document.querySelector('#tanitim .odul-tamam')?.click()", 4000],
   ['tanitim-121', kayitKur({ acik: 121, kadar: 120 }), 'o.bolumBaslat(121)', 900],
   ['duraklat', kayitKur(), 'o.bolumBaslat(1); o.duraklat()', 900],
