@@ -2654,3 +2654,30 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .tema-ornek[data-tema="kis"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #dcecf7 30%); }
 .kart-izgara .kartpostal { height: 90px; }
 .kart-buyuk.kartpostal { height: 150px; }
+
+/* ---------- Ekranda boşluk kalmasın (Kemal, 9 Kasım: "Ekranlarda boşluk kalmaması ve dolu olması
+   benim için önemli") ---------- */
+/* Albüm ve mağaza penceresi ekranın boyunu doldurur; içindekiler kalan yere yayılır. */
+.odul-ortu > .odul-kutu.album-kutu { height: calc(100% - 64px); display: flex; flex-direction: column; gap: 10px; }
+.album-kutu .album-izgara { flex: 1; min-height: 0; grid-auto-rows: 1fr; align-content: stretch; }
+.album-kutu .album-urun { justify-content: center; }
+.kart-izgara .kartpostal { height: auto; min-height: 90px; }
+/* Son satır eksik kalırsa son öğe kalan yeri kaplar (ör. 10 kartta 10. kart, 7 yardımda can). */
+.album-izgara > :last-child:nth-child(3n + 1) { grid-column: span 3; }
+.album-izgara > :last-child:nth-child(3n + 2) { grid-column: span 2; }
+/* Giriş ekranı: logo ve düğmeler ekranın boyuna göre büyür, altta boş yer kalmaz. */
+.giris-kutu { width: min(300px, calc(100% - 48px)); gap: clamp(14px, 2.6vh, 26px); padding-top: clamp(40px, 9vh, 90px); }
+.giris-ad { width: min(330px, calc(100vw - 56px), 46vh); margin-bottom: clamp(26px, 5vh, 52px); }
+.giris-kutu .dugme { font-size: clamp(18px, 2.7vh, 24px); padding-top: clamp(10px, 1.8vh, 16px); padding-bottom: clamp(14px, 2.4vh, 21px); }
+.giris-kutu #giris-basla { font-size: clamp(24px, 3.6vh, 32px); padding-top: clamp(13px, 2.2vh, 20px); padding-bottom: clamp(19px, 3vh, 27px); }
+/* Kutular büyüyünce içindeki resim de büyür (kutunun boyuna göre). */
+.album-kutu .magaza-urun, .album-kutu .album-rozet { container-type: size; }
+.album-kutu .kostum-ornek { height: 62cqh; width: auto; max-width: 96%; }
+.album-kutu .tema-ornek { height: 52cqh; width: min(80cqw, 52cqh); }
+.album-kutu .magaza-yardim { width: min(62cqw, 46cqh); height: min(62cqw, 46cqh); }
+.album-kutu .magaza-yardim svg { width: 70%; height: 70%; }
+.album-kutu .magaza-kalp { width: min(66cqw, 46cqh); height: min(62cqw, 43cqh); }
+.album-kutu .album-rozet .album-simge { width: min(72cqw, 52cqh); height: min(72cqw, 52cqh); }
+.album-kutu .album-rozet .rozet { width: 100%; height: 100%; }
+.album-kutu .album-rozet .rozet span { font-size: min(13cqw, 11cqh); }
+.album-kutu .album-izgara { align-self: stretch; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }

@@ -24,4 +24,6 @@ birleştirir. Ana dala yazılmaz, zorla gönderilmez.
 - Dondurmacı Kızlar deposundaki oyun ayarları (fiyat, süre, oran) buraya taşınmaz.
 - Örnek alınan oyunların görseli, karakteri, adı kopyalanmaz; yalnız oynanış türü örnektir.
 - Her PR yol haritasını günceller; KKM'nin oyun sayfası onu canlı okur.
+- Ekranlarda boş yer kalmaz; pencereler ve ızgaralar ekranı doldurur (Kemal, 9 Kasım 2026:
+  "Ekranlarda boşluk kalmaması ve dolu olması benim için önemli").
 - Kararı verilmemiş konu: sor, seçme. Açık sorular tasarım belgesinin 7. bölümünde.
