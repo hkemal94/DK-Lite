@@ -39,6 +39,19 @@ Kemal telefonda (yaklaşık 450x1000, Bölüm 14) üç şey gördü ve çözüml
 - Üç ve dört çeşit oyunda şimdilik yok (bölümler en çok iki çeşit kuruyor). Elle denendi: üç çeşit 450 genişlikte okunuyor ama simgeler küçük (17 px), 360 genişlikte rozetler sıkışık; dört çeşit okunmuyor. İleride üç çeşit gelirse balonun genişlemesi gerekir ([Kemal] kararı).
 - Bilgisayarda telefon boyutunda (450x1000, 390x844, 360x640) denendi; gerçek telefonda denenmedi. Ekran görüntüleri: `docs/ekran/ton-dugme-balon/`.
 
+### 0.37 Hamle ve puanlama (Kemal, 9 Kasım 2026; öneri)
+
+Kemal: "Bölümlerde hamle sayısının hiç önemi yok, sürekli bir şeylere basarak da bölüm geçilebiliyor ... sürekli 3 yıldız alınıyor." Ölçüm: rastgele dokunan otomatik oyuncu 1, 5, 10, 15, 25 ve 40. bölümleri 3 yıldızla geçti (yıldız yalnız puana bakıyordu, boşa dokunuşun bedeli yoktu). Kemal'in seçimi: üçü birlikte ("Hepsi olur"), eşik "Rahat", sınır "Hedefin 2 katı, 11. bölümden", hamle bitince "+5 hamle".
+- **Hamle:** top gönderme ve buz kırma. Yardımcı kullanmak ve sallanma (bant dolu, kilitli sütun) sayılmaz.
+- **Hedef hamle:** her bölümde oyun kendisi hesaplar: bölümü kuran çözücünün bulduğu yolun hamlesi + buz kırma dokunuşları, × 1,1 + 2 (DENEME). Örnek: 1. bölüm 39, 10. bölüm 87, 40. bölüm 166.
+- **Sayaç:** üst şeridin ikinci satırında, Bozulma yazısının yanında "23/39". Hedef aşılınca turuncu, 1 yıldıza düşünce kırmızı; sınırlı bölümde son 10 hamlede "Son 7" gibi kalan hamle.
+- **Yıldız:** hamle yıldızı (hedefe kadar 3, hedefin 1,5 katına kadar 2, fazlası 1) ile puan yıldızının düşük olanı.
+- **Boşa giden top:** hiçbir müşterinin istemediği her gönderiş 2 puan götürür (DENEME); "−2" kırmızı uçar.
+- **Hamle sınırı:** 11. bölümden itibaren hedefin 2 katı. Sınırda yeni hamle yapılamaz, "Hamle bitti" penceresi: elinde varsa "+5 hamle" ile devam, yoksa "Bitir" (bölüm kaybedilir, 1 can gider). 0.–10. bölümde sınır yok.
+- **Yeni 6. yardımcı "+5 hamle":** alttaki şeritte değil, yalnız hamle bitince sunulur; başta 1 tane; sandık, günlük ödül ve seriden de çıkar.
+- **Sonuç penceresi:** "Hamle 38 / 39" ve "Boşa giden top" satırları.
+- Bölümlerin dizilimi değişmedi; 0–150 hepsi kazanılabilir kuruluyor.
+
 ### 0.36 Kemal'in 6 Kasım listesi (öneri)
 
 Kemal (6 Kasım): "Yazdıklarımı direkt yapma, ben sana tamam dediğimde toplu halledersin." Liste soru turlarıyla netleşti; "Bunları bir hazırla bakalım" ile yapıldı.

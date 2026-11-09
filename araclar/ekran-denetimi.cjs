@@ -64,6 +64,7 @@ const DURUMLAR = [
   ['seri-odulu', kayitKur(), "o.odulSirasi([() => o.yardimciPenceresi('Seri ödülü!', 'karistir')], false, o.kok)", 900],
   ['gunluk-can', kayitKur(), "o.odulSirasi([() => o.canOdulPenceresi('+1 can', '+1')], false, o.kok)", 900],
   ['can-yok', kayitKur(), 'o.canYokGoster()', 500],
+  ['hamle-bitti', kayitKur({ acik: 12, kadar: 11 }), 'o.bolumBaslat(12); o.hamleBittiGoster()', 700],
 ];
 
 // Sayfada çalışan ölçüm: sorunların listesini verir.

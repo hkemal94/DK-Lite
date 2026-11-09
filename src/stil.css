@@ -2454,3 +2454,15 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 #birak-evet svg { margin-right: 4px; }
 .odul-ortu > .odul-kutu#x, #birak-onay > .odul-kutu { width: min(320px, calc(100vw - 32px)); }
 #birak-onay .son-dugmeler { align-self: stretch; }
+
+/* ---------- Hamle (Kemal, 9 Kasım) ---------- */
+#sayac-hamle .sayac-simge svg { color: var(--hat); }
+#sayac-hamle.iki-yildiz .sayac-deger { color: #d98a00; }
+#sayac-hamle.bir-yildiz .sayac-deger { color: #d6453d; }
+.ucan-ceza { color: #d6453d; font-weight: 800; font-size: 14px; text-shadow: 0 1px 0 #fff; }
+.hamle-simge { margin: 4px auto 0; }
+.hamle-not { text-align: center; line-height: 1.4; }
+#hamle-bitti .son-dugmeler { align-self: stretch; gap: 10px; }
+#hamle-bitti .son-dugmeler .dugme { flex: 1; min-width: 0; white-space: nowrap; }
+/* Sayaçlar 2x2 (müşteri, puan / hamle, bant) */
+.ust .sayaclar { display: grid; grid-template-columns: auto auto; gap: 4px 2px; align-items: center; }
