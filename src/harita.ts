@@ -22,6 +22,7 @@ const NS = 'http://www.w3.org/2000/svg';
 const DURAKLAR = [
   { ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }, { ad: 'İskele' }, { ad: 'Merkez' },
   { ad: t('Lokasyon {0}', 6) }, { ad: t('Lokasyon {0}', 7) }, { ad: t('Lokasyon {0}', 8) }, { ad: t('Lokasyon {0}', 9) }, { ad: t('Lokasyon {0}', 10) },
+  { ad: t('Lokasyon {0}', 11) }, { ad: t('Lokasyon {0}', 12) }, { ad: t('Lokasyon {0}', 13) },
 ];
 // Kaldığın bölümün üstünde dondurmacının başı.
 const DONDURMACI_BAS = 'gorseller/dondurmaci-bas.webp';
