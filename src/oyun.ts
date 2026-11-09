@@ -424,6 +424,13 @@ export class Oyun {
     // 0. bölüm eklenmeden önce oynamaya başlayanlarda "0. bölüm bitti" kaydı yok; ilerisi
     // açıksa bitmiş sayılır (Kemal, 9 Kasım: "devam et diyince 0. bölümden başlıyor").
     if (!ogreticiBittiMi() && (this.kayit.acik > 1 || this.kayit.yildizlar.some((y) => y > 0))) ogreticiBitti();
+    // Para gelmeden önce toplanan yıldızlar için bir kerelik para (Kemal, 9 Kasım: "Bir kerelik ver").
+    const kol = koleksiyon();
+    if (!kol.eskiYildizParasi) {
+      kol.eskiYildizParasi = true;
+      kol.para += this.kayit.yildizlar.reduce((a, y) => a + (y > 0 ? y : 0), 0) * YILDIZ_PARASI;
+      koleksiyonKaydet();
+    }
     this.iskeletKur();
     // Oyun açılınca önce giriş ekranı gelir (Kemal, 22 Ekim). Arkada kaldığı
     // bölüm hazır durur ama başlamaz; "Başla" ile başlar.

@@ -150,7 +150,7 @@ html, body {
     inset 0 0 0 7px var(--hat),
     inset 0 12px 0 7px rgba(60, 30, 10, 0.28),
     0 0 0 3px var(--hat),
-    0 12px 0 0 #4b2272,
+    0 12px 0 0 var(--bant-yan, #4b2272),
     0 12px 0 3px var(--hat),
     0 20px 14px rgba(40, 20, 10, 0.35);
 }
@@ -2510,26 +2510,22 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
   background-color: #2a2f5c;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%237a3fa8' fill-opacity='0.1'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 100% 55% at 50% 22%, #4b5291 0%, #2f3568 45%, #1c2045 100%);
 }
-#kok[data-tema="gece"] .tente:not(.tente-kenar) { background: repeating-linear-gradient(90deg, #ffd23f 0 28px, #3b3f7a 28px 56px); }
-.tema-ornek[data-tema="gece"] { background: linear-gradient(180deg, #ffd23f 0 22%, #3b3f7a 22% 30%, #2f3568 30%); }
+.tema-ornek[data-tema="gece"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #2f3568 30%); }
 #kok[data-tema="sonbahar"] .manzara.desenli {
   background-color: #e9c39a;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%237a3fa8' fill-opacity='0.1'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 100% 55% at 50% 22%, #f7e2c6 0%, #ebc59a 45%, #c9925f 100%);
 }
-#kok[data-tema="sonbahar"] .tente:not(.tente-kenar) { background: repeating-linear-gradient(90deg, #c4572c 0 28px, #e9a23b 28px 56px); }
-.tema-ornek[data-tema="sonbahar"] { background: linear-gradient(180deg, #c4572c 0 22%, #e9a23b 22% 30%, #ebc59a 30%); }
+.tema-ornek[data-tema="sonbahar"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #ebc59a 30%); }
 #kok[data-tema="deniz"] .manzara.desenli {
   background-color: #bfe6ef;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%237a3fa8' fill-opacity='0.1'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 100% 55% at 50% 22%, #eafaff 0%, #c7ecf4 45%, #86c9da 100%);
 }
-#kok[data-tema="deniz"] .tente:not(.tente-kenar) { background: repeating-linear-gradient(90deg, #2f8fb8 0 28px, #ffffff 28px 56px); }
-.tema-ornek[data-tema="deniz"] { background: linear-gradient(180deg, #2f8fb8 0 22%, #ffffff 22% 30%, #c7ecf4 30%); }
+.tema-ornek[data-tema="deniz"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #c7ecf4 30%); }
 #kok[data-tema="pamuk-seker"] .manzara.desenli {
   background-color: #f6d3e6;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%237a3fa8' fill-opacity='0.1'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 100% 55% at 50% 22%, #fff0f8 0%, #f8d9ea 45%, #e9a8cb 100%);
 }
-#kok[data-tema="pamuk-seker"] .tente:not(.tente-kenar) { background: repeating-linear-gradient(90deg, #f28cbf 0 28px, #b9e3f5 28px 56px); }
-.tema-ornek[data-tema="pamuk-seker"] { background: linear-gradient(180deg, #f28cbf 0 22%, #b9e3f5 22% 30%, #f8d9ea 30%); }
+.tema-ornek[data-tema="pamuk-seker"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #f8d9ea 30%); }
 .tema-ornek[data-tema="mor"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #e4d4f4 30%); }
 .tema-ornek { width: 64px; height: 64px; border-radius: 14px; border: 2px solid var(--hat); }
 
@@ -2586,8 +2582,8 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
   background:
     radial-gradient(ellipse 38% 55% at 50% 58%, rgba(255, 236, 170, 0.75) 0%, rgba(255, 236, 170, 0) 70%),
     radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 0.55) 0 2px, transparent 3px) 0 0 / 26px 26px,
-    repeating-linear-gradient(90deg, #ffe9d6 0 18px, #ffd9e4 18px 36px),
-    #ffe9d6;
+    repeating-linear-gradient(90deg, var(--duvar-1, #ffe9d6) 0 18px, var(--duvar-2, #ffd9e4) 18px 36px),
+    var(--duvar-1, #ffe9d6);
 }
 .bar::before {
   content: '';
@@ -2611,3 +2607,23 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 
 /* Sekme değişince pencere yerinde yenilenir; açılış hareketi yok. */
 .odul-ortu.hareketsiz, .odul-ortu.hareketsiz * { animation: none !important; }
+
+/* Temalar bant, barın içindeki duvar, üst şerit ve sütunlara da uyar (Kemal, 9 Kasım: "Tente ve tezgâh
+   da değişsin"; "barın içindeki duvar rengi değişebilir"). Tente ve tezgâhın önündeki mor-sarı çizgiler
+   marka rengi, değişmez (Kemal: "Tentelerin mor sarı çizgisi değişmesin"). Pencereler ve düğmeler aynı kalır. */
+#kok[data-tema="gece"] .bant { --bant: #3b3f7a; --sari: #ffd23f; --bant-yan: #262a55; }
+#kok[data-tema="gece"] .ust { background: rgba(38, 42, 85, 0.95); }
+#kok[data-tema="gece"] .sutun:not(.basili) { background: linear-gradient(90deg, #c4c8e6, #dfe1f4 50%, #c4c8e6); }
+#kok[data-tema="sonbahar"] .bant { --bant: #c4572c; --sari: #e9a23b; --bant-yan: #8a3a1c; }
+#kok[data-tema="sonbahar"] .ust { background: rgba(122, 52, 24, 0.95); }
+#kok[data-tema="sonbahar"] .sutun:not(.basili) { background: linear-gradient(90deg, #e6b583, #f3d3ad 50%, #e6b583); }
+#kok[data-tema="deniz"] .bant { --bant: #2f8fb8; --sari: #ffffff; --bant-yan: #1d6585; }
+#kok[data-tema="deniz"] .ust { background: rgba(29, 101, 133, 0.95); }
+#kok[data-tema="deniz"] .sutun:not(.basili) { background: linear-gradient(90deg, #c9e6ee, #e6f6fa 50%, #c9e6ee); }
+#kok[data-tema="pamuk-seker"] .bant { --bant: #f28cbf; --sari: #b9e3f5; --bant-yan: #c45d93; }
+#kok[data-tema="pamuk-seker"] .ust { background: rgba(178, 74, 130, 0.95); }
+#kok[data-tema="pamuk-seker"] .sutun:not(.basili) { background: linear-gradient(90deg, #f3c9dd, #fbe6f0 50%, #f3c9dd); }
+#kok[data-tema="gece"] .bar { --duvar-1: #d9dcf2; --duvar-2: #c9cdec; }
+#kok[data-tema="sonbahar"] .bar { --duvar-1: #fbe3c6; --duvar-2: #f6cfa6; }
+#kok[data-tema="deniz"] .bar { --duvar-1: #e3f5fa; --duvar-2: #cdebf3; }
+#kok[data-tema="pamuk-seker"] .bar { --duvar-1: #ffe6f2; --duvar-2: #e2f3fb; }
