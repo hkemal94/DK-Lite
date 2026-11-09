@@ -276,7 +276,7 @@ html, body {
 /* Birden çok çeşit: simgeler yan yana, kalan adet köşede rozet (Kemal, 6 Kasım: "siparişler yan yana"). */
 .istek.coklu { flex-direction: row; align-items: center; gap: 3px; }
 .istek.coklu .istek-satir { position: relative; gap: 0; }
-.istek.coklu .adet.rozet {
+.istek.coklu .adet.adet-kose {
   position: absolute;
   right: -5px;
   bottom: -5px;
@@ -292,7 +292,7 @@ html, body {
 }
 /* Üç ve daha çok çeşit (oyunda şimdilik yok): simgeler küçülür, rozet de küçülür. */
 .istek.kalabalik { gap: 2px; }
-.istek.kalabalik .adet.rozet { right: -3px; bottom: -6px; min-width: 13px; padding: 0 2px; font-size: 9px; line-height: 11px; border-width: 1px; }
+.istek.kalabalik .adet.adet-kose { right: -3px; bottom: -6px; min-width: 13px; padding: 0 2px; font-size: 9px; line-height: 11px; border-width: 1px; }
 
 .adet {
   font-weight: 600;
@@ -2577,7 +2577,6 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .magaza-yardim { width: 60px; height: 60px; border-radius: 18px; animation: none; }
 .magaza-yardim svg { width: 40px; height: 40px; }
 .magaza-kalp { position: relative; left: auto; bottom: auto; margin: 0; width: 56px; height: 52px; animation: none; }
-.yakinda-simge { width: 56px; height: 56px; border-radius: 50%; background: #b9a3d6; border: 2px solid var(--hat); color: #fff; font-size: 28px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
 .album-sekme { white-space: nowrap; }
 
 /* ---------- Bar arka planı daha albenili (Kemal, 9 Kasım: "arka planı biraz daha albenili") ----------
@@ -2609,4 +2608,6 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .raf-ust { top: 14%; }
 .bar .dondurmaci { filter: drop-shadow(0 4px 0 rgba(74, 42, 18, 0.25)); }
 .kostum-ornek { height: 74px; object-fit: contain; }
-.album-sekme { padding: 4px 9px; font-size: 13.5px; } .album-sekmeler { gap: 4px; }
+
+/* Sekme değişince pencere yerinde yenilenir; açılış hareketi yok. */
+.odul-ortu.hareketsiz, .odul-ortu.hareketsiz * { animation: none !important; }
