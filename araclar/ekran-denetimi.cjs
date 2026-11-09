@@ -53,6 +53,7 @@ const DURUMLAR = [
   ['ayarlar', kayitKur(), 'o.ayarlarAc()', 400],
   ['album', kayitKur({ acik: 25 }), 'o.albumAc()', 500],
   ['bolumler-liman', kayitKur({ acik: 31, yildiz: 2, kadar: 30 }), "o.listeAc('giris')", 600],
+  ['bolumler-ileri-kilit', kayitKur({ acik: 121, yildiz: 2, kadar: 120 }), "o.listeAc('giris')", 600],
   ['mahalle-kilit', kayitKur({ acik: 31, yildiz: 2, kadar: 30 }), 'o.mahalleKilitPenceresi(1)', 500],
   ['oyun-1', kayitKur(), 'o.bolumBaslat(1)', 2500],
   ['oyun-23-coklu-istek', kayitKur({ acik: 23, kadar: 22 }), 'o.bolumBaslat(23)', 2500],

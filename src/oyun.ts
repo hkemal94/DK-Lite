@@ -31,6 +31,8 @@ import {
   MAHALLE_ACMA_YILDIZ,
   bolumMahallesi,
   mahalleAcikMi,
+  mahalleGereken,
+  toplamYildiz,
   mahalleYildizi,
   SAYFADA_BOLUM,
   YAS_EGILIM_KATI,
@@ -837,8 +839,8 @@ export class Oyun {
   // düşük bölümler (dokununca o bölüm başlar; "geri dönsün yeniden oynasın").
   private mahalleKilitPenceresi(m: number) {
     this.kok.querySelector('#mahalle-kilit')?.remove();
-    const onceki = m - 1;
-    const yildiz = mahalleYildizi(this.kayit.yildizlar, onceki);
+    const yildiz = toplamYildiz(this.kayit.yildizlar);
+    const gereken = mahalleGereken(m);
     const ort = odulOrtusu('mahalle-kilit', t('Mahalle kilitli'));
     const kutu = ort.firstElementChild as HTMLDivElement;
     kutu.classList.add('mahalle-kilit-kutu');
@@ -853,19 +855,19 @@ export class Oyun {
     cubuk.className = 'mahalle-cubuk';
     const dolu = document.createElement('div');
     dolu.className = 'mahalle-cubuk-dolu';
-    dolu.style.width = `${Math.min(100, (100 * yildiz) / MAHALLE_ACMA_YILDIZ)}%`;
+    dolu.style.width = `${Math.min(100, (100 * yildiz) / gereken)}%`;
     const yazi = document.createElement('span');
-    yazi.textContent = `★ ${yildiz} / ${MAHALLE_ACMA_YILDIZ}`;
+    yazi.textContent = `★ ${yildiz} / ${gereken}`;
     cubuk.append(dolu, yazi);
     const not = document.createElement('div');
     not.className = 'odul-not mahalle-not';
-    const kalan = Math.max(0, MAHALLE_ACMA_YILDIZ - yildiz);
-    not.textContent = t('{0} mahallesinde {1} yıldız daha topla. Yıldızı az olan bölümleri yeniden oyna:', MAHALLE_ADLARI[onceki] ?? '', kalan);
+    const kalan = Math.max(0, gereken - yildiz);
+    not.textContent = t('{0} yıldız daha topla. Yıldızı az olan bölümleri yeniden oyna:', kalan);
     const liste = document.createElement('div');
     liste.className = 'mahalle-bolumler';
-    const ilk = onceki * SAYFADA_BOLUM + 1;
+    // Açık mahallelerin hepsinden yıldızı az olan bölümler.
     const adaylar: { no: number; y: number }[] = [];
-    for (let no = ilk; no < ilk + SAYFADA_BOLUM && no <= Math.min(this.kayit.acik, BOLUM_SAYISI); no++) {
+    for (let no = 1; no <= Math.min(m * SAYFADA_BOLUM, this.kayit.acik, BOLUM_SAYISI); no++) {
       const y = this.kayit.yildizlar[no - 1] ?? 0;
       if (y < YILDIZ_ESIKLERI.length) adaylar.push({ no, y });
     }

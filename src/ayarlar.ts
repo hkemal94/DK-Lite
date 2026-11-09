@@ -552,7 +552,8 @@ export const YAS_EGILIM_KATI = 2; // DENEME
 
 // ---------- Mahalle kilidi (Kemal, 6 Kasım 2026) ----------
 // "Diğer mahalleye gitme butonuna kilit koy, toplam bir yıldız sayısını geçmeden
-// açılmasın." Seçim: o mahallede 75 yıldız (en çok 90); 0. bölüm sayılmaz.
+// açılmasın." Seçim: o mahallede 75 yıldız (en çok 90); 0. bölüm sayılmaz. 9 Kasım'dan beri
+// toplam yıldızla (aşağıda mahalleAcikMi).
 export const MAHALLE_ACMA_YILDIZ = 75;
 // Bölümün mahallesi (0: Liman; 0. bölüm de Liman).
 export function bolumMahallesi(no: number): number {
@@ -564,10 +565,17 @@ export function mahalleYildizi(yildizlar: number[], m: number): number {
   for (let no = m * SAYFADA_BOLUM + 1; no <= Math.min(BOLUM_SAYISI, (m + 1) * SAYFADA_BOLUM); no++) t += yildizlar[no - 1] ?? 0;
   return t;
 }
-// Mahalle açık mı: Liman hep açık; ötekiler bir öncekinde MAHALLE_ACMA_YILDIZ yıldızla.
+// Yıldızlar toplanarak ilerler (Kemal, 9 Kasım: "yıldız kilitlerini toplayarak ilerletelim"):
+// m. mahalle (0 = Liman, hep açık) bütün bölümlerden toplam m × MAHALLE_ACMA_YILDIZ yıldızla açılır.
+// Bir mahallede fazla toplanan yıldız sonrakine sayılır.
+export function toplamYildiz(yildizlar: number[]): number {
+  return yildizlar.reduce((a, y) => a + (y > 0 ? y : 0), 0);
+}
+export function mahalleGereken(m: number): number {
+  return m * MAHALLE_ACMA_YILDIZ;
+}
 export function mahalleAcikMi(yildizlar: number[], m: number): boolean {
-  for (let k = 1; k <= m; k++) if (mahalleYildizi(yildizlar, k - 1) < MAHALLE_ACMA_YILDIZ) return false;
-  return true;
+  return toplamYildiz(yildizlar) >= mahalleGereken(m);
 }
 
 // ---------- Hamle ve puanlama (Kemal, 9 Kasım 2026) ----------

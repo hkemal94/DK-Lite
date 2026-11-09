@@ -6,7 +6,7 @@
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
 import { t } from './dil';
-import { BOLUM_SAYISI, MAHALLE_ACMA_YILDIZ, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleYildizi } from './ayarlar';
+import { BOLUM_SAYISI, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleGereken, toplamYildiz } from './ayarlar';
 import { ogreticiBittiMi, type Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -165,7 +165,7 @@ export function haritaCiz(
   const sonrakiKilitli = sayfa < sayfaSayisi - 1 && !mahalleAcikMi(kayit.yildizlar, sayfa + 1);
   sonraki.classList.toggle('kilitli-ok', sonrakiKilitli);
   sonrakiSayac.hidden = !sonrakiKilitli;
-  sonrakiSayac.textContent = `★ ${mahalleYildizi(kayit.yildizlar, sayfa)}/${MAHALLE_ACMA_YILDIZ}`;
+  sonrakiSayac.textContent = `★ ${toplamYildiz(kayit.yildizlar)}/${mahalleGereken(sayfa + 1)}`;
   alt.dataset.sayfa = String(sayfa + 1);
   // Liman'ın başında 0. bölüm (ipuçlu başlangıç): hep açık, tekrar oynanabilir.
   if (sayfa === 0) {
