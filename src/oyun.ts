@@ -27,6 +27,7 @@ import {
   TEMA_FIYATI,
   YARDIMCI_FIYATI,
   YILDIZ_PARASI,
+  KART_PARASI,
   type Tema,
   MAHALLE_ACMA_YILDIZ,
   bolumMahallesi,
@@ -433,6 +434,8 @@ export class Oyun {
       kol.para += this.kayit.yildizlar.reduce((a, y) => a + (y > 0 ? y : 0), 0) * YILDIZ_PARASI;
       koleksiyonKaydet();
     }
+    // Lokasyon kartları gelmeden önce bitirilen lokasyonların kartı ve parası (sessizce).
+    this.kartBak();
     this.iskeletKur();
     // Oyun açılınca önce giriş ekranı gelir (Kemal, 22 Ekim). Arkada kaldığı
     // bölüm hazır durur ama başlamaz; "Başla" ile başlar.
@@ -2222,6 +2225,7 @@ export class Oyun {
     if (kazandi && no > 0) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
     // Yeni rozetler (kayıt güncellendikten sonra bakılır).
     const yeniRozetler = this.rozetBak(kazandi && no > 0 && this.bosaTop === 0);
+    const yeniKartlar = this.kartBak();
 
     // Sonuç penceresi (Kemal, 5 Kasım akşamı: fiş "olmamış"; "Sonuç penceresi"):
     // ayarlar gibi krem pencere, üstte mor şeritte bölüm numarası; büyük yıldızlar,
@@ -2379,6 +2383,7 @@ export class Oyun {
     if (seriOdulu) oduller.push(() => this.yardimciPenceresi(t('Seri ödülü!'), seriOdulu!));
     if (yeniUrunler.length > 0) oduller.push(() => this.yeniUrunPenceresi(yeniUrunler));
     for (const r of yeniRozetler) oduller.push(() => this.rozetPenceresi(r));
+    for (const m of yeniKartlar) oduller.push(() => this.kartPenceresi(m));
     this.odulSirasi(oduller, true);
   }
 
@@ -2533,6 +2538,74 @@ export class Oyun {
     return true;
   }
 
+  // Lokasyon kartları (Kemal, 9 Kasım: "kartların bir mantığı olsun"; seçim "Lokasyon kartı + ödül"):
+  // lokasyon bitince kartı açılır ve KART_PARASI verir. Kartta o lokasyonda kazanılan ürünler ve
+  // yıldızı yazar; bütün yıldızlar toplanınca kart altın olur.
+  private kartBak(): number[] {
+    const k = koleksiyon();
+    const yeni: number[] = [];
+    for (let m = 0; m * SAYFADA_BOLUM < BOLUM_SAYISI; m++) {
+      if (k.kartlar.includes(m) || !this.lokasyonBitti(m)) continue;
+      k.kartlar.push(m);
+      k.para += KART_PARASI;
+      yeni.push(m);
+    }
+    if (yeni.length) koleksiyonKaydet();
+    return yeni;
+  }
+
+  private kartCiz(m: number): HTMLDivElement {
+    const acik = this.lokasyonBitti(m);
+    const yildiz = mahalleYildizi(this.kayit.yildizlar, m);
+    const enCok = SAYFADA_BOLUM * YILDIZ_ESIKLERI.length;
+    const k = document.createElement('div');
+    k.className = 'kartpostal' + (acik ? '' : ' kapali') + (acik && yildiz >= enCok ? ' altin' : '');
+    k.dataset.durak = String(m);
+    if (!acik) {
+      k.innerHTML = '<span>?</span>';
+      return k;
+    }
+    const ad = document.createElement('div');
+    ad.className = 'kartpostal-ad';
+    ad.textContent = MAHALLE_ADLARI[m];
+    // Bu lokasyonda kazanılan ürünler (en çok 3; yoksa ilk dondurma).
+    const urunler = HEDIYE_SIRASI.filter((id) => {
+      const hb = hediyeBolumu(id);
+      return hb >= m * SAYFADA_BOLUM && hb < (m + 1) * SAYFADA_BOLUM;
+    });
+    const urunSira = document.createElement('div');
+    urunSira.className = 'kartpostal-urunler';
+    for (const id of (urunler.length ? urunler : [BASLANGIC_URUNLERI[0]]).slice(0, 3)) {
+      const u = document.createElement('div');
+      u.className = 'kartpostal-urun';
+      u.innerHTML = urunSimgesi(urunSirasi(id));
+      urunSira.appendChild(u);
+    }
+    const y = document.createElement('div');
+    y.className = 'kartpostal-yildiz';
+    y.textContent = `★ ${yildiz}/${enCok}`;
+    k.append(urunSira, ad, y);
+    return k;
+  }
+
+  private kartPenceresi(m: number): HTMLDivElement {
+    const ort = odulOrtusu('kart-odul', t('Yeni kart!'));
+    ort.dataset.kart = String(m);
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const sahne = document.createElement('div');
+    sahne.className = 'odul-sahne';
+    const isik = document.createElement('div');
+    isik.className = 'odul-isik';
+    const kart = this.kartCiz(m);
+    kart.classList.add('kart-buyuk');
+    sahne.append(isik, kart);
+    const not = document.createElement('div');
+    not.className = 'odul-not rozet-odul-not';
+    not.innerHTML = `${PARA_SVG}<span>+${KART_PARASI}</span>`;
+    kutu.append(sahne, not, odulTamam());
+    return ort;
+  }
+
   // Rozetler (Kemal onayladı, 9 Kasım): yeni kazanılanları verir, ödülünü işler, döndürür.
   private rozetBak(kusursuz: boolean): string[] {
     const k = koleksiyon();
@@ -2663,32 +2736,8 @@ export class Oyun {
     } else {
       for (let m = 0; m * SAYFADA_BOLUM < BOLUM_SAYISI; m++) {
         toplam++;
-        const a = this.lokasyonBitti(m);
-        if (a) acikSayi++;
-        const k = document.createElement('div');
-        k.className = 'kartpostal' + (a ? '' : ' kapali');
-        k.dataset.durak = String(m);
-        if (a) {
-          const ad = document.createElement('div');
-          ad.className = 'kartpostal-ad';
-          ad.textContent = MAHALLE_ADLARI[m];
-          const bas = document.createElement('img');
-          bas.className = 'kartpostal-bas';
-          bas.src = DONDURMACI_BAS_RESMI;
-          bas.alt = '';
-          // Lokasyonda açılan bir ürün (yoksa ilk dondurma).
-          const urunler = HEDIYE_SIRASI.filter((id) => {
-            const hb = hediyeBolumu(id);
-            return hb >= m * SAYFADA_BOLUM && hb < (m + 1) * SAYFADA_BOLUM;
-          });
-          const urun = document.createElement('div');
-          urun.className = 'kartpostal-urun';
-          urun.innerHTML = urunSimgesi(urunSirasi(urunler[0] ?? BASLANGIC_URUNLERI[0]));
-          k.append(ad, urun, bas);
-        } else {
-          k.innerHTML = '<span>?</span>';
-        }
-        izgara.appendChild(k);
+        if (this.lokasyonBitti(m)) acikSayi++;
+        izgara.appendChild(this.kartCiz(m));
       }
     }
     sayac.textContent = `${acikSayi} / ${toplam}`;
@@ -3155,7 +3204,6 @@ function gunlukSimgesi(o: GunlukOdul): string {
 }
 
 // Para simgesi (adı [Kemal]): sarı sikke, ortasında küçük külah.
-const DONDURMACI_BAS_RESMI = 'gorseller/dondurmaci-bas.webp';
 // Dondurmacının resmi giydiği kostüme göre (klasik: önlüklü bugünkü çizim).
 function dondurmaciResmi(ks: Kostum = koleksiyon().kostum): string {
   return ks === 'klasik' ? DONDURMACI_RESMI : `gorseller/tezgah/dondurmaci-${ks}.webp`;

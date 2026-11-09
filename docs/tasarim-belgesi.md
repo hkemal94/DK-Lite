@@ -30,6 +30,14 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.43 İki kostüm, Kış teması, ev simgesi, lokasyon kartları (Kemal, 9 Kasım 2026; öneri)
+
+- **Kızın iki yeni kostümü** (Kemal seçti): Kışlık (bere, atkı, kazak) ve Yazlık (hasır şapka, çiçekli elbise); 800 para (DENEME). Canva, dondurmacı çizimi örnek verilerek; arka planı Canva'da silindi; "DK Lite çalışma" tasarımının 25. sayfası.
+- **Kış teması** (Kemal seçti): buz mavisi zemin, kar taneleri; bant, bar duvarı, üst şerit ve sütunlar temaya uyar, tente mor-sarı kalır; 500 para (DENEME).
+- **Ev simgesi** (Kemal: "çatıyla ev aynı renk olsun o aradakini beğenmedim"): çatı ve gövde tek parça, aynı renk.
+- **Lokasyon kartları** (Kemal: "ekrana sığacak şekilde 3 veya 4"; "kartların bir mantığı olsun"; seçim "Lokasyon kartı + ödül"): albümde 3'erli dizilir, 10 kart ekrana sığar. Lokasyonun 30 bölümü bitince kart açılır, "Yeni kart!" penceresi çıkar ve 150 para verir (DENEME). Kartta o lokasyonda kazanılan ürünler (en çok 3) ve lokasyonun yıldızı (ör. 72/90) yazar; 90/90 olunca kart altın çerçeveli ve parlak olur. Kartlar gelmeden önce bitirilen lokasyonların kartı ve parası oyun açılınca bir kez verilir.
+- Görüntü: `docs/ekran/koleksiyon/kostum-tema-kart.png`. Gerçek telefonda denenmedi.
+
 ### 0.42 iPhone'da oyun büyümesin, yıldız kilidi toplanarak (Kemal, 9 Kasım 2026; öneri)
 
 - **Sorun** (Kemal: kardeşinin iPhone'unda 2. bölümde ekran büyüdü, görüntü): iPhone'un tarayıcısı sayfadaki "yakınlaştırma kapalı" ayarını dinlemiyor; iki parmakla ya da sütunlara hızlı çift dokunuşla sayfa büyüyor.

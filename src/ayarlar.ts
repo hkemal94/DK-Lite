@@ -609,7 +609,7 @@ export const YARDIMCI_FIYATI = 100;
 export const CAN_FIYATI = 80;
 export const TEMA_FIYATI = 500;
 // Arka plan temaları: oyun ekranının zemini ve tente. 'mor' başta açık (bugünkü görünüş).
-export const TEMALAR = ['mor', 'gece', 'sonbahar', 'deniz', 'pamuk-seker'] as const;
+export const TEMALAR = ['mor', 'gece', 'sonbahar', 'deniz', 'pamuk-seker', 'kis'] as const; // kis: Kemal, 9 Kasım
 export type Tema = (typeof TEMALAR)[number];
 export const TEMA_ADLARI: Record<Tema, string> = {
   mor: 'Dükkân',
@@ -617,18 +617,23 @@ export const TEMA_ADLARI: Record<Tema, string> = {
   sonbahar: 'Sonbahar',
   deniz: 'Deniz',
   'pamuk-seker': 'Pamuk şeker',
+  kis: 'Kış',
 };
 // Dondurmacı kızın kostümleri (Kemal, 9 Kasım: "Kızın kostümleri olsun satılan"; "kızlar olsun
 // çalışan"). 'klasik' başta açık. Fiyat DENEME.
-export const KOSTUMLER = ['klasik', 'maras', 'denizci', 'asci'] as const;
+export const KOSTUMLER = ['klasik', 'maras', 'denizci', 'asci', 'kislik', 'yazlik'] as const; // kislik, yazlik: Kemal seçti (9 Kasım)
 export type Kostum = (typeof KOSTUMLER)[number];
 export const KOSTUM_ADLARI: Record<Kostum, string> = {
   klasik: 'Dükkân önlüğü',
   maras: 'Maraş dondurmacısı',
   denizci: 'Denizci',
   asci: 'Aşçı',
+  kislik: 'Kışlık',
+  yazlik: 'Yazlık',
 };
 export const KOSTUM_FIYATI = 800;
+// Lokasyon kartı açılınca verilen para (Kemal, 9 Kasım: "Lokasyon kartı + ödül"). DENEME.
+export const KART_PARASI = 150;
 // Rozetler (Kemal onayladı, 9 Kasım). Ödül: para; bazılarında yardımcı ya da can.
 export type RozetOdulu = { para: number; yardimci?: boolean; can?: boolean };
 export const ROZETLER: { id: string; ad: string; odul: RozetOdulu }[] = [
