@@ -441,6 +441,7 @@ export class Oyun {
     // bölüm hazır durur ama başlamaz; "Başla" ile başlar.
     this.yenidenBasla(this.kayit.acik);
     this.girisAc();
+    this.geriTusuKur();
     window.addEventListener('resize', () => {
       this.yerlesimHesapla();
       this.sabitleriCiz();
@@ -809,6 +810,57 @@ export class Oyun {
     this.hizEl.classList.toggle('acik', this.hizli);
     this.hizEl.setAttribute('aria-pressed', String(this.hizli));
     this.hizEl.dataset.kat = String(this.hizli ? HIZ_KATI : 1);
+  }
+
+  // Telefonun geri tuşu (Kemal, 9 Kasım: "Geri tuşuna basınca komple sayfada geri gidiyor onu istemiyorum,
+  // bir önceki menüye dönebileyim"). Sayfanın geçmişine bir "bekçi" kaydı konur; geri tuşu sayfadan
+  // çıkmak yerine bu kaydı yer, oyun bir önceki menüye döner, bekçi yeniden konur.
+  private geriTusuKur() {
+    const bekci = () => history.pushState({ dkLite: true }, '');
+    bekci();
+    let bekliyor = false;
+    window.addEventListener('popstate', () => {
+      this.geriTusu();
+      bekci();
+      bekliyor = true;
+    });
+    // Bazı tarayıcılar dokunuşsuz eklenen kaydı atlar; geri tuşundan sonraki ilk dokunuşta bekçi tazelenir.
+    document.addEventListener('pointerdown', () => {
+      if (!bekliyor) return;
+      bekliyor = false;
+      bekci();
+    }, true);
+  }
+
+  // Geri tuşu: en üstteki pencere kapanır; yoksa ayarlar, duraklatma, bölümler ekranı, bölüm sonu
+  // sırasıyla bir önceki ekrana döner; oyun sürerken duraklatır. Giriş ekranında bir şey olmaz.
+  private geriTusu() {
+    const pencereler = [...this.kok.querySelectorAll<HTMLElement>('.odul-ortu')];
+    const ust = pencereler[pencereler.length - 1];
+    if (ust) {
+      const dugme = ust.querySelector<HTMLButtonElement>('.kapat-x, .odul-tamam');
+      if (dugme) dugme.click();
+      else if (ust.id === 'birak-onay') ust.remove();
+      return;
+    }
+    if (!this.ayarlarEl.classList.contains('gizli')) {
+      this.ayarlarEl.querySelector<HTMLButtonElement>('#ayarlar-kapat')?.click();
+      return;
+    }
+    if (this.listeAcik) {
+      this.haritaGeri();
+      return;
+    }
+    if (this.girisAcik) return;
+    if (this.duraklatildi) {
+      this.devamEt();
+      return;
+    }
+    if (this.bitti) {
+      this.anaSayfayaDon();
+      return;
+    }
+    this.duraklat();
   }
 
   // Oyun sırasında duraklatır; bölüm bittiyse ya da üstte başka ekran varsa bir şey yapmaz.

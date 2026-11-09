@@ -30,6 +30,12 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.45 Telefonun geri tuşu (Kemal, 9 Kasım 2026; öneri)
+
+- **Sorun** (Kemal: "Geri tuşuna basınca komple sayfada geri gidiyor onu istemiyorum, bir önceki menüye dönebileyim"): geri tuşu oyundan çıkıp tarayıcıda önceki sayfaya gidiyordu.
+- **Şimdi geri tuşu:** açık pencereyi kapatır (albüm, mağaza, ayarlar, rozet; ödül penceresinde "Tamam" gibi davranır); Bölümler ekranından giriş ekranına döner; oyun sürerken duraklatır, duraklatma menüsündeyken oyuna döner; bölüm sonunda ana sayfaya döner. Giriş ekranında bir şey yapmaz; oyundan çıkmak için tarayıcının sekmesi kapatılır.
+- Telefon benzetimiyle denendi. Gerçek telefonda denenmedi; bazı tarayıcılar art arda çok hızlı basılan geri tuşunu farklı işleyebilir.
+
 ### 0.44 Kompakt ekranlar, rozet simgeleri, tema simgeleri (Kemal, 9 Kasım 2026; öneri)
 
 - **Kompakt** (Kemal: "bu kadar altlara kadar yayılmak zorunda değil derdim kompakt olsun her şey"): 0.43'teki "pencere ekranı doldursun" ve giriş ekranının büyümesi geri alındı. Giriş ekranı eski toplu hâlinde; albüm ve mağaza pencereleri içerikleri kadar. Eksik son satırı son kutunun doldurması kaldı. Kalıcı kural da buna göre yazıldı: ekranlar dolu ve derli toplu, içlerinde boş delik yok ama ekrana yayılmazlar.
