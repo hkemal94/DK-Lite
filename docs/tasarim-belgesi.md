@@ -30,6 +30,15 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.38 Tente, 300 bölüm, 10 lokasyon, 23 hediye (Kemal, 9 Kasım 2026; öneri)
+
+- **Tente** (Kemal: "Alttaki açık lila şerit" rahatsız ediyor; "mor sorun yaratmayacak mı"): koyu mor üst şerit dilimlerin arkasına uzandı, aradan açık zemin görünmez; dilimlerin altında koyu kahve kenar, mor dilimler mor şeride karışmaz.
+- **300 bölüm, 10 lokasyon** (Kemal: "300 bölüm yapalım o zaman 10 adet lokasyon olsun şimdilik isimleri lokasyon 6, lokasyon 7 gibi ilerlet"): her biri 30 bölüm; 6–10'un adı şimdilik "Lokasyon 6" … "Lokasyon 10" [Kemal]. Renkleri ekip seçti: lacivert, hardal, mercan, lavanta, çam yeşili. Mahalle kilidi (75 yıldız) hepsinde geçerli. Yeni zorluk öğesi yok (Kemal: "var olanlar yeter").
+- **Yeni 8 ürün** (Kemal seçti): karadut ve kavun dondurma, vişne suyu, buzlu kahve, kazandibi, künefe, ayva tatlısı, waffle. Canva (kaynak `docs/lisanslar.md`). Toplam 26 ürün: 3 başlangıç + 23 hediye.
+- **Hediyeler baştan artarak dağıldı** (Kemal: "10'da bir devam etmeyelim ... arttırarak"; "Baştan artarak dağıt"): 0, 5, 11, 17, 25, 33, 42, 51, 62, 73, 85, 98, 111, 126, 141, 157, 174, 191, 209, 228, 248, 269, 290 (aralık 5'ten 21'e; DENEME). Sandık her 10 bölümde devam eder.
+- **Aynı anda kaç ürün:** bir bölümde en çok 6 çeşit gelir (zorluk ayarı); 26 ürün aynı bölümde gelmez. 0–300 bölümün hepsi kazanılabilir kuruluyor (çözücüyle denendi); her hediye ertesi bölümde mutlaka gelir.
+- Ekran görüntüleri: `docs/ekran/300-bolum/`. Gerçek telefonda denenmedi.
+
 ### 0.37 Müşteri tonları, ince yardımcı şeridi, siparişler yan yana (Kemal, 6 Kasım 2026; öneri)
 
 Kemal telefonda (yaklaşık 450x1000, Bölüm 14) üç şey gördü ve çözümleri seçti.

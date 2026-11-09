@@ -219,7 +219,7 @@ const GUNLUK_YAZISI: Record<GunlukOdul, string> = {
   sandik: 'Sandık',
 };
 // Mahalle adları (künyedeki yerler; harita.ts'deki sırayla).
-const MAHALLE_ADLARI = ['Liman', 'Stadyum', 'Çiftlik', 'İskele', 'Merkez'];
+const MAHALLE_ADLARI = ['Liman', 'Stadyum', 'Çiftlik', 'İskele', 'Merkez', 'Lokasyon 6', 'Lokasyon 7', 'Lokasyon 8', 'Lokasyon 9', 'Lokasyon 10'];
 const KALP_SVG =
   '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 21 C5 15 2 12 2 8 C2 5 4.5 3 7 3 C9 3 11 4.5 12 6 C13 4.5 15 3 17 3 C19.5 3 22 5 22 8 C22 12 19 15 12 21 Z" fill="#e2475b" stroke="#5a3a22" stroke-width="2" stroke-linejoin="round"/></svg>';
 const UZGUN_SVG =
@@ -507,6 +507,10 @@ export class Oyun {
     const tente = document.createElement('div');
     tente.className = 'tente';
     this.sahne.prepend(tente);
+    // Tentenin koyu kahve kenarı: dilimler mor şeride karışmasın (Kemal, 9 Kasım).
+    const tenteKenar = document.createElement('div');
+    tenteKenar.className = 'tente tente-kenar';
+    this.sahne.prepend(tenteKenar);
 
     // Tezgâhın önü: mor-sarı çizgiler, ortada dükkânın logosu. Bandın altında kalır.
     this.onuEl = document.createElement('div');

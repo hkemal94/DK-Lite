@@ -2466,3 +2466,41 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 #hamle-bitti .son-dugmeler .dugme { flex: 1; min-width: 0; white-space: nowrap; }
 /* Sayaçlar 2x2 (müşteri, puan / hamle, bant) */
 .ust .sayaclar { display: grid; grid-template-columns: auto auto; gap: 4px 2px; align-items: center; }
+
+/* Tente (Kemal, 9 Kasım: "Alttaki açık lila şerit"): mor üst şerit dilimlerin arkasına uzanır,
+   aradan açık zemin görünmez; dilimlerin altında koyu kahve kenar, mor şeride karışmasınlar. */
+.tente { z-index: 7; filter: none; }
+.tente.tente-kenar { z-index: 6; top: 3px; background: var(--hat); }
+.ust { top: calc(var(--tente) - 16px); padding-top: 23px; }
+
+/* Lokasyon 6–10 (9 Kasım; renkleri ekip seçti): lacivert, hardal, mercan, lavanta, çam yeşili */
+.harita-kutu.kutulu[data-durak="5"] {
+  background-color: #2f4f8f;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #5a7fc7 0%, #2f4f8f 38%, #223a6b 78%, #172a50 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
+.harita-kutu.kutulu[data-durak="6"] {
+  background-color: #c79a1e;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #ecc65a 0%, #c79a1e 38%, #9a7612 78%, #71560b 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
+.harita-kutu.kutulu[data-durak="7"] {
+  background-color: #e0664f;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #f5977f 0%, #e0664f 38%, #b84634 78%, #8c3123 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
+.harita-kutu.kutulu[data-durak="8"] {
+  background-color: #8c6fc4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #b9a1e6 0%, #8c6fc4 38%, #6a4fa1 78%, #4d377a 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
+.harita-kutu.kutulu[data-durak="9"] {
+  background-color: #2f7a5a;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='0.09'%3E%3Cg transform='translate(34 46) rotate(-16)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cg transform='translate(118 118) rotate(14)'%3E%3Ccircle cx='0' cy='-8' r='11'/%3E%3Cpath d='M-10 -2h20l-10 26z'/%3E%3C/g%3E%3Cpath d='M112 22l4 10 10 4-10 4-4 10-4-10-10-4 10-4z'/%3E%3Cpath d='M36 116l3 7 7 3-7 3-3 7-3-7-7-3 7-3z'/%3E%3Ccircle cx='80' cy='80' r='4'/%3E%3Ccircle cx='150' cy='70' r='3'/%3E%3Ccircle cx='10' cy='150' r='3'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 90% 60% at 50% 34%, #5fb08a 0%, #2f7a5a 38%, #215c43 78%, #164230 100%);
+  background-size: 160px 160px, 100% 100%;
+  background-position: center top, center;
+}
