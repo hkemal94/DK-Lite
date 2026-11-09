@@ -30,11 +30,12 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
-### 0.42 iPhone'da oyun büyümesin (Kemal, 9 Kasım 2026; öneri)
+### 0.42 iPhone'da oyun büyümesin, yıldız kilidi toplanarak (Kemal, 9 Kasım 2026; öneri)
 
 - **Sorun** (Kemal: kardeşinin iPhone'unda 2. bölümde ekran büyüdü, görüntü): iPhone'un tarayıcısı sayfadaki "yakınlaştırma kapalı" ayarını dinlemiyor; iki parmakla ya da sütunlara hızlı çift dokunuşla sayfa büyüyor.
 - **Çözüm:** iki parmakla büyütme ve hızlı çift dokunuşla büyütme oyunda kapatıldı. Sütunlara ve düğmelere hızlı art arda dokunuşlar yine sayılıyor (telefon benzetimiyle denendi).
 - Gerçek iPhone'da denenmedi; bilgisayardaki benzetim iPhone'un büyütmesini birebir yapmıyor.
+- **Yıldız kilidi toplanarak** (Kemal: "yıldız kilitlerini toplayarak ilerletelim"): sonraki lokasyon artık bütün bölümlerden toplanan yıldızla açılır. 2. lokasyon 75, 3. lokasyon 150, 4. lokasyon 225 ... toplam yıldızla (her lokasyon için 75, DENEME). Bir lokasyonda fazla toplanan yıldız sonrakine sayılır. Kilit penceresi yıldızı az olan bölümleri bütün açık lokasyonlardan önerir. Eskiden her lokasyon yalnız bir öncekinin 75 yıldızıyla açılıyordu; yeni kural hiçbir açık lokasyonu kilitlemez.
 
 ### 0.41 Hedef biraz daraldı, karakter kenarları temizlendi (Kemal, 9 Kasım 2026; öneri)
 

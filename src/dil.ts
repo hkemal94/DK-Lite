@@ -142,7 +142,7 @@ const EN: Record<string, string> = {
   'Bölüm yarıda kalır. Sınırsız canın var, can gitmez; galibiyet serisi sıfırlanır.': 'The level ends here. You have unlimited lives, so no life is lost; your win streak resets.',
   'Mahalle kilitli': 'Area locked',
   'Sonraki mahalle: ?': 'Next area: ?',
-  '{0} mahallesinde {1} yıldız daha topla. Yıldızı az olan bölümleri yeniden oyna:': 'Collect {1} more stars in {0}. Replay levels with few stars:',
+  '{0} yıldız daha topla. Yıldızı az olan bölümleri yeniden oyna:': 'Collect {0} more stars. Replay levels with few stars:',
   'Lokasyon {0}': 'Location {0}',
   // Albüm, mağaza
   'Ürünler': 'Products',

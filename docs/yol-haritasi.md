@@ -13,7 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
-- 9 Kasım gecesi (öneri; `ajans/iphone-yakinlasma`; tasarım belgesi 0.42): iPhone'da iki parmakla ve çift dokunuşla büyütme kapatıldı. Gerçek iPhone'da denenmedi.
+- 9 Kasım gecesi (öneri; `ajans/iphone-yakinlasma`; tasarım belgesi 0.42): iPhone'da iki parmakla ve çift dokunuşla büyütme kapatıldı; lokasyonlar toplam yıldızla açılıyor (her lokasyon için 75; DENEME). Gerçek iPhone'da denenmedi.
 - 9 Kasım gecesi (öneri; `ajans/hedef-ve-kenar`; tasarım belgesi 0.41): 3 yıldız hedefi biraz daraldı (%15 yerine %5 pay; DENEME), karakterlerin kenarındaki beyaz şerit temizlendi. Gerçek telefonda denenmedi.
 - 9 Kasım akşamı (öneri; `ajans/magaza-duzeltme`; tasarım belgesi 0.40): sipariş balonundaki koyu yuvarlaklar düzeldi, mağaza ve albümde sekme değişince pencere yeniden açılmıyor, "Yakında" sekmesi kaldırıldı (kaplamalar sonraki iş), eski yıldızlar için bir kerelik para, temalar bandı, bar duvarını, üst şeridi ve sütunları da boyuyor (tente mor-sarı kalır). Gerçek telefonda denenmedi.
 - 9 Kasım (öneri; `ajans/koleksiyon`; tasarım belgesi 0.39): para (adı [Kemal]), mağaza (temalar, kızın kostümleri, yardımcılar, can; kaplamalar "Yakında"), 12 rozet, 10 lokasyon kartpostalı, İngilizce dil seçimi, 3 yıldız %15 kolay, albümde "?" sürprizi, "Başla" düzeltmesi, müşterilere aynı ışık, dondurmacıdaki beyaz lekeler, daha albenili bar. Sayılar DENEME; gerçek telefonda denenmedi.
