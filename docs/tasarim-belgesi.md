@@ -30,6 +30,13 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.47 390 bölüm, 13 lokasyon (Kemal, 9 Kasım 2026; öneri)
+
+- Kemal: "3 lokasyon daha ekleyebilirsin 390 olsun bakalım". Her biri 30 bölüm: Lokasyon 11 (301–330), Lokasyon 12 (331–360), Lokasyon 13 (361–390); adları [Kemal]. Renkleri ekip seçti: turkuaz, bordo, tarçın. Kilidi toplam yıldızla (her lokasyon için 75). Albümde 13 kart; küçük telefonda kartlar biraz alçalır, hepsi sığar.
+- Yeni ürün ya da yeni zorluk öğesi yok; son hediye yine 290. bölümde. Zorluk kuralı 300'den önce en üst değerine varmıştı, yeni bölümlerde aynı kalır.
+- **Ürün karışımı düzeltmesi:** "son açılan 3 ürün sık gelsin" kuralı (0.39) hediyeler bitince 100 bölüm boyunca hep aynı üç tatlıyı (waffle, ayva tatlısı, künefe) öne çıkarıyordu; bölümler tatlıya boğuluyor, otomatik oyuncu 300'den sonra çok kaybediyordu. Artık bir ürün açıldıktan sonra 30 bölüm "yeni" sayılır (DENEME); sonra karışım dengeye döner (dondurma, içecek, tatlı eşit). 0–390'ın hepsi kazanılabilir kuruluyor (çözücüyle denendi). Dikkatli otomatik oyuncu: 251–259'da 6/6, 301–390'dan seçilen 12 bölümde 9/12 kazandı (kayıplardan ikisi "çok zor" 330 ve 390).
+- Gerçek telefonda denenmedi.
+
 ### 0.46 Sandıktan çıkan kalp ortaya oturuyor (Kemal, 9 Kasım 2026; öneri)
 
 - Kemal: "sandıktan çıkıp yükselmesine bayılıyorum ama yükseldikten sonra biraz daha aşağıya inip ortalamalı sanki kendini". Kalp sandıktan çıkıp yükselir, sonra yumuşakça aşağı inip sandığın ağzının ortasına oturur (hareket 0,6 saniyeden 1,2 saniyeye uzadı). Kareler: `docs/ekran/koleksiyon/sandik-kalp.png`. Gerçek telefonda denenmedi.

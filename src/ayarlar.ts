@@ -11,7 +11,7 @@
 // bölüm hazırla" → 15 hediye ürün, her 10 bölümde bir; "150 bölüm". Bunun önünde 0. bölüm
 // (ipuçlu başlangıç bölümü) var; o BOLUM_SAYISI'na girmez.
 import { t } from './dil';
-export const BOLUM_SAYISI = 300; // Kemal, 9 Kasım: "300 bölüm yapalım o zaman 10 adet lokasyon olsun"
+export const BOLUM_SAYISI = 390; // Kemal, 9 Kasım: "300 bölüm ... 10 adet lokasyon", sonra "3 lokasyon daha ... 390 olsun"
 
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
@@ -102,6 +102,7 @@ export const HEDIYE_SIRASI = [
 // Hediyelerin bölümleri (Kemal, 9 Kasım: "10'da bir devam etmeyelim ... arttırarak", "Baştan artarak
 // dağıt"): 23 hediye 0–290 arasında, aralık 5'ten 21'e yavaşça artar (DENEME).
 export const YENI_URUN_SAYISI = 3;
+export const YENI_URUN_SURESI = 30; // bir ürün açıldıktan sonra kaç bölüm "yeni" sayılır (DENEME)
 export const HEDIYE_BOLUMLERI = [0, 5, 11, 17, 25, 33, 42, 51, 62, 73, 85, 98, 111, 126, 141, 157, 174, 191, 209, 228, 248, 269, 290];
 // Ürünün hediye olarak verildiği bölüm (başlangıç ürünleri için -1).
 export function hediyeBolumu(id: string): number {
@@ -134,7 +135,9 @@ function bolumUrunleri(no: number, cesit: number): string[] {
   ekle(bolumHediyesi(no - 1) ?? undefined);
   // Son açılan 3 ürün daha sık gelir (Kemal, 9 Kasım: "6 kalsın, yeniler sık gelsin"):
   // her biri bölümlerin kabaca 2/3'ünde (sabit sırayla), eskiler sırayla döner. DENEME.
-  const yeniler = HEDIYE_SIRASI.filter((id) => urunIzinli(id, no))
+  // "Yeni" sayılan: son YENI_URUN_SURESI bölümde açılan. Hediyeler bitince (290'dan sonra) aynı üç
+  // ürün yüz bölüm boyunca öne çıkmasın; karışım dengeye döner (9 Kasım, 390 bölüm).
+  const yeniler = HEDIYE_SIRASI.filter((id) => urunIzinli(id, no) && no - hediyeBolumu(id) <= YENI_URUN_SURESI)
     .sort((a, b) => hediyeBolumu(b) - hediyeBolumu(a))
     .slice(0, YENI_URUN_SAYISI);
   yeniler.forEach((id, k) => {
