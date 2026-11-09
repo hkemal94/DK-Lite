@@ -11,7 +11,11 @@
 // bölüm hazırla" → 15 hediye ürün, her 10 bölümde bir; "150 bölüm". Bunun önünde 0. bölüm
 // (ipuçlu başlangıç bölümü) var; o BOLUM_SAYISI'na girmez.
 import { t } from './dil';
-export const BOLUM_SAYISI = 390; // Kemal, 9 Kasım: "300 bölüm ... 10 adet lokasyon", sonra "3 lokasyon daha ... 390 olsun"
+// Panelle değişen ayarlar tek dosyada (Kemal, 9 Kasım: KKM'de "sürükle bırakla" düzenleme paneli).
+// Biçimi docs/ayar-dosyasi.md; denetimi araclar/ayar-denetimi.mjs (derlemeden önce çalışır).
+import AYAR from './veri/oyun-ayarlari.json';
+// Kemal, 9 Kasım: "300 bölüm ... 10 adet lokasyon", sonra "3 lokasyon daha ... 390 olsun".
+export const BOLUM_SAYISI: number = AYAR.bolumSayisi;
 
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
@@ -44,18 +48,8 @@ export interface BolumZorlugu {
 // "Biraz (1,5 kat)"): müşteri sayısı yaklaşık 1,25 kat, müşteri başına istenen
 // adet yaklaşık 1,2 kat; bölüm toplamda yaklaşık 1,5 kat uzun (2–3 dakika).
 // Çeşit sayısı, bant yeri ve iki çeşit oranı değişmedi. Sayılar DENEME DEĞERİDİR.
-export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
-  { sutun: 4, urunler: ['cikolata', 'cilek', 'limon'], musteri: 10, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 1
-  { sutun: 4, urunler: ['cikolata', 'cilek', 'fistik'], musteri: 11, istekEnAz: 2, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 2: müşteri +1
-  { sutun: 4, urunler: ['limon', 'vanilya', 'pasta'], musteri: 11, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 3: istek en az 3; ilk tatlı
-  { sutun: 4, urunler: ['cilek', 'fistik', 'kek'], musteri: 13, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 4: müşteri +2
-  { sutun: 4, urunler: ['cikolata', 'vanilya', 'meyve'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0 }, // 5: müşteri +1
-  { sutun: 4, urunler: ['cilek', 'limon', 'pasta', 'limonata'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 12, ikiCesitOrani: 0.3 }, // 6: 4. çeşit; ilk içecek; iki çeşit isteyenler
-  { sutun: 4, urunler: ['cikolata', 'fistik', 'kek', 'gazoz'], musteri: 14, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.3 }, // 7: bant yeri −1
-  { sutun: 4, urunler: ['vanilya', 'cilek', 'meyve', 'gazoz'], musteri: 15, istekEnAz: 3, istekEnCok: 4, bantYeri: 11, ikiCesitOrani: 0.4 }, // 8: müşteri +1
-  { sutun: 4, urunler: ['limon', 'cikolata', 'pasta', 'limonata'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.4 }, // 9: bant yeri −1; istek en çok 5
-  { sutun: 4, urunler: ['fistik', 'vanilya', 'kek', 'limonata'], musteri: 15, istekEnAz: 3, istekEnCok: 5, bantYeri: 10, ikiCesitOrani: 0.5 }, // 10
-];
+// Ürünler burada yazmaz: her bölümün ürünü bolumUrunleri ile seçilir; tabloda yalnız çeşit sayısı var.
+export const BOLUM_ZORLUKLARI: BolumZorlugu[] = AYAR.bolumler.ilkBolumler.map((z) => ({ ...z, urunler: [] }));
 
 // 11. bölümden sonrası: tablo yerine kural (Kemal, 29 Ekim 2026: 30 bölüm; ileride
 // yaklaşık 500). Satır satır yazmak yerine kural, ki bölüm sayısı arttıkça kendiliğinden uzasın.
@@ -66,23 +60,30 @@ export const BOLUM_ZORLUKLARI: BolumZorlugu[] = [
 
 // Müşteri: her 4 bölümde bir müşteri daha (yavaş uzasın diye); 30. bölümde 20.
 // En çok 22 (bölüm çok uzayıp yormasın diye).
+const KURAL = AYAR.bolumler.kural;
+// Basamaklı değer: "şu bölümden itibaren şu" satırlarından bölüme düşeni (satırlar artan sırada).
+function basamak(satirlar: { bolumden: number; deger: number }[], no: number): number {
+  let d = satirlar[0].deger;
+  for (const s of satirlar) if (no >= s.bolumden) d = s.deger;
+  return d;
+}
 function kuralMusteri(no: number): number {
-  return Math.min(22, 15 + Math.ceil((no - 10) / 4));
+  const m = KURAL.musteri;
+  return Math.min(m.enCok, m.baslangic + Math.ceil((no - 10) / m.herKacBolumdeBir));
 }
 // Çeşit sayısı: 16. bölümden 5, 25. bölümden 6. En çok 6 (sütun 4 iken daha fazlası
 // sütunları tıkar).
 function kuralCesit(no: number): number {
-  return Math.min(6, no >= 25 ? 6 : no >= 16 ? 5 : 4);
+  return Math.min(6, basamak(KURAL.cesit, no));
 }
 // Bant yeri: 14. bölümden 9, 22. bölümden 8. En az 7 (bant çok daralırsa
 // oyuncu hamle yapamaz hâle gelir).
 function kuralBantYeri(no: number): number {
-  return Math.max(7, no >= 22 ? 8 : no >= 14 ? 9 : 10);
+  return Math.max(7, basamak(KURAL.bantYeri, no));
 }
 // İki çeşit isteyen müşteri oranı: 18. bölümden 0.6, 26. bölümden 0.7.
-// En çok 0.7 (her müşteri iki çeşit isterse çeşitler arasındaki fark kaybolur).
 function kuralIkiCesit(no: number): number {
-  return Math.min(0.7, no >= 26 ? 0.7 : no >= 18 ? 0.6 : 0.5);
+  return Math.min(0.7, basamak(KURAL.ikiCesitOrani, no));
 }
 // Ürünler: yalnız URUNLER'deki mevcut ürünler. Her bölümde iki dondurma çeşidi;
 // kalan yerler tatlı ve içecekten dönüşümlü. Seçim bölüm numarasından çıkar,
@@ -92,18 +93,13 @@ function kuralIkiCesit(no: number): number {
 // 10 bölümde bir (10, 20 ... 140), birer birer (Kemal: "1'er 1'er"): içecek, dondurma, tatlı
 // sırayla. Hediye o bölüm ilk kez kazanılınca açılır; ürün sonraki bölümde ilk kez gelir.
 // "İlk onda başka hediye istemiyorum": ilk bölümlerdeki ürünler de bu sıraya taşındı.
-export const BASLANGIC_URUNLERI = ['cikolata', 'cilek', 'limon'];
-export const HEDIYE_SIRASI = [
-  'limonata', 'fistik', 'pasta', 'gazoz', 'vanilya', 'kek', 'cay', 'sakizli',
-  'meyve', 'kahve', 'sutlac', 'muzlu-sut', 'lokma', 'profiterol', 'baklava',
-  // 9 Kasım (Kemal seçti): karadut, kavun, vişne suyu, buzlu kahve, kazandibi, künefe, ayva tatlısı, waffle.
-  'karadut', 'visne-suyu', 'kazandibi', 'kavun', 'buzlu-kahve', 'kunefe', 'ayva', 'waffle',
-];
-// Hediyelerin bölümleri (Kemal, 9 Kasım: "10'da bir devam etmeyelim ... arttırarak", "Baştan artarak
-// dağıt"): 23 hediye 0–290 arasında, aralık 5'ten 21'e yavaşça artar (DENEME).
-export const YENI_URUN_SAYISI = 3;
-export const YENI_URUN_SURESI = 30; // bir ürün açıldıktan sonra kaç bölüm "yeni" sayılır (DENEME)
-export const HEDIYE_BOLUMLERI = [0, 5, 11, 17, 25, 33, 42, 51, 62, 73, 85, 98, 111, 126, 141, 157, 174, 191, 209, 228, 248, 269, 290];
+export const BASLANGIC_URUNLERI: string[] = AYAR.baslangicUrunleri;
+// Hediyeler ve bölümleri (Kemal, 9 Kasım: "10'da bir devam etmeyelim ... arttırarak", "Baştan artarak
+// dağıt"; aralık 5'ten 21'e yavaşça artar, DENEME). Sıra ve bölümler ayar dosyasında.
+export const HEDIYE_SIRASI: string[] = AYAR.hediyeler.map((h) => h.urun);
+export const HEDIYE_BOLUMLERI: number[] = AYAR.hediyeler.map((h) => h.bolum);
+export const YENI_URUN_SAYISI: number = AYAR.yeniUrun.sayi;
+export const YENI_URUN_SURESI: number = AYAR.yeniUrun.sure; // bir ürün açıldıktan sonra kaç bölüm "yeni" sayılır (DENEME)
 // Ürünün hediye olarak verildiği bölüm (başlangıç ürünleri için -1).
 export function hediyeBolumu(id: string): number {
   const i = HEDIYE_SIRASI.indexOf(id);
@@ -176,14 +172,14 @@ export function bolumTuru(no: number): BolumTuru {
   return p === 5 ? 'zor' : p === 6 ? 'rahat' : 'normal';
 }
 // Zor bölüm: 2 müşteri fazla, bantta 1 yer az, iki çeşit isteyen biraz fazla.
-const ZOR_EK = { musteri: 2, bantEksik: 1, ikiCesit: 0.1 };
+const ZOR_EK = AYAR.bolumler.zor;
 // Çok zor bölüm: 3 müşteri fazla, bantta 2 yer az, iki çeşit isteyen daha fazla.
-const COK_ZOR_EK = { musteri: 3, bantEksik: 2, ikiCesit: 0.15 };
+const COK_ZOR_EK = AYAR.bolumler.cokZor;
 // Rahat bölüm: sayıları 3 bölüm öncekinin sayıları kadar (ürünleri kendi ürünleri).
-const RAHAT_GERI = 3;
+const RAHAT_GERI: number = AYAR.bolumler.rahatGeri;
 // Bant hiçbir bölümde bundan dar olmaz; iki çeşit oranı bundan fazla olmaz.
-const BANT_EN_AZ = 6;
-const IKI_CESIT_EN_COK = 0.8;
+const BANT_EN_AZ: number = AYAR.bolumler.bantEnAz;
+const IKI_CESIT_EN_COK: number = AYAR.bolumler.ikiCesitEnCok;
 
 // Bölüm numarasına (1'den) göre zorluk: önce düz artan taban, sonra bölümün türüne göre ayar.
 export function bolumZorlugu(no: number): BolumZorlugu {
@@ -231,12 +227,12 @@ function tabanZorluk(no: number): BolumZorlugu {
   if (no <= BOLUM_ZORLUKLARI.length) return BOLUM_ZORLUKLARI[no - 1];
   const cesit = kuralCesit(no);
   return {
-    sutun: 4, // sabit (Kemal'in 22 Ekim kararıyla tabloda da 4'te kaldı)
+    sutun: KURAL.sutun, // sabit (Kemal'in 22 Ekim kararıyla tabloda da 4'te kaldı)
     urunler: [], // bolumZorlugu'nda bolumUrunleri ile dolar
     cesit,
     musteri: kuralMusteri(no),
-    istekEnAz: 3, // sabit: istek 3–5, 10. bölümdeki gibi
-    istekEnCok: 5,
+    istekEnAz: KURAL.istekEnAz, // sabit: istek 3–5, 10. bölümdeki gibi
+    istekEnCok: KURAL.istekEnCok,
     bantYeri: kuralBantYeri(no),
     ikiCesitOrani: kuralIkiCesit(no),
   };
@@ -377,38 +373,8 @@ export interface Urun {
   tur: UrunTuru;
   renk: string; // dondurma topunun rengi (tatlı ve içecekte simgenin ana rengi)
 }
-export const URUNLER: Urun[] = [
-  { id: 'cikolata', ad: 'Çikolata', tur: 'dondurma', renk: '#7b4a2d' },
-  { id: 'cilek', ad: 'Çilek', tur: 'dondurma', renk: '#f39ab4' },
-  { id: 'limon', ad: 'Limon', tur: 'dondurma', renk: '#ffd83d' },
-  { id: 'fistik', ad: 'Fıstık', tur: 'dondurma', renk: '#a9cf6b' },
-  { id: 'vanilya', ad: 'Vanilya', tur: 'dondurma', renk: '#fff3d6' },
-  { id: 'pasta', ad: 'Dilim pasta', tur: 'tatli', renk: '#f7d9a8' },
-  { id: 'kek', ad: 'Küçük kek', tur: 'tatli', renk: '#c98a4a' },
-  { id: 'meyve', ad: 'Kâsede meyve', tur: 'tatli', renk: '#e2475b' },
-  { id: 'limonata', ad: 'Limonata', tur: 'icecek', renk: '#ffe680' },
-  { id: 'gazoz', ad: 'Gazoz', tur: 'icecek', renk: '#9fd8c4' },
-  { id: 'kahve', ad: 'Türk kahvesi', tur: 'icecek', renk: '#5b3a24' },
-  { id: 'cay', ad: 'Çay', tur: 'icecek', renk: '#b8401f' },
-  // Hediye ürünler (Kemal, 5 Kasım gecesi: zor bölümlerde "?" hediye; "On bölümde bir yeni
-  // ürün gelirse kurtarıyor"; türler "Türk kahvesi, Yeni dondurma çeşitleri, Ege tatlıları,
-  // Soğuk içecekler"). Çizimler Canva; kaynak docs/lisanslar.md.
-  { id: 'sakizli', ad: 'Sakızlı', tur: 'dondurma', renk: '#f3f5ea' },
-  { id: 'baklava', ad: 'Baklava', tur: 'tatli', renk: '#d9a24a' },
-  { id: 'muzlu-sut', ad: 'Muzlu süt', tur: 'icecek', renk: '#f6e7b8' }, // Kemal: ayran yerine, "biraz krem rengi"
-  { id: 'sutlac', ad: 'Sütlaç', tur: 'tatli', renk: '#f3e3c2' }, // Kemal: "Biraz daha tatlı çizebilirsin"
-  { id: 'lokma', ad: 'Lokma', tur: 'tatli', renk: '#d9953f' },
-  { id: 'profiterol', ad: 'Profiterol', tur: 'tatli', renk: '#5a3420' },
-  // 9 Kasım: Kemal'in seçtiği 8 ürün (Canva).
-  { id: 'karadut', ad: 'Karadut', tur: 'dondurma', renk: '#5b2347' },
-  { id: 'kavun', ad: 'Kavun', tur: 'dondurma', renk: '#f7b26b' },
-  { id: 'visne-suyu', ad: 'Vişne suyu', tur: 'icecek', renk: '#9e1b32' },
-  { id: 'buzlu-kahve', ad: 'Buzlu kahve', tur: 'icecek', renk: '#8a5a3c' },
-  { id: 'kazandibi', ad: 'Kazandibi', tur: 'tatli', renk: '#e9c48a' },
-  { id: 'kunefe', ad: 'Künefe', tur: 'tatli', renk: '#e08a2c' },
-  { id: 'ayva', ad: 'Ayva tatlısı', tur: 'tatli', renk: '#c8452f' },
-  { id: 'waffle', ad: 'Waffle', tur: 'tatli', renk: '#d9a05b' },
-];
+// Ürünler ayar dosyasında (resimleri public/gorseller/urunler/<id>.webp). Çizimler Canva; kaynak docs/lisanslar.md.
+export const URUNLER: Urun[] = AYAR.urunler.map((u) => ({ ...u, tur: u.tur as UrunTuru }));
 
 // Ürünün URUNLER içindeki sırası (oyun içinde ürünler bu sırayla tutulur).
 export function urunSirasi(id: string): number {
@@ -455,7 +421,7 @@ export function sandikOdulSec(rastgele: number): SandikOdulu {
 // Bölümler ekranında bir sayfadaki bölüm sayısı (Kemal, 5 Kasım: "Daha küçük sayfalar
 // mesela 20'li veya 12'li gibi"; 20 seçildi: satırda 4, 5 satır telefona sığar).
 // 5 Kasım gecesi: 150 bölüm, künyedeki 5 mahalle; Kemal: "bir mahalleye de 30'ar bölüm koyabilirsin".
-export const SAYFADA_BOLUM = 30;
+export const SAYFADA_BOLUM: number = AYAR.lokasyon.bolumSayisi;
 
 // ---------- Yeni öğeler (Kemal, 5 Kasım 2026 gecesi: "Her mahallede bir") ----------
 // Her mahallenin ilk bölümünde bir yeni öğe tanıtılır; o bölümden sonra bütün
@@ -463,25 +429,26 @@ export const SAYFADA_BOLUM = 30;
 // Oranlar ve süreler DENEME.
 
 // Buzlu top (Stadyum, 31. bölümden): buz içindeki top iki dokunuşta çözülür, sonra gider.
-export const BUZLU_TOP_BOLUMU = 31;
-export const BUZLU_TOP_ORANI = 0.12; // DENEME: topların kabaca bu kadarı buzlu
+const YENI_OGE = AYAR.bolumler.yeniOgeler;
+export const BUZLU_TOP_BOLUMU: number = YENI_OGE.buzluTop.bolum;
+export const BUZLU_TOP_ORANI: number = YENI_OGE.buzluTop.oran; // DENEME: topların kabaca bu kadarı buzlu
 export const BUZ_DOKUNUS = 2;
 // Sıcak içilenler buzlu gelmez (Kemal, 6 Kasım: "sıcak içilen içeceklere buz olmasın çay gibi kahve gibi").
 export const BUZSUZ_URUNLER = ['cay', 'kahve'];
 
 // Gizli top (Çiftlik, 61. bölümden): rengi görünmez ("?"); sütunun en üstüne gelince açılır.
-export const GIZLI_TOP_BOLUMU = 61;
-export const GIZLI_TOP_ORANI = 0.15; // DENEME
+export const GIZLI_TOP_BOLUMU: number = YENI_OGE.gizliTop.bolum;
+export const GIZLI_TOP_ORANI: number = YENI_OGE.gizliTop.oran; // DENEME
 
 // Aceleci müşteri (İskele, 91. bölümden): sabrı kısa; karşılanınca ek puan.
-export const ACELECI_BOLUMU = 91;
-export const ACELECI_ORANI = 0.2; // DENEME: müşterilerin kabaca bu kadarı
+export const ACELECI_BOLUMU: number = YENI_OGE.aceleciMusteri.bolum;
+export const ACELECI_ORANI: number = YENI_OGE.aceleciMusteri.oran; // DENEME: müşterilerin kabaca bu kadarı
 export const ACELECI_SABIR_ORANI = 0.6; // DENEME: sabrı normalin bu kadarı
 export const ACELECI_EK_PUAN_ORANI = 0.5; // DENEME: istediği topların puanının bu kadarı ek
 
 // Kilitli sütun (Merkez, 121. bölümden): bir sütun kilitli başlar; bu kadar müşteri
 // karşılanınca açılır.
-export const KILITLI_SUTUN_BOLUMU = 121;
+export const KILITLI_SUTUN_BOLUMU: number = YENI_OGE.kilitliSutun.bolum;
 export const KILIT_ACAN_MUSTERI = 1;
 
 // Mahallenin ilk bölümünde "Yeni!" penceresiyle tanıtılan öğe.
@@ -557,7 +524,15 @@ export const YAS_EGILIM_KATI = 2; // DENEME
 // "Diğer mahalleye gitme butonuna kilit koy, toplam bir yıldız sayısını geçmeden
 // açılmasın." Seçim: o mahallede 75 yıldız (en çok 90); 0. bölüm sayılmaz. 9 Kasım'dan beri
 // toplam yıldızla (aşağıda mahalleAcikMi).
-export const MAHALLE_ACMA_YILDIZ = 75;
+export const MAHALLE_ACMA_YILDIZ: number = AYAR.lokasyon.acmaYildizi;
+// Lokasyonların adı ve rengi (adlar [Kemal]; 6. lokasyondan sonrakiler şimdilik "Lokasyon N").
+export const LOKASYONLAR: { ad: string; renk: string; resim?: string }[] = AYAR.lokasyon.liste;
+// Lokasyonun ekranda görünen adı. Yer adları çevrilmez; yalnız "Lokasyon N" (adı henüz konmamış) çevrilir.
+export function lokasyonAdi(m: number): string {
+  const ad = LOKASYONLAR[m % LOKASYONLAR.length]?.ad ?? '';
+  const n = /^Lokasyon (\d+)$/.exec(ad);
+  return n ? t('Lokasyon {0}', Number(n[1])) : ad;
+}
 // Bölümün mahallesi (0: Liman; 0. bölüm de Liman).
 export function bolumMahallesi(no: number): number {
   return no <= 0 ? 0 : Math.floor((no - 1) / SAYFADA_BOLUM);
@@ -604,39 +579,26 @@ export const EK_HAMLE = 5; // "+5 hamle" yardımcısı
 // ---------- Para, mağaza, rozetler, kartpostallar (Kemal, 9 Kasım 2026) ----------
 // "Toplanan bir para olur onunla alınabilen temalar, arka planlar ..."; para adı [Kemal]
 // (ekranda yalnız simge). Kazanma: yıldız, sandık, günlük ödül, rozet. Bütün sayılar DENEME.
-export const YILDIZ_PARASI = 10; // yeni kazanılan her yıldız
-export const SANDIK_PARA = [20, 50]; // sandıktan rastgele, bu aralıkta
-export const GUNLUK_PARA = 25; // günlük ödülün her günü ayrıca
-export const GUNLUK_7_PARA = 100; // 7. gün ayrıca
-export const YARDIMCI_FIYATI = 100;
-export const CAN_FIYATI = 80;
-export const TEMA_FIYATI = 500;
+export const YILDIZ_PARASI: number = AYAR.para.yildiz; // yeni kazanılan her yıldız
+export const SANDIK_PARA: number[] = AYAR.para.sandik; // sandıktan rastgele, bu aralıkta
+export const GUNLUK_PARA: number = AYAR.para.gunluk; // günlük ödülün her günü ayrıca
+export const GUNLUK_7_PARA: number = AYAR.para.gunluk7; // 7. gün ayrıca
+export const YARDIMCI_FIYATI: number = AYAR.magaza.yardimciFiyati;
+export const CAN_FIYATI: number = AYAR.magaza.canFiyati;
+export const TEMA_FIYATI: number = AYAR.magaza.temaFiyati;
 // Arka plan temaları: oyun ekranının zemini ve tente. 'mor' başta açık (bugünkü görünüş).
-export const TEMALAR = ['mor', 'gece', 'sonbahar', 'deniz', 'pamuk-seker', 'kis'] as const; // kis: Kemal, 9 Kasım
-export type Tema = (typeof TEMALAR)[number];
-export const TEMA_ADLARI: Record<Tema, string> = {
-  mor: 'Dükkân',
-  gece: 'Gece',
-  sonbahar: 'Sonbahar',
-  deniz: 'Deniz',
-  'pamuk-seker': 'Pamuk şeker',
-  kis: 'Kış',
-};
+// Temalar: görünüşleri stil.css'te (#kok[data-tema="..."]); yeni tema için CSS de gerekir.
+export const TEMALAR: string[] = AYAR.magaza.temalar.map((x) => x.id);
+export type Tema = string;
+export const TEMA_ADLARI: Record<Tema, string> = Object.fromEntries(AYAR.magaza.temalar.map((x) => [x.id, x.ad]));
 // Dondurmacı kızın kostümleri (Kemal, 9 Kasım: "Kızın kostümleri olsun satılan"; "kızlar olsun
-// çalışan"). 'klasik' başta açık. Fiyat DENEME.
-export const KOSTUMLER = ['klasik', 'maras', 'denizci', 'asci', 'kislik', 'yazlik'] as const; // kislik, yazlik: Kemal seçti (9 Kasım)
-export type Kostum = (typeof KOSTUMLER)[number];
-export const KOSTUM_ADLARI: Record<Kostum, string> = {
-  klasik: 'Dükkân önlüğü',
-  maras: 'Maraş dondurmacısı',
-  denizci: 'Denizci',
-  asci: 'Aşçı',
-  kislik: 'Kışlık',
-  yazlik: 'Yazlık',
-};
-export const KOSTUM_FIYATI = 800;
+// çalışan"). İlki başta açık; resmi gorseller/tezgah/dondurmaci-<id>.webp (ilki dondurmaci.webp). Fiyat DENEME.
+export const KOSTUMLER: string[] = AYAR.magaza.kostumler.map((x) => x.id);
+export type Kostum = string;
+export const KOSTUM_ADLARI: Record<Kostum, string> = Object.fromEntries(AYAR.magaza.kostumler.map((x) => [x.id, x.ad]));
+export const KOSTUM_FIYATI: number = AYAR.magaza.kostumFiyati;
 // Lokasyon kartı açılınca verilen para (Kemal, 9 Kasım: "Lokasyon kartı + ödül"). DENEME.
-export const KART_PARASI = 150;
+export const KART_PARASI: number = AYAR.para.kart;
 // Rozetler (Kemal onayladı, 9 Kasım). Ödül: para; bazılarında yardımcı ya da can.
 export type RozetOdulu = { para: number; yardimci?: boolean; can?: boolean };
 export const ROZETLER: { id: string; ad: string; odul: RozetOdulu }[] = [

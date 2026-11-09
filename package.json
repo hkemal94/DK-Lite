@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc --noEmit && vite build",
+    "build": "node araclar/ayar-denetimi.mjs && tsc --noEmit && vite build",
+    "ayar-denetimi": "node araclar/ayar-denetimi.mjs",
     "preview": "vite preview --host"
   },
   "devDependencies": {

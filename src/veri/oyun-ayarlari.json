@@ -1,0 +1,568 @@
+{
+  "aciklama": "DK Lite oyun ayarları. KKM'deki panel bu dosyayı düzenler; değişiklik öneri (PR) olarak gelir, Kemal birleştirince oyuna girer. Biçimi: docs/ayar-dosyasi.md. Sayıların çoğu DENEME değeridir.",
+  "surum": 1,
+  "bolumSayisi": 390,
+  "lokasyon": {
+    "bolumSayisi": 30,
+    "acmaYildizi": 75,
+    "liste": [
+      {
+        "ad": "Liman",
+        "renk": "#8a4cbc"
+      },
+      {
+        "ad": "Stadyum",
+        "renk": "#3fa6c4"
+      },
+      {
+        "ad": "Çiftlik",
+        "renk": "#93b456"
+      },
+      {
+        "ad": "İskele",
+        "renk": "#ee9a52"
+      },
+      {
+        "ad": "Merkez",
+        "renk": "#d96c8c"
+      },
+      {
+        "ad": "Lokasyon 6",
+        "renk": "#2f4f8f"
+      },
+      {
+        "ad": "Lokasyon 7",
+        "renk": "#c79a1e"
+      },
+      {
+        "ad": "Lokasyon 8",
+        "renk": "#e0664f"
+      },
+      {
+        "ad": "Lokasyon 9",
+        "renk": "#8c6fc4"
+      },
+      {
+        "ad": "Lokasyon 10",
+        "renk": "#2f7a5a"
+      },
+      {
+        "ad": "Lokasyon 11",
+        "renk": "#1f9aa8"
+      },
+      {
+        "ad": "Lokasyon 12",
+        "renk": "#9c3a5c"
+      },
+      {
+        "ad": "Lokasyon 13",
+        "renk": "#b8641f"
+      }
+    ]
+  },
+  "urunler": [
+    {
+      "id": "cikolata",
+      "ad": "Çikolata",
+      "tur": "dondurma",
+      "renk": "#7b4a2d"
+    },
+    {
+      "id": "cilek",
+      "ad": "Çilek",
+      "tur": "dondurma",
+      "renk": "#f39ab4"
+    },
+    {
+      "id": "limon",
+      "ad": "Limon",
+      "tur": "dondurma",
+      "renk": "#ffd83d"
+    },
+    {
+      "id": "fistik",
+      "ad": "Fıstık",
+      "tur": "dondurma",
+      "renk": "#a9cf6b"
+    },
+    {
+      "id": "vanilya",
+      "ad": "Vanilya",
+      "tur": "dondurma",
+      "renk": "#fff3d6"
+    },
+    {
+      "id": "pasta",
+      "ad": "Dilim pasta",
+      "tur": "tatli",
+      "renk": "#f7d9a8"
+    },
+    {
+      "id": "kek",
+      "ad": "Küçük kek",
+      "tur": "tatli",
+      "renk": "#c98a4a"
+    },
+    {
+      "id": "meyve",
+      "ad": "Kâsede meyve",
+      "tur": "tatli",
+      "renk": "#e2475b"
+    },
+    {
+      "id": "limonata",
+      "ad": "Limonata",
+      "tur": "icecek",
+      "renk": "#ffe680"
+    },
+    {
+      "id": "gazoz",
+      "ad": "Gazoz",
+      "tur": "icecek",
+      "renk": "#9fd8c4"
+    },
+    {
+      "id": "kahve",
+      "ad": "Türk kahvesi",
+      "tur": "icecek",
+      "renk": "#5b3a24"
+    },
+    {
+      "id": "cay",
+      "ad": "Çay",
+      "tur": "icecek",
+      "renk": "#b8401f"
+    },
+    {
+      "id": "sakizli",
+      "ad": "Sakızlı",
+      "tur": "dondurma",
+      "renk": "#f3f5ea"
+    },
+    {
+      "id": "baklava",
+      "ad": "Baklava",
+      "tur": "tatli",
+      "renk": "#d9a24a"
+    },
+    {
+      "id": "muzlu-sut",
+      "ad": "Muzlu süt",
+      "tur": "icecek",
+      "renk": "#f6e7b8"
+    },
+    {
+      "id": "sutlac",
+      "ad": "Sütlaç",
+      "tur": "tatli",
+      "renk": "#f3e3c2"
+    },
+    {
+      "id": "lokma",
+      "ad": "Lokma",
+      "tur": "tatli",
+      "renk": "#d9953f"
+    },
+    {
+      "id": "profiterol",
+      "ad": "Profiterol",
+      "tur": "tatli",
+      "renk": "#5a3420"
+    },
+    {
+      "id": "karadut",
+      "ad": "Karadut",
+      "tur": "dondurma",
+      "renk": "#5b2347"
+    },
+    {
+      "id": "kavun",
+      "ad": "Kavun",
+      "tur": "dondurma",
+      "renk": "#f7b26b"
+    },
+    {
+      "id": "visne-suyu",
+      "ad": "Vişne suyu",
+      "tur": "icecek",
+      "renk": "#9e1b32"
+    },
+    {
+      "id": "buzlu-kahve",
+      "ad": "Buzlu kahve",
+      "tur": "icecek",
+      "renk": "#8a5a3c"
+    },
+    {
+      "id": "kazandibi",
+      "ad": "Kazandibi",
+      "tur": "tatli",
+      "renk": "#e9c48a"
+    },
+    {
+      "id": "kunefe",
+      "ad": "Künefe",
+      "tur": "tatli",
+      "renk": "#e08a2c"
+    },
+    {
+      "id": "ayva",
+      "ad": "Ayva tatlısı",
+      "tur": "tatli",
+      "renk": "#c8452f"
+    },
+    {
+      "id": "waffle",
+      "ad": "Waffle",
+      "tur": "tatli",
+      "renk": "#d9a05b"
+    }
+  ],
+  "baslangicUrunleri": [
+    "cikolata",
+    "cilek",
+    "limon"
+  ],
+  "hediyeler": [
+    {
+      "urun": "limonata",
+      "bolum": 0
+    },
+    {
+      "urun": "fistik",
+      "bolum": 5
+    },
+    {
+      "urun": "pasta",
+      "bolum": 11
+    },
+    {
+      "urun": "gazoz",
+      "bolum": 17
+    },
+    {
+      "urun": "vanilya",
+      "bolum": 25
+    },
+    {
+      "urun": "kek",
+      "bolum": 33
+    },
+    {
+      "urun": "cay",
+      "bolum": 42
+    },
+    {
+      "urun": "sakizli",
+      "bolum": 51
+    },
+    {
+      "urun": "meyve",
+      "bolum": 62
+    },
+    {
+      "urun": "kahve",
+      "bolum": 73
+    },
+    {
+      "urun": "sutlac",
+      "bolum": 85
+    },
+    {
+      "urun": "muzlu-sut",
+      "bolum": 98
+    },
+    {
+      "urun": "lokma",
+      "bolum": 111
+    },
+    {
+      "urun": "profiterol",
+      "bolum": 126
+    },
+    {
+      "urun": "baklava",
+      "bolum": 141
+    },
+    {
+      "urun": "karadut",
+      "bolum": 157
+    },
+    {
+      "urun": "visne-suyu",
+      "bolum": 174
+    },
+    {
+      "urun": "kazandibi",
+      "bolum": 191
+    },
+    {
+      "urun": "kavun",
+      "bolum": 209
+    },
+    {
+      "urun": "buzlu-kahve",
+      "bolum": 228
+    },
+    {
+      "urun": "kunefe",
+      "bolum": 248
+    },
+    {
+      "urun": "ayva",
+      "bolum": 269
+    },
+    {
+      "urun": "waffle",
+      "bolum": 290
+    }
+  ],
+  "yeniUrun": {
+    "sayi": 3,
+    "sure": 30
+  },
+  "para": {
+    "yildiz": 10,
+    "sandik": [
+      20,
+      50
+    ],
+    "gunluk": 25,
+    "gunluk7": 100,
+    "kart": 150
+  },
+  "magaza": {
+    "yardimciFiyati": 100,
+    "canFiyati": 80,
+    "temaFiyati": 500,
+    "kostumFiyati": 800,
+    "temalar": [
+      {
+        "id": "mor",
+        "ad": "Dükkân"
+      },
+      {
+        "id": "gece",
+        "ad": "Gece"
+      },
+      {
+        "id": "sonbahar",
+        "ad": "Sonbahar"
+      },
+      {
+        "id": "deniz",
+        "ad": "Deniz"
+      },
+      {
+        "id": "pamuk-seker",
+        "ad": "Pamuk şeker"
+      },
+      {
+        "id": "kis",
+        "ad": "Kış"
+      }
+    ],
+    "kostumler": [
+      {
+        "id": "klasik",
+        "ad": "Dükkân önlüğü"
+      },
+      {
+        "id": "maras",
+        "ad": "Maraş dondurmacısı"
+      },
+      {
+        "id": "denizci",
+        "ad": "Denizci"
+      },
+      {
+        "id": "asci",
+        "ad": "Aşçı"
+      },
+      {
+        "id": "kislik",
+        "ad": "Kışlık"
+      },
+      {
+        "id": "yazlik",
+        "ad": "Yazlık"
+      }
+    ]
+  },
+  "bolumler": {
+    "ilkBolumler": [
+      {
+        "sutun": 4,
+        "cesit": 3,
+        "musteri": 10,
+        "istekEnAz": 2,
+        "istekEnCok": 4,
+        "bantYeri": 12,
+        "ikiCesitOrani": 0.0
+      },
+      {
+        "sutun": 4,
+        "cesit": 3,
+        "musteri": 11,
+        "istekEnAz": 2,
+        "istekEnCok": 4,
+        "bantYeri": 12,
+        "ikiCesitOrani": 0.0
+      },
+      {
+        "sutun": 4,
+        "cesit": 3,
+        "musteri": 11,
+        "istekEnAz": 3,
+        "istekEnCok": 4,
+        "bantYeri": 12,
+        "ikiCesitOrani": 0.0
+      },
+      {
+        "sutun": 4,
+        "cesit": 3,
+        "musteri": 13,
+        "istekEnAz": 3,
+        "istekEnCok": 4,
+        "bantYeri": 12,
+        "ikiCesitOrani": 0.0
+      },
+      {
+        "sutun": 4,
+        "cesit": 3,
+        "musteri": 14,
+        "istekEnAz": 3,
+        "istekEnCok": 4,
+        "bantYeri": 12,
+        "ikiCesitOrani": 0.0
+      },
+      {
+        "sutun": 4,
+        "cesit": 4,
+        "musteri": 14,
+        "istekEnAz": 3,
+        "istekEnCok": 4,
+        "bantYeri": 12,
+        "ikiCesitOrani": 0.3
+      },
+      {
+        "sutun": 4,
+        "cesit": 4,
+        "musteri": 14,
+        "istekEnAz": 3,
+        "istekEnCok": 4,
+        "bantYeri": 11,
+        "ikiCesitOrani": 0.3
+      },
+      {
+        "sutun": 4,
+        "cesit": 4,
+        "musteri": 15,
+        "istekEnAz": 3,
+        "istekEnCok": 4,
+        "bantYeri": 11,
+        "ikiCesitOrani": 0.4
+      },
+      {
+        "sutun": 4,
+        "cesit": 4,
+        "musteri": 15,
+        "istekEnAz": 3,
+        "istekEnCok": 5,
+        "bantYeri": 10,
+        "ikiCesitOrani": 0.4
+      },
+      {
+        "sutun": 4,
+        "cesit": 4,
+        "musteri": 15,
+        "istekEnAz": 3,
+        "istekEnCok": 5,
+        "bantYeri": 10,
+        "ikiCesitOrani": 0.5
+      }
+    ],
+    "kural": {
+      "musteri": {
+        "baslangic": 15,
+        "herKacBolumdeBir": 4,
+        "enCok": 22
+      },
+      "cesit": [
+        {
+          "bolumden": 11,
+          "deger": 4
+        },
+        {
+          "bolumden": 16,
+          "deger": 5
+        },
+        {
+          "bolumden": 25,
+          "deger": 6
+        }
+      ],
+      "bantYeri": [
+        {
+          "bolumden": 11,
+          "deger": 10
+        },
+        {
+          "bolumden": 14,
+          "deger": 9
+        },
+        {
+          "bolumden": 22,
+          "deger": 8
+        }
+      ],
+      "ikiCesitOrani": [
+        {
+          "bolumden": 11,
+          "deger": 0.5
+        },
+        {
+          "bolumden": 18,
+          "deger": 0.6
+        },
+        {
+          "bolumden": 26,
+          "deger": 0.7
+        }
+      ],
+      "istekEnAz": 3,
+      "istekEnCok": 5,
+      "sutun": 4
+    },
+    "zor": {
+      "musteri": 2,
+      "bantEksik": 1,
+      "ikiCesit": 0.1
+    },
+    "cokZor": {
+      "musteri": 3,
+      "bantEksik": 2,
+      "ikiCesit": 0.15
+    },
+    "rahatGeri": 3,
+    "bantEnAz": 6,
+    "ikiCesitEnCok": 0.8,
+    "yeniOgeler": {
+      "buzluTop": {
+        "bolum": 31,
+        "oran": 0.12
+      },
+      "gizliTop": {
+        "bolum": 61,
+        "oran": 0.15
+      },
+      "aceleciMusteri": {
+        "bolum": 91,
+        "oran": 0.2
+      },
+      "kilitliSutun": {
+        "bolum": 121
+      }
+    }
+  }
+}

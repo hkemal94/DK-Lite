@@ -6,7 +6,7 @@
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
 import { t } from './dil';
-import { BOLUM_SAYISI, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleGereken, toplamYildiz } from './ayarlar';
+import { BOLUM_SAYISI, LOKASYONLAR, SAYFADA_BOLUM, lokasyonAdi, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleGereken, toplamYildiz } from './ayarlar';
 import { ogreticiBittiMi, type Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -19,11 +19,7 @@ const NS = 'http://www.w3.org/2000/svg';
 // sayısını geçerse duraklar baştan tekrar eder.
 // 150 bölüm = 5 mahalle × 30 (Kemal: "Künyedeki yerleri kullan, bir mahalleye de 30'ar bölüm").
 // 6–10: adları sonra (Kemal, 9 Kasım: "şimdilik isimleri lokasyon 6, lokasyon 7 gibi ilerlet").
-const DURAKLAR = [
-  { ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }, { ad: 'İskele' }, { ad: 'Merkez' },
-  { ad: t('Lokasyon {0}', 6) }, { ad: t('Lokasyon {0}', 7) }, { ad: t('Lokasyon {0}', 8) }, { ad: t('Lokasyon {0}', 9) }, { ad: t('Lokasyon {0}', 10) },
-  { ad: t('Lokasyon {0}', 11) }, { ad: t('Lokasyon {0}', 12) }, { ad: t('Lokasyon {0}', 13) },
-];
+// Lokasyonların adı ve rengi ayar dosyasında (LOKASYONLAR).
 // Kaldığın bölümün üstünde dondurmacının başı.
 const DONDURMACI_BAS = 'gorseller/dondurmaci-bas.webp';
 
@@ -154,9 +150,13 @@ export function haritaCiz(
   const ilk = sayfa * SAYFADA_BOLUM + 1;
   const son = Math.min(BOLUM_SAYISI, ilk + SAYFADA_BOLUM - 1);
   sayfaYazi.textContent = `${ilk}–${son}`;
-  const durak = DURAKLAR[sayfa % DURAKLAR.length];
-  baslik.textContent = durak.ad;
-  kutu.dataset.durak = String(sayfa % DURAKLAR.length);
+  const lok = LOKASYONLAR[sayfa % LOKASYONLAR.length];
+  baslik.textContent = lokasyonAdi(sayfa);
+  kutu.dataset.durak = String(sayfa % LOKASYONLAR.length);
+  // Zemin rengi (ve varsa resmi) ayar dosyasından.
+  kutu.style.setProperty('--durak', lok.renk);
+  kutu.style.setProperty('--durak-resim', lok.resim ? `url("${lok.resim}")` : 'none');
+  kutu.classList.toggle('resimli', !!lok.resim);
   let gecilen = 0;
   for (let n = ilk; n <= son; n++) if ((kayit.yildizlar[n - 1] ?? 0) > 0) gecilen++;
   ilerleme.textContent = `${gecilen}/${son - ilk + 1}`;

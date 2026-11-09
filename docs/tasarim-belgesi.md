@@ -30,6 +30,13 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.48 Ayarlar tek dosyada (KKM paneli 1. adım) (Kemal, 9 Kasım 2026; öneri)
+
+- Kemal: KKM'de bölümleri, arka planları, hediyeleri "sürükle bırakla" değiştirebileceği bir panel; seçimleri: panel KKM'de Oyunlar ekranında; ilk etapta hediyeler ve sırası, lokasyonlar, mağaza, bölüm ayarları. 1. adım (bu öneri): bu ayarlar kodun içinden tek dosyaya taşındı: `src/veri/oyun-ayarlari.json`. Biçimi: `docs/ayar-dosyasi.md`.
+- Ekranda bir şey değişmedi: 0–390 bölümün hepsi önceki hâliyle birebir aynı kuruluyor (karşılaştırıldı). Lokasyon zemin renkleri artık dosyadaki tek renkten türetiliyor; görünüş aynı, albümde Stadyum kartı bir ton açık (haritadaki renkle aynı oldu). Lokasyona resim de verilebilir.
+- Derlemeden önce ayar denetimi çalışır (`araclar/ayar-denetimi.mjs`): yanlış değer varsa (sırası bozuk hediye, olmayan ürün, resmi olmayan kostüm, görünüşü olmayan tema ...) Türkçe uyarıyla durur, oyun yayına çıkmaz.
+- 2. adım: panel KKM deposunda yapılır (Kems'e iş). Panel dosyayı düzenler ve DK Lite'a öneri açar; Kemal birleştirir.
+
 ### 0.47 390 bölüm, 13 lokasyon (Kemal, 9 Kasım 2026; öneri)
 
 - Kemal: "3 lokasyon daha ekleyebilirsin 390 olsun bakalım". Her biri 30 bölüm: Lokasyon 11 (301–330), Lokasyon 12 (331–360), Lokasyon 13 (361–390); adları [Kemal]. Renkleri ekip seçti: turkuaz, bordo, tarçın. Kilidi toplam yıldızla (her lokasyon için 75). Albümde 13 kart; küçük telefonda kartlar biraz alçalır, hepsi sığar.
