@@ -36,6 +36,8 @@ import {
   ACELECI_ORANI,
   AYNI_ANDA_MUSTERI,
   BUZ_DOKUNUS,
+  HAMLE_PAY_EN_AZ,
+  HAMLE_PAY_ORANI,
   BUZSUZ_URUNLER,
   BUZLU_TOP_BOLUMU,
   BUZLU_TOP_ORANI,
@@ -85,6 +87,7 @@ export interface Bolum {
   sakliOzel: TopOzel[];
   aceleci: boolean[]; // müşteriler sırasıyla: sabrı kısa, ek puanlı
   kilitliSutun: number; // kilitli başlayan sütun (-1: yok)
+  hedefHamle: number; // 3 yıldız için en çok hamle (çözücünün yolu + buz + pay)
 }
 
 export interface TopOzel {
@@ -92,7 +95,7 @@ export interface TopOzel {
   gizli: boolean;
 }
 
-type Taslak = Omit<Bolum, 'deneme' | 'sutunOzel' | 'sakliOzel' | 'aceleci' | 'kilitliSutun'>;
+type Taslak = Omit<Bolum, 'deneme' | 'sutunOzel' | 'sakliOzel' | 'aceleci' | 'kilitliSutun' | 'hedefHamle'>;
 
 // Tohumlu rastgele sayı üreteci: aynı tohum her zaman aynı sayıları verir.
 type Uretec = () => number; // [0, 1)
@@ -240,6 +243,13 @@ const COZUCU_SINIRI = 20000;
 // Ekranda müşteri yerleri hep dolu sayılır: erime yokken oyuncu bekleyerek
 // yerlerin dolmasını sağlayabilir, bu yüzden bu varsayım oyuncunun elindedir.
 export function kazanilabilirMi(bolum: Taslak, kilitliSutun = -1): boolean {
+  return cozumHamlesi(bolum, kilitliSutun) !== null;
+}
+
+// Çözücünün bulduğu kazanma yolunun hamle sayısı (bulamazsa null). Bu yol en kısa
+// olmak zorunda değil; hedef hamle bundan hesaplanır (tasarım belgesi 0.37).
+export function cozumHamlesi(bolum: Taslak, kilitliSutun = -1): number | null {
+  let bulunan: number | null = null;
   const gorulen = new Set<string>();
   const { musteriler, sakli, bantYeri } = bolum;
   let denenen = 0;
@@ -250,6 +260,7 @@ export function kazanilabilirMi(bolum: Taslak, kilitliSutun = -1): boolean {
     bant: number[],
     gorunen: { cesit: number; kalan: number }[][], // her müşterinin kalan istek parçaları
     siradaki: number,
+    derinlik: number,
   ): boolean {
     // Bantta olanı müşterilere ver; biten gider, sıradaki gelir.
     bant = bant.slice();
@@ -275,7 +286,10 @@ export function kazanilabilirMi(bolum: Taslak, kilitliSutun = -1): boolean {
       }
       gorunen = kalanlar;
     }
-    if (gorunen.length === 0) return true;
+    if (gorunen.length === 0) {
+      bulunan = derinlik;
+      return true;
+    }
 
     const anahtar = sutunlar.map((s) => s.join('.')).join(',') + '|' + sakliSira + '|' +
       bant.join(',') + '|' + gorunen.map((m) => m.map((g) => g.cesit + ':' + g.kalan).join('+')).join(',') + '|' + siradaki;
@@ -311,18 +325,20 @@ export function kazanilabilirMi(bolum: Taslak, kilitliSutun = -1): boolean {
       for (let k = 0; k < giden && yeniSira < sakli.length; k++) gelen.push(sakli[yeniSira++]);
       const yeniSutunlar = sutunlar.slice();
       yeniSutunlar[s] = gelen.reverse().concat(yeniSutun);
-      if (ara(yeniSutunlar, yeniSira, yeniBant, gorunen, siradaki)) return true;
+      if (ara(yeniSutunlar, yeniSira, yeniBant, gorunen, siradaki, derinlik + 1)) return true;
     }
     return false;
   }
 
-  return ara(
+  ara(
     bolum.sutunlar.map((s) => s.slice()),
     0,
     new Array(URUNLER.length).fill(0),
     [],
     0,
+    0,
   );
+  return bulunan;
 }
 
 // Kurulan bölümler bellekte tutulur (aynı bölüm ikinci kez hemen açılsın).
@@ -342,7 +358,8 @@ export function bolumKur(no: number): Bolum {
   const kilitliSutun = no >= KILITLI_SUTUN_BOLUMU ? rastgeleTam(o, 0, sutunSayisi - 1) : -1;
   for (let deneme = 1; ; deneme++) {
     const b = bolumTaslagi(no, r);
-    if (b && kazanilabilirMi(b, kilitliSutun)) {
+    const yol = b ? cozumHamlesi(b, kilitliSutun) : null;
+    if (b && yol !== null) {
       const buzOlur = (c: number) => !BUZSUZ_URUNLER.includes(URUNLER[c].id);
       const ozel = (c: number): TopOzel => ({
         buz: no >= BUZLU_TOP_BOLUMU && o() < BUZLU_TOP_ORANI && buzOlur(c) ? BUZ_DOKUNUS : 0,
@@ -355,6 +372,7 @@ export function bolumKur(no: number): Bolum {
         sakliOzel: b.sakli.map((c) => ozel(c)),
         aceleci: b.musteriler.map(() => no >= ACELECI_BOLUMU && o() < ACELECI_ORANI),
         kilitliSutun,
+        hedefHamle: 0,
       };
       // Tanıtım bölümünde öğe mutlaka görünsün: en az bir tane (sütunda görünen bir top).
       // Buzlu: ilk sütunun en üstündeki top (oyuncu hemen dener).
@@ -364,6 +382,9 @@ export function bolumKur(no: number): Bolum {
       }
       if (no === GIZLI_TOP_BOLUMU && !bolum.sutunOzel.some((s) => s.slice(0, -1).some((t) => t.gizli))) bolum.sutunOzel[1][0].gizli = true;
       if (no === ACELECI_BOLUMU && !bolum.aceleci.slice(0, 3).some((a) => a)) bolum.aceleci[1] = true;
+      // Hedef hamle: çözücünün yolu + buz kırma dokunuşları + pay (rahat ayar; DENEME).
+      const buzDokunus = [...bolum.sutunOzel.flat(), ...bolum.sakliOzel].reduce((a, t) => a + t.buz, 0);
+      bolum.hedefHamle = Math.ceil((yol + buzDokunus) * (1 + HAMLE_PAY_ORANI)) + HAMLE_PAY_EN_AZ;
       kurulanlar.set(no, bolum);
       return bolum;
     }

@@ -473,7 +473,9 @@ export function bolumdeTanitilanOge(no: number): YeniOge | null {
 // Fazla bant yeri, +1 sütun"); başlangıçta her birinden 1; sandıktan, günlük ödülden ve
 // galibiyet serisinden kazanılır. Seri: "3 kazançta yardım". Günlük: "7 günlük takvim".
 // Sayılar DENEME.
-export const YARDIMCI_IDLERI = ['bant-bosalt', 'karistir', 'sabir-durdur', 'fazla-bant', 'ek-sutun'] as const;
+export const YARDIMCI_IDLERI = ['bant-bosalt', 'karistir', 'sabir-durdur', 'fazla-bant', 'ek-sutun', 'ek-hamle'] as const;
+// Alttaki şeritte görünenler; "+5 hamle" yalnız hamle bitince sunulur (Kemal, 9 Kasım).
+export const SERITTEKI_YARDIMCILAR = ['bant-bosalt', 'karistir', 'sabir-durdur', 'fazla-bant', 'ek-sutun'] as const;
 export type Yardimci = (typeof YARDIMCI_IDLERI)[number];
 // Yazılar ne yaptığını söyler (Kemal'in kendi sözleri); süs adı değil.
 export const YARDIMCI_ADLARI: Record<Yardimci, string> = {
@@ -482,6 +484,7 @@ export const YARDIMCI_ADLARI: Record<Yardimci, string> = {
   'sabir-durdur': 'Sabrı durdur',
   'fazla-bant': 'Fazla bant yeri',
   'ek-sutun': '+1 sütun',
+  'ek-hamle': '+5 hamle',
 };
 export const BASLANGIC_YARDIMCI = 1; // her birinden
 export const SABIR_DURDUR_SN = 30; // DENEME
@@ -543,3 +546,21 @@ export function mahalleAcikMi(yildizlar: number[], m: number): boolean {
   for (let k = 1; k <= m; k++) if (mahalleYildizi(yildizlar, k - 1) < MAHALLE_ACMA_YILDIZ) return false;
   return true;
 }
+
+// ---------- Hamle ve puanlama (Kemal, 9 Kasım 2026) ----------
+// "Bölümlerde hamle sayısının hiç önemi yok sürekli bir şeylere basarak da bölüm geçilebiliyor."
+// Seçimler: hamleye göre yıldız ("Rahat"), boşa giden top cezası ve hamle sınırı birlikte
+// ("Hepsi olur"); sınır hedefin 2 katı, 11. bölümden; hamle bitince "+5 hamle" yardımcısı.
+// Hamle: top gönderme ve buz kırma. Yardımcı ve sallanma (bant dolu, kilitli sütun) sayılmaz.
+// Sayılar DENEME.
+export const HAMLE_PAY_ORANI = 0.1; // hedef = çözücünün yolu × 1,1 ...
+export const HAMLE_PAY_EN_AZ = 2; // ... + 2
+export const HAMLE_IKI_YILDIZ_KATI = 1.5; // hedefin 1,5 katına kadar 2 yıldız; fazlası 1
+export const HAMLE_SINIRI_KATI = 2; // sınır = hedef × 2
+export const HAMLE_SINIRI_BOLUMU = 11; // sınır bu bölümden itibaren
+export const BOSA_TOP_CEZASI = 2; // müşterinin istemediği her gönderiş bu kadar puan götürür
+// İsabet yıldızı: boşa giden topun hamleye oranı. Ölçüm (9 Kasım): dikkatli oynayan %10–26,
+// rastgele dokunan %35–69; puan cezası ikisini ayıramıyordu (dikkatli oyuncu da kazı yapar).
+// %30'a kadar 3 yıldız, %40'a kadar 2, fazlası 1. DENEME.
+export const ISABET_ESIKLERI = [0.3, 0.4];
+export const EK_HAMLE = 5; // "+5 hamle" yardımcısı

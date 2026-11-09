@@ -26,6 +26,13 @@ import {
   SERI_YARDIMCI_ARALIGI,
   YARDIMCI_ADLARI,
   YARDIMCI_IDLERI,
+  SERITTEKI_YARDIMCILAR,
+  BOSA_TOP_CEZASI,
+  ISABET_ESIKLERI,
+  EK_HAMLE,
+  HAMLE_IKI_YILDIZ_KATI,
+  HAMLE_SINIRI_BOLUMU,
+  HAMLE_SINIRI_KATI,
   seriYardimi,
   type GunlukOdul,
   type Yardimci,
@@ -156,6 +163,9 @@ const UCAN_MS = 900;
 const DISLI_SVG =
   '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.3 4.7.1-1.2-.1-1.2 2-1.6-2-3.4-2.4 1a8 8 0 0 0-2-1.2L15.5 3h-4l-.4 2.6a8 8 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6-.1 1.2.1 1.2-2 1.6 2 3.4 2.4-1c.6.5 1.3.9 2 1.2l.4 2.6h4l.4-2.6c.7-.3 1.4-.7 2-1.2l2.4 1 2-3.4-2-1.6Z" fill="currentColor"/></svg>';
 // Üst şeritteki sayaçların simgeleri (yuvarlak, dolu, kalın; arayüz dili 5 Kasım).
+// Hamle sayacının simgesi: dokunan parmak.
+const HAMLE_SIMGE_SVG =
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V12m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.3-2.2 5.5-5.5 5.5h-.8c-1.9 0-3.3-.8-4.4-2.3L5 15.6a1.5 1.5 0 0 1 2.3-1.9L9 15.5" fill="#fff" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const MUSTERI_SIMGE_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M4.5 21c0-4.4 3.4-7.5 7.5-7.5s7.5 3.1 7.5 7.5Z" fill="currentColor"/></svg>';
 const PUAN_SIMGE_SVG =
@@ -198,6 +208,9 @@ const YARDIMCI_SVG: Record<Yardimci, string> = {
   // +1 sütun: raf ve artı
   'ek-sutun':
     '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="9" y="4" width="14" height="24" rx="4" fill="#f3d9b1" stroke="#4a2a12" stroke-width="2.2"/><circle cx="16" cy="11" r="3.2" fill="#ff9fb8" stroke="#4a2a12" stroke-width="1.4"/><circle cx="16" cy="20" r="3.2" fill="#c08850" stroke="#4a2a12" stroke-width="1.4"/><circle cx="25" cy="25" r="5.5" fill="#7fd36b" stroke="#4a2a12" stroke-width="1.8"/><path d="M25 22v6m-3-3h6" stroke="#4a2a12" stroke-width="2" stroke-linecap="round"/></svg>',
+  // +5 hamle: dokunan el ve +5
+  'ek-hamle':
+    '<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="#ffd23f" stroke="#4a2a12" stroke-width="2.2"/><text x="16" y="21" text-anchor="middle" font-size="13" font-weight="800" font-family="Poppins, sans-serif" fill="#4a2a12">+5</text></svg>',
 };
 const GUNLUK_YAZISI: Record<GunlukOdul, string> = {
   'bir-can': '+1 can',
@@ -269,7 +282,7 @@ interface Yerlesim {
   istekBoy: number; // istek balonundaki topun boyu
 }
 
-type Sonuc = 'kazandin' | 'doldu' | 'kalmadi' | 'kacti';
+type Sonuc = 'kazandin' | 'doldu' | 'kalmadi' | 'kacti' | 'hamle';
 // Haritada "Geri" nereye döner.
 type HaritaDonus = 'giris' | 'duraklat' | 'yerinde';
 
@@ -283,6 +296,7 @@ const HEPSI_BITTI_YAZISI = 'Bütün bölümler bitti';
 // Bölüm sonunda görünen basit durum yazısı (kurgu metni değil).
 const SONUC_YAZISI: Record<Sonuc, string> = {
   kazandin: 'Bölüm tamamlandı',
+  hamle: 'Hamle bitti',
   doldu: 'Bant doldu',
   kalmadi: 'Top kalmadı',
   kacti: 'Müşteriler gitti',
@@ -348,7 +362,12 @@ export class Oyun {
   private yardimEl!: HTMLDivElement;
   private kullanilan = new Map<Yardimci, number>();
   private sabirDurgun: [number, number][] = [];
-  private seriAfisi = 0; // bölüm başında gösterilecek seri (0: yok)
+  private seriAfisi = 0;
+  // Hamle (tasarım belgesi 0.37): yapılan hamle, boşa giden top, sınır (yoksa Infinity).
+  private hamle = 0;
+  private bosaTop = 0;
+  private hamleSiniri = Infinity;
+  private hamleEl!: HTMLSpanElement; // bölüm başında gösterilecek seri (0: yok)
   private musteriYerleri: (MusteriYeri | null)[] = [];
   private manzaraEl!: HTMLDivElement;
   private onuEl!: HTMLDivElement;
@@ -470,6 +489,9 @@ export class Oyun {
     this.puanEl = document.createElement('span');
     this.puanEl.className = 'sayac-deger';
     sayac('Puan', 'sayac-puan', PUAN_SIMGE_SVG).appendChild(this.puanEl);
+    this.hamleEl = document.createElement('span');
+    this.hamleEl.className = 'sayac-deger';
+    sayac('Hamle', 'sayac-hamle', HAMLE_SIMGE_SVG).appendChild(this.hamleEl);
     this.doluKutuEl = sayac('Bant', 'sayac-bant', BANT_SIMGE_SVG) as HTMLDivElement;
     const cubuk = document.createElement('div');
     cubuk.className = 'cubuk';
@@ -554,6 +576,8 @@ export class Oyun {
     solUst.className = 'ust-sol-ust';
     solUst.append(this.bolumNoEl, canGostergesi(true));
     sol.append(solUst, this.erimeEl);
+    // Sayaçlar 2 üstte, 2 altta (Kemal, 9 Kasım: "2 2 yap altlı üstlü"):
+    // üstte müşteri ve puan, altta hamle ve bant.
     // Sağ köşede duraklatma düğmesi (iki dik çizgi). Basınca oyun durur, seçenekler çıkar.
     this.duraklatEl = document.createElement('button');
     this.duraklatEl.className = 'kose-dugme duraklat-dugme yuvarlak mor';
@@ -912,7 +936,7 @@ export class Oyun {
     el.innerHTML = '';
     el.classList.toggle('gizli', !this.bolum || this.bolum.no === 0);
     if (!this.bolum || this.bolum.no === 0) return;
-    for (const y of YARDIMCI_IDLERI) {
+    for (const y of SERITTEKI_YARDIMCILAR) {
       const d = document.createElement('button');
       const adet = yardimciAdet(y);
       const kullanildi = (this.kullanilan.get(y) ?? 0) >= BOLUMDE_YARDIMCI_EN_COK;
@@ -1088,6 +1112,9 @@ export class Oyun {
     this.satilan = new Array(URUNLER.length).fill(0);
     this.seri = 0;
     this.seriPuani = 0;
+    this.hamle = 0;
+    this.bosaTop = 0;
+    this.hamleSiniri = no >= HAMLE_SINIRI_BOLUMU ? Math.ceil(this.bolum.hedefHamle * HAMLE_SINIRI_KATI) : Infinity;
     this.puan = 0;
     // Bölüm birkaç müşteriyle başlar (rastgele yerlerde); ötekiler teker teker gelir.
     const an = this.oyunAn;
@@ -1147,10 +1174,95 @@ export class Oyun {
   private yildizSayisi(): number {
     // Seri ek puanı yıldızı kolaylaştırmasın: yıldız yalnız ürünlerden gelen puana göre.
     const oran = (this.puan - this.seriPuani) / Math.max(1, this.enYuksekPuan());
-    return YILDIZ_ESIKLERI.filter((e) => oran >= e - 1e-9).length;
+    const puanYildizi = YILDIZ_ESIKLERI.filter((e) => oran >= e - 1e-9).length;
+    // Alınan yıldız: hamle yıldızı ile puan yıldızının düşük olanı (Kemal, 9 Kasım).
+    return Math.min(puanYildizi, this.hamleYildizi(), this.isabetYildizi());
+  }
+
+  // İsabet yıldızı: boşa giden topun hamleye oranına göre (ISABET_ESIKLERI).
+  private isabetYildizi(): number {
+    if (this.hamle === 0) return 3;
+    const oran = this.bosaTop / this.hamle;
+    if (oran <= ISABET_ESIKLERI[0]) return 3;
+    if (oran <= ISABET_ESIKLERI[1]) return 2;
+    return 1;
+  }
+
+  // Hamleye göre yıldız: hedefe kadar 3, hedefin 1,5 katına kadar 2, fazlası 1.
+  private hamleYildizi(): number {
+    const h = this.bolum.hedefHamle;
+    if (this.hamle <= h) return 3;
+    if (this.hamle <= Math.floor(h * HAMLE_IKI_YILDIZ_KATI)) return 2;
+    return 1;
+  }
+
+  // Üst şeritteki hamle sayacı: "23/39"; hedef aşılınca turuncu, 1 yıldıza düşünce kırmızı;
+  // sınırlı bölümde son 10 hamlede kalan hamle yazar.
+  private hamleCiz() {
+    if (!this.hamleEl || !this.bolum) return;
+    const kalan = this.hamleSiniri - this.hamle;
+    this.hamleEl.textContent = kalan <= 10 ? `Son ${Math.max(0, kalan)}` : `${this.hamle}/${this.bolum.hedefHamle}`;
+    const k = this.hamleEl.parentElement!;
+    k.dataset.hamle = String(this.hamle);
+    k.dataset.hedef = String(this.bolum.hedefHamle);
+    const y = this.hamleYildizi();
+    k.classList.toggle('iki-yildiz', y === 2);
+    k.classList.toggle('bir-yildiz', y === 1 || kalan <= 10);
+  }
+
+  // Hamle sayılır; sınıra gelindiyse hamle yapılamaz, "Hamle bitti" penceresi açılır.
+  private hamleVarMi(): boolean {
+    if (this.hamle < this.hamleSiniri) return true;
+    this.hamleBittiGoster();
+    return false;
+  }
+
+  private hamleBittiGoster() {
+    if (this.kok.querySelector('#hamle-bitti')) return;
+    this.duraklatildi = true;
+    const ort = odulOrtusu('hamle-bitti', 'Hamle bitti');
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const adet = yardimciAdet('ek-hamle');
+    const not = document.createElement('div');
+    not.className = 'odul-not hamle-not';
+    not.textContent = adet > 0
+      ? `"+${EK_HAMLE} hamle" yardımcısıyla devam edebilirsin (elinde ${adet}).`
+      : 'Hamlen kalmadı. Bölümü bitirirsen 1 can gider.';
+    const simge = document.createElement('div');
+    simge.className = 'yardim-buyuk hamle-simge';
+    simge.innerHTML = YARDIMCI_SVG['ek-hamle'];
+    const sira = document.createElement('div');
+    sira.className = 'son-dugmeler';
+    const bitir = document.createElement('button');
+    bitir.className = 'dugme ' + (adet > 0 ? 'krem' : 'kirmizi');
+    bitir.id = 'hamle-bitir';
+    bitir.textContent = 'Bitir';
+    bitir.addEventListener('click', () => {
+      ort.remove();
+      this.duraklatildi = false;
+      this.bitir('hamle');
+    });
+    sira.appendChild(bitir);
+    if (adet > 0) {
+      const ek = document.createElement('button');
+      ek.className = 'dugme yesil';
+      ek.id = 'hamle-ek';
+      ek.textContent = `+${EK_HAMLE} hamle`;
+      ek.addEventListener('click', () => {
+        if (!yardimciHarca('ek-hamle')) return;
+        this.hamleSiniri += EK_HAMLE;
+        ort.remove();
+        this.duraklatildi = false;
+        this.hamleCiz();
+      });
+      sira.appendChild(ek);
+    }
+    kutu.append(simge, not, sira);
+    this.kok.appendChild(ort);
   }
 
   private sayaclariCiz() {
+    this.hamleCiz();
     const toplam = this.bolum.musteriler.length;
     this.karsilananEl.textContent = `${this.karsilanan} / ${toplam}`;
     this.karsilananEl.dataset.karsilanan = String(this.karsilanan);
@@ -1636,6 +1748,9 @@ export class Oyun {
     // En üstteki top buzluysa dokunuş buzu kırar (BUZ_DOKUNUS dokunuşta çözülür).
     const ust = ozel[ozel.length - 1];
     if (ust.buz > 0) {
+      if (!this.hamleVarMi()) return;
+      this.hamle++;
+      this.hamleCiz();
       ust.buz--;
       ust.gizli = false;
       this.sutunlariCiz(sutunNo);
@@ -1650,6 +1765,7 @@ export class Oyun {
       if (!t) bosYuvalar.push(i);
     });
     const giden = Math.min(obek, bosYuvalar.length);
+    if (giden > 0 && !this.hamleVarMi()) return;
     if (giden === 0) {
       this.sutunEller[sutunNo].classList.remove('sars');
       void this.sutunEller[sutunNo].offsetWidth;
@@ -1690,7 +1806,12 @@ export class Oyun {
       }
     } else {
       this.seri = 0;
+      // Boşa giden top (hiçbir müşteri istemiyor): puan düşer (Kemal, 9 Kasım).
+      this.bosaTop++;
+      this.puan = Math.max(0, this.puan - BOSA_TOP_CEZASI);
+      this.ucanYazi(sutunUstu.x, sutunUstu.y - 20, `−${BOSA_TOP_CEZASI}`, 'ucan-ceza');
     }
+    this.hamle++;
     // Dondurmacı kısa bir tepki verir; ayarlarda açıksa telefon hafifçe titrer.
     this.dondurmaciEl.classList.remove('tepki');
     void this.dondurmaciEl.offsetWidth;
@@ -2115,6 +2236,10 @@ export class Oyun {
     };
     bilgiSatir('Hizmet edilen müşteri', `${this.karsilanan} / ${this.bolum.musteriler.length}`);
     bilgiSatir('Giden müşteri', String(this.kacan), this.kacan > 0 ? 'uyari' : '');
+    if (no > 0 || this.hamle > 0) {
+      bilgiSatir('Hamle', `${this.hamle} / ${this.bolum.hedefHamle}`, this.hamle > this.bolum.hedefHamle ? 'uyari hamle-satir' : 'hamle-satir');
+      bilgiSatir('Boşa giden top', this.hamle > 0 ? `${this.bosaTop} (%${Math.round((100 * this.bosaTop) / this.hamle)})` : '0', this.bosaTop > 0 ? 'uyari bosa-satir' : 'bosa-satir');
+    }
     if (no > 0) bilgiSatir('Galibiyet serisi', String(seri), seri === 0 ? 'seri-satir sifir' : 'seri-satir');
     if (!kazandi) {
       const kalan = canDurumu().can;
