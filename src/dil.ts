@@ -200,6 +200,8 @@ const EN: Record<string, string> = {
   'Kışlık': 'Winter outfit',
   'Yazlık': 'Summer outfit',
   'Yeni kart!': 'New card!',
+  'Alındı': 'Earned',
+  'Kilitli': 'Locked',
   // Rozetler
   '0. bölümü bitir': 'Finish level 0',
   '100 müşteriye hizmet': 'Serve 100 customers',

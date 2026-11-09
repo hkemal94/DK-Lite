@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 9 Kasım gecesi (öneri; `ajans/kompakt`; tasarım belgesi 0.44): ekranlar yeniden toplu (yayılma geri alındı), rozetlerde simge ve dokununca açıklama, kilitli rozet bulanık, tema örneklerinde yarı saydam simgeler. Gerçek telefonda denenmedi.
 - 9 Kasım gecesi (öneri; `ajans/kostum-tema-kart`; tasarım belgesi 0.43): Kışlık ve Yazlık kostüm, Kış teması, tek renk ev simgesi, 3'erli ve ödüllü lokasyon kartları; albüm, mağaza ve giriş ekranı boşluksuz (Kemal'in kalıcı kuralı). Sayılar DENEME; gerçek telefonda denenmedi.
 - 9 Kasım gecesi (öneri; `ajans/iphone-yakinlasma`; tasarım belgesi 0.42): iPhone'da iki parmakla ve çift dokunuşla büyütme kapatıldı; lokasyonlar toplam yıldızla açılıyor (her lokasyon için 75; DENEME). Gerçek iPhone'da denenmedi.
 - 9 Kasım gecesi (öneri; `ajans/hedef-ve-kenar`; tasarım belgesi 0.41): 3 yıldız hedefi biraz daraldı (%15 yerine %5 pay; DENEME), karakterlerin kenarındaki beyaz şerit temizlendi. Gerçek telefonda denenmedi.

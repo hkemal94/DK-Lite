@@ -30,6 +30,13 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.44 Kompakt ekranlar, rozet simgeleri, tema simgeleri (Kemal, 9 Kasım 2026; öneri)
+
+- **Kompakt** (Kemal: "bu kadar altlara kadar yayılmak zorunda değil derdim kompakt olsun her şey"): 0.43'teki "pencere ekranı doldursun" ve giriş ekranının büyümesi geri alındı. Giriş ekranı eski toplu hâlinde; albüm ve mağaza pencereleri içerikleri kadar. Eksik son satırı son kutunun doldurması kaldı. Kalıcı kural da buna göre yazıldı: ekranlar dolu ve derli toplu, içlerinde boş delik yok ama ekrana yayılmazlar.
+- **Rozetler** (Kemal: "yalnızca birer ikon ekleyelim üzerine basıldığında açıklamaları görünsün, ikonlar kilitliyken ... sansürlü gibi blurlu olsun"): albümde yalnız simgeler var: bayrak, kişi, kalabalık, yıldız, taç, alev, şimşek, harita iğnesi, külah, kupa, takvim, elmas (simgeleri ekip seçti). Dokununca rozetin adı, ödülü ve "Alındı" ya da "Kilitli" yazan pencere açılır. Kilitli rozetin simgesi bulanık.
+- **Tema simgeleri** (Kemal: "kışta kar taneleri, yazda güneş, sonbaharda yaprak, gecede ay"): tema örneklerinde yarı saydam simge var: Gece ay, Sonbahar yaprak, Deniz güneş, Kış kar tanesi; Dükkân külah, Pamuk şeker şeker (ikisini ekip seçti).
+- Görüntü: `docs/ekran/koleksiyon/kompakt-rozet-tema.png`. Gerçek telefonda denenmedi.
+
 ### 0.43 İki kostüm, Kış teması, ev simgesi, lokasyon kartları, dolu ekranlar (Kemal, 9 Kasım 2026; öneri)
 
 - **Kızın iki yeni kostümü** (Kemal seçti): Kışlık (bere, atkı, kazak) ve Yazlık (hasır şapka, çiçekli elbise); 800 para (DENEME). Canva, dondurmacı çizimi örnek verilerek; arka planı Canva'da silindi; "DK Lite çalışma" tasarımının 25. sayfası.

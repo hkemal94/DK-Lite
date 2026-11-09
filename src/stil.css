@@ -2544,7 +2544,7 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .rozet-buyuk { width: 96px; height: 96px; position: relative; animation: odul-zipla 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.25s backwards; }
 .rozet-buyuk span { font-size: 28px; }
 .album-rozet .album-simge { width: 56px; height: 56px; }
-.album-urun.album-rozet.kapali .album-simge { background: none; border: 0; width: 56px; height: 56px; margin: 0; }
+.album-urun.album-rozet.kapali .album-simge { background: none; border: 0; width: 64px; height: 64px; margin: 0; }
 .rozet-odul-not, .para-satiri { display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 800; color: var(--mor); opacity: 1; }
 .rozet-odul-not svg, .para-satiri svg { width: 24px; height: 24px; }
 .para-satiri { margin-top: -6px; font-size: 17px; }
@@ -2655,29 +2655,30 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .kart-izgara .kartpostal { height: 90px; }
 .kart-buyuk.kartpostal { height: 150px; }
 
-/* ---------- Ekranda boşluk kalmasın (Kemal, 9 Kasım: "Ekranlarda boşluk kalmaması ve dolu olması
-   benim için önemli") ---------- */
-/* Albüm ve mağaza penceresi ekranın boyunu doldurur; içindekiler kalan yere yayılır. */
-.odul-ortu > .odul-kutu.album-kutu { height: calc(100% - 64px); display: flex; flex-direction: column; gap: 10px; }
-.album-kutu .album-izgara { flex: 1; min-height: 0; grid-auto-rows: 1fr; align-content: stretch; }
-.album-kutu .album-urun { justify-content: center; }
-.kart-izgara .kartpostal { height: auto; min-height: 90px; }
+/* ---------- Dolu ama derli toplu (Kemal, 9 Kasım: "Ekranlarda boşluk kalmaması ve dolu olması benim
+   için önemli"; sonra "bu kadar altlara kadar yayılmak zorunda değil, kompakt olsun her şey").
+   Pencereler içeriği kadar yer kaplar, ekrana yayılmaz; içlerinde boş delik kalmaz. ---------- */
+.album-kutu .album-izgara { align-self: stretch; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* Son satır eksik kalırsa son öğe kalan yeri kaplar (ör. 10 kartta 10. kart, 7 yardımda can). */
 .album-izgara > :last-child:nth-child(3n + 1) { grid-column: span 3; }
 .album-izgara > :last-child:nth-child(3n + 2) { grid-column: span 2; }
-/* Giriş ekranı: logo ve düğmeler ekranın boyuna göre büyür, altta boş yer kalmaz. */
-.giris-kutu { width: min(300px, calc(100% - 48px)); gap: clamp(14px, 2.6vh, 26px); padding-top: clamp(40px, 9vh, 90px); }
-.giris-ad { width: min(330px, calc(100vw - 56px), 46vh); margin-bottom: clamp(26px, 5vh, 52px); }
-.giris-kutu .dugme { font-size: clamp(18px, 2.7vh, 24px); padding-top: clamp(10px, 1.8vh, 16px); padding-bottom: clamp(14px, 2.4vh, 21px); }
-.giris-kutu #giris-basla { font-size: clamp(24px, 3.6vh, 32px); padding-top: clamp(13px, 2.2vh, 20px); padding-bottom: clamp(19px, 3vh, 27px); }
-/* Kutular büyüyünce içindeki resim de büyür (kutunun boyuna göre). */
-.album-kutu .magaza-urun, .album-kutu .album-rozet { container-type: size; }
-.album-kutu .kostum-ornek { height: 62cqh; width: auto; max-width: 96%; }
-.album-kutu .tema-ornek { height: 52cqh; width: min(80cqw, 52cqh); }
-.album-kutu .magaza-yardim { width: min(62cqw, 46cqh); height: min(62cqw, 46cqh); }
-.album-kutu .magaza-yardim svg { width: 70%; height: 70%; }
-.album-kutu .magaza-kalp { width: min(66cqw, 46cqh); height: min(62cqw, 43cqh); }
-.album-kutu .album-rozet .album-simge { width: min(72cqw, 52cqh); height: min(72cqw, 52cqh); }
+
+/* Rozet simgeleri; kilitliyken bulanık (sansürlü gibi). Albümde yalnız simge, dokununca açıklama. */
+.rozet .rozet-simge { display: flex; width: 56%; height: 56%; filter: drop-shadow(0 2px 0 rgba(40, 14, 60, 0.35)); }
+.rozet .rozet-simge svg { width: 100%; height: 100%; }
+.rozet.kapali .rozet-simge { filter: blur(3.5px); opacity: 0.8; }
+.rozet.kapali { --rozet: #b9a3d6; }
+button.album-rozet { font: inherit; cursor: pointer; padding: 8px 2px; }
+.album-kutu .album-rozet .album-simge { width: 64px; height: 64px; }
 .album-kutu .album-rozet .rozet { width: 100%; height: 100%; }
-.album-kutu .album-rozet .rozet span { font-size: min(13cqw, 11cqh); }
-.album-kutu .album-izgara { align-self: stretch; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rozet-buyuk .rozet-simge { width: 58%; height: 58%; }
+
+/* Tema örneklerinde yarı saydam simge (Kemal, 9 Kasım: "kışta kar taneleri, yazda güneş, sonbaharda yaprak, gecede ay"). */
+.tema-ornek { position: relative; }
+.tema-ornek::after { content: ''; position: absolute; left: 14%; right: 14%; top: 36%; bottom: 8%; background: var(--tema-simge) center / contain no-repeat; opacity: 0.5; }
+.tema-ornek[data-tema="mor"] { --tema-simge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237a3fa8'%3E%3Ccircle cx='12' cy='8' r='5.5'/%3E%3Cpath d='M6.8 10.5h10.4L12 22z'/%3E%3C/svg%3E"); }
+.tema-ornek[data-tema="gece"] { --tema-simge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd23f'%3E%3Cpath d='M15 2.5a9.5 9.5 0 1 0 6.5 15.2A8 8 0 0 1 15 2.5z'/%3E%3Ccircle cx='18' cy='6' r='1.2'/%3E%3Ccircle cx='20.5' cy='11' r='.9'/%3E%3C/svg%3E"); }
+.tema-ornek[data-tema="sonbahar"] { --tema-simge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c4572c'%3E%3Cpath d='M20 3C9 3 4 9 4 15c0 2 .6 3.6 1.5 5L4 21.5l1 1 1.6-1.6C8 21.6 9.5 22 11 22c6 0 10-6 9-19zM7.5 19.5C10 15 13 11 16.5 8 13 12 10.3 15.5 8.6 20.2z'/%3E%3C/svg%3E"); }
+.tema-ornek[data-tema="deniz"] { --tema-simge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f2a516'%3E%3Ccircle cx='12' cy='12' r='5'/%3E%3Cpath d='M12 1.5v3.5M12 19v3.5M1.5 12H5M19 12h3.5M4.6 4.6l2.5 2.5M16.9 16.9l2.5 2.5M4.6 19.4l2.5-2.5M16.9 7.1l2.5-2.5' stroke='%23f2a516' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.tema-ornek[data-tema="pamuk-seker"] { --tema-simge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e8619f'%3E%3Cellipse cx='12' cy='12' rx='5.5' ry='4.5'/%3E%3Cpath d='M6.6 12 2 8.5v7zM17.4 12 22 8.5v7z'/%3E%3C/svg%3E"); }
+.tema-ornek[data-tema="kis"] { --tema-simge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235b8fbf'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M12 2l-2.5 2.5M12 2l2.5 2.5M12 22l-2.5-2.5M12 22l2.5-2.5' stroke='%235b8fbf' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"); }
