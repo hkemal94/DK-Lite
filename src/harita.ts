@@ -17,7 +17,11 @@ const NS = 'http://www.w3.org/2000/svg';
 // Yer adları yalnız künyeden (KKM docs/03-duzada-kunyesi.md). Sayfa sayısı durak
 // sayısını geçerse duraklar baştan tekrar eder.
 // 150 bölüm = 5 mahalle × 30 (Kemal: "Künyedeki yerleri kullan, bir mahalleye de 30'ar bölüm").
-const DURAKLAR = [{ ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }, { ad: 'İskele' }, { ad: 'Merkez' }];
+// 6–10: adları sonra (Kemal, 9 Kasım: "şimdilik isimleri lokasyon 6, lokasyon 7 gibi ilerlet").
+const DURAKLAR = [
+  { ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }, { ad: 'İskele' }, { ad: 'Merkez' },
+  { ad: 'Lokasyon 6' }, { ad: 'Lokasyon 7' }, { ad: 'Lokasyon 8' }, { ad: 'Lokasyon 9' }, { ad: 'Lokasyon 10' },
+];
 // Kaldığın bölümün üstünde dondurmacının başı.
 const DONDURMACI_BAS = 'gorseller/dondurmaci-bas.webp';
 

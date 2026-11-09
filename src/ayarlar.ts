@@ -10,7 +10,7 @@
 // Kemal, 5 Kasım 2026 gecesi: "kaç adet yeni ürünümüz varsa ona göre onluk sistemde yeni
 // bölüm hazırla" → 15 hediye ürün, her 10 bölümde bir; "150 bölüm". Bunun önünde 0. bölüm
 // (ipuçlu başlangıç bölümü) var; o BOLUM_SAYISI'na girmez.
-export const BOLUM_SAYISI = 150;
+export const BOLUM_SAYISI = 300; // Kemal, 9 Kasım: "300 bölüm yapalım o zaman 10 adet lokasyon olsun"
 
 // Bir bölümün zorluk ayarları.
 export interface BolumZorlugu {
@@ -95,17 +95,21 @@ export const BASLANGIC_URUNLERI = ['cikolata', 'cilek', 'limon'];
 export const HEDIYE_SIRASI = [
   'limonata', 'fistik', 'pasta', 'gazoz', 'vanilya', 'kek', 'cay', 'sakizli',
   'meyve', 'kahve', 'sutlac', 'muzlu-sut', 'lokma', 'profiterol', 'baklava',
+  // 9 Kasım (Kemal seçti): karadut, kavun, vişne suyu, buzlu kahve, kazandibi, künefe, ayva tatlısı, waffle.
+  'karadut', 'visne-suyu', 'kazandibi', 'kavun', 'buzlu-kahve', 'kunefe', 'ayva', 'waffle',
 ];
-export const HEDIYE_ARALIGI = 10;
+// Hediyelerin bölümleri (Kemal, 9 Kasım: "10'da bir devam etmeyelim ... arttırarak", "Baştan artarak
+// dağıt"): 23 hediye 0–290 arasında, aralık 5'ten 21'e yavaşça artar (DENEME).
+export const HEDIYE_BOLUMLERI = [0, 5, 11, 17, 25, 33, 42, 51, 62, 73, 85, 98, 111, 126, 141, 157, 174, 191, 209, 228, 248, 269, 290];
 // Ürünün hediye olarak verildiği bölüm (başlangıç ürünleri için -1).
 export function hediyeBolumu(id: string): number {
   const i = HEDIYE_SIRASI.indexOf(id);
-  return i < 0 ? -1 : i * HEDIYE_ARALIGI;
+  return i < 0 ? -1 : HEDIYE_BOLUMLERI[i];
 }
 // Bu bölüm ilk kez kazanılınca açılan hediye ürün (yoksa null).
 export function bolumHediyesi(no: number): string | null {
-  if (no < 0 || no % HEDIYE_ARALIGI !== 0) return null;
-  return HEDIYE_SIRASI[no / HEDIYE_ARALIGI] ?? null;
+  const i = HEDIYE_BOLUMLERI.indexOf(no);
+  return i < 0 ? null : HEDIYE_SIRASI[i] ?? null;
 }
 function urunIzinli(id: string, no: number): boolean {
   return no > hediyeBolumu(id);
@@ -382,6 +386,15 @@ export const URUNLER: Urun[] = [
   { id: 'sutlac', ad: 'Sütlaç', tur: 'tatli', renk: '#f3e3c2' }, // Kemal: "Biraz daha tatlı çizebilirsin"
   { id: 'lokma', ad: 'Lokma', tur: 'tatli', renk: '#d9953f' },
   { id: 'profiterol', ad: 'Profiterol', tur: 'tatli', renk: '#5a3420' },
+  // 9 Kasım: Kemal'in seçtiği 8 ürün (Canva).
+  { id: 'karadut', ad: 'Karadut', tur: 'dondurma', renk: '#5b2347' },
+  { id: 'kavun', ad: 'Kavun', tur: 'dondurma', renk: '#f7b26b' },
+  { id: 'visne-suyu', ad: 'Vişne suyu', tur: 'icecek', renk: '#9e1b32' },
+  { id: 'buzlu-kahve', ad: 'Buzlu kahve', tur: 'icecek', renk: '#8a5a3c' },
+  { id: 'kazandibi', ad: 'Kazandibi', tur: 'tatli', renk: '#e9c48a' },
+  { id: 'kunefe', ad: 'Künefe', tur: 'tatli', renk: '#e08a2c' },
+  { id: 'ayva', ad: 'Ayva tatlısı', tur: 'tatli', renk: '#c8452f' },
+  { id: 'waffle', ad: 'Waffle', tur: 'tatli', renk: '#d9a05b' },
 ];
 
 // Ürünün URUNLER içindeki sırası (oyun içinde ürünler bu sırayla tutulur).
