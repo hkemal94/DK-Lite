@@ -44,12 +44,14 @@ Kemal telefonda (yaklaşık 450x1000, Bölüm 14) üç şey gördü ve çözüml
 Kemal: "Bölümlerde hamle sayısının hiç önemi yok, sürekli bir şeylere basarak da bölüm geçilebiliyor ... sürekli 3 yıldız alınıyor." Ölçüm: rastgele dokunan otomatik oyuncu 1, 5, 10, 15, 25 ve 40. bölümleri 3 yıldızla geçti (yıldız yalnız puana bakıyordu, boşa dokunuşun bedeli yoktu). Kemal'in seçimi: üçü birlikte ("Hepsi olur"), eşik "Rahat", sınır "Hedefin 2 katı, 11. bölümden", hamle bitince "+5 hamle".
 - **Hamle:** top gönderme ve buz kırma. Yardımcı kullanmak ve sallanma (bant dolu, kilitli sütun) sayılmaz.
 - **Hedef hamle:** her bölümde oyun kendisi hesaplar: bölümü kuran çözücünün bulduğu yolun hamlesi + buz kırma dokunuşları, × 1,1 + 2 (DENEME). Örnek: 1. bölüm 39, 10. bölüm 87, 40. bölüm 166.
-- **Sayaç:** üst şeridin ikinci satırında, Bozulma yazısının yanında "23/39". Hedef aşılınca turuncu, 1 yıldıza düşünce kırmızı; sınırlı bölümde son 10 hamlede "Son 7" gibi kalan hamle.
-- **Yıldız:** hamle yıldızı (hedefe kadar 3, hedefin 1,5 katına kadar 2, fazlası 1) ile puan yıldızının düşük olanı.
+- **Sayaç:** üst şeritte sayaçlar 2x2 (Kemal: "2 2 yap altlı üstlü"): üstte müşteri ve puan, altta hamle ("23/39") ve bant. Hedef aşılınca turuncu, 1 yıldıza düşünce kırmızı; sınırlı bölümde son 10 hamlede "Son 7" gibi kalan hamle.
+- **Yıldız:** üç yıldızın en düşüğü: hamle yıldızı (hedefe kadar 3, hedefin 1,5 katına kadar 2, fazlası 1), puan yıldızı (eskisi gibi) ve isabet yıldızı (boşa giden topun hamleye oranı: %30'a kadar 3, %40'a kadar 2, fazlası 1; DENEME).
+- **Neden isabet yıldızı:** yalnız puan cezası iki oyuncuyu ayıramadı. 2 puanlık cezada rastgele dokunan 2 yıldız aldı, 5 puanlıkta dikkatli oynayan da 2 yıldıza düştü (dikkatli oyuncu da istenen topu çıkarmak için kazı yapar). Boşa oranı ise ayırıyor: dikkatli oynayan %10–26, rastgele dokunan %31–69.
+- **Ölçüm (otomatik oyuncu, 1, 5, 10, 15, 40. bölümler):** rastgele dokunan 1, 5, 10, 15'te 1 yıldız, 40'ta 2 yıldız (boşa oranı %31); dikkatli oynayan 4 bölümde 3 yıldız, 10'da 2 yıldız (yavaş oynadığı için geç kalan toplar yarım puan).
 - **Boşa giden top:** hiçbir müşterinin istemediği her gönderiş 2 puan götürür (DENEME); "−2" kırmızı uçar.
 - **Hamle sınırı:** 11. bölümden itibaren hedefin 2 katı. Sınırda yeni hamle yapılamaz, "Hamle bitti" penceresi: elinde varsa "+5 hamle" ile devam, yoksa "Bitir" (bölüm kaybedilir, 1 can gider). 0.–10. bölümde sınır yok.
 - **Yeni 6. yardımcı "+5 hamle":** alttaki şeritte değil, yalnız hamle bitince sunulur; başta 1 tane; sandık, günlük ödül ve seriden de çıkar.
-- **Sonuç penceresi:** "Hamle 38 / 39" ve "Boşa giden top" satırları.
+- **Sonuç penceresi:** "Hamle 38 / 39" ve "Boşa giden top 8 (%22)" satırları. Ekran görüntüleri: `docs/ekran/hamle/`. Gerçek telefonda denenmedi.
 - Bölümlerin dizilimi değişmedi; 0–150 hepsi kazanılabilir kuruluyor.
 
 ### 0.36 Kemal'in 6 Kasım listesi (öneri)
