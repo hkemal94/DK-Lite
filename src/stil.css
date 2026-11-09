@@ -2549,8 +2549,8 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 .rozet-odul-not svg, .para-satiri svg { width: 24px; height: 24px; }
 .para-satiri { margin-top: -6px; font-size: 17px; }
 .sonuc-bilgi .para-satir .sonuc-sag { color: #d98a00; }
-.kart-izgara { grid-template-columns: repeat(2, 1fr); }
-.kartpostal { position: relative; height: 96px; border-radius: 12px; border: 3px solid var(--hat); overflow: hidden; display: flex; align-items: flex-end; padding: 6px 8px; box-shadow: 0 3px 0 rgba(40, 14, 60, 0.3); background: #8a4cbc; }
+.kart-izgara { grid-template-columns: repeat(3, 1fr); width: 100%; }
+.kartpostal { position: relative; height: 104px; border-radius: 12px; border: 3px solid var(--hat); overflow: hidden; display: flex; align-items: flex-end; padding: 6px 8px; box-shadow: 0 3px 0 rgba(40, 14, 60, 0.3); background: #8a4cbc; }
 .kartpostal.kapali { background: #e9dcc6; align-items: center; justify-content: center; }
 .kartpostal.kapali span { font-size: 30px; font-weight: 800; color: #b9a3d6; }
 .kartpostal-ad { position: relative; z-index: 2; color: #fff; font-weight: 800; font-size: 14px; text-shadow: 0 2px 0 rgba(40, 14, 60, 0.6); }
@@ -2627,3 +2627,57 @@ img.sandik-acik { opacity: 0; animation: sandik-goster 0.35s cubic-bezier(0.2, 1
 #kok[data-tema="sonbahar"] .bar { --duvar-1: #fbe3c6; --duvar-2: #f6cfa6; }
 #kok[data-tema="deniz"] .bar { --duvar-1: #e3f5fa; --duvar-2: #cdebf3; }
 #kok[data-tema="pamuk-seker"] .bar { --duvar-1: #ffe6f2; --duvar-2: #e2f3fb; }
+
+/* Lokasyon kartları (Kemal, 9 Kasım: 3'erli, ekrana sığsın; "Lokasyon kartı + ödül"): üstte o lokasyonda
+   kazanılan ürünler, ortada ad, altta yıldız. Bütün yıldızlar toplanınca altın çerçeve ve parıltı. */
+.kartpostal:not(.kapali) { flex-direction: column; align-items: center; justify-content: space-between; padding: 6px 4px 5px; gap: 2px; }
+.kartpostal-urunler { position: relative; z-index: 2; display: flex; justify-content: center; gap: 1px; height: 30px; }
+.kartpostal-urunler .kartpostal-urun { position: static; width: 27px; height: 30px; }
+.kartpostal-ad { text-align: center; line-height: 1.1; font-size: 13px; max-width: 100%; overflow-wrap: anywhere; }
+.kartpostal-yildiz { position: relative; z-index: 2; font-size: 11.5px; font-weight: 800; color: #fff; background: rgba(40, 14, 60, 0.35); border-radius: 99px; padding: 1px 7px; white-space: nowrap; }
+.kartpostal.altin { border-color: #b8860b; box-shadow: 0 0 0 2px #ffd23f, 0 3px 0 rgba(40, 14, 60, 0.3); }
+.kartpostal.altin .kartpostal-yildiz { background: #ffd23f; color: #5a3a22; }
+.kartpostal.altin::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.45) 45%, transparent 60%); pointer-events: none; }
+.kart-buyuk { width: 140px; height: 150px; position: relative; animation: odul-zipla 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.25s backwards; }
+.kart-buyuk .kartpostal-urunler { height: 46px; } .kart-buyuk .kartpostal-urunler .kartpostal-urun { width: 40px; height: 46px; }
+.kart-buyuk .kartpostal-ad { font-size: 17px; } .kart-buyuk .kartpostal-yildiz { font-size: 13px; }
+
+/* Kış teması (Kemal, 9 Kasım; seçim "Kış"): buz mavisi zemin, kar taneleri. */
+#kok[data-tema="kis"] .manzara.desenli {
+  background-color: #e4f1fa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' opacity='0.9'%3E%3Cg transform='translate(30 34)'%3E%3Cpath d='M0-11V11M-9.5-5.5 9.5 5.5M-9.5 5.5 9.5-5.5'/%3E%3C/g%3E%3Cg transform='translate(90 88) scale(0.7)'%3E%3Cpath d='M0-11V11M-9.5-5.5 9.5 5.5M-9.5 5.5 9.5-5.5'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='86' cy='26' r='3'/%3E%3Ccircle cx='24' cy='96' r='2.5'/%3E%3Ccircle cx='60' cy='62' r='2'/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(ellipse 100% 55% at 50% 22%, #ffffff 0%, #dcecf7 45%, #a9cbe3 100%);
+}
+#kok[data-tema="kis"] .bant { --bant: #6f9fc8; --sari: #ffffff; --bant-yan: #4a77a0; }
+#kok[data-tema="kis"] .ust { background: rgba(74, 119, 160, 0.95); }
+#kok[data-tema="kis"] .sutun:not(.basili) { background: linear-gradient(90deg, #d6e7f3, #f1f8fc 50%, #d6e7f3); }
+#kok[data-tema="kis"] .bar { --duvar-1: #f1f8fc; --duvar-2: #dcebf6; }
+.tema-ornek[data-tema="kis"] { background: linear-gradient(180deg, var(--bant) 0 22%, var(--sari) 22% 30%, #dcecf7 30%); }
+.kart-izgara .kartpostal { height: 90px; }
+.kart-buyuk.kartpostal { height: 150px; }
+
+/* ---------- Ekranda boşluk kalmasın (Kemal, 9 Kasım: "Ekranlarda boşluk kalmaması ve dolu olması
+   benim için önemli") ---------- */
+/* Albüm ve mağaza penceresi ekranın boyunu doldurur; içindekiler kalan yere yayılır. */
+.odul-ortu > .odul-kutu.album-kutu { height: calc(100% - 64px); display: flex; flex-direction: column; gap: 10px; }
+.album-kutu .album-izgara { flex: 1; min-height: 0; grid-auto-rows: 1fr; align-content: stretch; }
+.album-kutu .album-urun { justify-content: center; }
+.kart-izgara .kartpostal { height: auto; min-height: 90px; }
+/* Son satır eksik kalırsa son öğe kalan yeri kaplar (ör. 10 kartta 10. kart, 7 yardımda can). */
+.album-izgara > :last-child:nth-child(3n + 1) { grid-column: span 3; }
+.album-izgara > :last-child:nth-child(3n + 2) { grid-column: span 2; }
+/* Giriş ekranı: logo ve düğmeler ekranın boyuna göre büyür, altta boş yer kalmaz. */
+.giris-kutu { width: min(300px, calc(100% - 48px)); gap: clamp(14px, 2.6vh, 26px); padding-top: clamp(40px, 9vh, 90px); }
+.giris-ad { width: min(330px, calc(100vw - 56px), 46vh); margin-bottom: clamp(26px, 5vh, 52px); }
+.giris-kutu .dugme { font-size: clamp(18px, 2.7vh, 24px); padding-top: clamp(10px, 1.8vh, 16px); padding-bottom: clamp(14px, 2.4vh, 21px); }
+.giris-kutu #giris-basla { font-size: clamp(24px, 3.6vh, 32px); padding-top: clamp(13px, 2.2vh, 20px); padding-bottom: clamp(19px, 3vh, 27px); }
+/* Kutular büyüyünce içindeki resim de büyür (kutunun boyuna göre). */
+.album-kutu .magaza-urun, .album-kutu .album-rozet { container-type: size; }
+.album-kutu .kostum-ornek { height: 62cqh; width: auto; max-width: 96%; }
+.album-kutu .tema-ornek { height: 52cqh; width: min(80cqw, 52cqh); }
+.album-kutu .magaza-yardim { width: min(62cqw, 46cqh); height: min(62cqw, 46cqh); }
+.album-kutu .magaza-yardim svg { width: 70%; height: 70%; }
+.album-kutu .magaza-kalp { width: min(66cqw, 46cqh); height: min(62cqw, 43cqh); }
+.album-kutu .album-rozet .album-simge { width: min(72cqw, 52cqh); height: min(72cqw, 52cqh); }
+.album-kutu .album-rozet .rozet { width: 100%; height: 100%; }
+.album-kutu .album-rozet .rozet span { font-size: min(13cqw, 11cqh); }
+.album-kutu .album-izgara { align-self: stretch; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }

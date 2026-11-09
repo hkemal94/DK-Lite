@@ -37,9 +37,9 @@ function svgOge<K extends keyof SVGElementTagNameMap>(ad: K, nitelik: Record<str
 const KILIT_SVG =
   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7.5a4 4 0 0 1 8 0V10" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><rect x="5" y="10" width="14" height="11" rx="3" fill="currentColor"/></svg>';
 
-// Ana sayfa (ev) simgesi; oyun.ts de kullanır.
+// Ana sayfa (ev) simgesi; oyun.ts de kullanır. Çatı ve gövde tek parça, aynı renk (Kemal, 9 Kasım).
 export const EV_SVG =
-  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10.5V19a1 1 0 0 0 1 1h3.5v-5h3v5H17a1 1 0 0 0 1-1v-8.5" fill="currentColor"/></svg>';
+  '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 2.6 11.4h2.9V20a1 1 0 0 0 1 1H10v-5.6h4V21h3.5a1 1 0 0 0 1-1v-8.6h2.9Z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
 
 export interface HaritaSecenekleri {
   bolumSec: (no: number) => void;

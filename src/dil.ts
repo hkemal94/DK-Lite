@@ -196,6 +196,10 @@ const EN: Record<string, string> = {
   'Sonbahar': 'Autumn',
   'Deniz': 'Sea',
   'Pamuk şeker': 'Cotton candy',
+  'Kış': 'Winter',
+  'Kışlık': 'Winter outfit',
+  'Yazlık': 'Summer outfit',
+  'Yeni kart!': 'New card!',
   // Rozetler
   '0. bölümü bitir': 'Finish level 0',
   '100 müşteriye hizmet': 'Serve 100 customers',
