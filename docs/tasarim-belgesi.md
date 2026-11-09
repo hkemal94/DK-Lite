@@ -30,6 +30,23 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.39 Para, mağaza, rozetler, kartpostallar, İngilizce, kostümler (Kemal, 9 Kasım 2026; öneri)
+
+- **3 yıldız kolaylaştı** (Kemal: "Hedef %15 büyüse yeter gibi"): hamle hedefi %15 büyüdü.
+- **Bir bölümde en çok 6 çeşit** (Kemal: "6 kalsın, yeniler sık gelsin"): son açılan 3 ürün bölümlerin yaklaşık %78'inde çıkıyor.
+- **"Başla" kaldığı yerden:** 0. bölüm gelmeden önce oynamaya başlayanlar artık 0. bölüme dönmüyor.
+- **Albüm sürpriz:** kilitli ürünün kaçıncı bölümde açılacağı yazmıyor; yalnız "?".
+- **Para** (adı [Kemal]): yeni yıldız başına 10, sandıktan 20 ya da 50, günlük ödülden 25 (7. gün 100), rozetlerden 50–200. Ana sayfada can göstergesinin altında durur.
+- **Mağaza:** arka plan temaları (Dükkân, Gece, Sonbahar, Deniz, Pamuk şeker; 500), dondurmacı kızın kostümleri (Maraş dondurmacısı, Denizci, Aşçı; 800), yardımcılar (100), can (80; en çok 6). "Yakında" sekmesi: ürün kaplamaları, müşteri kaplamaları, oyun temaları (Kemal: "şu an için sadece yolu açılsın"). Tema ve kostüm adları [Kemal]; Denizci ve Aşçı'yı ekip seçti.
+- **Maraş dondurmacısı adam iptal** (Kemal: "Maraş dondurmacısı iptal olsun kızlar olsun çalışan ilk etapta sürekli olarak"; "Kızın kostümleri olsun satılan"): tezgâhta hep kız; kostümleri satılır. Canva, 24. sayfa.
+- **Rozetler (12, Kemal "Uygun"):** 0. bölüm, 100 / 1000 müşteri, 10 / 50 bölüm 3 yıldız, 5 / 10 üst üste galibiyet, bir lokasyonda bütün yıldızlar, 10 ürün / bütün ürünler, 7 gün art arda, boşa top göndermeden bitir. Kazanınca pencere ve para; bazıları yardımcı ya da can da verir.
+- **Lokasyon kartpostalları (10):** lokasyondaki bütün bölümler bitince açılır; albümde "Kartlar" sekmesi.
+- **İngilizce** (Kemal: "Ayarlarda dil seçimi: Türkçe / English"): ayarlarda dil seçimi; telefonun dili Türkçe değilse ilk açılışta İngilizce. Yer adları çevrilmez. Çeviriler ekibin; Kemal görür.
+- **Müşteri ışığı** (Kemal: "Hepsine aynı ışık ayarı"): 21 kişiye aynı üstten ışık ve aynı vurgu (`araclar/musteri_isik.py`); renk ve desen çeşitleri yeniden üretildi.
+- **Dondurmacı:** kolun içindeki ve boyundaki beyaz lekeler temizlendi.
+- **Bar arka planı daha albenili:** pastel çizgili duvar, sıcak ışık, üstte renkli bayrak dizisi, kalın raf.
+- Sayıların hepsi DENEME. Ekran görüntüleri `docs/ekran/koleksiyon/`. Ekran denetimi Türkçe ve İngilizce, iki telefon boyutunda sorunsuz. Gerçek telefonda denenmedi.
+
 ### 0.38 Tente, 300 bölüm, 10 lokasyon, 23 hediye (Kemal, 9 Kasım 2026; öneri)
 
 - **Tente** (Kemal: "Alttaki açık lila şerit" rahatsız ediyor; "mor sorun yaratmayacak mı"): koyu mor üst şerit dilimlerin arkasına uzandı, aradan açık zemin görünmez; dilimlerin altında koyu kahve kenar, mor dilimler mor şeride karışmaz.

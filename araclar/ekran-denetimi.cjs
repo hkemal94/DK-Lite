@@ -17,6 +17,8 @@ const path = require('path');
 
 const ADRES = process.env.ADRES || 'http://localhost:4173/?denetim';
 const CIKTI = path.join(__dirname, '..', 'denetim-ciktisi');
+// Her durum iki dilde de denetlenir (Türkçe, İngilizce; 9 Kasım).
+const DILLER = ['tr', 'en'];
 const BOYUTLAR = [
   { ad: '360x640', width: 360, height: 640 },
   { ad: '390x844', width: 390, height: 844 },
@@ -64,6 +66,14 @@ const DURUMLAR = [
   ['seri-odulu', kayitKur(), "o.odulSirasi([() => o.yardimciPenceresi('Seri ödülü!', 'karistir')], false, o.kok)", 900],
   ['gunluk-can', kayitKur(), "o.odulSirasi([() => o.canOdulPenceresi('+1 can', '+1')], false, o.kok)", 900],
   ['can-yok', kayitKur(), 'o.canYokGoster()', 500],
+  ['album-rozet', { ...kayitKur({ acik: 40, kadar: 39 }), 'dk-lite-koleksiyon': JSON.stringify({ para: 640, rozetler: ['ilk-adim', 'seri-5', 'urun-10'] }) }, "o.albumAc('rozet')", 500],
+  ['album-kart', kayitKur({ acik: 70, kadar: 69 }), "o.albumAc('kart')", 500],
+  ['magaza-tema', { ...kayitKur(), 'dk-lite-koleksiyon': JSON.stringify({ para: 640, temalar: ['mor', 'gece'], tema: 'gece' }) }, "o.magazaAc('tema')", 500],
+  ['magaza-kostum', { ...kayitKur(), 'dk-lite-koleksiyon': JSON.stringify({ para: 900, kostumler: ['klasik', 'maras'], kostum: 'maras' }) }, "o.magazaAc('kostum')", 500],
+  ['oyun-kostum-maras', { ...kayitKur(), 'dk-lite-koleksiyon': JSON.stringify({ kostumler: ['klasik', 'maras'], kostum: 'maras' }) }, 'o.bolumBaslat(1)', 2500],
+  ['magaza-yardim', { ...kayitKur(), 'dk-lite-koleksiyon': JSON.stringify({ para: 640 }) }, "o.magazaAc('yardim')", 500],
+  ['rozet-odul', kayitKur(), "o.odulSirasi([() => o.rozetPenceresi('musteri-1000')], false, o.kok)", 900],
+  ['oyun-tema-gece', { ...kayitKur(), 'dk-lite-koleksiyon': JSON.stringify({ temalar: ['mor', 'gece'], tema: 'gece' }) }, 'o.bolumBaslat(1)', 2500],
   ['hamle-bitti', kayitKur({ acik: 12, kadar: 11 }), 'o.bolumBaslat(12); o.hamleBittiGoster()', 700],
 ];
 
@@ -168,9 +178,11 @@ function olc() {
   const tarayici = await chromium.launch();
   let toplam = 0;
   const rapor = [];
-  for (const boyut of BOYUTLAR) {
-    fs.mkdirSync(path.join(CIKTI, boyut.ad), { recursive: true });
-    for (const [durum, kayit, yap, bekle] of DURUMLAR) {
+  for (const dil of DILLER) for (const boyut of BOYUTLAR) {
+    const klasor = dil === 'tr' ? boyut.ad : `${boyut.ad}-${dil}`;
+    fs.mkdirSync(path.join(CIKTI, klasor), { recursive: true });
+    for (const [durum, kayit0, yap, bekle] of DURUMLAR) {
+      const kayit = { ...kayit0, 'dk-lite-dil': dil };
       const sayfa = await tarayici.newPage({ viewport: { width: boyut.width, height: boyut.height }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
       const hatalar = [];
       sayfa.on('pageerror', (e) => hatalar.push(e.message));
@@ -184,9 +196,9 @@ function olc() {
       if (yap) await sayfa.evaluate(`(() => { const o = window.dkLite; ${yap}; })()`);
       await sayfa.waitForTimeout(bekle);
       const sorunlar = [...hatalar.map((h) => `sayfa hatası: ${h}`), ...(await sayfa.evaluate(olc))];
-      await sayfa.screenshot({ path: path.join(CIKTI, boyut.ad, `${durum}.png`) });
+      await sayfa.screenshot({ path: path.join(CIKTI, klasor, `${durum}.png`) });
       toplam += sorunlar.length;
-      rapor.push(`${boyut.ad} ${durum}: ${sorunlar.length ? sorunlar.length + ' sorun' : 'temiz'}`);
+      rapor.push(`${klasor} ${durum}: ${sorunlar.length ? sorunlar.length + ' sorun' : 'temiz'}`);
       for (const s of sorunlar) rapor.push(`    - ${s}`);
       await sayfa.close();
     }

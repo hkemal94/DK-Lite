@@ -11,6 +11,9 @@ import '@fontsource/poppins/latin-800.css';
 import '@fontsource/poppins/latin-ext-800.css';
 import './stil.css';
 import { Oyun } from './oyun';
+import { dilAl } from './dil';
+
+document.documentElement.lang = dilAl();
 
 const kok = document.getElementById('kok');
 if (kok) {
