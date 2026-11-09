@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 9 Kasım gecesi (öneri; `ajans/ayar-dosyasi`; tasarım belgesi 0.48): KKM paneli 1. adım: hediyeler, lokasyonlar, mağaza, bölüm ayarları tek dosyada (`src/veri/oyun-ayarlari.json`, biçimi `docs/ayar-dosyasi.md`), derlemeden önce denetleniyor. Ekranda değişiklik yok. Sırada 2. adım: panel KKM'de (Kems'e iş).
 - 9 Kasım gecesi (öneri; `ajans/390-bolum`; tasarım belgesi 0.47): 390 bölüm, 13 lokasyon (11–13 adları [Kemal]); hediyeler bitince ürün karışımı dengeli. Gerçek telefonda denenmedi.
 - 9 Kasım gecesi (öneri; `ajans/sandik-kalp`; tasarım belgesi 0.46): sandıktan çıkan kalp yükseldikten sonra inip ortaya oturuyor. Gerçek telefonda denenmedi.
 - 9 Kasım gecesi (öneri; `ajans/geri-tusu`; tasarım belgesi 0.45): telefonun geri tuşu oyundan çıkmıyor, bir önceki menüye dönüyor. Gerçek telefonda denenmedi.
