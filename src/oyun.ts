@@ -2666,6 +2666,33 @@ export class Oyun {
     return ort;
   }
 
+  // Rozete dokununca: adı (ne yapınca kazanılır), ödülü ve alındı mı.
+  private rozetBilgi(id: string, alindi: boolean) {
+    this.kok.querySelector('#rozet-bilgi')?.remove();
+    const r = ROZETLER.find((x) => x.id === id)!;
+    const ort = odulOrtusu('rozet-bilgi', alindi ? t('Alındı') : t('Kilitli'));
+    const kutu = ort.firstElementChild as HTMLDivElement;
+    const sahne = document.createElement('div');
+    sahne.className = 'odul-sahne';
+    const rozet = rozetCiz(id, alindi);
+    rozet.classList.add('rozet-buyuk');
+    sahne.appendChild(rozet);
+    const ad = document.createElement('div');
+    ad.className = 'odul-ad';
+    ad.textContent = r.ad;
+    const parcalar = [`+${r.odul.para}`];
+    if (r.odul.yardimci) parcalar.push(t('Yardımcı'));
+    if (r.odul.can) parcalar.push(t('+1 can'));
+    const not = document.createElement('div');
+    not.className = 'odul-not rozet-odul-not';
+    not.innerHTML = `${PARA_SVG}<span>${parcalar.join(' · ')}</span>`;
+    const tamam = odulTamam();
+    tamam.addEventListener('click', () => ort.remove());
+    ort.addEventListener('click', (e) => { if (e.target === ort) ort.remove(); });
+    kutu.append(sahne, ad, not, tamam);
+    this.kok.appendChild(ort);
+  }
+
   // Albüm (Kemal, 9 Kasım): sekmeler Ürünler · Rozetler · Kartpostallar. Açılmamış ürünler
   // yalnız "?" (Kemal: "kaçıncı bölümde açılacakları yazmasın, sürpriz olsun").
   private albumAc(sekme: 'urun' | 'rozet' | 'kart' = 'urun') {
@@ -2721,16 +2748,16 @@ export class Oyun {
         toplam++;
         const a = alinan.includes(r.id);
         if (a) acikSayi++;
-        const k = document.createElement('div');
+        // Yalnız simge; dokununca açıklaması (Kemal, 9 Kasım: "üzerine basıldığında açıklamaları görünsün").
+        const k = document.createElement('button');
         k.className = 'album-urun album-rozet' + (a ? '' : ' kapali');
         k.dataset.rozet = r.id;
+        k.setAttribute('aria-label', r.ad);
         const simge = document.createElement('div');
         simge.className = 'album-simge';
         simge.appendChild(rozetCiz(r.id, a));
-        const ad = document.createElement('div');
-        ad.className = 'album-ad';
-        ad.textContent = r.ad;
-        k.append(simge, ad);
+        k.appendChild(simge);
+        k.addEventListener('click', () => this.rozetBilgi(r.id, a));
         izgara.appendChild(k);
       }
     } else {
@@ -3236,9 +3263,34 @@ function paraSatiri(ort: HTMLDivElement, para: number): HTMLDivElement {
 }
 
 // Rozet çizimi: renkli yuvarlak madalya, ortada rozetin simgesi; alınmamışsa gri ve "?".
+// Rozet simgeleri (Kemal, 9 Kasım: "yalnızca birer ikon ekleyelim"): beyaz, sade çizimler.
+const SV = (ic: string) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg>`;
+const YILDIZ_YOL = 'M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z';
 const ROZET_SIMGE: Record<string, string> = {
-  'ilk-adim': '0', 'musteri-100': '100', 'musteri-1000': '1K', 'yildiz3-10': '★10', 'yildiz3-50': '★50',
-  'seri-5': '×5', 'seri-10': '×10', 'lokasyon-tam': '90', 'urun-10': '10', 'urun-hepsi': '26', 'gunluk-7': '7', kusursuz: '✓',
+  // bayrak: ilk adım
+  'ilk-adim': SV('<path d="M6 3v18" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M7 4h11l-3 4 3 4H7z" fill="#fff"/>'),
+  // bir kişi
+  'musteri-100': SV('<circle cx="12" cy="7.5" r="4" fill="#fff"/><path d="M4 21a8 7 0 0 1 16 0z" fill="#fff"/>'),
+  // kalabalık
+  'musteri-1000': SV('<circle cx="8" cy="8" r="3.2" fill="#fff"/><circle cx="16" cy="8" r="3.2" fill="#fff"/><path d="M1.5 20a6.5 6 0 0 1 13 0zM9.5 20a6.5 6 0 0 1 13 0z" fill="#fff"/>'),
+  // yıldız
+  'yildiz3-10': SV(`<path d="${YILDIZ_YOL}" fill="#fff"/>`),
+  // taç
+  'yildiz3-50': SV('<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z" fill="#fff"/>'),
+  // alev
+  'seri-5': SV('<path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3-1-3 0-6 1-9z" fill="#fff"/>'),
+  // şimşek
+  'seri-10': SV('<path d="M13.5 2L4.5 13.5h6L9.5 22l10-12h-6.2z" fill="#fff"/>'),
+  // harita iğnesi
+  'lokasyon-tam': SV('<path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 4.2a2.8 2.8 0 1 1 0 5.6 2.8 2.8 0 0 1 0-5.6z" fill="#fff"/>'),
+  // dondurma külahı
+  'urun-10': SV('<circle cx="12" cy="8" r="5.5" fill="#fff"/><path d="M6.8 10.5h10.4L12 22z" fill="#fff" opacity=".85"/>'),
+  // kupa
+  'urun-hepsi': SV('<path d="M7 3h10v5a5 5 0 0 1-10 0zM7 5H3.5a3.5 3.5 0 0 0 4 4.5M17 5h3.5a3.5 3.5 0 0 1-4 4.5" fill="#fff" stroke="#fff" stroke-width="1.6"/><path d="M10.5 13h3v4h-3zM7.5 18h9v3h-9z" fill="#fff"/>'),
+  // takvim
+  'gunluk-7': SV('<rect x="3.5" y="5" width="17" height="15.5" rx="3" fill="#fff"/><path d="M8 3v4M16 3v4" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M3.5 9.5h17" stroke="rgba(0,0,0,.25)" stroke-width="1.6"/>'),
+  // elmas: kusursuz
+  kusursuz: SV('<path d="M7 3.5h10l4 5.5-9 12-9-12z" fill="#fff"/><path d="M3 9h18M12 21L8.5 9 12 3.5 15.5 9z" stroke="rgba(0,0,0,.2)" stroke-width="1.2" fill="none"/>'),
 };
 const ROZET_RENK: Record<string, string> = {
   'ilk-adim': '#7fd36b', 'musteri-100': '#ff9fb8', 'musteri-1000': '#e0483e', 'yildiz3-10': '#ffd23f', 'yildiz3-50': '#f2a516',
@@ -3248,6 +3300,7 @@ function rozetCiz(id: string, alindi: boolean): HTMLDivElement {
   const d = document.createElement('div');
   d.className = 'rozet' + (alindi ? '' : ' kapali');
   d.style.setProperty('--rozet', ROZET_RENK[id] ?? '#ffd23f');
-  d.innerHTML = `<span>${alindi ? ROZET_SIMGE[id] ?? '★' : '?'}</span>`;
+  // Kilitliyken simge bulanık, sansürlü gibi (Kemal, 9 Kasım: "kilitliyken ... sansürlü gibi blurlu olsun").
+  d.innerHTML = `<span class="rozet-simge">${ROZET_SIMGE[id] ?? ''}</span>`;
   return d;
 }

@@ -69,6 +69,7 @@ const DURUMLAR = [
   ['gunluk-can', kayitKur(), "o.odulSirasi([() => o.canOdulPenceresi('+1 can', '+1')], false, o.kok)", 900],
   ['can-yok', kayitKur(), 'o.canYokGoster()', 500],
   ['album-rozet', { ...kayitKur({ acik: 40, kadar: 39 }), 'dk-lite-koleksiyon': JSON.stringify({ para: 640, rozetler: ['ilk-adim', 'seri-5', 'urun-10'] }) }, "o.albumAc('rozet')", 500],
+  ['rozet-bilgi', { ...kayitKur({ acik: 40, kadar: 39 }), 'dk-lite-koleksiyon': JSON.stringify({ rozetler: ['ilk-adim'] }) }, "o.albumAc('rozet'); document.querySelector('[data-rozet=\"musteri-1000\"]').click()", 600],
   ['album-kart', kayitKur({ acik: 70, kadar: 69 }), "o.albumAc('kart')", 500],
   ['album-kart-altin', kayitKur({ acik: 100, yildiz: 3, kadar: 99 }), "o.albumAc('kart')", 500],
   ['kart-odul', kayitKur({ acik: 40, kadar: 39 }), "o.odulSirasi([() => o.kartPenceresi(0)], false, o.kok)", 900],
