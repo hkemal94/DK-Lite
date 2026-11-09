@@ -30,6 +30,10 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.46 Sandıktan çıkan kalp ortaya oturuyor (Kemal, 9 Kasım 2026; öneri)
+
+- Kemal: "sandıktan çıkıp yükselmesine bayılıyorum ama yükseldikten sonra biraz daha aşağıya inip ortalamalı sanki kendini". Kalp sandıktan çıkıp yükselir, sonra yumuşakça aşağı inip sandığın ağzının ortasına oturur (hareket 0,6 saniyeden 1,2 saniyeye uzadı). Kareler: `docs/ekran/koleksiyon/sandik-kalp.png`. Gerçek telefonda denenmedi.
+
 ### 0.45 Telefonun geri tuşu (Kemal, 9 Kasım 2026; öneri)
 
 - **Sorun** (Kemal: "Geri tuşuna basınca komple sayfada geri gidiyor onu istemiyorum, bir önceki menüye dönebileyim"): geri tuşu oyundan çıkıp tarayıcıda önceki sayfaya gidiyordu.
