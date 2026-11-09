@@ -910,6 +910,8 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 
 ## 7. Açık sorular
 
+- **Gerçek parayla can satışı** (Kemal, 9 Kasım 2026: "Canı gerçek parayla satabiliriz sonrasında"): yayın döneminde. Kemal'e sorulacaklar: fiyat ve paketler, hangi mağazalar, oyun içi parayla can alma kalsın mı.
+
 Karar Kemal'in; karar verilince bölüm 0'a taşınır. 21 Ekim cevaplarıyla
 kapananlar (DK'nın ne olduğu, görsel stil, palet, oynanış seçeneği,
 haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı.

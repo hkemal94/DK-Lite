@@ -324,6 +324,7 @@ KKM dosyasındaki ilk risk "motivasyon düşer". Bunun için:
 Not (5 Kasım 2026): sandık, market, altın ve yeni malzeme kazanma artık "Neredeyiz"deki kazanç sırasında (tasarım belgesi 0.25).
 
 - Can sistemi: geldi (5 Kasım 2026, tasarım belgesi 0.26). Canın parayla alınması gibi para modeli yayın döneminde.
+- Can gerçek parayla satılacak (Kemal, 9 Kasım 2026: "Canı gerçek parayla satabiliriz sonrasında"). Yayın döneminde; fiyat, paket ve mağaza (Google Play, App Store) kararı Kemal'in. Oyun içi parayla can alma (80, DENEME) bugünkü gibi kalır mı, o da sorulacak.
 - Lig.
 - Festival.
 - Sandık.
