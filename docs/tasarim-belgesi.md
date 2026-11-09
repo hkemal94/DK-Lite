@@ -30,6 +30,12 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.41 Hedef biraz daraldı, karakter kenarları temizlendi (Kemal, 9 Kasım 2026; öneri)
+
+- **3 yıldız hedefi** (Kemal: "Fazla kolay oldu bu sefer"; seçim "Geçen seferki %15'in 10'unu geri al"): hedef genişliği %15'ten %5'e indi (DENEME). Hamle sınırı hedefin 2 katı olduğu için o da biraz daralır. Otomatik oyuncu: dikkatli oynayan 1, 10, 15, 23. bölümde 3 yıldız, 40'ta 2 yıldız; rastgele basan 1 yıldız.
+- **Karakterlerin kenarı** (Kemal: "siyah arkaplanda beyaz beyaz görünüyor"): ilk 10 müşterinin dış çizgisinin dışında çıkartma gibi beyaz bir şerit vardı; silindi. Bütün müşterilerde ve dondurmacı kızın resimlerinde yarı saydam kenarın beyazı da temizlendi (`araclar/kenar_temizle.py`; müşteri resimleri `musteri_isik.py` ile yeniden üretilir). Beyaz giysi ve ayakkabılara dokunulmadı. Görüntü: `docs/ekran/koleksiyon/musteri-kenar-once-sonra.png`.
+- Gerçek telefonda denenmedi.
+
 ### 0.40 Sipariş balonu, mağaza sekmeleri (Kemal, 9 Kasım 2026; öneri)
 
 - **Sipariş balonundaki koyu yuvarlaklar** (Kemal: "bunları kaldır"): iki çeşit isteyen müşterinin balonundaki küçük adet işareti, yeni rozetlerin görünüşünü almıştı (aynı adı taşıyordu); düzeldi, balonda yine küçük "×2" işareti var.

@@ -3,11 +3,13 @@
 # 1) Hepsine aynı yönden ışık: üst biraz aydınlık, alt biraz gölgeli.
 # 2) Gölge-ışık geçişi (yerel kontrast) zayıf olan çizimler ilk 10 kişinin ortalamasına çıkarılır.
 # Asıl çizimler araclar/musteri-kaynak/ içinde durur; araç her seferinde onlardan başlar.
+# En sonda kenardaki beyaz hâle temizlenir (kenar_temizle.py).
 # Sonra renk ve desen çeşitleri yeniden üretilmeli: musteri_renk.py, musteri_desen.py.
 # Çalıştırma: python3 araclar/musteri_isik.py
 import glob, os
 import numpy as np
 from PIL import Image, ImageFilter
+from kenar_temizle import temizle  # kenardaki beyaz hâle (9 Kasım)
 
 KOK = os.path.dirname(__file__)
 KAYNAK = os.path.join(KOK, 'musteri-kaynak')
@@ -44,5 +46,5 @@ for f in dosyalar:
     rgb = rgb * (UST + (ALT - UST) * t)
     a[..., :3] = np.clip(rgb, 0, 255)
     ad = os.path.basename(f)
-    Image.fromarray(a.astype('uint8'), 'RGBA').save(os.path.join(HEDEF, ad), quality=88, method=6)
+    temizle(Image.fromarray(a.astype('uint8'), 'RGBA')).save(os.path.join(HEDEF, ad), quality=88, method=6)
     print(ad, f'yerel kontrast {olcu[f]:.1f} -> hedef {hedef:.1f}, k={k:.2f}')

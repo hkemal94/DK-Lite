@@ -579,7 +579,7 @@ export function mahalleAcikMi(yildizlar: number[], m: number): boolean {
 export const HAMLE_PAY_ORANI = 0.1; // hedef = çözücünün yolu × 1,1 ...
 export const HAMLE_PAY_EN_AZ = 2; // ... + 2
 // Kemal, 9 Kasım: "3 yıldız almak çok zorlaştı" → "Hedef %15 büyüse yeter gibi".
-export const HEDEF_GENISLIGI = 1.15;
+export const HEDEF_GENISLIGI = 1.05; // Kemal, 9 Kasım: önce "%15 büyüse yeter", sonra "fazla kolay oldu" → %5 (DENEME)
 export const HAMLE_IKI_YILDIZ_KATI = 1.5; // hedefin 1,5 katına kadar 2 yıldız; fazlası 1
 export const HAMLE_SINIRI_KATI = 2; // sınır = hedef × 2
 export const HAMLE_SINIRI_BOLUMU = 11; // sınır bu bölümden itibaren
