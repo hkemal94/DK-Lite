@@ -37,6 +37,7 @@ import {
   AYNI_ANDA_MUSTERI,
   BUZ_DOKUNUS,
   HAMLE_PAY_EN_AZ,
+  HEDEF_GENISLIGI,
   HAMLE_PAY_ORANI,
   BUZSUZ_URUNLER,
   BUZLU_TOP_BOLUMU,
@@ -384,7 +385,7 @@ export function bolumKur(no: number): Bolum {
       if (no === ACELECI_BOLUMU && !bolum.aceleci.slice(0, 3).some((a) => a)) bolum.aceleci[1] = true;
       // Hedef hamle: çözücünün yolu + buz kırma dokunuşları + pay (rahat ayar; DENEME).
       const buzDokunus = [...bolum.sutunOzel.flat(), ...bolum.sakliOzel].reduce((a, t) => a + t.buz, 0);
-      bolum.hedefHamle = Math.ceil((yol + buzDokunus) * (1 + HAMLE_PAY_ORANI)) + HAMLE_PAY_EN_AZ;
+      bolum.hedefHamle = Math.ceil((yol + buzDokunus) * (1 + HAMLE_PAY_ORANI) * HEDEF_GENISLIGI) + HAMLE_PAY_EN_AZ;
       kurulanlar.set(no, bolum);
       return bolum;
     }

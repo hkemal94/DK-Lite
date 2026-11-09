@@ -5,6 +5,7 @@
 // satır dizilir ve yalnız kutular kayar. 1. bölüm en üstte solda. Bölüm sayısı
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
+import { t } from './dil';
 import { BOLUM_SAYISI, MAHALLE_ACMA_YILDIZ, SAYFADA_BOLUM, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleYildizi } from './ayarlar';
 import { ogreticiBittiMi, type Kayit } from './kayit';
 
@@ -20,7 +21,7 @@ const NS = 'http://www.w3.org/2000/svg';
 // 6–10: adları sonra (Kemal, 9 Kasım: "şimdilik isimleri lokasyon 6, lokasyon 7 gibi ilerlet").
 const DURAKLAR = [
   { ad: 'Liman' }, { ad: 'Stadyum' }, { ad: 'Çiftlik' }, { ad: 'İskele' }, { ad: 'Merkez' },
-  { ad: 'Lokasyon 6' }, { ad: 'Lokasyon 7' }, { ad: 'Lokasyon 8' }, { ad: 'Lokasyon 9' }, { ad: 'Lokasyon 10' },
+  { ad: t('Lokasyon {0}', 6) }, { ad: t('Lokasyon {0}', 7) }, { ad: t('Lokasyon {0}', 8) }, { ad: t('Lokasyon {0}', 9) }, { ad: t('Lokasyon {0}', 10) },
 ];
 // Kaldığın bölümün üstünde dondurmacının başı.
 const DONDURMACI_BAS = 'gorseller/dondurmaci-bas.webp';
@@ -62,14 +63,14 @@ export function haritaCiz(
   const geri = document.createElement('button');
   geri.className = 'harita-geri kose-dugme yuvarlak mor';
   geri.id = 'harita-geri';
-  geri.setAttribute('aria-label', 'Geri');
+  geri.setAttribute('aria-label', t('Geri'));
   const ok = svgOge('svg', { viewBox: '0 0 24 24', class: 'geri-ok' });
   ok.appendChild(svgOge('path', { d: 'M15 5 L8 12 L15 19' }));
   geri.append(ok);
   geri.addEventListener('click', s.geri);
   const baslik = document.createElement('div');
   baslik.className = 'liste-baslik';
-  baslik.textContent = 'Bölümler';
+  baslik.textContent = t('Bölümler');
   // Başlığın altında sayfadaki ilerleme ("12/20" gibi: geçilen bölüm / sayfadaki bölüm).
   const ilerleme = document.createElement('div');
   ilerleme.className = 'durak-ilerleme';
@@ -80,7 +81,7 @@ export function haritaCiz(
   const ev = document.createElement('button');
   ev.className = 'harita-ev kose-dugme yuvarlak mor ev-dugme';
   ev.id = 'harita-ev';
-  ev.setAttribute('aria-label', 'Ana sayfa');
+  ev.setAttribute('aria-label', t('Ana sayfa'));
   ev.innerHTML = EV_SVG;
   ev.addEventListener('click', s.anaSayfa);
   ust.append(geri, ev, baslikKutu);
@@ -112,7 +113,7 @@ export function haritaCiz(
   const okDugme = (yon: -1 | 1) => {
     const d = document.createElement('button');
     d.className = 'kose-dugme yuvarlak mor sayfa-ok';
-    d.setAttribute('aria-label', yon < 0 ? 'Önceki sayfa' : 'Sonraki sayfa');
+    d.setAttribute('aria-label', yon < 0 ? 'Önceki sayfa' : t('Sonraki sayfa'));
     const o = svgOge('svg', { viewBox: '0 0 24 24', class: 'geri-ok' });
     o.appendChild(svgOge('path', { d: yon < 0 ? 'M15 5 L8 12 L15 19' : 'M9 5 L16 12 L9 19' }));
     d.appendChild(o);
@@ -208,7 +209,7 @@ export function haritaCiz(
     if (tur === 'zor' || tur === 'cok-zor') d.classList.add('zorlu');
     d.dataset.no = String(no);
     d.dataset.yildiz = String(yildiz);
-    d.setAttribute('aria-label', `Bölüm ${no}` + (kilitli ? ', kilitli' : ''));
+    d.setAttribute('aria-label', t('Bölüm {0}', no) + (kilitli ? ', kilitli' : ''));
     if (kilitli) d.setAttribute('aria-disabled', 'true');
     const sayi = document.createElement('span');
     sayi.className = 'bolum-kutu-sayi';

@@ -10,6 +10,7 @@
 // Kemal, 5 Kasım 2026 gecesi: "kaç adet yeni ürünümüz varsa ona göre onluk sistemde yeni
 // bölüm hazırla" → 15 hediye ürün, her 10 bölümde bir; "150 bölüm". Bunun önünde 0. bölüm
 // (ipuçlu başlangıç bölümü) var; o BOLUM_SAYISI'na girmez.
+import { t } from './dil';
 export const BOLUM_SAYISI = 300; // Kemal, 9 Kasım: "300 bölüm yapalım o zaman 10 adet lokasyon olsun"
 
 // Bir bölümün zorluk ayarları.
@@ -100,6 +101,7 @@ export const HEDIYE_SIRASI = [
 ];
 // Hediyelerin bölümleri (Kemal, 9 Kasım: "10'da bir devam etmeyelim ... arttırarak", "Baştan artarak
 // dağıt"): 23 hediye 0–290 arasında, aralık 5'ten 21'e yavaşça artar (DENEME).
+export const YENI_URUN_SAYISI = 3;
 export const HEDIYE_BOLUMLERI = [0, 5, 11, 17, 25, 33, 42, 51, 62, 73, 85, 98, 111, 126, 141, 157, 174, 191, 209, 228, 248, 269, 290];
 // Ürünün hediye olarak verildiği bölüm (başlangıç ürünleri için -1).
 export function hediyeBolumu(id: string): number {
@@ -130,6 +132,14 @@ function bolumUrunleri(no: number, cesit: number): string[] {
     if (id && !secim.includes(id) && secim.length < cesit) secim.push(id);
   };
   ekle(bolumHediyesi(no - 1) ?? undefined);
+  // Son açılan 3 ürün daha sık gelir (Kemal, 9 Kasım: "6 kalsın, yeniler sık gelsin"):
+  // her biri bölümlerin kabaca 2/3'ünde (sabit sırayla), eskiler sırayla döner. DENEME.
+  const yeniler = HEDIYE_SIRASI.filter((id) => urunIzinli(id, no))
+    .sort((a, b) => hediyeBolumu(b) - hediyeBolumu(a))
+    .slice(0, YENI_URUN_SAYISI);
+  yeniler.forEach((id, k) => {
+    if ((no + k) % 3 !== 0 && secim.length < cesit - 2) ekle(id);
+  });
   const dondurmaSayisi = Math.min(dondurma.length, Math.max(2, cesit - tatli.length - icecek.length));
   for (let k = 0; secim.filter((id) => tur(id) === 'dondurma').length < dondurmaSayisi && k < dondurma.length; k++) {
     ekle(dondurma[(no + 2 * k) % dondurma.length]);
@@ -568,6 +578,8 @@ export function mahalleAcikMi(yildizlar: number[], m: number): boolean {
 // Sayılar DENEME.
 export const HAMLE_PAY_ORANI = 0.1; // hedef = çözücünün yolu × 1,1 ...
 export const HAMLE_PAY_EN_AZ = 2; // ... + 2
+// Kemal, 9 Kasım: "3 yıldız almak çok zorlaştı" → "Hedef %15 büyüse yeter gibi".
+export const HEDEF_GENISLIGI = 1.15;
 export const HAMLE_IKI_YILDIZ_KATI = 1.5; // hedefin 1,5 katına kadar 2 yıldız; fazlası 1
 export const HAMLE_SINIRI_KATI = 2; // sınır = hedef × 2
 export const HAMLE_SINIRI_BOLUMU = 11; // sınır bu bölümden itibaren
@@ -577,3 +589,62 @@ export const BOSA_TOP_CEZASI = 2; // müşterinin istemediği her gönderiş bu 
 // %30'a kadar 3 yıldız, %40'a kadar 2, fazlası 1. DENEME.
 export const ISABET_ESIKLERI = [0.3, 0.4];
 export const EK_HAMLE = 5; // "+5 hamle" yardımcısı
+
+// ---------- Para, mağaza, rozetler, kartpostallar (Kemal, 9 Kasım 2026) ----------
+// "Toplanan bir para olur onunla alınabilen temalar, arka planlar ..."; para adı [Kemal]
+// (ekranda yalnız simge). Kazanma: yıldız, sandık, günlük ödül, rozet. Bütün sayılar DENEME.
+export const YILDIZ_PARASI = 10; // yeni kazanılan her yıldız
+export const SANDIK_PARA = [20, 50]; // sandıktan rastgele, bu aralıkta
+export const GUNLUK_PARA = 25; // günlük ödülün her günü ayrıca
+export const GUNLUK_7_PARA = 100; // 7. gün ayrıca
+export const YARDIMCI_FIYATI = 100;
+export const CAN_FIYATI = 80;
+export const TEMA_FIYATI = 500;
+// Arka plan temaları: oyun ekranının zemini ve tente. 'mor' başta açık (bugünkü görünüş).
+export const TEMALAR = ['mor', 'gece', 'sonbahar', 'deniz', 'pamuk-seker'] as const;
+export type Tema = (typeof TEMALAR)[number];
+export const TEMA_ADLARI: Record<Tema, string> = {
+  mor: 'Dükkân',
+  gece: 'Gece',
+  sonbahar: 'Sonbahar',
+  deniz: 'Deniz',
+  'pamuk-seker': 'Pamuk şeker',
+};
+// Dondurmacı kızın kostümleri (Kemal, 9 Kasım: "Kızın kostümleri olsun satılan"; "kızlar olsun
+// çalışan"). 'klasik' başta açık. Fiyat DENEME.
+export const KOSTUMLER = ['klasik', 'maras', 'denizci', 'asci'] as const;
+export type Kostum = (typeof KOSTUMLER)[number];
+export const KOSTUM_ADLARI: Record<Kostum, string> = {
+  klasik: 'Dükkân önlüğü',
+  maras: 'Maraş dondurmacısı',
+  denizci: 'Denizci',
+  asci: 'Aşçı',
+};
+export const KOSTUM_FIYATI = 800;
+// Rozetler (Kemal onayladı, 9 Kasım). Ödül: para; bazılarında yardımcı ya da can.
+export type RozetOdulu = { para: number; yardimci?: boolean; can?: boolean };
+export const ROZETLER: { id: string; ad: string; odul: RozetOdulu }[] = [
+  { id: 'ilk-adim', ad: '0. bölümü bitir', odul: { para: 50 } },
+  { id: 'musteri-100', ad: '100 müşteriye hizmet', odul: { para: 100 } },
+  { id: 'musteri-1000', ad: '1000 müşteriye hizmet', odul: { para: 200, yardimci: true } },
+  { id: 'yildiz3-10', ad: '10 bölüm 3 yıldız', odul: { para: 100 } },
+  { id: 'yildiz3-50', ad: '50 bölüm 3 yıldız', odul: { para: 200, can: true } },
+  { id: 'seri-5', ad: '5 bölüm üst üste', odul: { para: 100 } },
+  { id: 'seri-10', ad: '10 bölüm üst üste', odul: { para: 200, yardimci: true } },
+  { id: 'lokasyon-tam', ad: 'Bir lokasyonda bütün yıldızlar', odul: { para: 150 } },
+  { id: 'urun-10', ad: '10 ürün aç', odul: { para: 100 } },
+  { id: 'urun-hepsi', ad: 'Bütün ürünleri aç', odul: { para: 200, yardimci: true } },
+  { id: 'gunluk-7', ad: '7 gün art arda', odul: { para: 150 } },
+  { id: 'kusursuz', ad: 'Boşa top göndermeden bitir', odul: { para: 100 } },
+];
+
+// Seçili dile çeviri (dil.ts): ürün, yardımcı, tema, rozet adları ve bozulma yazıları.
+for (const u of URUNLER) u.ad = t(u.ad);
+for (const y of YARDIMCI_IDLERI) YARDIMCI_ADLARI[y] = t(YARDIMCI_ADLARI[y]);
+for (const tm of TEMALAR) TEMA_ADLARI[tm] = t(TEMA_ADLARI[tm]);
+for (const k of KOSTUMLER) KOSTUM_ADLARI[k] = t(KOSTUM_ADLARI[k]);
+for (const r of ROZETLER) r.ad = t(r.ad);
+for (const b of ERIME_BICIMLERI) {
+  b.yazi = t(b.yazi);
+  b.kisa = t(b.kisa);
+}
