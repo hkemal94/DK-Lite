@@ -309,7 +309,7 @@ Kemal (telefondan bölüm seçme ekranının görüntüsüyle): "Bu yolu beğenm
 - Geçilmiş bölüm mor kutu, beyaz numara, altında kazanılan yıldızlar; sıradaki sarı ve yavaşça büyüyüp küçülür; kilitli bölüm soluk krem, numaranın altında küçük kilit, dokununca başlamaz.
 - Üstte mor şerit, "Bölümler" başlığı ve mor yuvarlak geri düğmesi (0.23 gibi).
 - Bölüm sayısı artınca kutular kendiliğinden çoğalır (`BOLUM_SAYISI`).
-- Sahil yolu resmi (`sahil-yolu.webp`) artık görünmüyor; dosya depoda duruyor.
+- Sahil yolu resmi (`sahil-yolu.webp`) artık görünmüyor; dosya 10 Kasım 2026'da depodan silindi (Kemal).
 - Ekran görüntüleri: `docs/ekran/kutulu-bolumler/`.
 - Açık soru (0.22'deki "500 bölüme giderken harita" sorusu) bununla daralır: harita yok, kutular uzar. Çok bölümde sayfalara mı bölünsün: [Kemal].
 
@@ -329,7 +329,7 @@ Ne değişti (1. adım; oynanış, sayılar, yazılar aynı):
 
 İkinci tur (aynı gün). Kemal: "Sadece butonlar için değil tüm arayüz için bir güncelleme bekliyordum açıkçası. Logoyu da külahlı logo yap, arka planları daha uygun bir görsel dille revize et." Cevapları: logo "Dondurmacı Kızlar'daki logo"; arka plan "Desenli mor zemin (Önerilen)"; kapsam "Hepsi tek pakette (Önerilen)". Ne değişti:
 - Logo: giriş ekranında ve bölüm sonu fişinde Kemal'in külahlı logosu (Dondurmacı Kızlar deposundaki `logo-kulahli.webp`, 14 Ekim; yalnız küçültüldü). Tezgâh önünde yazı logo kaldı (yer dar).
-- Arka planlar: giriş ekranı koyu mor, oyun ekranı açık lila; ikisinde de soluk külah-yıldız-nokta deseni ve ortada ışık. Giriş ve oyun ekranındaki deniz manzarası resmi (`arka-plan.webp`) artık görünmüyor; dosya depoda duruyor. Bölüm haritasının sahil yolu çizimi kaldı.
+- Arka planlar: giriş ekranı koyu mor, oyun ekranı açık lila; ikisinde de soluk külah-yıldız-nokta deseni ve ortada ışık. Giriş ve oyun ekranındaki deniz manzarası resmi (`arka-plan.webp`) artık görünmüyor; dosya 10 Kasım 2026'da depodan silindi (Kemal). Bölüm haritasının sahil yolu çizimi kaldı.
 - Pencereler (ayarlar, duraklatma): üstte mor başlık şeridi, köşede kırmızı ✕; ayarlardaki "Kapat" kalktı. Duraklatma penceresinin başlığı "Duraklatıldı".
 - Oyun içi: üst şerit koyu mor; sayaçlar simgeli hap; 2× ve duraklatma mor yuvarlak. Müşteri balonları kalın hatlı ve kuyruklu; sütunlar kalın hatlı.
 - Bölüm sonu: ikonlu düğmeler, büyük yıldızlar, "Bölümler" küçük düğme. Kaybedince "Tekrar oyna" yeşil (tek ileri yol).
