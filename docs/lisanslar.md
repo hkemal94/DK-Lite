@@ -22,8 +22,6 @@ yalnız yazılı tarif kullanıldı.
 | `public/gorseller/kulah.webp` | Bantta dondurma topunun altındaki külah | https://www.canva.com/M/MAHZYtoyWcc |
 | `public/gorseller/bar/` | Bar rafındaki kafe eşyaları: kahve makinesi, bardaklar, şeker kavanozu, külah yığını, iki şurup şişesi, saksı, kâse | https://www.canva.com/M/MAHZYp3Zon8 |
 | `public/gorseller/tezgah/dondurmaci-seviniyor.webp` | Bölüm sonunda sevinen dondurmacı (ilk dondurmacı resmi örnek verilerek çizildi) | https://www.canva.com/M/MAHZYtcIINg |
-| `public/gorseller/sahil-yolu.webp` | Bölüm seçme ekranının sahil manzarası (altta resmin kendisi, üstte aynadaki hâli; 5 Kasım 2026'dan beri oyunda görünmüyor, yerine kutulu bölümler) | https://www.canva.com/M/MAHZYktAkfQ |
-| `public/gorseller/arka-plan.webp` | Dükkândan dışarısı: deniz, iskele, deniz feneri, zeytin ağaçları (5 Kasım 2026'dan beri oyunda görünmüyor; yerine desenli mor zemin) | https://www.canva.com/M/MAHZYh4YtGo |
 
 Resimler beyaz zemini silinip tek tek kesildi ve küçültüldü (ekibin kendi
 işi; Canva'dan başka araç kullanılmadı). Limon topunun rengi vanilyadan
