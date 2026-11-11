@@ -1,7 +1,7 @@
 {
   "oyun": "DK Lite",
   "kaynak": "https://hkemal94.github.io/DK-Lite/",
-  "not": "Yayındaki oyundan alındı; ekran ölçüsünün 2 katı çözünürlük. Belgede adı geçmeyen eski taslak görseller 11 Kasım 2026'da silindi (Kemal).",
+  "not": "Yayındaki oyundan alındı; ekran ölçüsünün 2 katı çözünürlük. Belgede adı geçmeyen eski taslak görseller 11 Kasım 2026'da silindi (Kemal). 3 Kasım'daki eski görüntüler 11 Kasım'da kaldırıldı (oyun o günden beri değişti).",
   "goruntuler": [
     {
       "dosya": "telefon-11-11-giris.png",
@@ -17,52 +17,22 @@
       "cihaz": "telefon (dik, 390x844)"
     },
     {
-      "dosya": "telefon-01-acilis.png",
-      "baslik": "Açılış ekranı",
-      "tarih": "2026-11-03",
+      "dosya": "telefon-11-11-bolumler.png",
+      "baslik": "Bölümler (Liman)",
+      "tarih": "2026-11-11",
       "cihaz": "telefon (dik, 390x844)"
     },
     {
-      "dosya": "telefon-02-oynanis.png",
-      "baslik": "Oynanış (Bölüm 1)",
-      "tarih": "2026-11-03",
+      "dosya": "telefon-11-11-album.png",
+      "baslik": "Albüm",
+      "tarih": "2026-11-11",
       "cihaz": "telefon (dik, 390x844)"
     },
     {
-      "dosya": "telefon-03-bolum-sonu.png",
-      "baslik": "Bölüm sonu",
-      "tarih": "2026-11-03",
+      "dosya": "telefon-11-11-magaza.png",
+      "baslik": "Mağaza",
+      "tarih": "2026-11-11",
       "cihaz": "telefon (dik, 390x844)"
-    },
-    {
-      "dosya": "telefon-04-bolum-haritasi.png",
-      "baslik": "Bölüm haritası",
-      "tarih": "2026-11-03",
-      "cihaz": "telefon (dik, 390x844)"
-    },
-    {
-      "dosya": "masaustu-01-acilis.png",
-      "baslik": "Açılış ekranı",
-      "tarih": "2026-11-03",
-      "cihaz": "masaüstü (1440x900)"
-    },
-    {
-      "dosya": "masaustu-02-oynanis.png",
-      "baslik": "Oynanış (Bölüm 1)",
-      "tarih": "2026-11-03",
-      "cihaz": "masaüstü (1440x900)"
-    },
-    {
-      "dosya": "masaustu-03-bolum-sonu.png",
-      "baslik": "Bölüm sonu",
-      "tarih": "2026-11-03",
-      "cihaz": "masaüstü (1440x900)"
-    },
-    {
-      "dosya": "masaustu-04-bolum-haritasi.png",
-      "baslik": "Bölüm haritası",
-      "tarih": "2026-11-03",
-      "cihaz": "masaüstü (1440x900)"
     }
   ],
   "logo": "public/gorseller/logo-kulahli.webp"
