@@ -1,8 +1,21 @@
 {
   "oyun": "DK Lite",
   "kaynak": "https://hkemal94.github.io/DK-Lite/",
-  "not": "Yayındaki oyundan alındı; ekran ölçüsünün 2 katı çözünürlük. Eski taslak görseller docs/gorseller ve docs/ekran altında durur.",
+  "not": "Yayındaki oyundan alındı; ekran ölçüsünün 2 katı çözünürlük. Belgede adı geçmeyen eski taslak görseller 11 Kasım 2026'da silindi (Kemal).",
   "goruntuler": [
+    {
+      "dosya": "telefon-11-11-giris.png",
+      "baslik": "Giriş ekranı (kapak)",
+      "tarih": "2026-11-11",
+      "cihaz": "telefon (dik, 390x844)",
+      "kapak": true
+    },
+    {
+      "dosya": "telefon-11-11-oyun.png",
+      "baslik": "Oynanış (Bölüm 0)",
+      "tarih": "2026-11-11",
+      "cihaz": "telefon (dik, 390x844)"
+    },
     {
       "dosya": "telefon-01-acilis.png",
       "baslik": "Açılış ekranı",
@@ -51,5 +64,6 @@
       "tarih": "2026-11-03",
       "cihaz": "masaüstü (1440x900)"
     }
-  ]
+  ],
+  "logo": "public/gorseller/logo-kulahli.webp"
 }
