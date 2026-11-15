@@ -30,6 +30,16 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
+### 0.49 Ödül: pul koleksiyonu (Kemal, 15 Kasım 2026)
+
+- Posta pulları bütün oyunlarımızın **ortak ödül sistemi**; DK Lite da buna katılır.
+- **Her ay bir pul.** Bir çeyreğin üç aylık pulu toplanınca daha büyük ve süslü **4. pul** gelir ("3+1" seri). Kazanılan pul kaybolmaz.
+- Gerçek posta pulu gibi (tırtıklı kenar, ince çerçeve); **her pul ayrı tasarlanır**, tek şablon yok. **Pulun üstünde yazı yok**; çeyrek ve yıl pulun altında, sayfada yazar. Tasarlanana kadar sade yer tutucu durur; görseller Kemal onaylayınca girer.
+- Oyunlar arasında ortak bir **koleksiyon sayfası** dili: her yıl bir bölüm, her çeyrekte üç aylık pul ve yanında büyük pul; kazanılan tam renkli, kazanılmayan soluk.
+- Bu oyuna özgü olan yalnız **bir ayın pulunun nasıl kazanıldığı** ve mevcut ödüllerle (rozetler, lokasyon kartları, günlük ödül, albüm) ilişkisi: Kemal'in kararı (7. bölüm).
+- Ayrıntı: Kems-Ajans deposunda `docs/pul-koleksiyonu.md`. Kod yapısı kart oyunundaki `src/pul/` klasörü örnek alınarak kurulacak.
+- Henüz kod yok; bu yalnız karar kaydı.
+
 ### 0.48 Ayarlar tek dosyada (KKM paneli 1. adım) (Kemal, 9 Kasım 2026; öneri)
 
 - Kemal: KKM'de bölümleri, arka planları, hediyeleri "sürükle bırakla" değiştirebileceği bir panel; seçimleri: panel KKM'de Oyunlar ekranında; ilk etapta hediyeler ve sırası, lokasyonlar, mağaza, bölüm ayarları. 1. adım (bu öneri): bu ayarlar kodun içinden tek dosyaya taşındı: `src/veri/oyun-ayarlari.json`. Biçimi: `docs/ayar-dosyasi.md`.
@@ -955,6 +965,8 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 - Oyunun yayın adı: [Kemal] (0.28; kısa, DK ile ilgili bir ad düşünülüyor).
 
 Sonrası için:
+- Pul koleksiyonu (0.49): bu oyunda bir ayın pulu nasıl kazanılır? [Kemal]. Adaylar: o ay belli sayıda bölüm geçmek · o ay günlük ödülü belli sayıda gün almak · o ay belli sayıda yıldız toplamak (sayılar Kemal'in).
+- Pul koleksiyonu (0.49): mevcut rozetler, lokasyon kartları, günlük ödül ve albüm pulla birlikte mi durur, pula mı dönüşür? [Kemal]. Adaylar: hepsi yan yana durur, pul albümde ayrı bir sekme olur · lokasyon kartları kalır, rozetler pula döner · hepsi pula döner.
 - Sonu yok: elle yapılmış bölümler bitince ne olur (kendiliğinden üretilen bölümler, günlük bölüm, ya da bekleme)?
 - Can sistemi: kapandı (0.26; 5 can, kaybedince gider, 30 dakikada dolar). Para modeli (canın parayla alınması gibi) yayın döneminde.
 - Hikâye bölümleri kaç bölümde bir açılır; metinleri ne zaman gelir?
