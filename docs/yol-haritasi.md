@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 15 Kasım (öneri; `ajans/pul-koleksiyonu-karari`; tasarım belgesi 0.49): yalnız belge. Ödül olarak pul koleksiyonu kararı (bütün oyunların ortak sistemi); ayın pulu o ayın görevi bitince gelir (her ay tek büyük görev; içerikleri ileride Kemal'e sorulacak); rozetler, lokasyon kartları, günlük ödül ve albüm pulla birlikte durur. Oyunda değişiklik yok.
 - 11 Kasım (öneri; `ajans/kkm-kapak`): KKM'deki oyun kartı için yeni ekran görüntüleri; giriş ekranı kapak (Kemal seçti); 3 Kasım'daki eski ekran görüntüleri kaldırıldı, yerine bugünkü 5 görüntü (giriş, oynanış, bölümler, albüm, mağaza). Belgede adı geçmeyen 98 eski taslak görsel silindi (Kemal). Oyunda değişiklik yok.
 - 10 Kasım (öneri; `ajans/kullanilmayan-gorseller`): oyunda görünmeyen iki eski resim (deniz manzarası `arka-plan.webp`, sahil yolu `sahil-yolu.webp`) depodan silindi (Kemal: "lütfen sil"). Ekranda değişiklik yok.
 - 9 Kasım gecesi (öneri; `ajans/ayar-dosyasi`; tasarım belgesi 0.48): KKM paneli 1. adım: hediyeler, lokasyonlar, mağaza, bölüm ayarları tek dosyada (`src/veri/oyun-ayarlari.json`, biçimi `docs/ayar-dosyasi.md`), derlemeden önce denetleniyor. Ekranda değişiklik yok. Sırada 2. adım: panel KKM'de (Kems'e iş).
