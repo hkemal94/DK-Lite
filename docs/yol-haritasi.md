@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 16 Kasım (öneri; `ajans/gorev-tekrar-sayilmaz`; tasarım belgesi 0.49): yalnız belge. Kemal'in kararı: ayın görevindeki "bölüm kazan"da tekrar oynanan bölümler sayılmaz, yalnız ilk kez kazanılan bölüm sayılır. 7. bölümdeki soru kapandı. Oyunda değişiklik yok.
 - 16 Kasım (öneri; `ajans/aylik-gorev`; tasarım belgesi 0.49): yalnız belge. Ayın büyük görevi kararı (Kemal): her ay farklı görev, sırayla bölüm kazan → müşteri karşıla → 3 yıldızlı bölüm → üst üste kazanma, sonra başa. Sayılar, tekrar oynanan bölümlerin sayılıp sayılmayacağı, "ay"ın takvim ayı olup olmadığı ve geçen ayın görevinin sonradan bitirilip bitirilemeyeceği açık soru (7. bölüm). Oyunda değişiklik yok.
 - 15 Kasım (öneri; `ajans/pul-koleksiyonu-karari`; tasarım belgesi 0.49): yalnız belge. Ödül olarak pul koleksiyonu kararı (bütün oyunların ortak sistemi); ayın pulu o ayın görevi bitince gelir (her ay tek büyük görev; içerikleri ileride Kemal'e sorulacak); rozetler, lokasyon kartları, günlük ödül ve albüm pulla birlikte durur. Oyunda değişiklik yok.
 - 11 Kasım (öneri; `ajans/kkm-kapak`): KKM'deki oyun kartı için yeni ekran görüntüleri; giriş ekranı kapak (Kemal seçti); 3 Kasım'daki eski ekran görüntüleri kaldırıldı, yerine bugünkü 5 görüntü (giriş, oynanış, bölümler, albüm, mağaza). Belgede adı geçmeyen 98 eski taslak görsel silindi (Kemal). Oyunda değişiklik yok.
