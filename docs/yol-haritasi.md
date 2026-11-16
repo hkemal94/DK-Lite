@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 16 Kasım (öneri; `ajans/sonsuz-bolumler-belge`; tasarım belgesi 0.50): yalnız belge. Sonsuz bölümler (çalışma adı; adı [Kemal]): belge kesinleşti, kod sırada. Kemal'in 6 cevabı işlendi: oynanacak numaralı bölüm kalmayınca sigorta olarak açılır; kaybedince 1 can gider, seri biter; 390'ın en üst zorluğu, yalnız 10'luk dalga; her seri yeni dizilim, kazanılan her sonsuz bölüm "bölüm kazan" görevinde 1 sayılır; 13 lokasyon her 30 aşamada döner; yıldız görünür ama para ve kilide girmez, seri puanı aşamayla çarpılır (çarpan [Kemal]), her 10 aşamada sandık, en iyi seri ve puan saklanır. İş planı "Bölüm 51 ve sonrası"nda. Oyunda değişiklik yok.
 - 16 Kasım (öneri; `ajans/gorev-tekrar-sayilmaz`; tasarım belgesi 0.49): yalnız belge. Kemal'in kararı: ayın görevindeki "bölüm kazan"da tekrar oynanan bölümler sayılmaz, yalnız ilk kez kazanılan bölüm sayılır. 7. bölümdeki soru kapandı. Oyunda değişiklik yok.
 - 16 Kasım (öneri; `ajans/aylik-gorev`; tasarım belgesi 0.49): yalnız belge. Ayın büyük görevi kararı (Kemal): her ay farklı görev, sırayla bölüm kazan → müşteri karşıla → 3 yıldızlı bölüm → üst üste kazanma, sonra başa. Sayılar, tekrar oynanan bölümlerin sayılıp sayılmayacağı, "ay"ın takvim ayı olup olmadığı ve geçen ayın görevinin sonradan bitirilip bitirilemeyeceği açık soru (7. bölüm). Oyunda değişiklik yok.
 - 15 Kasım (öneri; `ajans/pul-koleksiyonu-karari`; tasarım belgesi 0.49): yalnız belge. Ödül olarak pul koleksiyonu kararı (bütün oyunların ortak sistemi); ayın pulu o ayın görevi bitince gelir (her ay tek büyük görev; içerikleri ileride Kemal'e sorulacak); rozetler, lokasyon kartları, günlük ödül ve albüm pulla birlikte durur. Oyunda değişiklik yok.
@@ -167,7 +168,19 @@ kez kazanılınca "Yeni ürün!" olarak açılır).
 
 - Durum: yok. Kemal (29 Ekim): ileride yaklaşık 500 bölüm; 5 Kasım: "şu an için" 50.
 - Bölüm sayısı yalnız `BOLUM_SAYISI` ile artar; Bölümler ekranı, kayıt ve zorluk kendiliğinden uyar.
-- Kemal'in kararı gereken: kaç bölüme çıkılacak; çok bölümde Bölümler ekranı sayfalara bölünsün mü (Kemal, 5 Kasım: "Bilmem, şu an oyun güzel"; bekliyor); elle yapılmış bölümler bitince ne olur.
+- Kemal'in kararı gereken: kaç bölüme çıkılacak; çok bölümde Bölümler ekranı sayfalara bölünsün mü (Kemal, 5 Kasım: "Bilmem, şu an oyun güzel"; bekliyor). Elle yapılmış bölümler bitince ne olacağı kapandı: sonsuz bölümler (tasarım belgesi 0.50).
+
+#### Sonsuz bölümler (tasarım belgesi 0.50): belge kesinleşti, kod sırada
+
+Oyun Geliştiricisi için iş planı. Dal `ajans/sonsuz-bolumler`, tek PR. Sayılar [Kemal] ya da DENEME.
+
+1. **Ayar dosyası** (`src/veri/oyun-ayarlari.json`, `docs/ayar-dosyasi.md`, `araclar/ayar-denetimi.mjs`): sonsuz bölümler bloğu (aşama çarpanı [Kemal], sandık aralığı 10 aşama, deneme sınırı DENEME).
+2. **Bölüm kurma** (`src/bolum.ts`): `bolumKur`'a dokunmadan `sonsuzBolumKur(asama, seriTohumu)`; aynı taslak + çözücü deneme döngüsü, zorluk 390 tavanı + `bolumTuru(asama)` dalgası; deneme döngüsüne üst sınır, aşılınca bir kademe kolay. 0–390'ın dizilimi değişmemeli (önce/sonra karşılaştırması, 0.48'deki gibi).
+3. **Kayıt** (`src/kayit.ts`): ayrı anahtarla sonsuz kaydı (aşama, seri puanı, seri tohumu, en iyi seri, en iyi puan); numaralı kayda dokunulmaz.
+4. **Oyun akışı** (`src/oyun.ts`): kazanınca aşama artar, "Devam et" sıradaki sonsuz bölümü açar; kaybedince ya da yarıda bırakınca 1 can gider, seri biter; her 10 aşamada sandık; sonuç penceresinde aşama, seri puanı, en iyi seri.
+5. **Ekranlar** (`src/harita.ts`, giriş ekranı): oynanmamış numaralı bölüm kalmayınca Bölümler ekranında sonsuz girişi ve "Başla" sonsuzu açar; zemin her 30 aşamada sıradaki lokasyon. Yazılar `src/dil.ts` üstünden, İngilizcesiyle; modun adı gelene kadar `[YER TUTUCU]`.
+6. **Ayın görevi bağlantısı:** "bölüm kazanıldı" bilgisini tek yerden veren küçük fonksiyon (ilk kez kazanılan numaralı bölüm ya da kazanılan sonsuz bölüm = 1); görev paketi gelince buraya bağlanır.
+7. **Deneme:** çözücüyle çok sayıda sonsuz bölüm kur, kazanılabilir ve hızlı kurulduğunu ölç (ölçülen hâliyle PR'a); otomatik oyuncuyla birkaç seri; `node araclar/ekran-denetimi.cjs` (sorun 0); `npm run build`; telefon boyutunda ekran görüntüleri. Gerçek telefonda denenmediyse "denenmedi".
 
 ## Nasıl ilerler (tek kişilik ekip için)
 
