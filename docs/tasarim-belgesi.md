@@ -36,7 +36,8 @@ En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 - **Her ay bir pul.** Bir çeyreğin üç aylık pulu toplanınca daha büyük ve süslü **4. pul** gelir ("3+1" seri). Kazanılan pul kaybolmaz.
 - Gerçek posta pulu gibi (tırtıklı kenar, ince çerçeve); **her pul ayrı tasarlanır**, tek şablon yok. **Pulun üstünde yazı yok**; çeyrek ve yıl pulun altında, sayfada yazar. Tasarlanana kadar sade yer tutucu durur; görseller Kemal onaylayınca girer.
 - Oyunlar arasında ortak bir **koleksiyon sayfası** dili: her yıl bir bölüm, her çeyrekte üç aylık pul ve yanında büyük pul; kazanılan tam renkli, kazanılmayan soluk.
-- **Ayın pulu, o ayın görevi bitince gelir** (Kemal, 15 Kasım 2026). Her ay oyunda tek bir büyük görev olur; görevlerin içerikleri ileride Kemal'e sorulacak ([Kemal]).
+- **Ayın pulu, o ayın görevi bitince gelir** (Kemal, 15 Kasım 2026). Her ay oyunda tek bir büyük görev olur.
+- **Ayın büyük görevi her ay farklı, sırayla** (Kemal, 16 Kasım 2026): 1) ay içinde [sayı: Kemal] bölüm kazan → 2) ay içinde [sayı: Kemal] müşteri karşıla → 3) ay içinde [sayı: Kemal] bölümü 3 yıldızla bitir → 4) ay içinde [sayı: Kemal] bölüm üst üste kazan (galibiyet serisi, 0.34); sonra başa döner. Dördü de oyunda olan mekaniklere dayanır (bölümler, karşılanan müşteri sayacı 3.1, yıldız 0.37, galibiyet serisi 0.34). Görev cezasızdır: tutmazsa hiçbir şey kaybedilmez. Bu görevler rozetlerden (0.39) ayrıdır, her ay yeniden sayılır. Sayılar [Kemal]; açık sorular 7. bölümde. Aday listesi: Kems-Ajans `oneriler/aylik-gorev-adaylari-16-11-2026.md`.
 - **Mevcut ödüller pulla birlikte durur, pula dönüşmez** (Kemal, 15 Kasım 2026): rozetler, lokasyon kartları, günlük ödül ve albüm olduğu gibi kalır.
 - Ayrıntı: Kems-Ajans deposunda `docs/pul-koleksiyonu.md`. Kod yapısı kart oyunundaki `src/pul/` klasörü örnek alınarak kurulacak.
 - Henüz kod yok; bu yalnız karar kaydı.
@@ -966,7 +967,12 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 - Oyunun yayın adı: [Kemal] (0.28; kısa, DK ile ilgili bir ad düşünülüyor).
 
 Sonrası için:
-- Pul koleksiyonu (0.49): bu oyunda bir ayın pulu nasıl kazanılır? Cevaplandı (Kemal, 15 Kasım): o ayın görevi bitince; her ay tek büyük görev. Görevlerin içerikleri [Kemal], ileride sorulacak.
+- Pul koleksiyonu (0.49): bu oyunda bir ayın pulu nasıl kazanılır? Cevaplandı (Kemal, 15 Kasım): o ayın görevi bitince; her ay tek büyük görev.
+- Pul koleksiyonu (0.49): ayın büyük görevi ne olsun? Cevaplandı (Kemal, 16 Kasım): her ay farklı, sırayla: bölüm kazan → müşteri karşıla → 3 yıldızlı bölüm → üst üste kazanma, sonra başa.
+- Ayın büyük görevi (0.49): her görevin sayısı (kaç bölüm, kaç müşteri, kaç 3 yıldızlı bölüm, kaç üst üste kazanç)? Açık; [Kemal]. Üst üste kazanma için belgede geçen değerler: seri ödülü her 5 kazançta (0.34), rozetlerde 5 ve 10 (0.39).
+- Ayın büyük görevi (0.49): tekrar oynanan bölümler sayılır mı? Açık. Öneri (karar değil): sayılır; yoksa son bölüme gelmiş oyuncu görevi yapamaz.
+- Ayın büyük görevi (0.49): "ay" takvim ayı mı? Açık. Öneri (karar değil): takvim ayı.
+- Ayın büyük görevi (0.49): geçen ayın görevi sonradan bitirilebilir mi? Açık. Öneri (karar değil): geçen ay kapanır, görev yalnız kendi ayında yapılır.
 - Pul koleksiyonu (0.49): mevcut rozetler, lokasyon kartları, günlük ödül ve albüm pulla birlikte mi durur, pula mı dönüşür? Cevaplandı (Kemal, 15 Kasım): pulla birlikte durur, pula dönüşmez.
 - Sonu yok: elle yapılmış bölümler bitince ne olur (kendiliğinden üretilen bölümler, günlük bölüm, ya da bekleme)?
 - Can sistemi: kapandı (0.26; 5 can, kaybedince gider, 30 dakikada dolar). Para modeli (canın parayla alınması gibi) yayın döneminde.
