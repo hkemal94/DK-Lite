@@ -6,7 +6,7 @@
 // artınca yalnız BOLUM_SAYISI değişir, kutular kendiliğinden çoğalır.
 
 import { t } from './dil';
-import { BOLUM_SAYISI, LOKASYONLAR, SAYFADA_BOLUM, lokasyonAdi, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleGereken, toplamYildiz } from './ayarlar';
+import { BOLUM_SAYISI, LOKASYONLAR, SAYFADA_BOLUM, lokasyonAdi, YILDIZ_ESIKLERI, bolumdeYeniUrunler, bolumTuru, mahalleAcikMi, mahalleGereken, SONSUZ_LOKASYON_ARALIGI, sonsuzLokasyonu, toplamYildiz } from './ayarlar';
 import { ogreticiBittiMi, type Kayit } from './kayit';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -44,6 +44,18 @@ export interface HaritaSecenekleri {
   anaSayfa: () => void;
   kilitliMahalle: (m: number) => void; // kilitli sonraki mahalle okuna basınca
   bittiYazisi: string | null; // bütün bölümler bittiyse gösterilen yazı
+  // Sonsuz bölümler (tasarım belgesi 0.50): oynanmamış numaralı bölüm kalmadıysa son lokasyondan
+  // sonra bir sayfa daha (yeni yıldız kilidi yok). null: henüz açık değil.
+  sonsuz: SonsuzGiris | null;
+  sonsuzSec: () => void;
+}
+
+export interface SonsuzGiris {
+  asama: number; // oynanacak aşama
+  seriPuani: number;
+  enIyiSeri: number;
+  enIyiPuan: number;
+  suruyor: boolean; // bir sonsuz bölüm şu an yarıda (duraklatmadan gelindi): düğme "Devam et" olur
 }
 
 export function haritaCiz(
@@ -101,10 +113,14 @@ export function haritaCiz(
   const acik = Math.min(kayit.acik, BOLUM_SAYISI);
   // Sayfalar (Kemal, 5 Kasım: "Daha küçük sayfalar"): her sayfada SAYFADA_BOLUM bölüm;
   // açılınca kaldığın bölümün sayfası gelir. Altta önceki / sonraki sayfa düğmeleri.
-  const sayfaSayisi = Math.ceil(BOLUM_SAYISI / SAYFADA_BOLUM);
-  let sayfa = Math.floor((acik - 1) / SAYFADA_BOLUM);
+  const numaraliSayfa = Math.ceil(BOLUM_SAYISI / SAYFADA_BOLUM);
+  // Sonsuz bölümler açıksa son lokasyondan sonra bir sayfa; açılınca o sayfa gelir (kaldığın yer).
+  const sonsuzSayfa = s.sonsuz ? numaraliSayfa : -1;
+  const sayfaSayisi = numaraliSayfa + (s.sonsuz ? 1 : 0);
+  const sayfaAcik = (m: number) => m === sonsuzSayfa || mahalleAcikMi(kayit.yildizlar, m);
+  let sayfa = s.sonsuz ? sonsuzSayfa : Math.floor((acik - 1) / SAYFADA_BOLUM);
   // Kaldığın bölümün mahallesi kilitliyse (yıldız yetmedi) açık son mahalleden açılır.
-  while (sayfa > 0 && !mahalleAcikMi(kayit.yildizlar, sayfa)) sayfa--;
+  while (sayfa > 0 && !sayfaAcik(sayfa)) sayfa--;
   const alt = document.createElement('div');
   alt.className = 'sayfa-alt';
   const okDugme = (yon: -1 | 1) => {
@@ -117,7 +133,7 @@ export function haritaCiz(
     d.addEventListener('click', () => {
       const yeni = sayfa + yon;
       if (yeni < 0 || yeni >= sayfaSayisi) return;
-      if (yon > 0 && !mahalleAcikMi(kayit.yildizlar, yeni)) {
+      if (yon > 0 && !sayfaAcik(yeni)) {
         s.kilitliMahalle(yeni);
         return;
       }
@@ -143,31 +159,110 @@ export function haritaCiz(
   sonrakiKutu.append(sonraki, sonrakiSayac);
   alt.append(onceki, sayfaYazi, sonrakiKutu);
 
+  // Zemin rengi (ve varsa resmi) ayar dosyasından; m: lokasyonun sırası.
+  const zeminKur = (m: number) => {
+    const lok = LOKASYONLAR[m % LOKASYONLAR.length];
+    kutu.dataset.durak = String(m % LOKASYONLAR.length);
+    kutu.style.setProperty('--durak', lok.renk);
+    kutu.style.setProperty('--durak-resim', lok.resim ? `url("${lok.resim}")` : 'none');
+    kutu.classList.toggle('resimli', !!lok.resim);
+  };
+  const oklariKur = () => {
+    onceki.disabled = sayfa === 0;
+    sonraki.disabled = sayfa >= sayfaSayisi - 1;
+    // Sonraki mahalle kilitliyse: okta kilit ve altında yıldız sayacı (Kemal, 6 Kasım).
+    const sonrakiKilitli = sayfa < sayfaSayisi - 1 && !sayfaAcik(sayfa + 1);
+    sonraki.classList.toggle('kilitli-ok', sonrakiKilitli);
+    sonrakiSayac.hidden = !sonrakiKilitli;
+    sonrakiSayac.textContent = `★ ${toplamYildiz(kayit.yildizlar)}/${mahalleGereken(sayfa + 1)}`;
+    alt.dataset.sayfa = String(sayfa + 1);
+  };
+  // Sonsuz sayfası: başlıkta modun adı (yer tutucu, ad [Kemal]), altında aşamanın lokasyonu;
+  // zemin her SONSUZ_LOKASYON_ARALIGI aşamada sıradaki lokasyonun rengi (Kemal, S5).
+  const sonsuzCiz = (g: SonsuzGiris) => {
+    const lokasyon = sonsuzLokasyonu(g.asama);
+    baslik.textContent = t('[YER TUTUCU: mod adı]');
+    ilerleme.textContent = lokasyonAdi(lokasyon);
+    sayfaYazi.textContent = t('Aşama {0}', g.asama);
+    zeminKur(lokasyon);
+    kutu.dataset.sonsuz = '1';
+    oklariKur();
+    sonsuzKart.innerHTML = '';
+    // Kaldığın yer: dondurmacının başı (numaralı bölümlerdeki gibi).
+    const bas = document.createElement('img');
+    bas.className = 'sonsuz-bas';
+    bas.src = DONDURMACI_BAS;
+    bas.alt = '';
+    bas.draggable = false;
+    const asama = document.createElement('div');
+    asama.className = 'sonsuz-asama';
+    asama.textContent = t('Aşama {0}', g.asama);
+    const satirlar = document.createElement('div');
+    satirlar.className = 'sonsuz-satirlar';
+    const satir = (sol: string, sag: string, sinif: string) => {
+      const d = document.createElement('div');
+      d.className = 'sonsuz-satir ' + sinif;
+      const a = document.createElement('span');
+      a.textContent = sol;
+      const b = document.createElement('b');
+      b.textContent = sag;
+      d.append(a, b);
+      satirlar.appendChild(d);
+    };
+    satir(t('Seri puanı'), String(g.seriPuani), 'sonsuz-seri-puani');
+    satir(t('En iyi seri'), t('{0} aşama', g.enIyiSeri), 'sonsuz-en-iyi-seri');
+    satir(t('En iyi puan'), String(g.enIyiPuan), 'sonsuz-en-iyi-puan');
+    // Lokasyon şeridi: 13 lokasyon sırayla döner; bulunulan lokasyon büyük ve halkalı.
+    const serit = document.createElement('div');
+    serit.className = 'sonsuz-serit';
+    LOKASYONLAR.forEach((l, m) => {
+      const n = document.createElement('span');
+      n.className = 'sonsuz-nokta' + (m === lokasyon ? ' simdiki' : '');
+      n.style.background = l.renk;
+      n.title = lokasyonAdi(m);
+      serit.appendChild(n);
+    });
+    const sonraki = document.createElement('div');
+    sonraki.className = 'sonsuz-sonraki';
+    const sonrakiAsama = (Math.floor((g.asama - 1) / SONSUZ_LOKASYON_ARALIGI) + 1) * SONSUZ_LOKASYON_ARALIGI + 1;
+    sonraki.textContent = t('Sonraki lokasyon: Aşama {0}', sonrakiAsama);
+    const not = document.createElement('div');
+    not.className = 'sonsuz-not';
+    not.textContent = t('Kaybedince seri biter, Aşama 1\'den yeniden başlar.');
+    const oyna = document.createElement('button');
+    oyna.className = 'dugme yesil sonsuz-oyna';
+    oyna.id = 'sonsuz-oyna';
+    oyna.textContent = g.suruyor ? t('Devam et') : g.asama > 1 ? t('Devam et') : t('Başla');
+    oyna.addEventListener('click', () => (g.suruyor ? s.geri() : s.sonsuzSec()));
+    sonsuzKart.append(bas, asama, satirlar, serit, sonraki, not, oyna);
+  };
+
+  // Sonsuz sayfasının kartı (yalnız o sayfada görünür).
+  const sonsuzKart = document.createElement('div');
+  sonsuzKart.className = 'sonsuz-kart';
+  sonsuzKart.id = 'sonsuz-kart';
+
   let simdiki: HTMLButtonElement | null = null;
   const ciz = () => {
   izgara.innerHTML = '';
   simdiki = null;
+  const sonsuzda = sayfa === sonsuzSayfa && !!s.sonsuz;
+  izgara.hidden = sonsuzda;
+  sonsuzKart.hidden = !sonsuzda;
+  if (sonsuzda && s.sonsuz) {
+    sonsuzCiz(s.sonsuz);
+    return;
+  }
   const ilk = sayfa * SAYFADA_BOLUM + 1;
   const son = Math.min(BOLUM_SAYISI, ilk + SAYFADA_BOLUM - 1);
   sayfaYazi.textContent = `${ilk}–${son}`;
-  const lok = LOKASYONLAR[sayfa % LOKASYONLAR.length];
   baslik.textContent = lokasyonAdi(sayfa);
-  kutu.dataset.durak = String(sayfa % LOKASYONLAR.length);
-  // Zemin rengi (ve varsa resmi) ayar dosyasından.
-  kutu.style.setProperty('--durak', lok.renk);
-  kutu.style.setProperty('--durak-resim', lok.resim ? `url("${lok.resim}")` : 'none');
-  kutu.classList.toggle('resimli', !!lok.resim);
+  delete kutu.dataset.sonsuz;
+  zeminKur(sayfa);
   let gecilen = 0;
   for (let n = ilk; n <= son; n++) if ((kayit.yildizlar[n - 1] ?? 0) > 0) gecilen++;
   ilerleme.textContent = `${gecilen}/${son - ilk + 1}`;
-  onceki.disabled = sayfa === 0;
-  sonraki.disabled = sayfa >= sayfaSayisi - 1;
-  // Sonraki mahalle kilitliyse: okta kilit ve altında yıldız sayacı (Kemal, 6 Kasım).
-  const sonrakiKilitli = sayfa < sayfaSayisi - 1 && !mahalleAcikMi(kayit.yildizlar, sayfa + 1);
-  sonraki.classList.toggle('kilitli-ok', sonrakiKilitli);
-  sonrakiSayac.hidden = !sonrakiKilitli;
-  sonrakiSayac.textContent = `★ ${toplamYildiz(kayit.yildizlar)}/${mahalleGereken(sayfa + 1)}`;
-  alt.dataset.sayfa = String(sayfa + 1);
+  oklariKur();
   // Liman'ın başında 0. bölüm (ipuçlu başlangıç): hep açık, tekrar oynanabilir.
   if (sayfa === 0) {
     const d = document.createElement('button');
@@ -266,7 +361,7 @@ export function haritaCiz(
   }
   };
   ciz();
-  kaydir.appendChild(izgara);
+  kaydir.append(izgara, sonsuzKart);
   kutu.appendChild(kaydir);
   if (sayfaSayisi > 1) kutu.appendChild(alt);
 

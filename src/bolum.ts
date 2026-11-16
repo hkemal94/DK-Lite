@@ -52,8 +52,13 @@ import {
   SUTUNDA_GORUNEN_TOP,
   TEK_SEFERDE_TOP,
   URUNLER,
+  SONSUZ_DENEME_SINIRI,
+  SONSUZ_OGE_NO,
   bolumZorlugu,
+  sonsuzKolaylikEnCok,
+  sonsuzZorlugu,
   urunSirasi,
+  type BolumZorlugu,
 } from './ayarlar';
 
 export interface IstekParcasi {
@@ -89,6 +94,10 @@ export interface Bolum {
   aceleci: boolean[]; // müşteriler sırasıyla: sabrı kısa, ek puanlı
   kilitliSutun: number; // kilitli başlayan sütun (-1: yok)
   hedefHamle: number; // 3 yıldız için en çok hamle (çözücünün yolu + buz + pay)
+  // Yalnız sonsuz bölümlerde (tasarım belgesi 0.50): aşama (1'den) ve kurulamayınca kaç kademe
+  // kolaylaştığı. Numaralı bölümlerde bu alanlar yoktur.
+  asama?: number;
+  kolaylik?: number;
 }
 
 export interface TopOzel {
@@ -96,7 +105,7 @@ export interface TopOzel {
   gizli: boolean;
 }
 
-type Taslak = Omit<Bolum, 'deneme' | 'sutunOzel' | 'sakliOzel' | 'aceleci' | 'kilitliSutun' | 'hedefHamle'>;
+type Taslak = Omit<Bolum, 'deneme' | 'sutunOzel' | 'sakliOzel' | 'aceleci' | 'kilitliSutun' | 'hedefHamle' | 'asama' | 'kolaylik'>;
 
 // Tohumlu rastgele sayı üreteci: aynı tohum her zaman aynı sayıları verir.
 type Uretec = () => number; // [0, 1)
@@ -170,8 +179,7 @@ function tekTekKaristir(r: Uretec, sayilar: number[], enCok: number): number[] |
   return dizi;
 }
 
-function bolumTaslagi(no: number, r: Uretec): Taslak | null {
-  const z = bolumZorlugu(no);
+function bolumTaslagi(no: number, r: Uretec, z: BolumZorlugu = bolumZorlugu(no)): Taslak | null {
   const urunler = z.urunler.map(urunSirasi);
   const n = urunler.length;
   // Müşteriler: art arda gelen iki müşterinin ilk istediği çeşit aynı olmaz.
@@ -345,6 +353,38 @@ export function cozumHamlesi(bolum: Taslak, kilitliSutun = -1): number | null {
 // Kurulan bölümler bellekte tutulur (aynı bölüm ikinci kez hemen açılsın).
 const kurulanlar = new Map<number, Bolum>();
 
+// Kazanma yolu bulunan taslaktan bölümü tamamlar: yeni öğeler (buz, gizli, aceleci) ve 3 yıldız
+// hedefi. `ogeNo`: öğe eşiklerinin denetlendiği numara; `tanitimNo`: öğenin tanıtıldığı bölümse
+// öğe mutlaka görünür (sonsuz bölümlerde tanıtım yok: -1). `o` öğe üretecidir; sırası değişmez.
+function bolumuTamamla(b: Taslak, yol: number, o: Uretec, deneme: number, kilitliSutun: number, ogeNo: number, tanitimNo: number): Bolum {
+  const buzOlur = (c: number) => !BUZSUZ_URUNLER.includes(URUNLER[c].id);
+  const ozel = (c: number): TopOzel => ({
+    buz: ogeNo >= BUZLU_TOP_BOLUMU && o() < BUZLU_TOP_ORANI && buzOlur(c) ? BUZ_DOKUNUS : 0,
+    gizli: ogeNo >= GIZLI_TOP_BOLUMU && o() < GIZLI_TOP_ORANI,
+  });
+  const bolum: Bolum = {
+    ...b,
+    deneme,
+    sutunOzel: b.sutunlar.map((s) => s.map((c) => ozel(c))),
+    sakliOzel: b.sakli.map((c) => ozel(c)),
+    aceleci: b.musteriler.map(() => ogeNo >= ACELECI_BOLUMU && o() < ACELECI_ORANI),
+    kilitliSutun,
+    hedefHamle: 0,
+  };
+  // Tanıtım bölümünde öğe mutlaka görünsün: en az bir tane (sütunda görünen bir top).
+  // Buzlu: ilk sütunun en üstündeki top (oyuncu hemen dener).
+  if (tanitimNo === BUZLU_TOP_BOLUMU) {
+    const s = bolum.sutunlar.findIndex((sut) => sut.length > 0 && buzOlur(sut[sut.length - 1]));
+    if (s >= 0) bolum.sutunOzel[s][bolum.sutunOzel[s].length - 1].buz = BUZ_DOKUNUS;
+  }
+  if (tanitimNo === GIZLI_TOP_BOLUMU && !bolum.sutunOzel.some((s) => s.slice(0, -1).some((t) => t.gizli))) bolum.sutunOzel[1][0].gizli = true;
+  if (tanitimNo === ACELECI_BOLUMU && !bolum.aceleci.slice(0, 3).some((a) => a)) bolum.aceleci[1] = true;
+  // Hedef hamle: çözücünün yolu + buz kırma dokunuşları + pay (rahat ayar; DENEME).
+  const buzDokunus = [...bolum.sutunOzel.flat(), ...bolum.sakliOzel].reduce((a, t) => a + t.buz, 0);
+  bolum.hedefHamle = Math.ceil((yol + buzDokunus) * (1 + HAMLE_PAY_ORANI) * HEDEF_GENISLIGI) + HAMLE_PAY_EN_AZ;
+  return bolum;
+}
+
 // Bölüm numarasına göre kazanılabilir bölümü kurar. Aynı numara her zaman
 // aynı dizilimi verir: tohum numaradan gelir, geçmeyen denemeden sonra aynı
 // üretecin devamıyla bir sonraki deneme kurulur.
@@ -361,32 +401,49 @@ export function bolumKur(no: number): Bolum {
     const b = bolumTaslagi(no, r);
     const yol = b ? cozumHamlesi(b, kilitliSutun) : null;
     if (b && yol !== null) {
-      const buzOlur = (c: number) => !BUZSUZ_URUNLER.includes(URUNLER[c].id);
-      const ozel = (c: number): TopOzel => ({
-        buz: no >= BUZLU_TOP_BOLUMU && o() < BUZLU_TOP_ORANI && buzOlur(c) ? BUZ_DOKUNUS : 0,
-        gizli: no >= GIZLI_TOP_BOLUMU && o() < GIZLI_TOP_ORANI,
-      });
-      const bolum: Bolum = {
-        ...b,
-        deneme,
-        sutunOzel: b.sutunlar.map((s) => s.map((c) => ozel(c))),
-        sakliOzel: b.sakli.map((c) => ozel(c)),
-        aceleci: b.musteriler.map(() => no >= ACELECI_BOLUMU && o() < ACELECI_ORANI),
-        kilitliSutun,
-        hedefHamle: 0,
-      };
-      // Tanıtım bölümünde öğe mutlaka görünsün: en az bir tane (sütunda görünen bir top).
-      // Buzlu: ilk sütunun en üstündeki top (oyuncu hemen dener).
-      if (no === BUZLU_TOP_BOLUMU) {
-        const s = bolum.sutunlar.findIndex((sut) => sut.length > 0 && buzOlur(sut[sut.length - 1]));
-        if (s >= 0) bolum.sutunOzel[s][bolum.sutunOzel[s].length - 1].buz = BUZ_DOKUNUS;
-      }
-      if (no === GIZLI_TOP_BOLUMU && !bolum.sutunOzel.some((s) => s.slice(0, -1).some((t) => t.gizli))) bolum.sutunOzel[1][0].gizli = true;
-      if (no === ACELECI_BOLUMU && !bolum.aceleci.slice(0, 3).some((a) => a)) bolum.aceleci[1] = true;
-      // Hedef hamle: çözücünün yolu + buz kırma dokunuşları + pay (rahat ayar; DENEME).
-      const buzDokunus = [...bolum.sutunOzel.flat(), ...bolum.sakliOzel].reduce((a, t) => a + t.buz, 0);
-      bolum.hedefHamle = Math.ceil((yol + buzDokunus) * (1 + HAMLE_PAY_ORANI) * HEDEF_GENISLIGI) + HAMLE_PAY_EN_AZ;
+      const bolum = bolumuTamamla(b, yol, o, deneme, kilitliSutun, no, no);
       kurulanlar.set(no, bolum);
+      return bolum;
+    }
+  }
+}
+
+// ---------- Sonsuz bölümler (tasarım belgesi 0.50; Kemal, 16 Kasım 2026) ----------
+// Numaralı bölümlerle aynı yol: taslak kurulur, çözücü kazanma yolu bulamazsa atılır, sıradaki
+// deneme kurulur; oyuncuya yalnız kazanma yolu bulunmuş dizilim gelir. Tohum serinin tohumundan
+// ve aşamadan çıkar: her seri yeni dizilimle başlar, seri içinde her aşama farklıdır, uygulama
+// kapanıp açılınca aynı aşama aynı dizilimle gelir. Bir kademede SONSUZ_DENEME_SINIRI denemede
+// yol bulunamazsa bölüm bir kademe kolay kurulur (sonsuza kadar beklenmesin diye).
+const sonsuzKurulanlar = new Map<string, Bolum>();
+
+export function sonsuzBolumKur(asama: number, seriTohumu: number): Bolum {
+  asama = Math.max(1, Math.floor(asama));
+  const anahtar = `${seriTohumu >>> 0}:${asama}`;
+  const hazir = sonsuzKurulanlar.get(anahtar);
+  if (hazir) return hazir;
+  const tohum = (bolumTohumu(asama) ^ Math.imul(seriTohumu >>> 0, 0x85ebca6b)) >>> 0;
+  const r = uretecKur(tohum);
+  const o = uretecKur(tohum ^ 0x9e3779b9);
+  // Ürünlerin dönüşüm sırası: seriden bir başlangıç + aşama (seri içinde ürünler sırayla döner).
+  const donus = ((seriTohumu >>> 0) % 997) + asama;
+  let kolaylik = 0;
+  let z = sonsuzZorlugu(asama, donus, kolaylik);
+  const kilitliSutun = rastgeleTam(o, 0, z.sutun - 1);
+  const enCok = sonsuzKolaylikEnCok(asama);
+  for (let deneme = 1, buKademede = 0; ; deneme++, buKademede++) {
+    if (buKademede >= Math.max(1, SONSUZ_DENEME_SINIRI) && kolaylik < enCok) {
+      kolaylik++;
+      z = sonsuzZorlugu(asama, donus, kolaylik);
+      buKademede = 0;
+    }
+    const b = bolumTaslagi(asama, r, z);
+    const yol = b ? cozumHamlesi(b, kilitliSutun) : null;
+    if (b && yol !== null) {
+      const bolum = bolumuTamamla(b, yol, o, deneme, kilitliSutun, SONSUZ_OGE_NO, -1);
+      bolum.asama = asama;
+      bolum.kolaylik = kolaylik;
+      if (sonsuzKurulanlar.size > 20) sonsuzKurulanlar.clear();
+      sonsuzKurulanlar.set(anahtar, bolum);
       return bolum;
     }
   }

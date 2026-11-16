@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 16 Kasım (öneri; `ajans/sonsuz-bolumler`; tasarım belgesi 0.50): **sonsuz bölümler oyunda** (adı [Kemal]; ekranda "[YER TUTUCU: mod adı]"). Bütün numaralı bölümler bitince Bölümler ekranında 13. lokasyondan sonra yeni sayfa, giriş ekranında "Başla" oraya gider. Kaybedene kadar Aşama 1, 2, 3…; kaybedince 1 can gider, seri biter, yeni seri yeni dizilimle Aşama 1'den. 390'ın en üst zorluğu ve 10'luk dalga; her 10 aşamada sandık; her 30 aşamada sıradaki lokasyonun rengi; yıldız görünür ama para ve kilide girmez; seri puanı aşama katsayısıyla (DENEME), en iyi seri ve en iyi puan saklanır. Ayın görevi için "bölüm kazan" sayımı tek fonksiyonda hazır. 0–390. bölümlerin dizilimi değişmedi (karşılaştırıldı). Gerçek telefonda denenmedi.
 - 16 Kasım (öneri; `ajans/sonsuz-bolumler-belge`; tasarım belgesi 0.50): yalnız belge. Sonsuz bölümler (çalışma adı; adı [Kemal]): belge kesinleşti, kod sırada. Kemal'in 6 cevabı işlendi: oynanacak numaralı bölüm kalmayınca sigorta olarak açılır; kaybedince 1 can gider, seri biter; 390'ın en üst zorluğu, yalnız 10'luk dalga; her seri yeni dizilim, kazanılan her sonsuz bölüm "bölüm kazan" görevinde 1 sayılır; 13 lokasyon her 30 aşamada döner; yıldız görünür ama para ve kilide girmez, seri puanı aşamayla çarpılır (çarpan [Kemal]), her 10 aşamada sandık, en iyi seri ve puan saklanır. İş planı "Bölüm 51 ve sonrası"nda. Oyunda değişiklik yok.
 - 16 Kasım (öneri; `ajans/gorev-tekrar-sayilmaz`; tasarım belgesi 0.49): yalnız belge. Kemal'in kararı: ayın görevindeki "bölüm kazan"da tekrar oynanan bölümler sayılmaz, yalnız ilk kez kazanılan bölüm sayılır. 7. bölümdeki soru kapandı. Oyunda değişiklik yok.
 - 16 Kasım (öneri; `ajans/aylik-gorev`; tasarım belgesi 0.49): yalnız belge. Ayın büyük görevi kararı (Kemal): her ay farklı görev, sırayla bölüm kazan → müşteri karşıla → 3 yıldızlı bölüm → üst üste kazanma, sonra başa. Sayılar, tekrar oynanan bölümlerin sayılıp sayılmayacağı, "ay"ın takvim ayı olup olmadığı ve geçen ayın görevinin sonradan bitirilip bitirilemeyeceği açık soru (7. bölüm). Oyunda değişiklik yok.
@@ -170,9 +171,13 @@ kez kazanılınca "Yeni ürün!" olarak açılır).
 - Bölüm sayısı yalnız `BOLUM_SAYISI` ile artar; Bölümler ekranı, kayıt ve zorluk kendiliğinden uyar.
 - Kemal'in kararı gereken: kaç bölüme çıkılacak; çok bölümde Bölümler ekranı sayfalara bölünsün mü (Kemal, 5 Kasım: "Bilmem, şu an oyun güzel"; bekliyor). Elle yapılmış bölümler bitince ne olacağı kapandı: sonsuz bölümler (tasarım belgesi 0.50).
 
-#### Sonsuz bölümler (tasarım belgesi 0.50): belge kesinleşti, kod sırada
+#### Sonsuz bölümler (tasarım belgesi 0.50): yapıldı (16 Kasım, öneri; `ajans/sonsuz-bolumler`)
 
 Oyun Geliştiricisi için iş planı. Dal `ajans/sonsuz-bolumler`, tek PR. Sayılar [Kemal] ya da DENEME.
+Yedi maddenin yedisi yapıldı (16 Kasım). Ayrıntı ve kodun seçtikleri tasarım belgesi 0.50 → "Kod". Yazılar
+`src/dil.ts` üstünden (bu oyunda yazılar orada; İngilizcesi aynı dosyada). Sona kalanlar: modun adı ve aşama
+çarpanının sayısı [Kemal]; açık soru 3'ün kararı (kod şimdilik en sadesini yapıyor); gerçek telefonda deneme;
+ayın görevi paketi gelince `src/gorev.ts` ona bağlanır.
 
 1. **Ayar dosyası** (`src/veri/oyun-ayarlari.json`, `docs/ayar-dosyasi.md`, `araclar/ayar-denetimi.mjs`): sonsuz bölümler bloğu (aşama çarpanı [Kemal], sandık aralığı 10 aşama, deneme sınırı DENEME).
 2. **Bölüm kurma** (`src/bolum.ts`): `bolumKur`'a dokunmadan `sonsuzBolumKur(asama, seriTohumu)`; aynı taslak + çözücü deneme döngüsü, zorluk 390 tavanı + `bolumTuru(asama)` dalgası; deneme döngüsüne üst sınır, aşılınca bir kademe kolay. 0–390'ın dizilimi değişmemeli (önce/sonra karşılaştırması, 0.48'deki gibi).

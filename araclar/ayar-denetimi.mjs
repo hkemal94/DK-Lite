@@ -131,6 +131,11 @@ for (const ad of ['buzluTop', 'gizliTop', 'aceleciMusteri', 'kilitliSutun']) {
   if (ad !== 'kilitliSutun' && !oran(y[ad]?.oran)) sorun(`bolumler.yeniOgeler.${ad}`, 'oran 0 ile 1 arasında olmalı');
 }
 
+// Sonsuz bölümler (tasarım belgesi 0.50)
+const so = a.sonsuz ?? {};
+if (typeof so.asamaBasiArtis !== 'number' || !(so.asamaBasiArtis >= 0)) sorun('sonsuz.asamaBasiArtis', '0 ya da pozitif sayı olmalı');
+for (const ad of ['sandikAraligi', 'lokasyonAraligi', 'denemeSiniri']) if (!pozitif(so[ad])) sorun(`sonsuz.${ad}`, 'pozitif tam sayı olmalı');
+
 if (sorunlar.length) {
   console.error(`Ayar dosyasında ${sorunlar.length} sorun var (src/veri/oyun-ayarlari.json):`);
   for (const s of sorunlar) console.error('  - ' + s);
