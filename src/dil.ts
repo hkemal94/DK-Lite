@@ -215,8 +215,8 @@ const EN: Record<string, string> = {
   'Bütün ürünleri aç': 'Unlock all products',
   '7 gün art arda': '7 days in a row',
   'Boşa top göndermeden bitir': 'Finish without wasting a scoop',
-  // Sonsuz bölümler (tasarım belgesi 0.50; modun adı [Kemal], yer tutucu)
-  '[YER TUTUCU: mod adı]': '[PLACEHOLDER: mode name]',
+  // Sonsuz bölümler (tasarım belgesi 0.50; modun adı "Sürekli Mod", çalışma adı; Kemal, 17 Kasım)
+  'Sürekli Mod': 'Endless Mode',
   'Aşama {0}': 'Stage {0}',
   'Sonraki lokasyon: Aşama {0}': 'Next location: Stage {0}',
   'Seri puanı': 'Run score',

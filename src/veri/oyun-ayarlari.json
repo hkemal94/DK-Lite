@@ -566,8 +566,8 @@
     }
   },
   "sonsuz": {
-    "aciklama": "Sonsuz bölümler (tasarım belgesi 0.50; modun adı [Kemal]). asamaBasiArtis ve denemeSiniri DENEME, Kemal onaylamadı. sandikAraligi (10) ve lokasyonAraligi (30) Kemal'in kararı (16 Kasım).",
-    "asamaBasiArtis": 1,
+    "aciklama": "Sonsuz bölümler (tasarım belgesi 0.50; modun adı Sürekli Mod, çalışma adı). asamaBasiArtis 0,5 yarım kat (Kemal 17 Kasım). denemeSiniri DENEME, Kemal onaylamadı. sandikAraligi (10) ve lokasyonAraligi (30) Kemal'in kararı (16 Kasım).",
+    "asamaBasiArtis": 0.5,
     "sandikAraligi": 10,
     "lokasyonAraligi": 30,
     "denemeSiniri": 40

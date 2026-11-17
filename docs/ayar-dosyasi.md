@@ -76,7 +76,7 @@ Sırayla `{ "urun": id, "bolum": n }`. Ürün, `bolum` ilk kez kazanılınca aç
   penceresiyle tanıtılır; `oran`: 0–1), `kilitliSutun` (`bolum`).
 
 ### `sonsuz` (sonsuz bölümler; tasarım belgesi 0.50)
-- `asamaBasiArtis`: seri puanında aşama katsayısı `1 + (aşama − 1) × artış` (1: Aşama 2 iki katı). 0 ya da pozitif. DENEME, Kemal onaylamadı.
+- `asamaBasiArtis`: seri puanında aşama katsayısı `1 + (aşama − 1) × artış` (0,5: Aşama 2 ×1,5, Aşama 3 ×2). 0 ya da pozitif. Yarım kat (0,5): Kemal 17 Kasım.
 - `sandikAraligi`: her kaç aşamada sandık (10; Kemal'in kararı).
 - `lokasyonAraligi`: her kaç aşamada sıradaki lokasyonun zemini (30; Kemal'in kararı).
 - `denemeSiniri`: bir kademede en çok kaç dizilim denenir; aşılırsa bölüm bir kademe kolay kurulur (40). DENEME, Kemal onaylamadı.

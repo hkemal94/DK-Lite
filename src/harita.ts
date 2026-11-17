@@ -177,11 +177,11 @@ export function haritaCiz(
     sonrakiSayac.textContent = `★ ${toplamYildiz(kayit.yildizlar)}/${mahalleGereken(sayfa + 1)}`;
     alt.dataset.sayfa = String(sayfa + 1);
   };
-  // Sonsuz sayfası: başlıkta modun adı (yer tutucu, ad [Kemal]), altında aşamanın lokasyonu;
+  // Sonsuz sayfası: başlıkta modun adı ("Sürekli Mod", çalışma adı; Kemal, 17 Kasım), altında aşamanın lokasyonu;
   // zemin her SONSUZ_LOKASYON_ARALIGI aşamada sıradaki lokasyonun rengi (Kemal, S5).
   const sonsuzCiz = (g: SonsuzGiris) => {
     const lokasyon = sonsuzLokasyonu(g.asama);
-    baslik.textContent = t('[YER TUTUCU: mod adı]');
+    baslik.textContent = t('Sürekli Mod');
     ilerleme.textContent = lokasyonAdi(lokasyon);
     sayfaYazi.textContent = t('Aşama {0}', g.asama);
     zeminKur(lokasyon);

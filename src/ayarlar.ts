@@ -245,8 +245,7 @@ function tabanZorluk(no: number): BolumZorlugu {
 // dosyasının "sonsuz" bloğunda; onaysız olanlar aşağıda "DENEME, Kemal onaylamadı" diye yazılı.
 const SONSUZ = AYAR.sonsuz;
 // Seri puanı: her sonsuz bölümün puanı aşama katsayısıyla çarpılıp eklenir (kart oyunundaki formül a
-// gibi). Katsayı = 1 + (aşama − 1) × artış; artış 1 iken Aşama 2 iki katı, Aşama 3 üç katı getirir.
-// Artış: DENEME, Kemal onaylamadı (belgede "çarpanın sayısı [Kemal]").
+// gibi). Katsayı = 1 + (aşama − 1) × artış; artış 0,5 (yarım kat; Kemal, 17 Kasım): Aşama 2 ×1,5, Aşama 3 ×2.
 export const SONSUZ_ASAMA_BASI_ARTIS: number = SONSUZ.asamaBasiArtis;
 // Her bu kadar aşamada sandık (Kemal, S6: "her 10 aşamada sandık").
 export const SONSUZ_SANDIK_ARALIGI: number = SONSUZ.sandikAraligi;
