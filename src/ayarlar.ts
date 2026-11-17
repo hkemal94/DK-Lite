@@ -117,7 +117,9 @@ function urunIzinli(id: string, no: number): boolean {
 // Bölümün ürünleri: o bölüme kadar açılmış ürünlerden, bölüm numarasına göre dönüşümlü
 // (aynı bölüm her açılışta aynı). En az iki dondurma; kalanı tatlı ve içecekten. Bir önceki
 // bölümde açılan hediye bu bölümde mutlaka gelir. Hangi bölümde hangi ürün: DENEME.
-function bolumUrunleri(no: number, cesit: number): string[] {
+// `d`: dönüşüm sırası (hangi ürünün sırası geldiği). Numaralı bölümlerde bölüm numarasıdır; sonsuz
+// bölümlerde (tasarım belgesi 0.50) seriden ve aşamadan gelir, `no` yalnız hangi ürünlerin açık olduğunu söyler.
+function bolumUrunleri(no: number, cesit: number, d: number = no): string[] {
   const havuz = URUNLER.map((u) => u.id).filter((id) => urunIzinli(id, no));
   const tur = (id: string) => URUNLER.find((u) => u.id === id)?.tur;
   const dondurma = havuz.filter((id) => tur(id) === 'dondurma');
@@ -137,20 +139,20 @@ function bolumUrunleri(no: number, cesit: number): string[] {
     .sort((a, b) => hediyeBolumu(b) - hediyeBolumu(a))
     .slice(0, YENI_URUN_SAYISI);
   yeniler.forEach((id, k) => {
-    if ((no + k) % 3 !== 0 && secim.length < cesit - 2) ekle(id);
+    if ((d + k) % 3 !== 0 && secim.length < cesit - 2) ekle(id);
   });
   const dondurmaSayisi = Math.min(dondurma.length, Math.max(2, cesit - tatli.length - icecek.length));
   for (let k = 0; secim.filter((id) => tur(id) === 'dondurma').length < dondurmaSayisi && k < dondurma.length; k++) {
-    ekle(dondurma[(no + 2 * k) % dondurma.length]);
+    ekle(dondurma[(d + 2 * k) % dondurma.length]);
   }
   let t = 0;
   let c = 0;
   for (let k = 0; secim.length < cesit && k < 40; k++) {
-    const tatliSirasi = (k + no) % 2 === 0;
-    if (tatliSirasi && t < tatli.length) ekle(tatli[(no + t++) % tatli.length]);
-    else if (c < icecek.length) ekle(icecek[(no + c++) % icecek.length]);
-    else if (t < tatli.length) ekle(tatli[(no + t++) % tatli.length]);
-    else ekle(dondurma[(no + k) % dondurma.length]);
+    const tatliSirasi = (k + d) % 2 === 0;
+    if (tatliSirasi && t < tatli.length) ekle(tatli[(d + t++) % tatli.length]);
+    else if (c < icecek.length) ekle(icecek[(d + c++) % icecek.length]);
+    else if (t < tatli.length) ekle(tatli[(d + t++) % tatli.length]);
+    else ekle(dondurma[(d + k) % dondurma.length]);
   }
   return secim;
 }
@@ -237,6 +239,55 @@ function tabanZorluk(no: number): BolumZorlugu {
     ikiCesitOrani: kuralIkiCesit(no),
   };
 }
+
+// ---------- Sonsuz bölümler (tasarım belgesi 0.50; Kemal, 16 Kasım 2026) ----------
+// Numaralı bölümler bitince kaybedene kadar süren bölümler (modun adı [Kemal]). Sayılar ayar
+// dosyasının "sonsuz" bloğunda; onaysız olanlar aşağıda "DENEME, Kemal onaylamadı" diye yazılı.
+const SONSUZ = AYAR.sonsuz;
+// Seri puanı: her sonsuz bölümün puanı aşama katsayısıyla çarpılıp eklenir (kart oyunundaki formül a
+// gibi). Katsayı = 1 + (aşama − 1) × artış; artış 1 iken Aşama 2 iki katı, Aşama 3 üç katı getirir.
+// Artış: DENEME, Kemal onaylamadı (belgede "çarpanın sayısı [Kemal]").
+export const SONSUZ_ASAMA_BASI_ARTIS: number = SONSUZ.asamaBasiArtis;
+// Her bu kadar aşamada sandık (Kemal, S6: "her 10 aşamada sandık").
+export const SONSUZ_SANDIK_ARALIGI: number = SONSUZ.sandikAraligi;
+// Her bu kadar aşamada sıradaki lokasyonun zemini (Kemal, S5: "her 30 aşamada").
+export const SONSUZ_LOKASYON_ARALIGI: number = SONSUZ.lokasyonAraligi;
+// Bölüm kurulurken bir kademede en çok bu kadar dizilim denenir; kazanma yolu bulunamazsa bölüm
+// bir kademe kolay kurulur (çok zor → zor → normal → rahat). DENEME, Kemal onaylamadı.
+export const SONSUZ_DENEME_SINIRI: number = SONSUZ.denemeSiniri;
+
+export function sonsuzKatsayi(asama: number): number {
+  return 1 + (Math.max(1, asama) - 1) * SONSUZ_ASAMA_BASI_ARTIS;
+}
+// Aşamanın lokasyonu (0: Liman): Aşama 1–30 Liman, 31–60 Stadyum ...; 13. lokasyondan sonra yine Liman.
+export function sonsuzLokasyonu(asama: number): number {
+  return Math.floor((Math.max(1, asama) - 1) / SONSUZ_LOKASYON_ARALIGI) % LOKASYONLAR.length;
+}
+// 10'luk dalga (Kemal, S3): her 10 aşamada 5. zor, 6. rahat, 10. çok zor; öbürleri normal.
+export function sonsuzTuru(asama: number): BolumTuru {
+  const p = ((Math.max(1, asama) - 1) % 10) + 1;
+  return p === 10 ? 'cok-zor' : p === 5 ? 'zor' : p === 6 ? 'rahat' : 'normal';
+}
+const KADEMELER: BolumTuru[] = ['cok-zor', 'zor', 'normal', 'rahat'];
+// Kaç kez kolaylaştırılabilir (rahattan daha kolayı yok).
+export function sonsuzKolaylikEnCok(asama: number): number {
+  return KADEMELER.length - 1 - KADEMELER.indexOf(sonsuzTuru(asama));
+}
+// Sonsuz bölümün zorluğu: numaralı bölümlerin en üst zorluğu (son 10'luk dilim, 390 için 381–390);
+// aşama ilerledikçe artmaz, yalnız dalga sürer. `kolaylik`: kurulamayınca kaç kademe kolaylaştı.
+// Ürünler bütün açılmış ürünlerden, numaralı bölümlerdeki dönüşümlü seçimle; sıra `donus`tan gelir.
+export function sonsuzZorlugu(asama: number, donus: number, kolaylik = 0): BolumZorlugu {
+  const tur = KADEMELER[Math.min(KADEMELER.length - 1, KADEMELER.indexOf(sonsuzTuru(asama)) + Math.max(0, kolaylik))];
+  const p = ((Math.max(1, asama) - 1) % 10) + 1;
+  // Dilimde bu türe düşen yer: çok zor 10., zor 5., rahat 6.; normal kendi yeri (zorlu yerden inince 4.).
+  const yer = tur === 'cok-zor' ? 10 : tur === 'zor' ? 5 : tur === 'rahat' ? 6 : sonsuzTuru(asama) === 'normal' ? p : 4;
+  const tavan = Math.max(10, Math.floor(BOLUM_SAYISI / 10) * 10 - 10);
+  const z = sayilarlaZorluk(tavan + yer);
+  return { ...z, urunler: bolumUrunleri(BOLUM_SAYISI + 1, z.urunler.length || z.cesit || 3, donus) };
+}
+// Sonsuz bölümlerde yeni öğelerin (buzlu, gizli, aceleci, kilitli sütun) hepsi açık: öğe eşikleri
+// bu numaraya göre denetlenir (en üst dilimin numarası).
+export const SONSUZ_OGE_NO: number = Math.max(10, Math.floor(BOLUM_SAYISI / 10) * 10);
 
 // Müşterinin sabrı (Kemal, 30 Ekim: "Sabir bitince gider ama cok hizli bitmesin sabir";
 // "Uzun: 60 saniye"): bir müşteri bu kadar saniye bekler; başının üstündeki çubuk

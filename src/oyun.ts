@@ -85,15 +85,16 @@ import {
   TUTMA_MS,
   YILDIZ_ESIKLERI,
 } from './ayarlar';
-import { bolumKur, gidecekTopSayisi, istekAdedi, type Bolum, type TopOzel } from './bolum';
+import { bolumKur, gidecekTopSayisi, istekAdedi, sonsuzBolumKur, type Bolum, type TopOzel } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
-import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, type Ayarlar, type Kayit } from './kayit';
+import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, sonsuzKazanildi, sonsuzOku, sonsuzSeriBitti, type Ayarlar, type Kayit } from './kayit';
+import { gorevBolumSayisi } from './gorev';
 import { EV_SVG, haritaCiz } from './harita';
 import { DESENLI_MUSTERILER } from './musteriCesitleri';
 import { kaydet as koleksiyonKaydet, koleksiyon, paraEkle, paraHarca } from './koleksiyon';
 import { gunlukAlindi, gunlukBugun, rastgeleYardimci, seriGuncelle, seriOku, yardimciAdet, yardimciEkle, yardimciHarca } from './yardim';
 import { BASLANGIC_URUNLERI, HEDIYE_SIRASI, hediyeBolumu, urunSirasi } from './ayarlar';
-import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, sandikOdulSec, SINIRSIZ_CAN_DK, type SandikOdulu } from './ayarlar';
+import { bolumdeYeniUrunler, bolumTuru, CAN_DOLUM_DK, CAN_EN_COK, SANDIK_ARALIGI, sandikOdulSec, SINIRSIZ_CAN_DK, SONSUZ_SANDIK_ARALIGI, sonsuzKatsayi, type SandikOdulu } from './ayarlar';
 import {
   canDurumu,
   canEkle,
@@ -672,7 +673,7 @@ export class Oyun {
     };
     menuKutu.append(
       menuDugme(t('Devam et'), 'yesil', 'menu-devam', () => this.devamEt()),
-      menuDugme(t('Baştan başla'), 'krem', 'menu-bastan', () => this.bolumBaslat(this.bolum.no)),
+      menuDugme(t('Baştan başla'), 'krem', 'menu-bastan', () => (this.sonsuz ? this.sonsuzBaslat() : this.bolumBaslat(this.bolum.no))),
       menuDugme(t('Bölümler'), 'krem', 'menu-bolumler', () => {
         this.duraklatMenuKapat();
         this.listeAc('duraklat');
@@ -706,10 +707,10 @@ export class Oyun {
     basla.className = 'dugme yesil';
     basla.id = 'giris-basla';
     basla.textContent = t('Başla');
-    // Kaldığı bölüm (açılan en ileri bölüm) baştan başlar; bütün bölümler
-    // bittiyse bölüm haritası açılır.
+    // Kaldığı bölüm (açılan en ileri bölüm) baştan başlar; oynanmamış numaralı bölüm
+    // kalmadıysa sonsuz bölümler açılır (tasarım belgesi 0.50; öneri, karar değil).
     basla.addEventListener('click', () => {
-      if (hepsiBitti(this.kayit)) this.listeAc('giris');
+      if (hepsiBitti(this.kayit)) this.sonsuzBaslat();
       else this.bolumBaslat(ogreticiBittiMi() ? this.kayit.acik : 0);
     });
     const bolumler = document.createElement('button');
@@ -951,13 +952,22 @@ export class Oyun {
       this.anaSayfayaDon();
       return;
     }
+    this.birakSor(t('Ana sayfa'), () => this.anaSayfayaDon());
+  }
+
+  // Bölümü yarıda bırakmadan önce sorar. Sonsuz bölümde yarıda bırakmak kaybetmektir: seri biter.
+  private birakSor(evetYazisi: string, evet: () => void) {
     const ort = odulOrtusu('birak-onay', t('Bölümü bırak?'));
     const kutu = ort.firstElementChild as HTMLDivElement;
     const not = document.createElement('div');
     not.className = 'odul-not birak-not';
-    not.textContent = sinirsizMi()
-      ? t('Bölüm yarıda kalır. Sınırsız canın var, can gitmez; galibiyet serisi sıfırlanır.')
-      : t('Bölüm yarıda kalır: 1 can gider ve galibiyet serisi sıfırlanır.');
+    not.textContent = this.sonsuz
+      ? sinirsizMi()
+        ? t('Seri biter, yeni seri Aşama 1\'den başlar. Sınırsız canın var, can gitmez.')
+        : t('Seri biter, yeni seri Aşama 1\'den başlar. 1 can gider.')
+      : sinirsizMi()
+        ? t('Bölüm yarıda kalır. Sınırsız canın var, can gitmez; galibiyet serisi sıfırlanır.')
+        : t('Bölüm yarıda kalır: 1 can gider ve galibiyet serisi sıfırlanır.');
     const sira = document.createElement('div');
     sira.className = 'son-dugmeler';
     const vazgec = document.createElement('button');
@@ -967,10 +977,10 @@ export class Oyun {
     const git = document.createElement('button');
     git.className = 'dugme kirmizi';
     git.id = 'birak-evet';
-    git.textContent = t('Ana sayfa');
+    git.textContent = evetYazisi;
     git.addEventListener('click', () => {
       ort.remove();
-      this.anaSayfayaDon();
+      evet();
     });
     sira.append(vazgec, git);
     kutu.append(not, sira);
@@ -978,10 +988,7 @@ export class Oyun {
   }
 
   private anaSayfayaDon() {
-    if (this.basladi && !this.bitti) {
-      canKaybet();
-      seriGuncelle(false);
-    }
+    if (this.basladi && !this.bitti) this.yaridaBirak();
     this.basladi = false;
     for (const o of this.kok.querySelectorAll('#tanitim, #birak-onay')) o.remove();
     // Arkada kaldığı bölüm hazır durur (açılıştaki gibi); giriş ekranı açılır.
@@ -993,7 +1000,7 @@ export class Oyun {
   // Oyuncunun başlattığı bölüm (Başla, Bölümler, Tekrar oyna, Devam et, Baştan başla).
   // Can: bölüm yarıda bırakılıyorsa 1 can gider; can yoksa bölüm başlamaz,
   // "Can yok" penceresi çıkar (Kemal, 5 Kasım).
-  private bolumBaslat(no: number) {
+  private bolumBaslat(no: number, onayli = false) {
     if (no < 0 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
     // Mahalle kilidi: önceki mahallede yeterli yıldız yoksa bölüm başlamaz.
     const mahalle = bolumMahallesi(no);
@@ -1001,19 +1008,12 @@ export class Oyun {
       this.mahalleKilitPenceresi(mahalle);
       return;
     }
-    if (this.basladi && !this.bitti) {
-      canKaybet();
-      seriGuncelle(false); // yarıda bırakmak seriyi bozar
-      this.basladi = false;
-      this.canCiz();
-      if (!canVar()) {
-        // Yarıda bırakılan bölüm biter; giriş ekranına dönülür.
-        this.listeKapat();
-        this.duraklatMenuKapat();
-        this.duraklatildi = false;
-        this.girisAc();
-      }
+    // Sonsuz bölüm sürerken başka bölüme geçmek seriyi bitirir: önce sorar.
+    if (this.sonsuz && this.basladi && !this.bitti && !onayli) {
+      this.birakSor(t('Bölüm {0}', no), () => this.bolumBaslat(no, true));
+      return;
     }
+    this.suruyorsaBirak();
     // 0. bölüm can istemez ve can harcatmaz.
     if (no > 0 && !canVar()) {
       this.canYokGoster();
@@ -1024,6 +1024,51 @@ export class Oyun {
     // Mahallenin ilk bölümü: yeni öğe "Yeni!" penceresiyle tanıtılır (bölüm henüz geçilmediyse).
     const oge = bolumdeTanitilanOge(no);
     if (oge && (this.kayit.yildizlar[no - 1] ?? 0) === 0) this.tanitimGoster(oge);
+    if (this.seriAfisi > 0) this.seriAfisiGoster(this.seriAfisi);
+  }
+
+  // Oynanan bölüm sonsuz bölüm mü (tasarım belgesi 0.50).
+  private get sonsuz(): boolean {
+    return (this.bolum?.asama ?? 0) > 0;
+  }
+
+  // Yarıda bırakma: 1 can gider, galibiyet serisi bozulur; sonsuz bölümde seri biter.
+  private yaridaBirak() {
+    canKaybet();
+    seriGuncelle(false);
+    if (this.sonsuz) sonsuzSeriBitti();
+    this.basladi = false;
+    this.canCiz();
+  }
+
+  // Yeni bölüme geçerken süren bölüm yarıda kalır; can bittiyse giriş ekranına dönülür.
+  private suruyorsaBirak() {
+    if (!this.basladi || this.bitti) return;
+    this.yaridaBirak();
+    if (!canVar()) {
+      this.listeKapat();
+      this.duraklatMenuKapat();
+      this.duraklatildi = false;
+      this.girisAc();
+    }
+  }
+
+  // Sonsuz bölümler (tasarım belgesi 0.50): yalnız oynanmamış numaralı bölüm kalmayınca açılır
+  // (sigorta; yeni yıldız kilidi yok). Kayıttaki aşama kurulur; seri sürüyorsa kaldığı aşamadan.
+  // Sonsuz bölüm sürerken çağrılırsa (Baştan başla) önce sorar; evet denirse seri biter.
+  private sonsuzBaslat(onayli = false) {
+    if (!hepsiBitti(this.kayit)) return;
+    if (this.basladi && !this.bitti && !onayli) {
+      this.birakSor(t('Baştan başla'), () => this.sonsuzBaslat(true));
+      return;
+    }
+    this.suruyorsaBirak();
+    if (!canVar()) {
+      this.canYokGoster();
+      return;
+    }
+    this.yenidenBasla(0, true);
+    this.basladi = true;
     if (this.seriAfisi > 0) this.seriAfisiGoster(this.seriAfisi);
   }
 
@@ -1196,15 +1241,24 @@ export class Oyun {
 
   // Numaralı bölümü baştan kurar. Aynı numara her zaman aynı dizilimi getirir
   // (Tekrar oyna da budur). Kilitli bölüm başlamaz.
-  yenidenBasla(no: number) {
-    if (no < 0 || no > BOLUM_SAYISI || no > this.kayit.acik) return;
+  // `sonsuz`: kayıttaki aşamanın sonsuz bölümü kurulur (no kullanılmaz).
+  yenidenBasla(no: number, sonsuz = false) {
+    if (!sonsuz && (no < 0 || no > BOLUM_SAYISI || no > this.kayit.acik)) return;
     this.listeKapat();
     this.girisKapat();
     this.duraklatildi = false;
     this.duraklatMenuKapat();
-    this.bolum = bolumKur(no);
-    this.bolumNoEl.textContent = t('Bölüm {0}', no);
+    if (sonsuz) {
+      const k = sonsuzOku();
+      this.bolum = sonsuzBolumKur(k.asama, k.seriTohumu);
+      no = k.asama;
+      this.bolumNoEl.textContent = t('Aşama {0}', no);
+    } else {
+      this.bolum = bolumKur(no);
+      this.bolumNoEl.textContent = t('Bölüm {0}', no);
+    }
     this.bolumNoEl.dataset.no = String(no);
+    this.bolumNoEl.dataset.sonsuz = sonsuz ? '1' : '';
     this.sutunlar = this.bolum.sutunlar.map((s) => s.slice());
     this.ozel = this.bolum.sutunOzel.map((s) => s.map((t) => ({ ...t })));
     this.sakli = this.bolum.sakli.slice();
@@ -1225,7 +1279,7 @@ export class Oyun {
     this.seriPuani = 0;
     this.hamle = 0;
     this.bosaTop = 0;
-    this.hamleSiniri = no >= HAMLE_SINIRI_BOLUMU ? Math.ceil(this.bolum.hedefHamle * HAMLE_SINIRI_KATI) : Infinity;
+    this.hamleSiniri = sonsuz || no >= HAMLE_SINIRI_BOLUMU ? Math.ceil(this.bolum.hedefHamle * HAMLE_SINIRI_KATI) : Infinity;
     this.puan = 0;
     // Bölüm birkaç müşteriyle başlar (rastgele yerlerde); ötekiler teker teker gelir.
     const an = this.oyunAn;
@@ -2224,6 +2278,8 @@ export class Oyun {
     this.sonEl.innerHTML = '';
     const kazandi = sonuc === 'kazandin';
     const no = this.bolum.no;
+    // Sonsuz bölüm (tasarım belgesi 0.50): no aşamadır; numaralı kayda, yıldız parasına ve kilide girmez.
+    const sonsuz = this.sonsuz;
     // 0. bölüm kaybedilmez: kaybederse sonuç penceresi çıkmadan sessizce yeniden başlar.
     if (no === 0 && !kazandi) {
       this.sonEl.className = 'son gizli';
@@ -2236,7 +2292,7 @@ export class Oyun {
     // Kayıt: en iyi yıldız saklanır, sonraki bölüm açılır.
     // Yeni ürün (kazanç, 5 Kasım): bu bölüm ilk kez kazanılıyorsa ve sonraki
     // bölümde ilk kez gelen ürün varsa, fişten önce "Yeni ürün!" penceresi çıkar.
-    const ilkKez = no === 0 ? ogreticiIlkKez : kazandi && this.kayit.acik < no + 1 && no + 1 <= BOLUM_SAYISI;
+    const ilkKez = sonsuz ? false : no === 0 ? ogreticiIlkKez : kazandi && this.kayit.acik < no + 1 && no + 1 <= BOLUM_SAYISI;
     const yeniUrunler = ilkKez ? bolumdeYeniUrunler(no + 1) : [];
     // Sandık (5 Kasım): 10., 20., 30. ... bölüm ilk kez kazanılınca.
     // Galibiyet serisi (0. bölüm sayılmaz); her SERI_YARDIMCI_ARALIGI kazançta bir yardımcı.
@@ -2249,20 +2305,19 @@ export class Oyun {
         yardimciEkle(seriOdulu);
       }
     }
-    const ilkKazanma = kazandi && no > 0 && (this.kayit.yildizlar[no - 1] ?? 0) === 0;
-    // Para: yeni kazanılan her yıldız (tekrar oynayınca yalnız artış sayılır).
-    const eskiYildiz = no > 0 ? this.kayit.yildizlar[no - 1] ?? 0 : 0;
-    const kazanilanPara = kazandi && no > 0 ? Math.max(0, yildiz - eskiYildiz) * YILDIZ_PARASI : 0;
+    const ilkKazanma = !sonsuz && kazandi && no > 0 && (this.kayit.yildizlar[no - 1] ?? 0) === 0;
+    // Para: yeni kazanılan her yıldız (tekrar oynayınca yalnız artış sayılır). Sonsuzda yıldız para getirmez.
+    const eskiYildiz = !sonsuz && no > 0 ? this.kayit.yildizlar[no - 1] ?? 0 : 0;
+    const kazanilanPara = !sonsuz && kazandi && no > 0 ? Math.max(0, yildiz - eskiYildiz) * YILDIZ_PARASI : 0;
     if (kazanilanPara > 0) paraEkle(kazanilanPara);
     // Rozet sayaçları.
     const kol = koleksiyon();
     kol.musteri += this.karsilanan;
     kol.enUzunSeri = Math.max(kol.enUzunSeri, seri);
     koleksiyonKaydet();
-    const sandik: SandikOdulu | null =
-      ilkKazanma && no % SANDIK_ARALIGI === 0
-        ? sandikOdulSec(Math.random())
-        : null;
+    // Sonsuzda her SONSUZ_SANDIK_ARALIGI aşamada sandık (Kemal, S6).
+    const sandikVar = sonsuz ? kazandi && no % SONSUZ_SANDIK_ARALIGI === 0 : ilkKazanma && no % SANDIK_ARALIGI === 0;
+    const sandik: SandikOdulu | null = sandikVar ? sandikOdulSec(Math.random()) : null;
     if (sandik === 'bir-can') canEkle(1);
     else if (sandik === 'canlar-dolu') canlariDoldur();
     else if (sandik === 'sinirsiz') sinirsizVer(SINIRSIZ_CAN_DK);
@@ -2276,7 +2331,17 @@ export class Oyun {
     if (!kazandi && this.basladi) canGitti = canKaybet();
     this.basladi = false;
     this.canCiz();
-    if (kazandi && no > 0) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
+    if (kazandi && no > 0 && !sonsuz) this.kayit = bolumKazanildi(this.kayit, no, yildiz);
+    // Sonsuz seri: kazanınca puan aşama katsayısıyla eklenir, aşama artar; kaybedince seri biter.
+    const seriOncesi = sonsuz ? { ...sonsuzOku() } : null;
+    let seriEklenen = 0;
+    if (sonsuz && kazandi) seriEklenen = sonsuzKazanildi(this.puan);
+    else if (sonsuz) sonsuzSeriBitti();
+    const seriSonrasi = sonsuz ? sonsuzOku() : null;
+    // Ayın görevi: "bölüm kazan" sayımına katkı (görev paketi gelince buradan okunur).
+    const gorevBolum = kazandi
+      ? gorevBolumSayisi(sonsuz ? { tur: 'sonsuz', asama: no } : { tur: 'numarali', no, ilkKez: ilkKazanma })
+      : 0;
     // Yeni rozetler (kayıt güncellendikten sonra bakılır).
     const yeniRozetler = this.rozetBak(kazandi && no > 0 && this.bosaTop === 0);
     const yeniKartlar = this.kartBak();
@@ -2286,7 +2351,8 @@ export class Oyun {
     // sonuç yazısı, puan, satılan ürünler tek sıra, müşteri sayıları, kazanılanlar.
     const kutu = document.createElement('div');
     kutu.className = 'son-kutu pencere sonuc-kutu' + (kazandi ? ' kazandi' : ' kaybetti');
-    kutu.appendChild(pencereBaslik(t('Bölüm {0}', no)));
+    kutu.appendChild(pencereBaslik(sonsuz ? t('Aşama {0}', no) : t('Bölüm {0}', no)));
+    kutu.dataset.gorevBolum = String(gorevBolum);
     // Sol üst köşede ana sayfa (ev) düğmesi.
     const ev = document.createElement('button');
     ev.className = 'kose-dugme yuvarlak mor ev-dugme sonuc-ev';
@@ -2367,6 +2433,15 @@ export class Oyun {
     }
     if (kazanilanPara > 0) bilgiSatir(t('Para'), `+${kazanilanPara}`, 'para-satir');
     if (no > 0) bilgiSatir(t('Galibiyet serisi'), String(seri), seri === 0 ? 'seri-satir sifir' : 'seri-satir');
+    // Sonsuz: seri puanı (kazanınca eklenen ve aşama katsayısı), en iyi seri ve en iyi puan.
+    if (seriOncesi && seriSonrasi) {
+      if (kazandi) {
+        bilgiSatir(t('Seri puanı'), `${seriSonrasi.seriPuani} (+${seriEklenen}, ×${sonsuzKatsayi(no)})`, 'seri-puan-satir');
+      } else {
+        bilgiSatir(t('Seri puanı'), t('{0} · seri bitti', seriOncesi.seriPuani), 'uyari seri-puan-satir');
+      }
+      bilgiSatir(t('En iyi seri'), t('{0} aşama · {1} puan', seriSonrasi.enIyiSeri, seriSonrasi.enIyiPuan), 'en-iyi-satir');
+    }
     if (!kazandi) {
       const kalan = canDurumu().can;
       if (canGitti) bilgiSatir(t('Can'), t('−1 (kalan {0})', kalan), 'uyari can-satir');
@@ -2395,7 +2470,7 @@ export class Oyun {
       }
       kutu.appendChild(kaz);
     }
-    if (kazandi && no >= BOLUM_SAYISI) {
+    if (kazandi && no >= BOLUM_SAYISI && !sonsuz) {
       const durum = document.createElement('div');
       durum.className = 'son-durum';
       durum.textContent = HEPSI_BITTI_YAZISI;
@@ -2413,7 +2488,14 @@ export class Oyun {
     };
     const dugmeler = document.createElement('div');
     dugmeler.className = 'son-dugmeler';
-    if (kazandi) {
+    if (sonsuz) {
+      // Kazanınca sıradaki aşama; kaybedince yeni seri Aşama 1'den (yeni dizilim).
+      dugmeler.append(
+        kazandi
+          ? dugme(t('Devam et'), 'yesil', () => this.sonsuzBaslat(), ILERI_SVG)
+          : dugme(t('Tekrar oyna'), 'yesil', () => this.sonsuzBaslat(), TEKRAR_SVG),
+      );
+    } else if (kazandi) {
       const sonBolum = no >= BOLUM_SAYISI;
       dugmeler.append(
         dugme(t('Tekrar oyna'), 'krem', () => this.bolumBaslat(no), TEKRAR_SVG),
@@ -3113,6 +3195,10 @@ export class Oyun {
         anaSayfa: () => this.anaSayfayaDonSor(),
         kilitliMahalle: (m) => this.mahalleKilitPenceresi(m),
         bittiYazisi: hepsiBitti(this.kayit) ? HEPSI_BITTI_YAZISI : null,
+        sonsuz: hepsiBitti(this.kayit)
+          ? { ...sonsuzOku(), suruyor: this.sonsuz && this.basladi && !this.bitti }
+          : null,
+        sonsuzSec: () => this.sonsuzBaslat(),
       }),
     );
     // Bölümler ekranının sağ üstünde can.

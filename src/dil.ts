@@ -215,4 +215,17 @@ const EN: Record<string, string> = {
   'Bütün ürünleri aç': 'Unlock all products',
   '7 gün art arda': '7 days in a row',
   'Boşa top göndermeden bitir': 'Finish without wasting a scoop',
+  // Sonsuz bölümler (tasarım belgesi 0.50; modun adı [Kemal], yer tutucu)
+  '[YER TUTUCU: mod adı]': '[PLACEHOLDER: mode name]',
+  'Aşama {0}': 'Stage {0}',
+  'Sonraki lokasyon: Aşama {0}': 'Next location: Stage {0}',
+  'Seri puanı': 'Run score',
+  '{0} · seri bitti': '{0} · run over',
+  'En iyi seri': 'Best run',
+  'En iyi puan': 'Best score',
+  '{0} aşama': '{0} stages',
+  '{0} aşama · {1} puan': '{0} stages · {1} pts',
+  "Kaybedince seri biter, Aşama 1'den yeniden başlar.": 'If you lose, the run ends and starts again from Stage 1.',
+  "Seri biter, yeni seri Aşama 1'den başlar. 1 can gider.": 'The run ends and a new run starts from Stage 1. You lose 1 life.',
+  "Seri biter, yeni seri Aşama 1'den başlar. Sınırsız canın var, can gitmez.": 'The run ends and a new run starts from Stage 1. You have unlimited lives, so no life is lost.',
 };

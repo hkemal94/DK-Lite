@@ -75,6 +75,13 @@ Sırayla `{ "urun": id, "bolum": n }`. Ürün, `bolum` ilk kez kazanılınca aç
 - `yeniOgeler`: `buzluTop`, `gizliTop`, `aceleciMusteri` (`bolum`: ilk geldiği bölüm, o bölümde "Yeni!"
   penceresiyle tanıtılır; `oran`: 0–1), `kilitliSutun` (`bolum`).
 
+### `sonsuz` (sonsuz bölümler; tasarım belgesi 0.50)
+- `asamaBasiArtis`: seri puanında aşama katsayısı `1 + (aşama − 1) × artış` (1: Aşama 2 iki katı). 0 ya da pozitif. DENEME, Kemal onaylamadı.
+- `sandikAraligi`: her kaç aşamada sandık (10; Kemal'in kararı).
+- `lokasyonAraligi`: her kaç aşamada sıradaki lokasyonun zemini (30; Kemal'in kararı).
+- `denemeSiniri`: bir kademede en çok kaç dizilim denenir; aşılırsa bölüm bir kademe kolay kurulur (40). DENEME, Kemal onaylamadı.
+- `aciklama`: yalnız okuyan için not.
+
 ## Panelin yapamayacakları (ekip yapar)
 
 - Yeni çizim (ürün, kostüm, lokasyon resmi) üretmek: Canva'da çizilir, sonra panelden seçilir/yüklenir.

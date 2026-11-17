@@ -67,6 +67,11 @@ Telefonda şu bağlantıyı aç: https://hkemal94.github.io/DK-Lite/
   yok" seçiliyken bant dolar ve bantta kimsenin istemediği toplar kalırsa
   "Bant doldu". Bu ikisinde yıldız yok; "Tekrar oyna" ve "Bölümler" var.
 - Her bölüm kazanılabilir (bölüm kurulurken denenir).
+- Sonsuz bölümler (16 Kasım; adı Kemal'in, ekranda yer tutucu): bütün numaralı bölümler
+  bitince Bölümler ekranında son lokasyondan sonra yeni bir sayfa açılır; giriş ekranında
+  "Başla" da oraya götürür. Kaybedene kadar Aşama 1, 2, 3… diye sürer; kaybedince 1 can
+  gider ve seri Aşama 1'den yeni dizilimle başlar. Her 10 aşamada sandık. Ayrıntı:
+  tasarım belgesi 0.50.
 - Kaydı silip baştan denemek için: tarayıcının bu siteye ait verilerini
   temizle (ya da gizli sekmede aç).
 

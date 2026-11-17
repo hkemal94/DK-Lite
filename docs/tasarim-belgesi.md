@@ -30,7 +30,7 @@ taşınmadı. Bölüm 0 belgenin geri kalanıyla çelişirse bölüm 0 geçerlid
 
 En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 
-### 0.50 Sonsuz bölümler: numaralı bölümler bitince kaybedene kadar (Kemal, 16 Kasım 2026; belge kesinleşti, kod sırada)
+### 0.50 Sonsuz bölümler: numaralı bölümler bitince kaybedene kadar (Kemal, 16 Kasım 2026; belge kesinleşti; kod 16 Kasım, öneri)
 
 - Kemal: "boşu eksiği olmayan, yanana (kaybedene) kadar ilerleyebileceğin mod, kart oyunundaki gibi". Amaç: bütün bölümleri bitiren oyuncu, ayın görevinde "bölüm kazan" geldiğinde görevi doldurabilsin (tekrar oynanan bölüm sayılmaz, 0.49). Modun adı [Kemal]; bu belgede "sonsuz bölümler" çalışma adıdır. Kemal'in 6 cevabı (S1–S6) aşağıya işlendi; ajansın taslağı: Kems-Ajans `oneriler/dk-lite-sonsuz-mod-16-11-2026.md`.
 - **Ne zaman açılır (sigorta; Kemal, S1):** oynanacak numaralı bölüm kalmadığında. Bugün bu, 390. bölüm kazanılıp yeni bölüm kalmayınca demektir. İleride yeni numaralı bölüm eklenirse önce onlar oynanır; sonsuz bölümler yalnız oynanmamış numaralı bölüm kalmadığında açıktır. Yeni bir yıldız kilidi yok. Bölümler ekranında son lokasyondan sonra bir giriş; giriş ekranında "Başla" oynanmamış numaralı bölüm kalmamışsa sonsuz bölümleri açar (öneri, karar değil).
@@ -47,7 +47,22 @@ En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
   - En iyi seri (en yüksek aşama) ve en iyi seri puanı saklanır; Bölümler ekranındaki girişte ve sonuç penceresinde görünür (öneri, karar değil).
 - **Ayın göreviyle ilişkisi** (0.49; Kemal, S4): kazanılan her sonsuz bölüm yeni bir bölümdür, "bölüm kazan" görevinde 1 sayılır. Öbür görevlerde aynı mekanikler sayılır: karşılanan müşteriler "müşteri karşıla"ya, 3 yıldızla kazanılan sonsuz bölüm "3 yıldızlı bölüm"e, art arda kazanılan sonsuz bölümler "üst üste kazan"a (öneri, karar değil). Görev cezasızdır; sonsuzda kaybetmek görevden bir şey düşürmez.
 - **Kayıt:** telefonda, numaralı bölümlerin kaydından ayrı: o anki aşama ve seri puanı (seri sürüyorsa), serinin tohumu, en iyi seri ve en iyi seri puanı. Numaralı bölümlerin yıldızları ve kaldığı bölüm değişmez.
-- Sayılar: çarpan [Kemal], deneme sınırı DENEME. Açık soru 7. bölümde. Henüz kod yok; iş planı `docs/yol-haritasi.md` → "Bölüm 51 ve sonrası".
+- Sayılar: çarpan [Kemal], deneme sınırı DENEME. Açık soru 7. bölümde. İş planı `docs/yol-haritasi.md` → "Bölüm 51 ve sonrası".
+- **Kod (16 Kasım 2026; öneri, `ajans/sonsuz-bolumler`):** yukarıdaki kararlar oyunda. Ayrıntı ve kodun seçtikleri:
+  - Ayarlar tek yerde, ayar dosyasının `sonsuz` bloğunda (`docs/ayar-dosyasi.md`): aşama başına artış 1 (Aşama 2 iki katı, Aşama 3 üç katı; DENEME, Kemal onaylamadı), deneme sınırı 40 (DENEME, Kemal onaylamadı), sandık her 10 aşamada, lokasyon her 30 aşamada (Kemal'in kararı).
+  - Seri puanı: kazanılan sonsuz bölümün puanı × aşama katsayısı (1 + (aşama − 1) × artış).
+  - Zorluk: son 10'luk dilimin (381–390) sayıları; 5. aşama 385, 6. aşama 386, 10. aşama 390 gibi kurulur. Kademe kolaylaşması: çok zor → zor → normal → rahat. Ölçüm (16 Kasım, 800 sonsuz bölüm, 20 seri × 40 aşama): hepsi kazanma yolu bulunarak kuruldu, hiçbiri kolaylaşmadı; ortalama 2 deneme, en çok 12; kurulma ortalama 0,1 sn, en uzun 1,4 sn (bilgisayarda; telefonda daha uzun olabilir).
+  - Ürünler bütün açılmış ürünlerden, numaralı bölümlerdeki dönüşümlü seçimle; dönüşümün başlangıcı seriden gelir (her seri ayrı sırayla).
+  - Sonsuz bölümde buzlu top, gizli top, aceleci müşteri, kilitli sütun ve hamle sınırı açık; "Yeni!" tanıtım penceresi çıkmaz.
+  - Galibiyet serisi sonsuzda da sayılır ve yardımı geçerli (öneri, karar değil).
+  - Uygulamayı kapatmak kaybetmek değildir; aynı aşama aynı dizilimle açılır (öneri, karar değil).
+  - Yarıda bırakmak (ana sayfa, Baştan başla, sonsuz sürerken Bölümler'den başka bölüme geçmek) önce sorar; evet denirse 1 can gider, seri biter. Numaralı bölümlerde Baştan başla ve Bölümler'den geçiş eskisi gibi sormaz.
+  - Bölümler ekranı: 13. lokasyondan sonra bir sayfa; başlık "[YER TUTUCU: mod adı]", altında aşamanın lokasyonu, zemin o lokasyonun rengi; ortada kart: aşama, seri puanı, en iyi seri, en iyi puan, 13 lokasyonun sırası, sonraki lokasyonun aşaması, "Başla" / "Devam et". Giriş ekranında "Başla" sonsuzu açar (öneri, karar değil). Oyun ekranının kendisi lokasyonla değişmez (numaralı bölümlerde de değişmiyor; zemini mağazadaki tema verir).
+  - Sonuç penceresi: başlıkta "Aşama N"; yıldız görünür; "Seri puanı" (eklenen ve katsayı) ve "En iyi seri" satırları. Kazanınca "Devam et" sıradaki aşama; kaybedince "Tekrar oyna" yeni seri Aşama 1.
+  - Ayın görevi kodda yok; "bölüm kazan" sayımını tek yerden veren fonksiyon hazır (`src/gorev.ts`): ilk kez kazanılan numaralı bölüm 1, tekrar 0, kazanılan sonsuz bölüm 1, kaybedilen 0.
+  - Açık soru 3 (seri sürerken yeni numaralı bölüm eklenirse) için kodun şimdiki davranışı, en sadesi: oynanmamış numaralı bölüm olunca sonsuz giriş kapanır, "Başla" yeni bölümü açar; sonsuz kayıt silinmez, yeni bölümler bitince seri kaldığı aşamadan sürer. Karar Kemal'in.
+  - Deneme (16 Kasım, bilgisayarda): ekran denetimi iki telefon boyutu ve iki dilde 37 durum, sorun 0 (sonsuz için 5 yeni durum). Akış denemesi 26 madde geçti (açılış, kazanma, kaybetme, yarıda bırakma, sandık, lokasyon, kayıt, görev sayımı). Kaba otomatik oyuncu 3 seride Aşama 1'i kazandı, Aşama 2'yi kaybetti; numaralı 390'ı da kaybetti; bu oyuncu dikkatli oynamadığı için zorluk ölçüsü değildir.
+  - Gerçek telefonda denenmedi.
 
 ### 0.49 Ödül: pul koleksiyonu (Kemal, 15 Kasım 2026)
 
@@ -940,7 +955,7 @@ Oyuncu bölümün nerede olduğunu üst şeritten görür (3. pakette denendi):
 - Taslak ekranlardaki öbür düğmeler: Dükkânım, Etkinlikler, Ekip, Hediyeler, Bilgi/Galeri.
 - Kısmi seslendirme.
 - Seçenek C (hazırla ve ver) yeni bir bölüm türü olarak.
-- "Sonu yok": kapandı (0.50): numaralı bölümler bitince sonsuz bölümler açılır (çalışma adı; adı [Kemal]). Henüz kod yok.
+- "Sonu yok": kapandı (0.50): numaralı bölümler bitince sonsuz bölümler açılır (çalışma adı; adı [Kemal]). Kod 16 Kasım'da geldi (öneri).
 
 ---
 
@@ -997,7 +1012,7 @@ Sonrası için:
 - Sonu yok: elle yapılmış bölümler bitince ne olur? Cevaplandı (Kemal, 16 Kasım; 0.50): sonsuz bölümler, kaybedene kadar. Açılış (sigorta: oynanacak numaralı bölüm kalmayınca), kaybedince can, zorluk, dizilim ve görev sayımı, görünüm, yıldız, puan ve ödül soruları (S1–S6) cevaplandı.
 - Sonsuz bölümler (0.50): modun adı? Açık; [Kemal].
 - Sonsuz bölümler (0.50): seri puanında aşama çarpanının sayısı? Açık; [Kemal].
-- Sonsuz bölümler (0.50): bir sonsuz seri sürerken oyuna yeni numaralı bölüm eklenirse o seri ne olur? Açık; [Kemal].
+- Sonsuz bölümler (0.50): bir sonsuz seri sürerken oyuna yeni numaralı bölüm eklenirse o seri ne olur? Açık; [Kemal]. Kodda şimdilik (en sade, karar değil): sonsuz giriş kapanır, yeni bölümler oynanır; seri silinmez, yeni bölümler bitince kaldığı aşamadan sürer.
 - Can sistemi: kapandı (0.26; 5 can, kaybedince gider, 30 dakikada dolar). Para modeli (canın parayla alınması gibi) yayın döneminde.
 - Hikâye bölümleri kaç bölümde bir açılır; metinleri ne zaman gelir?
 - Koleksiyon ne toplar; başarımlar neler?

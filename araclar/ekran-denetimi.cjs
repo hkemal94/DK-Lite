@@ -82,6 +82,12 @@ const DURUMLAR = [
   ['rozet-odul', kayitKur(), "o.odulSirasi([() => o.rozetPenceresi('musteri-1000')], false, o.kok)", 900],
   ['oyun-tema-gece', { ...kayitKur(), 'dk-lite-koleksiyon': JSON.stringify({ temalar: ['mor', 'gece'], tema: 'gece' }) }, 'o.bolumBaslat(1)', 2500],
   ['hamle-bitti', kayitKur({ acik: 12, kadar: 11 }), 'o.bolumBaslat(12); o.hamleBittiGoster()', 700],
+  // Sonsuz bölümler (tasarım belgesi 0.50): bütün numaralı bölümler bitmiş kayıt.
+  ['bolumler-sonsuz', kayitKur({ acik: 390, kadar: 390 }), "o.listeAc('giris')", 600],
+  ['oyun-sonsuz', kayitKur({ acik: 390, kadar: 390 }), "document.querySelector('#giris-basla').click()", 2500],
+  ['birak-onay-sonsuz', kayitKur({ acik: 390, kadar: 390 }), 'o.sonsuzBaslat(); o.anaSayfayaDonSor()', 900],
+  ['sonuc-sonsuz-kazandi', kayitKur({ acik: 390, kadar: 390 }), "o.sonsuzBaslat(); o.bitir('kazandin'); document.querySelectorAll('.odul-ortu').forEach(e => e.remove())", 2500],
+  ['sonuc-sonsuz-kaybetti', kayitKur({ acik: 390, kadar: 390 }), "o.sonsuzBaslat(); o.bitir('kacti')", 1800],
 ];
 
 // Sayfada çalışan ölçüm: sorunların listesini verir.

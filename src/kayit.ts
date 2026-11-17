@@ -3,7 +3,7 @@
 // Saklama çalışmazsa (tarayıcı izin vermezse) oyun yine açılır: kayıt
 // yalnız bu açılış boyunca bellekte durur, oyun Bölüm 1'den başlar.
 
-import { BOLUM_SAYISI } from './ayarlar';
+import { BOLUM_SAYISI, sonsuzKatsayi } from './ayarlar';
 
 const ANAHTAR = 'dk-lite-kayit';
 
@@ -121,4 +121,87 @@ export function ogreticiBitti(): void {
   } catch {
     // Saklanamadı; bu açılış boyunca bellekte kalır.
   }
+}
+
+// ---------- Sonsuz bölümler (tasarım belgesi 0.50; Kemal, 16 Kasım 2026) ----------
+// Numaralı bölümlerin kaydından ayrı anahtarla saklanır; numaralı bölümlerin yıldızları ve kaldığı
+// bölüm değişmez. Uygulamayı kapatmak kaybetmek değildir: seri kaldığı aşamadan sürer (öneri).
+const SONSUZ_ANAHTAR = 'dk-lite-sonsuz';
+
+export interface SonsuzKayit {
+  asama: number; // oynanacak aşama (1'den); seri sürüyorsa kazanılan aşama sayısı + 1
+  seriPuani: number; // bu serinin birikmiş puanı
+  seriTohumu: number; // serinin dizilim tohumu (her seri yeni)
+  enIyiSeri: number; // bir seride kazanılan en çok aşama
+  enIyiPuan: number; // en yüksek seri puanı
+}
+
+let sonsuzBellek: SonsuzKayit | null = null;
+
+function yeniTohum(): number {
+  return Math.floor(Math.random() * 4294967296) >>> 0;
+}
+
+function sayi(x: unknown, enAz: number): number | null {
+  return typeof x === 'number' && Number.isFinite(x) ? Math.max(enAz, Math.floor(x)) : null;
+}
+
+export function sonsuzOku(): SonsuzKayit {
+  if (sonsuzBellek) return sonsuzBellek;
+  const k: SonsuzKayit = { asama: 1, seriPuani: 0, seriTohumu: 0, enIyiSeri: 0, enIyiPuan: 0 };
+  let tohumVar = false;
+  try {
+    const h = JSON.parse(window.localStorage.getItem(SONSUZ_ANAHTAR) ?? 'null') as Partial<Record<keyof SonsuzKayit, unknown>> | null;
+    if (h) {
+      k.asama = sayi(h.asama, 1) ?? 1;
+      k.seriPuani = sayi(h.seriPuani, 0) ?? 0;
+      k.enIyiSeri = sayi(h.enIyiSeri, 0) ?? 0;
+      k.enIyiPuan = sayi(h.enIyiPuan, 0) ?? 0;
+      const t = sayi(h.seriTohumu, 0);
+      if (t !== null) {
+        k.seriTohumu = t >>> 0;
+        tohumVar = true;
+      }
+    }
+  } catch {
+    // Okunamadı; seri baştan başlar.
+  }
+  sonsuzBellek = k;
+  // İlk seri: tohum hemen saklanır ki uygulama kapanıp açılınca aynı aşama aynı dizilimle gelsin.
+  if (!tohumVar) {
+    k.seriTohumu = yeniTohum();
+    sonsuzYaz(k);
+  }
+  return k;
+}
+
+function sonsuzYaz(k: SonsuzKayit): void {
+  sonsuzBellek = k;
+  try {
+    window.localStorage.setItem(SONSUZ_ANAHTAR, JSON.stringify(k));
+  } catch {
+    // Saklanamadı; bu açılış boyunca bellekte kalır.
+  }
+}
+
+// Sonsuz bölüm kazanılınca: bölümün puanı aşama katsayısıyla seri puanına eklenir, aşama bir artar,
+// en iyi seri ve en iyi puan güncellenir. Eklenen puanı verir.
+export function sonsuzKazanildi(puan: number): number {
+  const k = { ...sonsuzOku() };
+  const eklenen = Math.round(Math.max(0, puan) * sonsuzKatsayi(k.asama));
+  k.seriPuani += eklenen;
+  k.enIyiSeri = Math.max(k.enIyiSeri, k.asama);
+  k.enIyiPuan = Math.max(k.enIyiPuan, k.seriPuani);
+  k.asama += 1;
+  sonsuzYaz(k);
+  return eklenen;
+}
+
+// Kaybedince ya da yarıda bırakınca seri biter: Aşama 1, puan sıfır, yeni dizilim.
+export function sonsuzSeriBitti(): void {
+  const k = { ...sonsuzOku() };
+  k.asama = 1;
+  k.seriPuani = 0;
+  k.seriTohumu = yeniTohum();
+  sonsuzYaz(k);
 }
