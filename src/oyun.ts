@@ -2436,7 +2436,7 @@ export class Oyun {
     // Sonsuz: seri puanı (kazanınca eklenen ve aşama katsayısı), en iyi seri ve en iyi puan.
     if (seriOncesi && seriSonrasi) {
       if (kazandi) {
-        bilgiSatir(t('Seri puanı'), `${seriSonrasi.seriPuani} (+${seriEklenen}, ×${sonsuzKatsayi(no)})`, 'seri-puan-satir');
+        bilgiSatir(t('Seri puanı'), `${seriSonrasi.seriPuani} (+${seriEklenen}, ×${dilAl() === 'tr' ? String(sonsuzKatsayi(no)).replace('.', ',') : sonsuzKatsayi(no)})`, 'seri-puan-satir');
       } else {
         bilgiSatir(t('Seri puanı'), t('{0} · seri bitti', seriOncesi.seriPuani), 'uyari seri-puan-satir');
       }
