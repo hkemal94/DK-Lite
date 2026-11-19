@@ -88,7 +88,7 @@ import {
 import { bolumKur, gidecekTopSayisi, istekAdedi, sonsuzBolumKur, type Bolum, type TopOzel } from './bolum';
 import { urunSimgesi } from './urunSimgesi';
 import { ayarOku, ayarYaz, bolumKazanildi, hepsiBitti, kayitOku, ogreticiBitti, ogreticiBittiMi, sonsuzKazanildi, sonsuzOku, sonsuzSeriBitti, type Ayarlar, type Kayit } from './kayit';
-import { gorevBolumSayisi } from './gorev';
+import { gorevBolumEkle, gorevBolumSayisi } from './gorev';
 import { EV_SVG, haritaCiz } from './harita';
 import { DESENLI_MUSTERILER } from './musteriCesitleri';
 import { kaydet as koleksiyonKaydet, koleksiyon, paraEkle, paraHarca } from './koleksiyon';
@@ -2342,6 +2342,8 @@ export class Oyun {
     const gorevBolum = kazandi
       ? gorevBolumSayisi(sonsuz ? { tur: 'sonsuz', asama: no } : { tur: 'numarali', no, ilkKez: ilkKazanma })
       : 0;
+    // Sayaca yazılır: Sürekli Mod'da kazanılan her aşama da 1 sayılır (Kemal, 19 Kasım teyit).
+    gorevBolumEkle(gorevBolum);
     // Yeni rozetler (kayıt güncellendikten sonra bakılır).
     const yeniRozetler = this.rozetBak(kazandi && no > 0 && this.bosaTop === 0);
     const yeniKartlar = this.kartBak();
