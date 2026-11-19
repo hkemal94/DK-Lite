@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 19 Kasım (öneri; `ajans/surekli-mod-gorev`; tasarım belgesi 0.50, 0.49): Kemal'in teyidi işlendi: son bölüme gelmiş oyuncu Sürekli Mod bölümlerini oynar, bunlar ayın görevindeki "bölüm kazan"a sayılır. Oyunda görünen bir değişiklik yok: kazanılan her bölüm (ilk kez kazanılan numaralı bölüm ya da Sürekli Mod aşaması) artık telefonda gün gün sayılıyor; kaybedilen ve tekrar oynanan bölüm sayılmıyor. Ayın görevinin kendisi kodda yok (aşağıda "Ayın görevi"). Gerçek telefonda denenmedi.
 - 17 Kasım (öneri; `ajans/surekli-mod`; tasarım belgesi 0.50): Kemal'in üç cevabı işlendi. Modun adı şimdilik **Sürekli Mod** (İngilizcesi Endless Mode; çalışma adı): Bölümler ekranındaki sayfanın başlığında yer tutucu yerine bu ad. Seri puanında aşama çarpanı yarım kat (Aşama 2 ×1,5, Aşama 3 ×2); sonuç penceresinde katsayı Türkçede virgülle. Seri sürerken yeni numaralı bölüm eklenirse seri saklanır (kod zaten böyleydi; artık karar). Gerçek telefonda denenmedi.
 - 16 Kasım (öneri; `ajans/sonsuz-bolumler`; tasarım belgesi 0.50): **sonsuz bölümler oyunda** (adı [Kemal]; ekranda "[YER TUTUCU: mod adı]"). Bütün numaralı bölümler bitince Bölümler ekranında 13. lokasyondan sonra yeni sayfa, giriş ekranında "Başla" oraya gider. Kaybedene kadar Aşama 1, 2, 3…; kaybedince 1 can gider, seri biter, yeni seri yeni dizilimle Aşama 1'den. 390'ın en üst zorluğu ve 10'luk dalga; her 10 aşamada sandık; her 30 aşamada sıradaki lokasyonun rengi; yıldız görünür ama para ve kilide girmez; seri puanı aşama katsayısıyla (DENEME), en iyi seri ve en iyi puan saklanır. Ayın görevi için "bölüm kazan" sayımı tek fonksiyonda hazır. 0–390. bölümlerin dizilimi değişmedi (karşılaştırıldı). Gerçek telefonda denenmedi.
 - 16 Kasım (öneri; `ajans/sonsuz-bolumler-belge`; tasarım belgesi 0.50): yalnız belge. Sonsuz bölümler (çalışma adı; adı [Kemal]): belge kesinleşti, kod sırada. Kemal'in 6 cevabı işlendi: oynanacak numaralı bölüm kalmayınca sigorta olarak açılır; kaybedince 1 can gider, seri biter; 390'ın en üst zorluğu, yalnız 10'luk dalga; her seri yeni dizilim, kazanılan her sonsuz bölüm "bölüm kazan" görevinde 1 sayılır; 13 lokasyon her 30 aşamada döner; yıldız görünür ama para ve kilide girmez, seri puanı aşamayla çarpılır (çarpan [Kemal]), her 10 aşamada sandık, en iyi seri ve puan saklanır. İş planı "Bölüm 51 ve sonrası"nda. Oyunda değişiklik yok.
@@ -187,6 +188,16 @@ ayın görevi paketi gelince `src/gorev.ts` ona bağlanır.
 5. **Ekranlar** (`src/harita.ts`, giriş ekranı): oynanmamış numaralı bölüm kalmayınca Bölümler ekranında sonsuz girişi ve "Başla" sonsuzu açar; zemin her 30 aşamada sıradaki lokasyon. Yazılar `src/dil.ts` üstünden, İngilizcesiyle; modun adı gelene kadar `[YER TUTUCU]`.
 6. **Ayın görevi bağlantısı:** "bölüm kazanıldı" bilgisini tek yerden veren küçük fonksiyon (ilk kez kazanılan numaralı bölüm ya da kazanılan sonsuz bölüm = 1); görev paketi gelince buraya bağlanır.
 7. **Deneme:** çözücüyle çok sayıda sonsuz bölüm kur, kazanılabilir ve hızlı kurulduğunu ölç (ölçülen hâliyle PR'a); otomatik oyuncuyla birkaç seri; `node araclar/ekran-denetimi.cjs` (sorun 0); `npm run build`; telefon boyutunda ekran görüntüleri. Gerçek telefonda denenmediyse "denenmedi".
+
+#### Ayın görevi (tasarım belgesi 0.49, 0.50): kod yok; sayaç hazır (19 Kasım, öneri; `ajans/surekli-mod-gorev`)
+
+Kemal 19 Kasım teyit: son bölüme gelmiş oyuncu Sürekli Mod bölümlerini oynar ve bunlar "bölüm kazan" görevine sayılır.
+Bugün kodda olan: `src/gorev.ts`. `gorevBolumSayisi` bir bölümün katkısını verir (ilk kez kazanılan numaralı bölüm 1,
+tekrar 0, Sürekli Mod'da kazanılan aşama 1, kaybedilen 0); `gorevBolumEkle` her bölüm sonunda (`src/oyun.ts` → `bitir`)
+bunu telefonda gün gün saklar (`dk-lite-gorev-bolum`); `gorevSayaciOku` okur. Görev paketi geldiğinde "bölüm kazan"
+ilerlemesini bu sayaçtan toplar; Sürekli Mod için ayrıca bir şey yazılmaz. Paketin beklediği kararlar [Kemal]: dört görevin
+sayıları, "ay"ın takvim ayı olup olmadığı, geçen ayın görevinin sonradan bitirilip bitirilemeyeceği (belge 7. bölüm).
+Öbür üç görevin (müşteri karşıla, 3 yıldızlı bölüm, üst üste kazan) sayacı yok; görev paketiyle gelir.
 
 ## Nasıl ilerler (tek kişilik ekip için)
 
