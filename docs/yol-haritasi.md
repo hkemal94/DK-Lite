@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 22 Kasım (öneri; `ajans/aylik-gorev-kararlari`; tasarım belgesi 0.49): yalnız belge. Kemal'in KKM'deki cevapları ayın görevine işlendi: sayılar ajansın DENEME sayıları, web denemesinden sonra düzeltilir (10 ilk kez kazanılan bölüm, 100 müşteri, 5 üç yıldızlı bölüm, üst üste 5 kazanç); "ay" takvim ayı (telefonun tarihi, ayın 1'inde yeni görev); geçen ayın görevi sonradan bitirilebilir, kaldığı yerden sürer. Üç soru 7. bölümden çıktı. Oyunda değişiklik yok.
 - 19 Kasım (öneri; `ajans/surekli-mod-gorev`; tasarım belgesi 0.50, 0.49): Kemal'in teyidi işlendi: son bölüme gelmiş oyuncu Sürekli Mod bölümlerini oynar, bunlar ayın görevindeki "bölüm kazan"a sayılır. Oyunda görünen bir değişiklik yok: kazanılan her bölüm (ilk kez kazanılan numaralı bölüm ya da Sürekli Mod aşaması) artık telefonda gün gün sayılıyor; kaybedilen ve tekrar oynanan bölüm sayılmıyor. Ayın görevinin kendisi kodda yok (aşağıda "Ayın görevi"). Gerçek telefonda denenmedi.
 - 17 Kasım (öneri; `ajans/surekli-mod`; tasarım belgesi 0.50): Kemal'in üç cevabı işlendi. Modun adı şimdilik **Sürekli Mod** (İngilizcesi Endless Mode; çalışma adı): Bölümler ekranındaki sayfanın başlığında yer tutucu yerine bu ad. Seri puanında aşama çarpanı yarım kat (Aşama 2 ×1,5, Aşama 3 ×2); sonuç penceresinde katsayı Türkçede virgülle. Seri sürerken yeni numaralı bölüm eklenirse seri saklanır (kod zaten böyleydi; artık karar). Gerçek telefonda denenmedi.
 - 16 Kasım (öneri; `ajans/sonsuz-bolumler`; tasarım belgesi 0.50): **sonsuz bölümler oyunda** (adı [Kemal]; ekranda "[YER TUTUCU: mod adı]"). Bütün numaralı bölümler bitince Bölümler ekranında 13. lokasyondan sonra yeni sayfa, giriş ekranında "Başla" oraya gider. Kaybedene kadar Aşama 1, 2, 3…; kaybedince 1 can gider, seri biter, yeni seri yeni dizilimle Aşama 1'den. 390'ın en üst zorluğu ve 10'luk dalga; her 10 aşamada sandık; her 30 aşamada sıradaki lokasyonun rengi; yıldız görünür ama para ve kilide girmez; seri puanı aşama katsayısıyla (DENEME), en iyi seri ve en iyi puan saklanır. Ayın görevi için "bölüm kazan" sayımı tek fonksiyonda hazır. 0–390. bölümlerin dizilimi değişmedi (karşılaştırıldı). Gerçek telefonda denenmedi.
@@ -195,8 +196,11 @@ Kemal 19 Kasım teyit: son bölüme gelmiş oyuncu Sürekli Mod bölümlerini oy
 Bugün kodda olan: `src/gorev.ts`. `gorevBolumSayisi` bir bölümün katkısını verir (ilk kez kazanılan numaralı bölüm 1,
 tekrar 0, Sürekli Mod'da kazanılan aşama 1, kaybedilen 0); `gorevBolumEkle` her bölüm sonunda (`src/oyun.ts` → `bitir`)
 bunu telefonda gün gün saklar (`dk-lite-gorev-bolum`); `gorevSayaciOku` okur. Görev paketi geldiğinde "bölüm kazan"
-ilerlemesini bu sayaçtan toplar; Sürekli Mod için ayrıca bir şey yazılmaz. Paketin beklediği kararlar [Kemal]: dört görevin
-sayıları, "ay"ın takvim ayı olup olmadığı, geçen ayın görevinin sonradan bitirilip bitirilemeyeceği (belge 7. bölüm).
+ilerlemesini bu sayaçtan toplar; Sürekli Mod için ayrıca bir şey yazılmaz. Paketin beklediği kararlar verildi (Kemal, 22 Kasım):
+DENEME sayıları 10 bölüm, 100 müşteri, 5 üç yıldızlı bölüm, üst üste 5 kazanç; "ay" takvim ayı; geçen ayın görevi
+sonradan bitirilebilir (belge 0.49). Gün gün saklanan sayaç takvim ayına göre toplanabilir.
+Sonraki iş (kod): dört sayı kodda değil ayar dosyasında (`src/veri/oyun-ayarlari.json`, biçimi `docs/ayar-dosyasi.md`)
+"DENEME" notuyla durur; KKM panelinden değişir.
 Öbür üç görevin (müşteri karşıla, 3 yıldızlı bölüm, üst üste kazan) sayacı yok; görev paketiyle gelir.
 
 ## Nasıl ilerler (tek kişilik ekip için)

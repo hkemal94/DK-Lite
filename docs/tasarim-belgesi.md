@@ -74,7 +74,11 @@ En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 - Gerçek posta pulu gibi (tırtıklı kenar, ince çerçeve); **her pul ayrı tasarlanır**, tek şablon yok. **Pulun üstünde yazı yok**; çeyrek ve yıl pulun altında, sayfada yazar. Tasarlanana kadar sade yer tutucu durur; görseller Kemal onaylayınca girer.
 - Oyunlar arasında ortak bir **koleksiyon sayfası** dili: her yıl bir bölüm, her çeyrekte üç aylık pul ve yanında büyük pul; kazanılan tam renkli, kazanılmayan soluk.
 - **Ayın pulu, o ayın görevi bitince gelir** (Kemal, 15 Kasım 2026). Her ay oyunda tek bir büyük görev olur.
-- **Ayın büyük görevi her ay farklı, sırayla** (Kemal, 16 Kasım 2026): 1) ay içinde [sayı: Kemal] bölüm kazan → 2) ay içinde [sayı: Kemal] müşteri karşıla → 3) ay içinde [sayı: Kemal] bölümü 3 yıldızla bitir → 4) ay içinde [sayı: Kemal] bölüm üst üste kazan (galibiyet serisi, 0.34); sonra başa döner. Dördü de oyunda olan mekaniklere dayanır (bölümler, karşılanan müşteri sayacı 3.1, yıldız 0.37, galibiyet serisi 0.34). Görev cezasızdır: tutmazsa hiçbir şey kaybedilmez. Bu görevler rozetlerden (0.39) ayrıdır, her ay yeniden sayılır. Sayılar [Kemal]; açık sorular 7. bölümde. Aday listesi: Kems-Ajans `oneriler/aylik-gorev-adaylari-16-11-2026.md`.
+- **Ayın büyük görevi her ay farklı, sırayla** (Kemal, 16 Kasım 2026): 1) ay içinde [sayı: Kemal] bölüm kazan → 2) ay içinde [sayı: Kemal] müşteri karşıla → 3) ay içinde [sayı: Kemal] bölümü 3 yıldızla bitir → 4) ay içinde [sayı: Kemal] bölüm üst üste kazan (galibiyet serisi, 0.34); sonra başa döner. Dördü de oyunda olan mekaniklere dayanır (bölümler, karşılanan müşteri sayacı 3.1, yıldız 0.37, galibiyet serisi 0.34). Görev cezasızdır: tutmazsa hiçbir şey kaybedilmez. Bu görevler rozetlerden (0.39) ayrıdır, her ay yeniden sayılır. Aday listesi: Kems-Ajans `oneriler/aylik-gorev-adaylari-16-11-2026.md`.
+- **Sayılar, ay ve geçen ayın görevi** (Kemal, 22 Kasım 2026; KKM):
+  - Sayılar ajansın **DENEME** sayıları; web denemesinden sonra düzeltilir: ay içinde **10** bölüm kazan (ilk kez kazanılan) · **100** müşteri karşıla · **5** bölümü 3 yıldızla bitir · **5** bölüm üst üste kazan.
+  - "Ay" **takvim ayıdır**, minigolfteki gibi: telefonun tarihine bakılır, ayın 1'inde yeni görev gelir.
+  - Geçen ayın görevi **sonradan bitirilebilir**, minigolfteki gibi: yeni ay başlayınca eski görev kapanmaz, kaldığı yerden sürer ve yeni ayın göreviyle birlikte ilerler; bitince o ayın pulu gelir.
 - **Tekrar oynanan bölümler görevde sayılmaz** (Kemal, 16 Kasım 2026): ayın görevinde "bölüm kazan" yalnız ilk kez kazanılan bölümleri sayar; daha önce kazanılmış bir bölümü yeniden kazanmak sayılmaz. (Ajansın önerisi "sayılır" idi; Kemal tersini seçti.)
 - **Mevcut ödüller pulla birlikte durur, pula dönüşmez** (Kemal, 15 Kasım 2026): rozetler, lokasyon kartları, günlük ödül ve albüm olduğu gibi kalır.
 - Ayrıntı: Kems-Ajans deposunda `docs/pul-koleksiyonu.md`. Kod yapısı kart oyunundaki `src/pul/` klasörü örnek alınarak kurulacak.
@@ -1007,10 +1011,7 @@ haritanın Düzada olması, ilk sürümün kapsamı, depo, mekân) çıkarıldı
 Sonrası için:
 - Pul koleksiyonu (0.49): bu oyunda bir ayın pulu nasıl kazanılır? Cevaplandı (Kemal, 15 Kasım): o ayın görevi bitince; her ay tek büyük görev.
 - Pul koleksiyonu (0.49): ayın büyük görevi ne olsun? Cevaplandı (Kemal, 16 Kasım): her ay farklı, sırayla: bölüm kazan → müşteri karşıla → 3 yıldızlı bölüm → üst üste kazanma, sonra başa.
-- Ayın büyük görevi (0.49): her görevin sayısı (kaç bölüm, kaç müşteri, kaç 3 yıldızlı bölüm, kaç üst üste kazanç)? Açık; [Kemal]. Üst üste kazanma için belgede geçen değerler: seri ödülü her 5 kazançta (0.34), rozetlerde 5 ve 10 (0.39).
 - Ayın büyük görevi (0.49): tekrar oynanan bölümler sayılır mı? Cevaplandı (Kemal, 16 Kasım): "bölüm kazan"da sayılmaz; yalnız ilk kez kazanılan bölüm sayılır.
-- Ayın büyük görevi (0.49): "ay" takvim ayı mı? Açık. Öneri (karar değil): takvim ayı.
-- Ayın büyük görevi (0.49): geçen ayın görevi sonradan bitirilebilir mi? Açık. Öneri (karar değil): geçen ay kapanır, görev yalnız kendi ayında yapılır.
 - Pul koleksiyonu (0.49): mevcut rozetler, lokasyon kartları, günlük ödül ve albüm pulla birlikte mi durur, pula mı dönüşür? Cevaplandı (Kemal, 15 Kasım): pulla birlikte durur, pula dönüşmez.
 - Sonu yok: elle yapılmış bölümler bitince ne olur? Cevaplandı (Kemal, 16 Kasım; 0.50): sonsuz bölümler, kaybedene kadar. Açılış (sigorta: oynanacak numaralı bölüm kalmayınca), kaybedince can, zorluk, dizilim ve görev sayımı, görünüm, yıldız, puan ve ödül soruları (S1–S6) cevaplandı.
 - Sonsuz bölümler (0.50): modun adı? Cevaplandı (Kemal, 17 Kasım): şimdilik "Sürekli Mod" (İngilizcesi "Endless Mode"; çalışma adı).
