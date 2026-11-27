@@ -78,7 +78,7 @@ En yeni karar en üstte. Çelişen yerde en yeni karar geçerlidir.
 - **Tekrar oynanan bölümler görevde sayılmaz** (Kemal, 16 Kasım 2026): ayın görevinde "bölüm kazan" yalnız ilk kez kazanılan bölümleri sayar; daha önce kazanılmış bir bölümü yeniden kazanmak sayılmaz. (Ajansın önerisi "sayılır" idi; Kemal tersini seçti.)
 - **Mevcut ödüller pulla birlikte durur, pula dönüşmez** (Kemal, 15 Kasım 2026): rozetler, lokasyon kartları, günlük ödül ve albüm olduğu gibi kalır.
 - Ayrıntı: Kems-Ajans deposunda `docs/pul-koleksiyonu.md`. Kod yapısı kart oyunundaki `src/pul/` klasörü örnek alınarak kurulacak.
-- Henüz kod yok; bu yalnız karar kaydı.
+- Kayıt yapısı oyunda (27 Kasım 2026, öneri; `ajans/pul-kaydi`): `src/pul/seri.ts` (3+1 hesabı) ve `src/pul/pullar.ts` (görsel kaydı, boş; onaylı pul yok), kart oyunundaki düzenle aynı. Pul ekranı, pulun kazanılması ve ayın görevi henüz kodda yok.
 
 ### 0.48 Ayarlar tek dosyada (KKM paneli 1. adım) (Kemal, 9 Kasım 2026; öneri)
 

@@ -13,6 +13,7 @@ Tarih ve süre yazılmadı (KKM'de takvim: belirsiz). Sıra önerisi Oyun
 
 ## Neredeyiz
 
+- 27 Kasım (öneri; `ajans/pul-kaydi`; tasarım belgesi 0.49): pul koleksiyonunun kayıt yapısı geldi, kart oyunundaki düzenle aynı: `src/pul/seri.ts` (her ay bir pul, çeyrekte 3+1 hesabı) ve `src/pul/pullar.ts` (pul görsellerinin kaydı; anahtarlar `YYYY-AA` ve `YYYY-Q1`..`Q4`). DK Lite'ın onaylı pulu yok, kayıt boş; uydurma pul ya da görsel yok. Ekranda değişiklik yok: pul ekranı ve pulun kazanılması sonraki iş. KKM → Pullar ajansın `kkm/pullar.json`'unu okur; orada DK Lite satırı zaten var.
 - 19 Kasım (öneri; `ajans/surekli-mod-gorev`; tasarım belgesi 0.50, 0.49): Kemal'in teyidi işlendi: son bölüme gelmiş oyuncu Sürekli Mod bölümlerini oynar, bunlar ayın görevindeki "bölüm kazan"a sayılır. Oyunda görünen bir değişiklik yok: kazanılan her bölüm (ilk kez kazanılan numaralı bölüm ya da Sürekli Mod aşaması) artık telefonda gün gün sayılıyor; kaybedilen ve tekrar oynanan bölüm sayılmıyor. Ayın görevinin kendisi kodda yok (aşağıda "Ayın görevi"). Gerçek telefonda denenmedi.
 - 17 Kasım (öneri; `ajans/surekli-mod`; tasarım belgesi 0.50): Kemal'in üç cevabı işlendi. Modun adı şimdilik **Sürekli Mod** (İngilizcesi Endless Mode; çalışma adı): Bölümler ekranındaki sayfanın başlığında yer tutucu yerine bu ad. Seri puanında aşama çarpanı yarım kat (Aşama 2 ×1,5, Aşama 3 ×2); sonuç penceresinde katsayı Türkçede virgülle. Seri sürerken yeni numaralı bölüm eklenirse seri saklanır (kod zaten böyleydi; artık karar). Gerçek telefonda denenmedi.
 - 16 Kasım (öneri; `ajans/sonsuz-bolumler`; tasarım belgesi 0.50): **sonsuz bölümler oyunda** (adı [Kemal]; ekranda "[YER TUTUCU: mod adı]"). Bütün numaralı bölümler bitince Bölümler ekranında 13. lokasyondan sonra yeni sayfa, giriş ekranında "Başla" oraya gider. Kaybedene kadar Aşama 1, 2, 3…; kaybedince 1 can gider, seri biter, yeni seri yeni dizilimle Aşama 1'den. 390'ın en üst zorluğu ve 10'luk dalga; her 10 aşamada sandık; her 30 aşamada sıradaki lokasyonun rengi; yıldız görünür ama para ve kilide girmez; seri puanı aşama katsayısıyla (DENEME), en iyi seri ve en iyi puan saklanır. Ayın görevi için "bölüm kazan" sayımı tek fonksiyonda hazır. 0–390. bölümlerin dizilimi değişmedi (karşılaştırıldı). Gerçek telefonda denenmedi.
@@ -198,6 +199,7 @@ bunu telefonda gün gün saklar (`dk-lite-gorev-bolum`); `gorevSayaciOku` okur. 
 ilerlemesini bu sayaçtan toplar; Sürekli Mod için ayrıca bir şey yazılmaz. Paketin beklediği kararlar [Kemal]: dört görevin
 sayıları, "ay"ın takvim ayı olup olmadığı, geçen ayın görevinin sonradan bitirilip bitirilemeyeceği (belge 7. bölüm).
 Öbür üç görevin (müşteri karşıla, 3 yıldızlı bölüm, üst üste kazan) sayacı yok; görev paketiyle gelir.
+Pul kaydı hazır (27 Kasım, öneri; `ajans/pul-kaydi`): `src/pul/seri.ts` kazanılan aylardan 3+1 seriyi hesaplar, `src/pul/pullar.ts` onaylı pul görsellerini tutar (boş). Görev paketi bittiğinde ayın anahtarını (`YYYY-AA`) "kazanılan aylar"a yazacak; pul ekranı da o zaman gelir.
 
 ## Nasıl ilerler (tek kişilik ekip için)
 
